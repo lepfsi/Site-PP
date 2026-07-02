@@ -19,7 +19,7 @@ const technologies = [
 
 export default function TechStack() {
   return (
-    <section className="py-12 bg-card/20 overflow-hidden border-b border-border">
+    <section className="py-12 bg-card/20 overflow-hidden border-b border-[var(--border-color)]">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <h3 className="text-xs font-bold uppercase tracking-[0.3em] text-foreground/30">Technologies & Écosystèmes</h3>

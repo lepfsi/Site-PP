@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Twitter, Linkedin, Rss, Heart } from "lucide-react";
+import { GitBranch, Globe, Heart, Rss, Send } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -17,13 +17,39 @@ export default function Footer() {
               Base de connaissances premium pour professionnels IT Infrastructure.
             </p>
             <div className="flex space-x-4">
-              <Link href="#" className="text-foreground/50 hover:text-turquoise transition"><Linkedin className="h-5 w-5" /></Link>
-              <Link href="#" className="text-foreground/50 hover:text-turquoise transition"><Github className="h-5 w-5" /></Link>
-              <Link href="#" className="text-foreground/50 hover:text-turquoise transition"><Twitter className="h-5 w-5" /></Link>
-              <Link href="#" className="text-foreground/50 hover:text-turquoise transition"><Rss className="h-5 w-5" /></Link>
+              <Link
+                href="https://www.linkedin.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="text-foreground/50 hover:text-turquoise transition"
+              >
+                <Globe className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://github.com/lepfsi"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="text-foreground/50 hover:text-turquoise transition"
+              >
+                <GitBranch className="h-5 w-5" />
+              </Link>
+              <Link
+                href="https://x.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X"
+                className="text-foreground/50 hover:text-turquoise transition"
+              >
+                <Send className="h-5 w-5" />
+              </Link>
+              <Link href="#" aria-label="RSS" className="text-foreground/50 hover:text-turquoise transition">
+                <Rss className="h-5 w-5" />
+              </Link>
             </div>
           </div>
-          
+
           <div>
             <h4 className="font-bold text-foreground mb-4">Catégories</h4>
             <ul className="space-y-2 text-sm text-foreground/50">
@@ -34,7 +60,7 @@ export default function Footer() {
               <li><Link href="#" className="hover:text-turquoise transition">Troubleshooting</Link></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="font-bold text-foreground mb-4">Ressources</h4>
             <ul className="space-y-2 text-sm text-foreground/50">
@@ -45,7 +71,7 @@ export default function Footer() {
               <li><Link href="#" className="hover:text-turquoise transition">Lab Environment</Link></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="font-bold text-foreground mb-4">À propos</h4>
             <ul className="space-y-2 text-sm text-foreground/50">
@@ -57,7 +83,7 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-bluedark pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-foreground/40">
           <p className="mb-4 md:mb-0">
             © 2026 DailyOps.Tech - Tous droits réservés
