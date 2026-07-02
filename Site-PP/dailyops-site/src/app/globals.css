@@ -1,53 +1,74 @@
 @import "tailwindcss";
 
 @theme {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-navy: #0a1628;
+  --color-deepblue: #1a2942;
+  --color-bluedark: #2d3f5f;
+  --color-turquoise: #00d4ff;
+  --color-turquoise-dark: #00a8cc;
   
-  --color-midnight: #020617;
-  --color-deepblue: #0f172a;
-  --color-accent: #2dd4bf;
-  --color-accent-dark: #0d9488;
-  
-  --font-sans: "Inter", "Geist Sans", sans-serif;
+  --color-background: var(--bg);
+  --color-foreground: var(--fg);
+  --color-card: var(--card-bg);
+  --color-border: var(--border-color);
+
+  --font-sans: var(--font-inter), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #0f172a;
-  --card: #f8fafc;
-  --card-foreground: #0f172a;
-  --border: #e2e8f0;
+  --bg: #0a1628;
+  --fg: #ffffff;
+  --card-bg: #1a2942;
+  --border-color: #2d3f5f;
 }
 
-.dark {
-  --background: #020617;
-  --foreground: #f8fafc;
-  --card: #0f172a;
-  --card-foreground: #f8fafc;
-  --border: #1e293b;
+.light {
+  --bg: #f8fafc;
+  --fg: #1e293b;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: var(--border-color);
   }
   body {
-    @apply bg-background text-foreground;
-    font-feature-settings: "rlig" 1, "calt" 1;
+    background-color: var(--bg);
+    color: var(--fg);
   }
 }
 
-/* Custom dashboard grid */
-.grid-bg {
+.grid-pattern {
   background-image: 
-    linear-gradient(to right, rgba(45, 212, 191, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(45, 212, 191, 0.05) 1px, transparent 1px);
-  background-size: 40px 40px;
+    linear-gradient(rgba(0, 212, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 212, 255, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
 }
 
-.dark .grid-bg {
-  background-image: 
-    linear-gradient(to right, rgba(45, 212, 191, 0.03) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(45, 212, 191, 0.03) 1px, transparent 1px);
+.code-font {
+  font-family: var(--font-jetbrains-mono), monospace;
+}
+
+.hero-gradient {
+  background: linear-gradient(135deg, #0a1628 0%, #1a2942 50%, #2d3f5f 100%);
+}
+
+.light .hero-gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  background: #10b981;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+  display: inline-block;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
 }

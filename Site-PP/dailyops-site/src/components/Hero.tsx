@@ -1,87 +1,86 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Terminal, Shield, Zap, Globe } from "lucide-react";
+import { Rocket, Mail, Search } from "lucide-react";
 
 export default function Hero() {
   return (
-    <div className="relative overflow-hidden bg-background pt-16 pb-24 lg:pt-32 lg:pb-40 grid-bg">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-8">
-          <div className="sm:text-center md:mx-auto md:max-w-2xl lg:col-span-6 lg:text-left">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <span className="inline-flex items-center rounded-full bg-accent/10 px-3 py-1 text-sm font-medium text-accent ring-1 ring-inset ring-accent/20">
-                Knowledge Hub v2.0
-              </span>
-              <h1 className="mt-4 text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl md:text-6xl">
-                L'excellence opérationnelle pour le <span className="text-accent">Hub IT</span>.
-              </h1>
-              <p className="mt-6 text-lg text-foreground/70">
-                Base de connaissances spécialisée en infrastructure, réseaux et cybersécurité. 
-                Retours d'expérience terrain, guides techniques et veille technologique pour les Ops modernes.
-              </p>
-              <div className="mt-8 flex flex-col sm:flex-row sm:justify-center lg:justify-start gap-4">
-                <button className="inline-flex items-center justify-center rounded-md bg-accent px-6 py-3 text-base font-semibold text-midnight shadow-sm hover:bg-accent/90 transition-all">
-                  Explorer le Hub
-                </button>
-                <button className="inline-flex items-center justify-center rounded-md border border-border bg-card px-6 py-3 text-base font-semibold text-foreground shadow-sm hover:bg-background transition-all">
-                  Derniers Articles
-                </button>
-              </div>
-            </motion.div>
+    <section className="hero-gradient grid-pattern relative overflow-hidden">
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <svg width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <pattern id="network" x="0" y="0" width="100" height="100" patternUnits="userSpaceOnUse">
+              <circle cx="50" cy="50" r="2" fill="#00d4ff" opacity="0.3"/>
+              <line x1="50" y1="50" x2="100" y2="50" stroke="#00d4ff" strokeWidth="1" opacity="0.2"/>
+              <line x1="50" y1="50" x2="50" y2="100" stroke="#00d4ff" strokeWidth="1" opacity="0.2"/>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#network)"/>
+        </svg>
+      </div>
+      
+      <div className="mx-auto max-w-7xl px-4 py-20 md:py-32 relative z-10">
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <div className="inline-block mb-6 px-4 py-2 bg-deepblue border border-bluedark rounded-full">
+              <span className="text-turquoise font-semibold code-font text-sm">v2.0 // Production Ready</span>
+            </div>
+            
+            <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
+              <span className="text-foreground">Infrastructure Knowledge,</span><br />
+              <span className="text-turquoise">Daily Operations Excellence</span>
+            </h1>
+            
+            <p className="text-xl text-foreground/70 mb-8 max-w-2xl mx-auto">
+              Base de connaissances premium pour les professionnels IT Infrastructure. 
+              Networking, Cybersecurity, Cloud, et Troubleshooting au quotidien.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+              <a href="#categories" className="inline-flex items-center px-8 py-3 rounded-lg bg-gradient-to-r from-turquoise to-turquoise-dark text-navy font-bold hover:scale-105 transition-all shadow-lg shadow-turquoise/20">
+                <Rocket className="mr-2 h-5 w-5" /> Explorer les catégories
+              </a>
+              <a href="#newsletter" className="inline-flex items-center px-8 py-3 rounded-lg border-2 border-turquoise text-turquoise font-bold hover:bg-turquoise hover:text-navy transition-all">
+                <Mail className="mr-2 h-5 w-5" /> Newsletter hebdo
+              </a>
+            </div>
+            
+            {/* Search Bar */}
+            <div className="max-w-2xl mx-auto relative">
+              <input 
+                type="text" 
+                className="w-full bg-deepblue border-2 border-bluedark rounded-xl px-12 py-4 text-foreground placeholder-foreground/30 focus:outline-none focus:border-turquoise transition-all"
+                placeholder="Rechercher : Cisco, Kubernetes, Firewall, VPN..."
+              />
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-turquoise h-6 w-6" />
+            </div>
+          </motion.div>
+        </div>
+        
+        {/* Stats */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-16">
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-turquoise to-turquoise-dark">350+</div>
+            <div className="text-foreground/50 font-semibold text-sm uppercase tracking-wider">Articles</div>
           </div>
-          
-          <div className="mt-12 lg:mt-0 lg:col-span-6 flex items-center justify-center">
-            <motion.div 
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="relative w-full max-w-lg"
-            >
-              <div className="absolute -inset-1 rounded-lg bg-gradient-to-r from-accent to-deepblue opacity-25 blur-xl"></div>
-              <div className="relative rounded-lg border border-border bg-card p-6 shadow-2xl">
-                <div className="flex items-center justify-between border-b border-border pb-4 mb-4">
-                  <div className="flex space-x-2">
-                    <div className="h-3 w-3 rounded-full bg-red-500"></div>
-                    <div className="h-3 w-3 rounded-full bg-yellow-500"></div>
-                    <div className="h-3 w-3 rounded-full bg-green-500"></div>
-                  </div>
-                  <span className="text-xs font-mono text-foreground/40">system_monitor.sh</span>
-                </div>
-                <div className="space-y-4 font-mono text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-accent">Infrastructure Status</span>
-                    <span className="text-green-400">ONLINE</span>
-                  </div>
-                  <div className="h-2 w-full bg-midnight rounded-full overflow-hidden">
-                    <div className="h-full bg-accent w-3/4"></div>
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-midnight/50 p-3 rounded border border-border/50">
-                      <div className="text-[10px] text-foreground/50">Uptime</div>
-                      <div className="text-accent">99.998%</div>
-                    </div>
-                    <div className="bg-midnight/50 p-3 rounded border border-border/50">
-                      <div className="text-[10px] text-foreground/50">Active Nodes</div>
-                      <div className="text-accent">14</div>
-                    </div>
-                  </div>
-                  <div className="text-foreground/60 leading-relaxed">
-                    <span className="text-accent">$</span> tail -f /var/log/syslog<br/>
-                    [12:04:22] <span className="text-green-400">SUCCESS:</span> VPN connection established<br/>
-                    [12:05:01] <span className="text-blue-400">INFO:</span> Scaling cluster node-04<br/>
-                    [12:05:15] <span className="text-accent">SCAN:</span> Threat detection module active
-                  </div>
-                </div>
-              </div>
-            </motion.div>
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-turquoise to-turquoise-dark">50K+</div>
+            <div className="text-foreground/50 font-semibold text-sm uppercase tracking-wider">Lecteurs/mois</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-turquoise to-turquoise-dark">12</div>
+            <div className="text-foreground/50 font-semibold text-sm uppercase tracking-wider">Catégories</div>
+          </div>
+          <div className="text-center">
+            <div className="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-turquoise to-turquoise-dark">24/7</div>
+            <div className="text-foreground/50 font-semibold text-sm uppercase tracking-wider">Updated</div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

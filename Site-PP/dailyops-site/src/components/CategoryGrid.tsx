@@ -1,67 +1,72 @@
 "use client";
 
-import { Monitor, Shield, Server, Cloud, Activity, ArrowRight } from "lucide-react";
+import { Network, Shield, Server, Cloud, Wrench, GitBranch, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
 const categories = [
   {
     name: "Networking",
-    description: "Routage, switching, VPN, et optimisation des flux réseau.",
-    icon: Monitor,
-    count: 24,
-    color: "bg-blue-500/10 text-blue-500",
+    description: "Routing, Switching, SD-WAN, protocoles et architectures réseau modernes.",
+    icon: Network,
+    tags: ["Cisco", "BGP", "OSPF", "SD-WAN"],
+    count: 42,
     href: "/category/networking"
   },
   {
     name: "Cybersecurity",
-    description: "Hardening, SOC operations, et gestion des vulnérabilités.",
+    description: "Firewalls, IDS/IPS, Zero Trust, sécurité réseau et conformité.",
     icon: Shield,
-    count: 18,
-    color: "bg-red-500/10 text-red-500",
+    tags: ["Firewall", "Zero Trust", "SOC", "SIEM"],
+    count: 38,
     href: "/category/cybersecurity"
   },
   {
     name: "Infrastructure",
-    description: "Serveurs, stockage, et maintenance des datacenters.",
+    description: "Datacenter, stockage, compute, haute disponibilité et disaster recovery.",
     icon: Server,
-    count: 31,
-    color: "bg-orange-500/10 text-orange-500",
+    tags: ["Datacenter", "HA", "Storage", "DR"],
+    count: 51,
     href: "/category/infrastructure"
   },
   {
     name: "Cloud & Virtualisation",
-    description: "Docker, Kubernetes, AWS, Azure et environnements VM.",
+    description: "AWS, Azure, GCP, VMware, containers, orchestration Kubernetes.",
     icon: Cloud,
-    count: 27,
-    color: "bg-purple-500/10 text-purple-500",
+    tags: ["AWS", "K8s", "Docker", "VMware"],
+    count: 67,
     href: "/category/cloud"
   },
   {
     name: "Troubleshooting",
-    description: "Analyse de logs, débogage et résolution d'incidents.",
-    icon: Activity,
-    count: 15,
-    color: "bg-green-500/10 text-green-500",
+    description: "Méthodologies, outils, debugging réseau, analyse de performance.",
+    icon: Wrench,
+    tags: ["Wireshark", "tcpdump", "Debug", "Tools"],
+    count: 45,
     href: "/category/troubleshooting"
+  },
+  {
+    name: "DevOps & Automation",
+    description: "IaC, CI/CD, Ansible, Terraform, automatisation infrastructure.",
+    icon: GitBranch,
+    tags: ["Ansible", "Terraform", "GitOps", "Python"],
+    count: 39,
+    href: "/category/devops"
   }
 ];
 
 export default function CategoryGrid() {
   return (
-    <section className="py-24 bg-background">
+    <section id="categories" className="py-20 bg-navy">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-12">
-          <div>
-            <h2 className="text-3xl font-bold tracking-tight text-foreground">Expertise Technique</h2>
-            <p className="mt-2 text-foreground/60">Explorez nos domaines de spécialisation.</p>
-          </div>
-          <Link href="/categories" className="mt-4 md:mt-0 inline-flex items-center text-accent hover:underline">
-            Toutes les catégories <ArrowRight className="ml-2 h-4 w-4" />
-          </Link>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <span className="text-turquoise">// </span>Catégories Principales
+          </h2>
+          <p className="text-foreground/50 text-lg">Expertise technique organisée par domaine</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {categories.map((category, index) => (
             <motion.div
               key={category.name}
@@ -69,26 +74,30 @@ export default function CategoryGrid() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="group relative overflow-hidden rounded-xl border border-border bg-card p-8 hover:border-accent/50 transition-all"
+              className="group relative overflow-hidden rounded-xl border border-bluedark bg-deepblue p-8 hover:border-turquoise transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-turquoise/10"
             >
-              <div className={`inline-flex items-center justify-center p-3 rounded-lg mb-6 ${category.color}`}>
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-turquoise to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+              
+              <div className="w-12 h-12 bg-turquoise/10 rounded-xl flex items-center justify-center text-turquoise text-2xl mb-6">
                 <category.icon className="h-6 w-6" />
               </div>
-              <h3 className="text-xl font-semibold text-foreground mb-2">{category.name}</h3>
-              <p className="text-foreground/60 text-sm mb-6 leading-relaxed">
+              
+              <h3 className="text-xl font-bold text-foreground mb-3">{category.name}</h3>
+              <p className="text-foreground/50 text-sm mb-4 leading-relaxed">
                 {category.description}
               </p>
-              <div className="flex items-center justify-between mt-auto">
-                <span className="text-xs font-mono text-foreground/40">{category.count} Articles</span>
-                <Link href={category.href} className="text-sm font-medium text-accent opacity-0 group-hover:opacity-100 transition-opacity">
-                  Consulter →
-                </Link>
+              
+              <div className="flex flex-wrap gap-2 mb-6">
+                {category.tags.map(tag => (
+                  <span key={tag} className="px-2 py-1 rounded-md bg-turquoise/10 text-turquoise text-[10px] font-bold uppercase tracking-wider">
+                    {tag}
+                  </span>
+                ))}
               </div>
               
-              {/* Decorative corner element */}
-              <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-                <category.icon className="h-16 w-16 -mr-4 -mt-4" />
-              </div>
+              <Link href={category.href} className="inline-flex items-center text-turquoise hover:underline font-semibold text-sm">
+                {category.count} articles <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
             </motion.div>
           ))}
         </div>

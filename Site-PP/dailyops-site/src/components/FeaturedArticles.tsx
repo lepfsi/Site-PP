@@ -1,119 +1,89 @@
 "use client";
 
-import Image from "next/image";
+import { Clock, Calendar, Lock, Box, Network, Wrench, Code, Server, ArrowRight } from "lucide-react";
 import Link from "next/link";
-import { Clock, User, Tag } from "lucide-react";
 import { motion } from "framer-motion";
 
 const articles = [
   {
-    title: "Optimisation des performances BGP en environnement multi-homed",
-    excerpt: "Comment affiner vos politiques de routage pour réduire la latence et améliorer la résilience de votre transit IP.",
-    date: "24 Juin 2026",
-    author: "Julien R.",
-    category: "Networking",
-    readTime: "8 min",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc51?auto=format&fit=crop&q=80&w=800",
-  },
-  {
-    title: "Sécuriser Kubernetes : Au-delà du RBAC standard",
-    excerpt: "Guide avancé sur l'implémentation de Network Policies et la gestion des secrets via HashiCorp Vault.",
-    date: "18 Juin 2026",
-    author: "Marc D.",
+    title: "Implémenter Zero Trust Network Access en 2024",
+    excerpt: "Guide complet pour migrer vers une architecture Zero Trust : principes, outils, et retour d'expérience terrain.",
+    date: "15 Jan 2024",
     category: "Cybersecurity",
     readTime: "12 min",
-    image: "https://images.unsplash.com/photo-1614064641938-3bbee52942c7?auto=format&fit=crop&q=80&w=800",
+    icon: Lock,
   },
   {
-    title: "Migration Cloud : Stratégies Move & Improve pour Legacy Apps",
-    excerpt: "Analyse des patterns de migration et retours d'expérience sur le passage d'infra on-prem vers AWS/Azure.",
-    date: "12 Juin 2026",
-    author: "Sarah L.",
-    category: "Infrastructure",
-    readTime: "10 min",
-    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&q=80&w=800",
+    title: "Kubernetes Network Policies : Best Practices",
+    excerpt: "Sécuriser vos workloads K8s avec des network policies efficaces : exemples pratiques et anti-patterns à éviter.",
+    date: "12 Jan 2024",
+    category: "Cloud",
+    readTime: "15 min",
+    icon: Box,
+  },
+  {
+    title: "BGP Route Reflection vs Confederation",
+    excerpt: "Comparaison approfondie des deux approches de scaling BGP dans les grands réseaux d'entreprise.",
+    date: "10 Jan 2024",
+    category: "Networking",
+    readTime: "18 min",
+    icon: Network,
   }
 ];
 
 export default function FeaturedArticles() {
   return (
-    <section className="py-24 bg-card/30 border-y border-border">
+    <section id="articles" className="py-20 bg-deepblue">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mb-12">
-          <h2 className="text-3xl font-bold tracking-tight text-foreground">Retours d'Expérience Terrain</h2>
-          <p className="mt-2 text-foreground/60">Contenu éditorial technique et cas d'usage réels.</p>
+        <div className="text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold mb-4">
+            <span className="text-turquoise">// </span>Articles Récents
+          </h2>
+          <p className="text-foreground/50 text-lg">Les dernières publications de la base de connaissances</p>
         </div>
 
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-3">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {articles.map((article, index) => (
-            <motion.article 
+            <motion.div 
               key={article.title}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ delay: index * 0.15 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1 }}
               viewport={{ once: true }}
-              className="flex flex-col"
+              className="flex flex-col rounded-xl border border-bluedark bg-deepblue p-6 group hover:border-turquoise transition-all"
             >
-              <div className="relative h-48 w-full overflow-hidden rounded-lg mb-6 group">
-                <div className="absolute inset-0 bg-accent/20 mix-blend-multiply group-hover:opacity-0 transition-opacity"></div>
-                <img 
-                  src={article.image} 
-                  alt={article.title}
-                  className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
-                />
-                <div className="absolute top-4 left-4">
-                  <span className="inline-flex items-center rounded bg-accent px-2 py-1 text-xs font-bold text-midnight uppercase tracking-wider">
-                    {article.category}
-                  </span>
-                </div>
+              <div className="w-full h-48 bg-bluedark/30 rounded-lg mb-4 flex items-center justify-center text-turquoise opacity-70 group-hover:opacity-100 transition-opacity">
+                <article.icon className="h-16 w-16" />
               </div>
 
-              <div className="flex items-center space-x-4 text-xs text-foreground/50 mb-4">
-                <div className="flex items-center">
-                  <Clock className="mr-1 h-3 w-3" />
-                  {article.readTime}
-                </div>
-                <div className="flex items-center">
-                  <User className="mr-1 h-3 w-3" />
-                  {article.author}
-                </div>
+              <div className="mb-3">
+                <span className="px-2 py-1 rounded-md bg-turquoise/10 text-turquoise text-[10px] font-bold uppercase tracking-wider">
+                  {article.category}
+                </span>
               </div>
 
-              <h3 className="text-xl font-bold text-foreground mb-3 leading-tight group-hover:text-accent transition-colors">
-                <Link href="#">{article.title}</Link>
+              <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-turquoise transition-colors cursor-pointer">
+                {article.title}
               </h3>
               
-              <p className="text-foreground/70 text-sm mb-6 flex-grow">
+              <p className="text-foreground/50 text-sm mb-6 flex-grow leading-relaxed">
                 {article.excerpt}
               </p>
 
-              <Link href="#" className="inline-flex items-center text-sm font-semibold text-accent hover:translate-x-1 transition-transform">
-                Lire l'article <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </motion.article>
+              <div className="flex justify-between items-center text-xs text-foreground/30 border-t border-bluedark pt-4">
+                <span className="flex items-center"><Clock className="mr-2 h-3 w-3" /> {article.readTime}</span>
+                <span className="flex items-center"><Calendar className="mr-2 h-3 w-3" /> {article.date}</span>
+              </div>
+            </motion.div>
           ))}
+        </div>
+        
+        <div className="text-center mt-12">
+          <Link href="#" className="inline-flex items-center px-8 py-3 rounded-lg bg-gradient-to-r from-turquoise to-turquoise-dark text-navy font-bold hover:scale-105 transition-all shadow-lg shadow-turquoise/20">
+            Voir tous les articles
+          </Link>
         </div>
       </div>
     </section>
-  );
-}
-
-function ArrowRight(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M5 12h14" />
-      <path d="m12 5 7 7-7 7" />
-    </svg>
   );
 }
