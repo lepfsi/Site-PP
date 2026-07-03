@@ -12,6 +12,7 @@ const LOG_LINES = [
   "[14:22:15] MONITOR: Latency spikes detected on AS64496",
   "[14:22:20] SSH_LOGIN: Accepted key for user 'ops'",
   "[14:22:24] BGP_PREFIX: 172.16.0.0/24 advertised",
+  "[14:22:28] SSL_CERT: Expiring in 12 days (renewing...)",
   "[14:22:32] OPS: Baseline applied to CORE-SW-01"
 ];
 
@@ -58,29 +59,19 @@ export default function Hero() {
   }, [dashboardMode]);
 
   return (
-    <section className="relative pt-32 pb-8 md:pt-40 md:pb-12 min-h-[70vh] lg:min-h-[85vh] flex items-center overflow-hidden noc-grid">
+    <section className="relative pt-32 pb-8 lg:pb-12 min-h-[70vh] lg:min-h-[80vh] flex items-start lg:items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           
           {/* Left Content */}
-          <div className="lg:col-span-7">
+          <div className="lg:col-span-7 pt-2">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="flex items-center space-x-3 mb-10"
+              className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full mb-8"
             >
-              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full">
-                <span className="h-2 w-2 rounded-full bg-turquoise animate-pulse"></span>
-                <span className="text-turquoise code-font text-[10px] font-black uppercase tracking-widest">v2.0 // Production Ready</span>
-              </div>
-              
-              {/* Added mini terminal style indicator for branding */}
-              <div className="hidden sm:flex items-center space-x-1.5 px-3 py-1 bg-navy/40 border border-white/5 rounded-full font-mono text-[9px] text-text-secondary/60">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#ff5f57]/60"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#febc2e]/60"></div>
-                <div className="w-1.5 h-1.5 rounded-full bg-[#28c840]/60"></div>
-                <span className="ml-1">dailyops_core.sh</span>
-              </div>
+              <span className="h-2 w-2 rounded-full bg-turquoise animate-pulse"></span>
+              <span className="text-turquoise code-font text-[10px] font-black uppercase tracking-widest">v2.0 // Production Ready</span>
             </motion.div>
 
             <motion.div
@@ -140,7 +131,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Content - "The Genius" Mac Style Dashboard */}
+          {/* Right Content - Dashboard aligned with Top Badge */}
           <div className="lg:col-span-5 relative hidden lg:block">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -280,4 +271,3 @@ export default function Hero() {
     </section>
   );
 }
-
