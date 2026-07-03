@@ -18,45 +18,54 @@ const LOG_LINES = [
 
 export default function Hero() {
   const { t } = useLanguage();
+  const [mounted, setMounted] = useState(false);
   const [networkValue, setNetworkValue] = useState(847);
   const [securityValue, setSecurityValue] = useState(12);
   const [dashboardMode, setDashboardMode] = useState<"mesh" | "terminal">("mesh");
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
 
-  // Faster Mode alternating (5s)
+  // Prevent hydration errors
   useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Mode alternating
+  useEffect(() => {
+    if (!mounted) return;
     const interval = setInterval(() => {
       setDashboardMode(prev => prev === "mesh" ? "terminal" : "mesh");
     }, 5000);
     return () => clearInterval(interval);
-  }, []);
+  }, [mounted]);
 
   // Live metrics simulation
   useEffect(() => {
+    if (!mounted) return;
     const interval = setInterval(() => {
       setNetworkValue(prev => Math.max(800, Math.min(950, prev + (Math.random() * 20 - 10))));
       setSecurityValue(prev => Math.max(8, Math.min(18, prev + (Math.random() * 2 - 1))));
     }, 2000);
     return () => clearInterval(interval);
-  }, []);
+  }, [mounted]);
 
   // Terminal log streaming
   useEffect(() => {
-    if (dashboardMode === "terminal") {
-      setVisibleLogs([]);
-      let i = 0;
-      const interval = setInterval(() => {
-        if (i < LOG_LINES.length) {
-          setVisibleLogs(prev => [...prev.slice(-5), LOG_LINES[i]]);
-          i++;
-        } else {
-          i = 0;
-          setVisibleLogs([]);
-        }
-      }, 600);
-      return () => clearInterval(interval);
-    }
-  }, [dashboardMode]);
+    if (!mounted || dashboardMode !== "terminal") return;
+    setVisibleLogs([]);
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < LOG_LINES.length) {
+        setVisibleLogs(prev => [...prev.slice(-5), LOG_LINES[i]]);
+        i++;
+      } else {
+        i = 0;
+        setVisibleLogs([]);
+      }
+    }, 600);
+    return () => clearInterval(interval);
+  }, [mounted, dashboardMode]);
+
+  if (!mounted) return <section className="min-h-[80vh] bg-navy"></section>;
 
   return (
     <section className="relative pt-32 pb-8 lg:pb-12 min-h-[70vh] lg:min-h-[80vh] flex items-start lg:items-center overflow-hidden noc-grid">
@@ -64,7 +73,7 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           
           {/* Left Content */}
-          <div className="lg:col-span-7 pt-2">
+          <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
@@ -131,7 +140,7 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* Right Content - Dashboard aligned with Top Badge */}
+          {/* Right Content - Dashboard */}
           <div className="lg:col-span-5 relative hidden lg:block">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
@@ -144,14 +153,14 @@ export default function Hero() {
                 {/* Mac Style Title Bar */}
                 <div className="bg-navy/60 border-b border-white/5 px-4 py-3 flex items-center justify-between">
                   <div className="flex space-x-2">
-                    <div className="w-3 h-3 rounded-full bg-[#ff5f57] shadow-inner shadow-black/20"></div>
-                    <div className="w-3 h-3 rounded-full bg-[#febc2e] shadow-inner shadow-black/20"></div>
-                    <div className="w-3 h-3 rounded-full bg-[#28c840] shadow-inner shadow-black/20"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></div>
+                    <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]"></div>
                   </div>
-                  <div className="text-[10px] font-mono text-text-secondary/60 uppercase tracking-widest font-bold">
-                    {dashboardMode === "mesh" ? "network_view.ov" : "live_stream.log"}
+                  <div className="text-[9px] font-mono text-text-secondary/60 uppercase tracking-widest font-bold">
+                    {dashboardMode === "mesh" ? "topology.ov" : "stream.log"}
                   </div>
-                  <div className="w-12"></div>
+                  <div className="w-10"></div>
                 </div>
 
                 {/* Visual Area */}
@@ -160,9 +169,9 @@ export default function Hero() {
                     {dashboardMode === "mesh" ? (
                       <motion.div
                         key="mesh"
-                        initial={{ opacity: 0, filter: "blur(10px)" }}
-                        animate={{ opacity: 1, filter: "blur(0px)" }}
-                        exit={{ opacity: 0, filter: "blur(10px)" }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         className="absolute inset-0 p-6"
                       >
                         <svg className="w-full h-full opacity-40">
@@ -171,46 +180,28 @@ export default function Hero() {
                             fill="none"
                             stroke="currentColor"
                             strokeWidth="1.5"
-                            strokeDasharray="1000"
                             className="text-turquoise"
-                            animate={{ strokeDashoffset: [1000, 0] }}
-                            transition={{ duration: 2.5, repeat: Infinity, ease: "linear" }}
                           />
                           <circle cx="20" cy="20" r="4" className="fill-turquoise" />
                           <circle cx="150" cy="150" r="4" className="fill-turquoise" />
                           <circle cx="320" cy="60" r="4" className="fill-turquoise" />
                         </svg>
-                        <motion.div 
-                          animate={{ left: ["20%", "40%", "85%"], top: ["20%", "50%", "30%"] }}
-                          transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
-                          className="absolute w-2.5 h-2.5 bg-turquoise blur-[1px] rounded-full z-10 shadow-lg shadow-turquoise"
-                        />
                       </motion.div>
                     ) : (
                       <motion.div
                         key="terminal"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
                         className="absolute inset-0 p-6 bg-navy/40"
                       >
                         <div className="space-y-2">
                           {visibleLogs.map((log, idx) => (
-                            <motion.div
-                              key={idx}
-                              initial={{ opacity: 0, x: -10 }}
-                              animate={{ opacity: 1, x: 0 }}
-                              className={log.includes("FW_BLOCK") ? "text-pink-500" : "text-turquoise/90"}
-                            >
-                              <span className="opacity-40 mr-2 text-[12px]">{">"}</span> {log}
-                            </motion.div>
+                            <div key={idx} className={log.includes("FW_BLOCK") ? "text-pink-500" : "text-turquoise/90"}>
+                              <span className="opacity-40 mr-2">{">"}</span> {log}
+                            </div>
                           ))}
                         </div>
-                        <motion.span 
-                          animate={{ opacity: [1, 0] }}
-                          transition={{ duration: 0.6, repeat: Infinity }}
-                          className="inline-block w-2 h-4 bg-turquoise ml-1 mt-3 shadow-lg shadow-turquoise/50"
-                        />
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -225,38 +216,18 @@ export default function Hero() {
                       </div>
                       <span className="text-[10px] font-black text-text-primary uppercase tracking-[0.2em]">{t("hero.monitor_live")}</span>
                     </div>
-                    <div className="flex items-center space-x-2 bg-green-500/10 px-2 py-1.5 rounded-lg border border-green-500/20">
-                      <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
-                      <span className="text-[9px] font-black text-green-500 uppercase tracking-widest">PRODUCTION_UP</span>
-                    </div>
                   </div>
 
                   <div className="space-y-5">
                     <div>
-                      <div className="flex justify-between text-[10px] font-bold text-text-secondary/60 mb-2 uppercase tracking-widest">
+                      <div className="flex justify-between text-[9px] font-bold text-text-secondary/60 mb-1.5 uppercase tracking-widest">
                         <span>{t("hero.monitor_network")}</span>
                         <span className="text-turquoise code-font">{Math.round(networkValue)} Mbps</span>
                       </div>
-                      <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
+                      <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
                         <motion.div
                           animate={{ width: `${(networkValue / 1000) * 100}%` }}
-                          className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full"
-                        />
-                      </div>
-                    </div>
-
-                    <div>
-                      <div className="flex justify-between text-[10px] font-bold text-text-secondary/60 mb-2 uppercase tracking-widest">
-                        <span>{t("hero.monitor_security")}</span>
-                        <div className="flex items-center text-pink-500">
-                          <ShieldAlert size={12} className="mr-2" />
-                          <span className="code-font">{Math.round(securityValue)} Events/min</span>
-                        </div>
-                      </div>
-                      <div className="h-2 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div
-                          animate={{ width: `${(securityValue / 20) * 100}%` }}
-                          className="h-full bg-gradient-to-r from-pink-500/40 to-pink-500 rounded-full"
+                          className="h-full bg-turquoise rounded-full"
                         />
                       </div>
                     </div>
