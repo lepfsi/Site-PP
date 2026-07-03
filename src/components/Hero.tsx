@@ -20,26 +20,26 @@ export default function Hero() {
   }, []);
 
   return (
-    <section className="relative pt-20 pb-12 md:pt-28 md:pb-20 min-h-[80vh] flex items-center overflow-hidden noc-grid">
+    <section className="relative pt-16 pb-8 md:pt-20 md:pb-12 min-h-[75vh] lg:min-h-[85vh] flex items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           
           {/* Left Content */}
           <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full mb-4"
+              className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full mb-3"
             >
               <span className="h-2 w-2 rounded-full bg-turquoise animate-pulse"></span>
-              <span className="text-turquoise code-font text-[10px] font-bold uppercase tracking-widest">{t("hero.badge")}</span>
+              <span className="text-turquoise code-font text-[10px] font-black uppercase tracking-widest">{t("hero.badge")}</span>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
-              className="text-text-secondary font-mono text-xs mb-2"
+              className="text-text-secondary font-mono text-[10px] mb-1"
             >
               {t("hero.tagline")}
             </motion.div>
@@ -48,12 +48,12 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] mb-6"
+              className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-[1.1] mb-5"
             >
               <span className="text-text-primary block">{t("hero.title_part1")}</span>
               <span className="relative inline-block mt-1">
                 <span className="relative z-10 text-turquoise italic">{t("hero.title_part2")}</span>
-                <span className="absolute inset-0 bg-turquoise/20 blur-3xl rounded-full scale-150 animate-pulse"></span>
+                <span className="absolute inset-0 bg-turquoise/20 blur-3xl rounded-full scale-125 animate-pulse"></span>
               </span>
             </motion.h1>
 
@@ -61,7 +61,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-base md:text-lg text-text-secondary/80 max-w-xl mb-8 font-medium leading-relaxed"
+              className="text-sm md:text-base text-text-secondary/80 max-w-lg mb-6 font-medium leading-relaxed"
             >
               {t("hero.desc")}
             </motion.p>
@@ -70,13 +70,13 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-4 mb-10"
+              className="flex flex-col sm:flex-row gap-3 mb-8"
             >
-              <a href="#categories" className="px-7 py-3.5 bg-turquoise text-navy font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg shadow-turquoise/20 text-sm">
-                {t("hero.cta_explore")} <ChevronRight size={16} className="ml-2" />
+              <a href="#categories" className="px-6 py-3 bg-turquoise text-navy font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg shadow-turquoise/20 text-xs">
+                {t("hero.cta_explore")} <ChevronRight size={14} className="ml-2" />
               </a>
-              <a href="#newsletter" className="px-7 py-3.5 bg-bg-secondary border border-border-main text-text-primary font-bold rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/5 hover:border-turquoise text-sm">
-                <Mail size={16} className="mr-2" /> {t("hero.cta_news")}
+              <a href="#newsletter" className="px-6 py-3 bg-bg-secondary border border-border-main text-text-primary font-bold rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/5 hover:border-turquoise text-xs">
+                <Mail size={14} className="mr-2" /> {t("hero.cta_news")}
               </a>
             </motion.div>
 
@@ -84,34 +84,34 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-6 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/40"
+              className="flex flex-wrap gap-5 text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/40"
             >
-              <div className="flex items-center"><Users size={14} className="mr-2" /> {t("hero.stat_engineers")}</div>
-              <div className="flex items-center"><FileText size={14} className="mr-2" /> {t("hero.stat_articles")}</div>
-              <div className="flex items-center"><RefreshCw size={14} className="mr-2" /> {t("hero.stat_updated")}</div>
+              <div className="flex items-center"><Users size={12} className="mr-2" /> {t("hero.stat_engineers")}</div>
+              <div className="flex items-center"><FileText size={12} className="mr-2" /> {t("hero.stat_articles")}</div>
+              <div className="flex items-center"><RefreshCw size={12} className="mr-2" /> {t("hero.stat_updated")}</div>
             </motion.div>
           </div>
 
           {/* Right Content - Animated Dashboard */}
-          <div className="lg:col-span-5 relative hidden md:block">
+          <div className="lg:col-span-5 relative hidden lg:block">
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
-              className="relative aspect-[4/3] lg:aspect-square max-w-[440px] ml-auto"
+              className="relative aspect-square max-w-[380px] ml-auto"
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-turquoise/5 to-transparent rounded-[2rem] border border-white/5 backdrop-blur-3xl shadow-2xl overflow-hidden flex flex-col">
+              <div className="absolute inset-0 bg-gradient-to-br from-turquoise/5 to-transparent rounded-3xl border border-white/5 backdrop-blur-3xl shadow-2xl overflow-hidden flex flex-col">
                 
                 {/* Visual Grid / Mesh area */}
-                <div className="flex-grow relative p-6">
-                  <div className="absolute inset-0 opacity-20 noc-grid"></div>
+                <div className="flex-grow relative p-5">
+                  <div className="absolute inset-0 opacity-10 noc-grid"></div>
                   
                   {/* Decorative Mesh Dots */}
-                  {[...Array(10)].map((_, i) => (
+                  {[...Array(8)].map((_, i) => (
                     <motion.div
                       key={i}
                       animate={{
-                        opacity: [0.1, 0.4, 0.1],
+                        opacity: [0.1, 0.3, 0.1],
                         scale: [1, 1.1, 1],
                       }}
                       transition={{
@@ -127,10 +127,9 @@ export default function Hero() {
                     />
                   ))}
                   
-                  <svg className="absolute inset-0 w-full h-full opacity-10 pointer-events-none">
+                  <svg className="absolute inset-0 w-full h-full opacity-5 pointer-events-none">
                     <line x1="20%" y1="20%" x2="40%" y2="50%" stroke="currentColor" strokeWidth="1" className="text-turquoise" />
                     <line x1="40%" y1="50%" x2="80%" y2="30%" stroke="currentColor" strokeWidth="1" className="text-turquoise" />
-                    <line x1="10%" y1="70%" x2="40%" y2="50%" stroke="currentColor" strokeWidth="1" className="text-turquoise" />
                   </svg>
                 </div>
 
