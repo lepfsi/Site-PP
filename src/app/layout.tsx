@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { LanguageProvider } from "@/lib/LanguageContext";
 import { cn } from "@/lib/utils";
 
 const inter = Inter({ 
@@ -15,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DailyOps.Tech | Knowledge Base for IT Infrastructure",
-  description: "Base de connaissances premium pour professionnels IT Infrastructure. Networking, Cybersecurity, Cloud, et Troubleshooting.",
+  title: "DailyOps.Tech | Knowledge Hub IT Infrastructure",
+  description: "Base de connaissances technique pour les professionnels de l'infrastructure IT.",
 };
 
 export default function RootLayout({
@@ -29,7 +30,7 @@ export default function RootLayout({
       <body className={cn(
         inter.variable, 
         jetbrainsMono.variable,
-        "min-h-screen bg-navy antialiased selection:bg-turquoise/30 selection:text-turquoise"
+        "min-h-screen antialiased selection:bg-turquoise/30 selection:text-turquoise"
       )}>
         <ThemeProvider
           attribute="class"
@@ -37,7 +38,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <LanguageProvider>
+            {children}
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

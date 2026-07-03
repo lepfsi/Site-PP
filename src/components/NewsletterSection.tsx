@@ -1,71 +1,77 @@
 "use client";
 
-import { Mail, Users, Newspaper, Bell, Gift, SendHorizontal, Lock } from "lucide-react";
+import { Send, Bell, Shield, Zap, Lock, MailCheck } from "lucide-react";
 import { useState } from "react";
+import { useLanguage } from "@/lib/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function NewsletterSection() {
+  const { t } = useLanguage();
   const [email, setEmail] = useState("");
+  const [subscribed, setSubscribed] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert(`✅ Merci pour votre inscription!\n\nVous recevrez votre première newsletter à l'adresse:\n${email}`);
-    setEmail("");
+    setSubscribed(true);
+    setTimeout(() => {
+      setSubscribed(false);
+      setEmail("");
+    }, 3000);
   };
 
   return (
-    <section id="newsletter" className="py-20 bg-deepblue">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <div className="relative overflow-hidden rounded-2xl border-2 border-turquoise bg-navy p-8 md:p-12 shadow-2xl shadow-turquoise/10">
-            <div className="mb-6">
-              <div className="inline-block p-4 bg-gradient-to-br from-turquoise to-turquoise-dark rounded-full mb-6">
-                <Mail className="h-8 w-8 text-navy" />
+    <section id="newsletter" className="py-24 bg-bg-primary overflow-hidden">
+      <div className="container-custom">
+        <div className="relative group">
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-turquoise/50 via-deepblue/50 to-turquoise/50 rounded-[2.5rem] blur-xl opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+          
+          <div className="relative bg-text-primary rounded-[2.5rem] px-8 py-12 md:px-16 md:py-16 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-12">
+            <div className="flex-1 text-center lg:text-left">
+              <div className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/20 border border-turquoise/30 rounded-full mb-6">
+                <MailCheck size={14} className="text-turquoise" />
+                <span className="text-turquoise font-black uppercase tracking-[0.2em] text-[10px]">{t("nav.newsletter")}</span>
               </div>
-              <h2 className="text-3xl md:text-4xl font-bold mb-4 text-foreground">
-                Newsletter Hebdomadaire
+              <h2 className="text-3xl md:text-5xl font-black text-bg-primary mb-4 tracking-tighter leading-none">
+                {t("news.title")}
               </h2>
-              <p className="text-foreground/50 text-lg mb-2">
-                Recevez chaque semaine les meilleurs articles, news tech, et astuces infrastructure
-              </p>
-              <p className="text-turquoise font-semibold flex items-center justify-center">
-                <Users className="mr-2 h-5 w-5" /> +5,000 professionnels IT déjà abonnés
+              <p className="text-bg-primary/50 text-base md:text-lg font-medium max-w-md mx-auto lg:mx-0">
+                {t("news.desc")}
               </p>
             </div>
             
-            <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
-              <div className="flex flex-col sm:flex-row gap-4">
-                <input 
-                  type="email" 
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-grow bg-deepblue border-2 border-bluedark rounded-xl px-6 py-4 text-foreground focus:outline-none focus:border-turquoise transition-all" 
-                  placeholder="votre.email@entreprise.com"
-                  required
-                />
-                <button type="submit" className="inline-flex items-center justify-center px-8 py-4 rounded-xl bg-gradient-to-r from-turquoise to-turquoise-dark text-navy font-bold hover:scale-105 transition-all shadow-lg shadow-turquoise/20 whitespace-nowrap">
-                  <SendHorizontal className="mr-2 h-5 w-5" /> S'abonner
-                </button>
+            <div className="flex-1 w-full max-w-xl">
+              <div className="bg-bg-primary/5 p-2 rounded-3xl border border-white/5 backdrop-blur-md">
+                <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
+                  <input 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder={t("news.input")}
+                    className="flex-grow bg-white/10 border-none rounded-2xl px-6 py-5 text-bg-primary placeholder-white/20 focus:ring-2 focus:ring-turquoise transition-all font-medium"
+                    required
+                  />
+                  <button 
+                    disabled={subscribed}
+                    className={`px-8 py-5 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center transition-all ${
+                      subscribed ? "bg-green-500 text-bg-primary" : "bg-turquoise text-navy hover:scale-105 active:scale-95"
+                    }`}
+                  >
+                    {subscribed ? "OK" : t("news.btn")} <Send size={18} className="ml-2" />
+                  </button>
+                </form>
               </div>
-              <p className="text-xs text-foreground/30 mt-4 flex items-center justify-center">
-                <Lock className="mr-2 h-3 w-3" /> Vos données sont sécurisées. Désabonnement en 1 clic.
-              </p>
-            </form>
-            
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 pt-8 border-t border-bluedark">
-              <div className="text-center">
-                <Newspaper className="h-6 w-6 text-turquoise mx-auto mb-2" />
-                <h4 className="font-bold text-foreground text-sm mb-2">Articles Premium</h4>
-                <p className="text-xs text-foreground/40">Contenu exclusif chaque semaine</p>
-              </div>
-              <div className="text-center">
-                <Bell className="h-6 w-6 text-turquoise mx-auto mb-2" />
-                <h4 className="font-bold text-foreground text-sm mb-2">Alertes Tech</h4>
-                <p className="text-xs text-foreground/40">CVE, updates, breaking news</p>
-              </div>
-              <div className="text-center">
-                <Gift className="h-6 w-6 text-turquoise mx-auto mb-2" />
-                <h4 className="font-bold text-foreground text-sm mb-2">Ressources</h4>
-                <p className="text-xs text-foreground/40">Cheatsheets, templates, tools</p>
+              
+              <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-8">
+                {[
+                  { icon: Bell, key: "news.feature1" },
+                  { icon: Shield, key: "news.feature2" },
+                  { icon: Zap, key: "news.feature3" }
+                ].map((item) => (
+                  <div key={item.key} className="flex items-center space-x-2 text-turquoise/50">
+                    <item.icon size={16} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">{t(item.key as any)}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -74,3 +80,4 @@ export default function NewsletterSection() {
     </section>
   );
 }
+
