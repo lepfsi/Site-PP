@@ -10,12 +10,18 @@ interface TranslationKeys {
   "nav.experience": string;
   "nav.newsletter": string;
   "hero.badge": string;
-  "hero.title_top": string;
-  "hero.title_bottom": string;
+  "hero.tagline": string;
+  "hero.title_part1": string;
+  "hero.title_part2": string;
   "hero.desc": string;
-  "hero.cta_primary": string;
-  "hero.cta_secondary": string;
-  "hero.search_placeholder": string;
+  "hero.cta_explore": string;
+  "hero.cta_news": string;
+  "hero.stat_engineers": string;
+  "hero.stat_articles": string;
+  "hero.stat_updated": string;
+  "hero.monitor_live": string;
+  "hero.monitor_network": string;
+  "hero.monitor_security": string;
   "cat.title": string;
   "cat.subtitle": string;
   "exp.title": string;
@@ -37,13 +43,19 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.articles": "Baseline",
     "nav.experience": "Field Notes",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "v2.4 // STABLE RELEASE",
-    "hero.title_top": "Infrastructure",
-    "hero.title_bottom": "Operations Excellence",
-    "hero.desc": "Le Hub technique pour les Ops modernes. Baselines, RCA et guides sans compromis.",
-    "hero.cta_primary": "Accéder aux Nodes",
-    "hero.cta_secondary": "Join the NOC",
-    "hero.search_placeholder": "Filtrer : BGP, hardening, K8s cluster...",
+    "hero.badge": "v2.4.0 • Base de connaissances active",
+    "hero.tagline": "<DailyOps />",
+    "hero.title_part1": "L'expertise infrastructure",
+    "hero.title_part2": "sans compromis.",
+    "hero.desc": "Documentation technique premium, playbooks opérationnels et retours d'expérience terrain pour les ingénieurs système, réseaux et sécurité.",
+    "hero.cta_explore": "Explorer les catégories",
+    "hero.cta_news": "Newsletter hebdo",
+    "hero.stat_engineers": "12K+ Engineers",
+    "hero.stat_articles": "450+ Articles",
+    "hero.stat_updated": "24/7 Updated",
+    "hero.monitor_live": "LIVE MONITORING",
+    "hero.monitor_network": "Network Throughput",
+    "hero.monitor_security": "Security Events",
     "cat.title": "Technical Nodes",
     "cat.subtitle": "Infrastructures et méthodologies de production.",
     "exp.title": "RCA & Field Notes",
@@ -63,13 +75,19 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.articles": "Baseline",
     "nav.experience": "Field Notes",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "v2.4 // STABLE RELEASE",
-    "hero.title_top": "Infrastructure",
-    "hero.title_bottom": "Operations Excellence",
-    "hero.desc": "The technical hub for modern Ops. uncompromising baselines, RCA, and field guides.",
-    "hero.cta_primary": "Access Nodes",
-    "hero.cta_secondary": "Join the NOC",
-    "hero.search_placeholder": "Filter: BGP, hardening, K8s cluster...",
+    "hero.badge": "v2.4.0 • Active Knowledge Base",
+    "hero.tagline": "<DailyOps />",
+    "hero.title_part1": "Infrastructure expertise",
+    "hero.title_part2": "without compromise.",
+    "hero.desc": "Premium technical documentation, operational playbooks and field experience for systems, network and security engineers.",
+    "hero.cta_explore": "Explore categories",
+    "hero.cta_news": "Weekly newsletter",
+    "hero.stat_engineers": "12K+ Engineers",
+    "hero.stat_articles": "450+ Articles",
+    "hero.stat_updated": "24/7 Updated",
+    "hero.monitor_live": "LIVE MONITORING",
+    "hero.monitor_network": "Network Throughput",
+    "hero.monitor_security": "Security Events",
     "cat.title": "Technical Nodes",
     "cat.subtitle": "Production infrastructures and methodologies.",
     "exp.title": "RCA & Field Notes",

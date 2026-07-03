@@ -1,104 +1,107 @@
+"use client";
+
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Network, Shield, Server, Cloud, Wrench, ChevronRight, FileText, ArrowRight } from "lucide-react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const categoriesInfo = {
-  networking: { title: "Networking", description: "Infrastructures réseaux, routage et sécurité périmétrique.", icon: Network, color: "text-blue-500" },
-  cybersecurity: { title: "Cybersecurity", description: "Protection des actifs, SOC et conformité.", icon: Shield, color: "text-red-500" },
-  infrastructure: { title: "Infrastructure", description: "Gestion de serveurs et datacenters.", icon: Server, color: "text-orange-500" },
-  cloud: { title: "Cloud & Virtualisation", description: "Hybrid Cloud, Containers et VMs.", icon: Cloud, color: "text-purple-500" },
-  troubleshooting: { title: "Troubleshooting", description: "Résolution d'incidents et analyse de logs.", icon: Wrench, color: "text-green-500" },
+  networking: { icon: Network, color: "text-blue-500" },
+  cybersecurity: { icon: Shield, color: "text-red-500" },
+  infrastructure: { icon: Server, color: "text-orange-500" },
+  cloud: { icon: Cloud, color: "text-purple-500" },
+  troubleshooting: { icon: Wrench, color: "text-green-500" },
 };
 
-export default async function CategoryPage({ params }: { params: Promise<{ slug: string }> }) {
-  const { slug } = await params;
+export default function CategoryPage() {
+  const params = useParams();
+  const { lang } = useLanguage();
+  const slug = params.slug as string;
   const category = categoriesInfo[slug as keyof typeof categoriesInfo] || categoriesInfo.networking;
 
-  const posts = [
-    { title: "Configuration avancée de BGP sur Cisco IOS-XE", date: "2026-06-20", excerpt: "Maîtriser les communautés et les attributs de chemin..." },
-    { title: "Mise en place d'un VPN Wireguard site-to-site", date: "2026-06-15", excerpt: "Performances et sécurité pour vos interconnexions..." },
-    { title: "Optimisation du MTU sur les réseaux MPLS", date: "2026-06-10", excerpt: "Éviter la fragmentation et améliorer le throughput..." },
-  ];
+  const title = slug.charAt(0).toUpperCase() + slug.slice(1);
 
   return (
-    <main className="min-h-screen flex flex-col bg-navy">
+    <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
       <div className="flex-grow">
-        <header className="py-16 border-b border-bluedark bg-deepblue/20">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <nav className="flex mb-8 text-[10px] font-bold text-foreground/30 uppercase tracking-[0.2em]">
-              <Link href="/" className="hover:text-turquoise transition-colors">Accueil</Link>
+        <header className="py-24 border-b border-border-main bg-bg-secondary/30 relative overflow-hidden">
+          <div className="scanline"></div>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+            <nav className="flex mb-12 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
+              <Link href="/" className="hover:text-turquoise transition-colors">Nodes</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
-              <span className="text-foreground/80">{category.title}</span>
+              <span className="text-text-primary">{title}</span>
             </nav>
-            <div className="flex items-center space-x-6">
-              <div className={`p-4 rounded-xl bg-deepblue border border-bluedark ${category.color}`}>
-                <category.icon className="h-10 w-10" />
+            <div className="flex items-center space-x-8">
+              <div className={`p-6 rounded-2xl bg-bg-secondary border border-border-main shadow-xl ${category.color}`}>
+                <category.icon size={48} />
               </div>
               <div>
-                <h1 className="text-4xl font-extrabold text-foreground tracking-tight">{category.title}</h1>
-                <p className="mt-2 text-foreground/50 text-lg">{category.description}</p>
+                <h1 className="text-5xl md:text-7xl font-black text-text-primary tracking-tighter">{title}</h1>
+                <p className="mt-4 text-text-secondary text-xl font-medium max-w-2xl">
+                  {lang === "FR" 
+                    ? `Base de connaissances technique dédiée au ${title}. Guides, checklists et baselines de production.`
+                    : `Technical knowledge base dedicated to ${title}. Guides, checklists and production baselines.`}
+                </p>
               </div>
             </div>
           </div>
         </header>
 
-        <section className="py-16">
+        <section className="py-24">
           <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              <div className="lg:col-span-2 space-y-6">
-                {posts.map((post) => (
-                  <article key={post.title} className="p-8 rounded-xl border border-bluedark bg-deepblue hover:border-turquoise/30 transition-all group">
-                    <div className="flex items-center text-[10px] font-bold text-foreground/30 mb-3 uppercase tracking-widest">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+              <div className="lg:col-span-2 space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <article key={i} className="p-8 rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise transition-all group">
+                    <div className="flex items-center text-[10px] font-black text-text-secondary/30 mb-4 uppercase tracking-[0.2em]">
                       <FileText className="mr-2 h-3 w-3" />
-                      {post.date}
+                      JUN 2026 // STABLE
                     </div>
-                    <h2 className="text-2xl font-bold text-foreground mb-3 group-hover:text-turquoise transition-colors">
-                      <Link href="#">{post.title}</Link>
+                    <h2 className="text-3xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors">
+                      {lang === "FR" ? "Baseline de configuration Production" : "Production Configuration Baseline"} #{i}
                     </h2>
-                    <p className="text-foreground/50 mb-6 leading-relaxed">
-                      {post.excerpt}
+                    <p className="text-text-secondary mb-8 leading-relaxed font-medium">
+                      {lang === "FR" 
+                        ? "Détails techniques sur l'implémentation des standards de sécurité et de performance en environnement critique."
+                        : "Technical details on implementing security and performance standards in critical environments."}
                     </p>
-                    <Link href="#" className="inline-flex items-center text-sm font-bold text-turquoise group-hover:underline">
-                      Lire la suite <ArrowRight className="ml-2 h-4 w-4" />
+                    <Link href="#" className="inline-flex items-center text-xs font-black uppercase tracking-widest text-turquoise group-hover:underline">
+                      Read Node <ArrowRight className="ml-2 h-4 w-4" />
                     </Link>
                   </article>
                 ))}
               </div>
               
               <aside className="space-y-8">
-                <div className="p-6 rounded-xl border border-bluedark bg-deepblue">
-                  <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-foreground/50 mb-6 border-b border-bluedark pb-2">Sous-catégories</h3>
-                  <ul className="space-y-4 text-sm">
-                    <li className="text-foreground/60 hover:text-turquoise transition-colors cursor-pointer flex justify-between items-center group">
-                      <span>Routing</span> 
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-bluedark text-foreground/40 group-hover:bg-turquoise group-hover:text-navy transition-all">12</span>
-                    </li>
-                    <li className="text-foreground/60 hover:text-turquoise transition-colors cursor-pointer flex justify-between items-center group">
-                      <span>Switching</span> 
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-bluedark text-foreground/40 group-hover:bg-turquoise group-hover:text-navy transition-all">8</span>
-                    </li>
-                    <li className="text-foreground/60 hover:text-turquoise transition-colors cursor-pointer flex justify-between items-center group">
-                      <span>VPN & Security</span> 
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-bluedark text-foreground/40 group-hover:bg-turquoise group-hover:text-navy transition-all">15</span>
-                    </li>
-                    <li className="text-foreground/60 hover:text-turquoise transition-colors cursor-pointer flex justify-between items-center group">
-                      <span>SD-WAN</span> 
-                      <span className="text-[10px] px-1.5 py-0.5 rounded bg-bluedark text-foreground/40 group-hover:bg-turquoise group-hover:text-navy transition-all">4</span>
-                    </li>
+                <div className="p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-sm">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-8 border-b border-border-main pb-4">Index Nodes</h3>
+                  <ul className="space-y-6">
+                    {["Routing", "Switching", "Security", "SD-WAN"].map(item => (
+                      <li key={item} className="flex justify-between items-center group cursor-pointer">
+                        <span className="text-sm font-bold text-text-primary group-hover:text-turquoise transition-colors">{item}</span>
+                        <span className="text-[10px] font-black bg-bg-primary px-2 py-1 rounded border border-border-main text-text-secondary/50 group-hover:border-turquoise group-hover:text-turquoise transition-all">0{item.length}</span>
+                      </li>
+                    ))}
                   </ul>
                 </div>
                 
-                <div className="p-8 rounded-xl border border-turquoise/20 bg-turquoise/5 relative overflow-hidden group">
+                <div className="p-8 rounded-2xl bg-text-primary text-bg-primary relative overflow-hidden group shadow-2xl">
                   <div className="relative z-10">
-                    <h3 className="text-lg font-bold text-turquoise mb-2">Besoin d'expertise ?</h3>
-                    <p className="text-sm text-foreground/60 mb-6">Notre équipe intervient sur des problématiques complexes de design {category.title.toLowerCase()}.</p>
-                    <button className="w-full py-3 bg-turquoise text-navy text-sm font-bold rounded-lg hover:scale-105 transition-all shadow-lg shadow-turquoise/20">Nous contacter</button>
+                    <h3 className="text-xl font-bold mb-4">{lang === "FR" ? "Besoin d'expertise ?" : "Need Expertise?"}</h3>
+                    <p className="text-sm text-bg-primary/50 mb-8 leading-relaxed">
+                      {lang === "FR" 
+                        ? "Design d'architecture, troubleshooting complexe et audit de production."
+                        : "Architecture design, complex troubleshooting and production audit."}
+                    </p>
+                    <button className="w-full py-4 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
+                      Contact NOC
+                    </button>
                   </div>
-                  <div className="absolute -right-4 -bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
-                    <category.icon className="h-24 w-24" />
-                  </div>
+                  <category.icon className="absolute -right-8 -bottom-8 h-40 w-40 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
               </aside>
             </div>

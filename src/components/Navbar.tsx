@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X, Moon, Sun, Terminal, Globe } from "lucide-react";
+import { Menu, X, Moon, Sun } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -38,18 +38,25 @@ export default function Navbar() {
       }`}
     >
       <div className="container-custom">
-        <div className="flex h-12 items-center justify-between">
-          <div className="flex items-center space-x-8">
-            <Link href="/" className="flex items-center group relative">
-              <div className="bg-text-primary text-bg-primary p-2 rounded-xl group-hover:scale-110 transition-transform">
-                <Terminal size={18} />
+        <div className="flex h-14 items-center justify-between">
+          <div className="flex items-center space-x-12">
+            <Link href="/" className="flex items-center group">
+              {/* Logo Icon based on Image */}
+              <div className="relative">
+                <div className="bg-[#00bcd4] text-white w-10 h-10 rounded-xl flex items-center justify-center shadow-lg shadow-[#00bcd4]/20 group-hover:scale-105 transition-transform duration-300">
+                  <span className="code-font text-xl font-bold tracking-tighter">{">_"}</span>
+                </div>
+                {/* Active Indicator */}
+                <div className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 border-2 border-bg-primary"></span>
+                </div>
               </div>
-              <span className="code-font text-xl font-black tracking-tight ml-2">
-                DailyOps<span className="text-turquoise">.Tech</span>
-              </span>
-              <div className="absolute -top-1 -right-4 flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-turquoise opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-turquoise"></span>
+              
+              {/* Logo Text based on Image */}
+              <div className="ml-3 flex items-baseline">
+                <span className="text-2xl font-bold tracking-tight text-text-primary">DailyOps</span>
+                <span className="text-2xl font-bold tracking-tight text-[#00bcd4]">.Tech</span>
               </div>
             </Link>
             
@@ -66,33 +73,30 @@ export default function Navbar() {
             </div>
           </div>
 
-          <div className="hidden md:flex items-center space-x-3">
-            {/* Lang Switcher - More Premium */}
-            <div className="flex items-center bg-bg-secondary border border-border-main rounded-full p-0.5 shadow-sm overflow-hidden">
+          <div className="hidden md:flex items-center space-x-4">
+            <div className="flex items-center bg-bg-secondary border border-border-main rounded-full p-0.5 shadow-sm">
               <button 
                 onClick={() => setLang("FR")}
-                className={`flex items-center space-x-1 px-3 py-1.5 text-[10px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary hover:text-turquoise"}`}
+                className={`px-3 py-1.5 text-[10px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary hover:text-turquoise"}`}
               >
                 FR
               </button>
               <button 
                 onClick={() => setLang("EN")}
-                className={`flex items-center space-x-1 px-3 py-1.5 text-[10px] font-black rounded-full transition-all ${lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary hover:text-turquoise"}`}
+                className={`px-3 py-1.5 text-[10px] font-black rounded-full transition-all ${lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary hover:text-turquoise"}`}
               >
                 EN
               </button>
             </div>
 
-            {/* Theme Toggle */}
             <button
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-2.5 rounded-full border border-border-main bg-bg-secondary text-text-secondary hover:text-turquoise transition-all shadow-sm active:scale-90"
+              className="p-2.5 rounded-full border border-border-main bg-bg-secondary text-text-secondary hover:text-[#00bcd4] transition-all shadow-sm active:scale-90"
             >
-              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+              {theme === "dark" ? <Sun size={18} /> : <Moon size={18} />}
             </button>
           </div>
 
-          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -104,7 +108,6 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
