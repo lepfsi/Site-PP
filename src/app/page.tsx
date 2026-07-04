@@ -2,7 +2,6 @@
 
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
-import SiteStats from "@/components/SiteStats";
 import CategoryGrid from "@/components/CategoryGrid";
 import FeaturedArticles from "@/components/FeaturedArticles";
 import ExperienceSection from "@/components/ExperienceSection";
@@ -15,7 +14,6 @@ export default function Home() {
       <Navbar />
       <div className="flex-grow">
         <Hero />
-        <SiteStats />
         <CategoryGrid />
         <FeaturedArticles />
         <ExperienceSection />

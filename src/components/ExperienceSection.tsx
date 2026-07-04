@@ -48,20 +48,6 @@ export default function ExperienceSection() {
           <p className="text-foreground/50 text-lg">{t("exp.subtitle")}</p>
         </div>
 
-        <div className="max-w-5xl mx-auto mb-10 rounded-xl border border-bluedark bg-deepblue/80 overflow-hidden">
-          <div className="flex items-center gap-2 px-4 py-2.5 border-b border-bluedark bg-navy/50">
-            <div className="w-2 h-2 rounded-full bg-[#ff5f57]" />
-            <div className="w-2 h-2 rounded-full bg-[#febc2e]" />
-            <div className="w-2 h-2 rounded-full bg-[#28c840]" />
-            <span className="ml-1 text-xs font-mono text-foreground/40">{t("exp.terminal_title")}</span>
-          </div>
-          <div className="p-4 font-mono text-sm space-y-1.5">
-            <p className="text-pink-400/90"><span className="opacity-40 mr-2">{">"}</span>{t("exp.log1")}</p>
-            <p className="text-turquoise/90"><span className="opacity-40 mr-2">{">"}</span>{t("exp.log2")}</p>
-            <p className="text-turquoise/90"><span className="opacity-40 mr-2">{">"}</span>{t("exp.log3")}</p>
-          </div>
-        </div>
-
         <div className="max-w-5xl mx-auto space-y-6">
           {experiences.map((exp, index) => (
             <motion.div

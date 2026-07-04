@@ -31,10 +31,6 @@ interface TranslationKeys {
   "hero.tag_cloud": string;
   "hero.tag_networking": string;
   "hero.tag_troubleshooting": string;
-  "hero.status_cmd": string;
-  "hero.status_line1": string;
-  "hero.status_line2": string;
-  "hero.status_line3": string;
   "cat.title": string;
   "cat.subtitle": string;
   "cat.networking_name": string;
@@ -70,10 +66,6 @@ interface TranslationKeys {
   "articles.3.category": string;
   "exp.title": string;
   "exp.subtitle": string;
-  "exp.terminal_title": string;
-  "exp.log1": string;
-  "exp.log2": string;
-  "exp.log3": string;
   "exp.read_case": string;
   "exp.views": string;
   "exp.1.title": string;
@@ -129,14 +121,10 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.expertise": "Expertise",
     "nav.about": "About",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "For production engineers",
-    "hero.title_part1": "Production breaks at 3 AM.",
-    "hero.title_part2": "You'll know what to do.",
-    "hero.desc": "Runbooks, RCA deep-dives and field-tested guides for network, security and cloud ops.",
-    "hero.status_cmd": "$ dailyops --status",
-    "hero.status_line1": "● knowledge_base  online",
-    "hero.status_line2": "● playbooks       342 entries",
-    "hero.status_line3": "● last_sync       2h ago",
+    "hero.badge": "v2.0 // Production Ready",
+    "hero.title_part1": "Infrastructure expertise",
+    "hero.title_part2": "without compromise.",
+    "hero.desc": "Premium technical documentation, operational playbooks and field experience for systems, network and security engineers.",
     "hero.cta_explore": "Explore categories",
     "hero.cta_news": "Weekly newsletter",
     "hero.stat_engineers": "12K+ Engineers",
@@ -188,10 +176,6 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.3.category": "Networking",
     "exp.title": "Field Experience",
     "exp.subtitle": "Real situations, practical solutions, lessons learned.",
-    "exp.terminal_title": "ops_logs_live.tail",
-    "exp.log1": "[14:22:05] FW_BLOCK: Denied inbound from 185.x.x.x",
-    "exp.log2": "[14:22:15] MONITOR: Latency spikes detected on AS64496",
-    "exp.log3": "[14:22:20] SSH_LOGIN: Accepted key for user 'ops'",
     "exp.read_case": "Read case study",
     "exp.views": "views",
     "exp.1.title": "Major network outage: BGP hijacking detected in 15 minutes",
@@ -245,14 +229,10 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.expertise": "Expertise",
     "nav.about": "À propos",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "Pour les ingénieurs de prod",
-    "hero.title_part1": "La prod lâche à 3h du mat.",
-    "hero.title_part2": "Vous saurez quoi faire.",
-    "hero.desc": "Runbooks, RCA et guides terrain pour les ops réseau, sécurité et cloud.",
-    "hero.status_cmd": "$ dailyops --status",
-    "hero.status_line1": "● base_connaissance  en ligne",
-    "hero.status_line2": "● playbooks          342 entrées",
-    "hero.status_line3": "● dernière_sync      il y a 2h",
+    "hero.badge": "v2.0 // Production Ready",
+    "hero.title_part1": "L'expertise infrastructure",
+    "hero.title_part2": "sans compromis.",
+    "hero.desc": "Documentation technique premium, playbooks opérationnels et retours d'expérience terrain pour les ingénieurs système, réseaux et sécurité.",
     "hero.cta_explore": "Explorer les catégories",
     "hero.cta_news": "Newsletter hebdo",
     "hero.stat_engineers": "12K+ Ingénieurs",
@@ -304,10 +284,6 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.3.category": "Réseau",
     "exp.title": "Retour d'Expérience Terrain",
     "exp.subtitle": "Situations réelles, solutions pratiques, leçons apprises.",
-    "exp.terminal_title": "ops_logs_live.tail",
-    "exp.log1": "[14:22:05] FW_BLOCK: Denied inbound from 185.x.x.x",
-    "exp.log2": "[14:22:15] MONITOR: Latency spikes detected on AS64496",
-    "exp.log3": "[14:22:20] SSH_LOGIN: Accepted key for user 'ops'",
     "exp.read_case": "Lire le cas",
     "exp.views": "vues",
     "exp.1.title": "Panne réseau majeure : BGP Hijacking détecté en 15 minutes",
