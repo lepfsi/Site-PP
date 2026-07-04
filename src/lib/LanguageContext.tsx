@@ -5,9 +5,11 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 type Language = "FR" | "EN";
 
 interface TranslationKeys {
+  "nav.home": string;
   "nav.categories": string;
   "nav.articles": string;
-  "nav.experience": string;
+  "nav.expertise": string;
+  "nav.about": string;
   "nav.newsletter": string;
   "hero.badge": string;
   "hero.tagline": string;
@@ -24,6 +26,11 @@ interface TranslationKeys {
   "hero.monitor_security": string;
   "cat.title": string;
   "cat.subtitle": string;
+  "cat.networking_desc": string;
+  "cat.cybersecurity_desc": string;
+  "cat.infrastructure_desc": string;
+  "cat.cloud_desc": string;
+  "cat.troubleshooting_desc": string;
   "exp.title": string;
   "exp.subtitle": string;
   "news.title": string;
@@ -39,11 +46,13 @@ interface TranslationKeys {
 
 const translations: Record<Language, TranslationKeys> = {
   FR: {
-    "nav.categories": "Expertise",
-    "nav.articles": "Baseline",
-    "nav.experience": "Field Notes",
+    "nav.home": "Home",
+    "nav.categories": "Categories",
+    "nav.articles": "Articles",
+    "nav.expertise": "Expertise",
+    "nav.about": "About",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "v2.4.0 • Base de connaissances active",
+    "hero.badge": "v2.0 // Production Ready",
     "hero.tagline": "<DailyOps />",
     "hero.title_part1": "L'expertise infrastructure",
     "hero.title_part2": "sans compromis.",
@@ -58,6 +67,11 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.monitor_security": "Security Events",
     "cat.title": "Technical Nodes",
     "cat.subtitle": "Infrastructures et méthodologies de production.",
+    "cat.networking_desc": "Protocols, routing, switching...",
+    "cat.cybersecurity_desc": "SOC, detection, incident response...",
+    "cat.infrastructure_desc": "Servers, storage, monitoring and...",
+    "cat.cloud_desc": "AWS, Azure, VMware, containers...",
+    "cat.troubleshooting_desc": "Methodologies, post-mortems and...",
     "exp.title": "RCA & Field Notes",
     "exp.subtitle": "Analyses d'incidents réels et solutions éprouvées.",
     "news.title": "Production Ready News",
@@ -71,11 +85,13 @@ const translations: Record<Language, TranslationKeys> = {
     "footer.made": "Conçu avec passion pour les Ops",
   },
   EN: {
-    "nav.categories": "Expertise",
-    "nav.articles": "Baseline",
-    "nav.experience": "Field Notes",
+    "nav.home": "Home",
+    "nav.categories": "Categories",
+    "nav.articles": "Articles",
+    "nav.expertise": "Expertise",
+    "nav.about": "About",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "v2.4.0 • Active Knowledge Base",
+    "hero.badge": "v2.0 // Production Ready",
     "hero.tagline": "<DailyOps />",
     "hero.title_part1": "Infrastructure expertise",
     "hero.title_part2": "without compromise.",
@@ -90,6 +106,11 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.monitor_security": "Security Events",
     "cat.title": "Technical Nodes",
     "cat.subtitle": "Production infrastructures and methodologies.",
+    "cat.networking_desc": "Protocols, routing, switching...",
+    "cat.cybersecurity_desc": "SOC, detection, incident response...",
+    "cat.infrastructure_desc": "Servers, storage, monitoring and...",
+    "cat.cloud_desc": "AWS, Azure, VMware, containers...",
+    "cat.troubleshooting_desc": "Methodologies, post-mortems and...",
     "exp.title": "RCA & Field Notes",
     "exp.subtitle": "Real incident analysis and proven solutions.",
     "news.title": "Production Ready News",

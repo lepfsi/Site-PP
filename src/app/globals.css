@@ -54,20 +54,21 @@
   background-size: 32px 32px;
 }
 
-.glass {
-  backdrop-filter: blur(12px);
-  background-color: var(--glass-bg);
-  border: 1px solid var(--glass-border);
+/* Liquid Glass Effect */
+.liquid-glass {
+  backdrop-filter: blur(24px) saturate(180%);
+  background-color: var(--liquid-bg);
+  border: 1px solid var(--liquid-border);
 }
 
 :root {
-  --glass-bg: rgba(255, 255, 255, 0.7);
-  --glass-border: rgba(0, 0, 0, 0.05);
+  --liquid-bg: rgba(255, 255, 255, 0.4);
+  --liquid-border: rgba(255, 255, 255, 0.2);
 }
 
 .dark {
-  --glass-bg: rgba(15, 23, 42, 0.7);
-  --glass-border: rgba(255, 255, 255, 0.05);
+  --liquid-bg: rgba(15, 23, 42, 0.4);
+  --liquid-border: rgba(255, 255, 255, 0.05);
 }
 
 .code-font {
