@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #020617;
+  --color-navy: #0a1120;
   --color-deepblue: #0f172a;
   --color-bluedark: #1e293b;
   --color-turquoise: #2dd4bf;
@@ -25,15 +25,19 @@
   --text-secondary: #475569;
   --border-main: #e2e8f0;
   --accent: #0d9488;
+  --liquid-bg: rgba(255, 255, 255, 0.4);
+  --liquid-border: rgba(255, 255, 255, 0.2);
 }
 
 .dark {
-  --bg-primary: #020617;
-  --bg-secondary: #0f172a;
+  --bg-primary: #0a1120; /* Slightly lighter than #020617 for better eye comfort */
+  --bg-secondary: #111a2e;
   --text-primary: #f8fafc;
   --text-secondary: #94a3b8;
   --border-main: #1e293b;
   --accent: #2dd4bf;
+  --liquid-bg: rgba(15, 23, 42, 0.4);
+  --liquid-border: rgba(255, 255, 255, 0.05);
 }
 
 @layer base {
@@ -47,13 +51,6 @@
   }
 }
 
-/* Technical Dashboard Grid */
-.noc-grid {
-  background-image: 
-    radial-gradient(circle at 1px 1px, var(--border-main) 1px, transparent 0);
-  background-size: 32px 32px;
-}
-
 /* Liquid Glass Effect */
 .liquid-glass {
   backdrop-filter: blur(24px) saturate(180%);
@@ -61,14 +58,11 @@
   border: 1px solid var(--liquid-border);
 }
 
-:root {
-  --liquid-bg: rgba(255, 255, 255, 0.4);
-  --liquid-border: rgba(255, 255, 255, 0.2);
-}
-
-.dark {
-  --liquid-bg: rgba(15, 23, 42, 0.4);
-  --liquid-border: rgba(255, 255, 255, 0.05);
+/* Technical Dashboard Grid */
+.noc-grid {
+  background-image: 
+    radial-gradient(circle at 1px 1px, var(--border-main) 1px, transparent 0);
+  background-size: 32px 32px;
 }
 
 .code-font {
@@ -95,8 +89,6 @@
   background: var(--accent);
 }
 
-/* Layout utilities */
 .container-custom {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
-

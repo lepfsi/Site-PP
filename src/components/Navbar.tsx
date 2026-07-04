@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X, Moon, Sun, Terminal, ChevronDown } from "lucide-react";
+import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -13,6 +13,7 @@ const CATEGORIES = [
   { id: "cybersecurity", color: "bg-red-500" },
   { id: "infrastructure", color: "bg-orange-500" },
   { id: "cloud", color: "bg-purple-500" },
+  { id: "automation", color: "bg-cyan-500", label: "Automation & AI" },
   { id: "troubleshooting", color: "bg-green-500" },
 ];
 
@@ -41,10 +42,10 @@ export default function Navbar() {
           : "py-3"
       }`}
     >
-      <div className="flex h-10 items-center justify-between">
+      <div className="flex h-10 items-center justify-between relative">
         
         {/* LOGO (LEFT) */}
-        <Link href="/" className="flex items-center group flex-shrink-0">
+        <Link href="/" className="flex items-center group flex-shrink-0 z-10">
           <div className="bg-[#00bcd4] text-white w-8 h-8 rounded-lg flex items-center justify-center shadow-lg shadow-[#00bcd4]/20 group-hover:scale-105 transition-transform duration-300">
             <span className="code-font text-base font-bold tracking-tighter">{">_"}</span>
           </div>
@@ -54,12 +55,12 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* CENTERED LINKS */}
-        <div className="hidden lg:flex items-center space-x-1 absolute left-1/2 -translate-x-1/2">
+        {/* CENTERED LINKS - absolute positioning for perfect centering */}
+        <div className="hidden lg:flex items-center space-x-1 absolute left-1/2 -translate-x-1/2 w-max">
           <Link href="/" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-turquoise">{t("nav.home")}</Link>
           
           <div 
-            className="relative group"
+            className="relative"
             onMouseEnter={() => setIsCatOpen(true)}
             onMouseLeave={() => setIsCatOpen(false)}
           >
@@ -73,7 +74,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 10, scale: 0.95 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                  className="absolute top-full left-0 mt-2 w-72 bg-bg-secondary border border-white/5 shadow-2xl rounded-2xl overflow-hidden p-2"
+                  className="absolute top-full left-0 mt-2 w-72 bg-bg-secondary border border-white/5 shadow-2xl rounded-2xl overflow-hidden p-2 z-[110]"
                 >
                   {CATEGORIES.map((cat) => (
                     <Link 
@@ -84,7 +85,7 @@ export default function Navbar() {
                       <div className={`mt-1.5 w-1.5 h-1.5 rounded-full ${cat.color} mr-4 group-hover:scale-125 transition-transform shadow-[0_0_8px_rgba(0,0,0,0.5)] shadow-current`} />
                       <div>
                         <div className="text-xs font-black text-text-primary uppercase tracking-widest mb-1 group-hover:text-turquoise transition-colors">
-                          {cat.id.charAt(0).toUpperCase() + cat.id.slice(1)}
+                          {cat.label || (cat.id.charAt(0).toUpperCase() + cat.id.slice(1))}
                         </div>
                         <div className="text-[10px] text-text-secondary/50 font-mono italic">
                           {t(`cat.${cat.id}_desc` as any)}
@@ -103,7 +104,7 @@ export default function Navbar() {
         </div>
 
         {/* RIGHT ACTIONS */}
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 z-10">
           <div className="hidden md:block">
             <CommandSearch />
           </div>

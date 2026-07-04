@@ -31,6 +31,7 @@ interface TranslationKeys {
   "cat.infrastructure_desc": string;
   "cat.cloud_desc": string;
   "cat.troubleshooting_desc": string;
+  "cat.automation_desc": string;
   "exp.title": string;
   "exp.subtitle": string;
   "news.title": string;
@@ -72,6 +73,7 @@ const translations: Record<Language, TranslationKeys> = {
     "cat.infrastructure_desc": "Servers, storage, monitoring and...",
     "cat.cloud_desc": "AWS, Azure, VMware, containers...",
     "cat.troubleshooting_desc": "Methodologies, post-mortems and...",
+    "cat.automation_desc": "Ansible, Terraform, AI-Ops...",
     "exp.title": "RCA & Field Notes",
     "exp.subtitle": "Analyses d'incidents réels et solutions éprouvées.",
     "news.title": "Production Ready News",
@@ -111,6 +113,7 @@ const translations: Record<Language, TranslationKeys> = {
     "cat.infrastructure_desc": "Servers, storage, monitoring and...",
     "cat.cloud_desc": "AWS, Azure, VMware, containers...",
     "cat.troubleshooting_desc": "Methodologies, post-mortems and...",
+    "cat.automation_desc": "Ansible, Terraform, AI-Ops...",
     "exp.title": "RCA & Field Notes",
     "exp.subtitle": "Real incident analysis and proven solutions.",
     "news.title": "Production Ready News",
@@ -148,3 +151,4 @@ export function useLanguage() {
   if (!context) throw new Error("useLanguage must be used within LanguageProvider");
   return context;
 }
+
