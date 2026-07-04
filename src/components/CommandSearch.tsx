@@ -81,11 +81,11 @@ export default function CommandSearch() {
                 {!query && (
                   <div className="space-y-2">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/40 px-4 mb-4">{t("search.quick_links")}</p>
-                    {QUICK_LINK_KEYS.map((key) => (
-                      <div key={key} className="flex items-center justify-between p-4 hover:bg-bg-primary rounded-2xl cursor-pointer group transition-all">
+                    {QUICK_LINK_KEYS.map((linkKey) => (
+                      <div key={linkKey} className="flex items-center justify-between p-4 hover:bg-bg-primary rounded-2xl cursor-pointer group transition-all">
                         <div className="flex items-center">
                           <CornerDownLeft size={14} className="text-turquoise mr-3 opacity-0 group-hover:opacity-100 transition-opacity" />
-                          <span className="text-sm font-bold text-text-secondary group-hover:text-turquoise">{t(key)}</span>
+                          <span className="text-sm font-bold text-text-secondary group-hover:text-turquoise">{t(linkKey)}</span>
                         </div>
                       </div>
                     ))}

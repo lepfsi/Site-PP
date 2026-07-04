@@ -4,12 +4,6 @@ import { Send, Bell, Shield, Zap, MailCheck } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 
-const NEWS_FEATURES = [
-  { icon: Bell, key: "news.feature1" as const },
-  { icon: Shield, key: "news.feature2" as const },
-  { icon: Zap, key: "news.feature3" as const },
-];
-
 export default function NewsletterSection() {
   const { t } = useLanguage();
   const [email, setEmail] = useState("");
@@ -67,12 +61,18 @@ export default function NewsletterSection() {
               </div>
 
               <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-8">
-                {NEWS_FEATURES.map((item) => (
-                  <div key={item.key} className="flex items-center space-x-2 text-turquoise/50">
-                    <item.icon size={16} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">{t(item.key)}</span>
-                  </div>
-                ))}
+                <div className="flex items-center space-x-2 text-turquoise/50">
+                  <Bell size={16} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">{t("news.feature1")}</span>
+                </div>
+                <div className="flex items-center space-x-2 text-turquoise/50">
+                  <Shield size={16} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">{t("news.feature2")}</span>
+                </div>
+                <div className="flex items-center space-x-2 text-turquoise/50">
+                  <Zap size={16} />
+                  <span className="text-[10px] font-black uppercase tracking-widest">{t("news.feature3")}</span>
+                </div>
               </div>
             </div>
           </div>

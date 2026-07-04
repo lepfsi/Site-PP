@@ -18,12 +18,12 @@ const CATEGORIES = [
 ];
 
 const MOBILE_LINKS = [
-  { key: "nav.home" as const, href: "/" },
-  { key: "nav.categories" as const, href: "#categories" },
-  { key: "nav.articles" as const, href: "#articles" },
-  { key: "nav.expertise" as const, href: "#experience" },
-  { key: "nav.about" as const, href: "#" },
-];
+  { key: "nav.home", href: "/" },
+  { key: "nav.categories", href: "#categories" },
+  { key: "nav.articles", href: "#articles" },
+  { key: "nav.expertise", href: "#experience" },
+  { key: "nav.about", href: "#" },
+] as const;
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
