@@ -2,7 +2,7 @@
 
 import { Send, Bell, Shield, Zap, Lock, MailCheck } from "lucide-react";
 import { useState } from "react";
-import { useLanguage } from "@/lib/LanguageContext";
+import { useLanguage, type TranslationKeys } from "@/lib/LanguageContext";
 import { motion } from "framer-motion";
 
 export default function NewsletterSection() {
@@ -62,11 +62,11 @@ export default function NewsletterSection() {
               </div>
               
               <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-8">
-                {[
+                {([
                   { icon: Bell, key: "news.feature1" },
                   { icon: Shield, key: "news.feature2" },
-                  { icon: Zap, key: "news.feature3" }
-                ].map((item) => (
+                  { icon: Zap, key: "news.feature3" },
+                ] as { icon: typeof Bell; key: keyof TranslationKeys }[]).map((item) => (
                   <div key={item.key} className="flex items-center space-x-2 text-turquoise/50">
                     <item.icon size={16} />
                     <span className="text-[10px] font-black uppercase tracking-widest">{t(item.key)}</span>
