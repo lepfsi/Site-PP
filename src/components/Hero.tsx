@@ -32,7 +32,6 @@ export default function Hero() {
   const [dashboardMode, setDashboardMode] = useState<"mesh" | "terminal">("mesh");
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
   
-  // Typing Effect Logic
   const [tagIndex, setTagIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -41,7 +40,6 @@ export default function Hero() {
     setMounted(true);
   }, []);
 
-  // Dashboard Toggle
   useEffect(() => {
     if (!mounted) return;
     const modeInterval = setInterval(() => {
@@ -50,23 +48,15 @@ export default function Hero() {
     return () => clearInterval(modeInterval);
   }, [mounted]);
 
-  // Metrics Simulation
   useEffect(() => {
     if (!mounted) return;
     const metricsInterval = setInterval(() => {
-      setNetworkValue(prev => {
-        const next = prev + (Math.random() * 30 - 15);
-        return Math.max(820, Math.min(980, next));
-      });
-      setSecurityValue(prev => {
-        const next = prev + (Math.random() * 2 - 1);
-        return Math.max(10, Math.min(22, next));
-      });
+      setNetworkValue(prev => Math.max(820, Math.min(980, prev + (Math.random() * 30 - 15))));
+      setSecurityValue(prev => Math.max(10, Math.min(22, prev + (Math.random() * 2 - 1))));
     }, 2000);
     return () => clearInterval(metricsInterval);
   }, [mounted]);
 
-  // Terminal Logs
   const logIndexRef = useRef(0);
   useEffect(() => {
     if (!mounted || dashboardMode !== "terminal") {
@@ -85,15 +75,14 @@ export default function Hero() {
     return () => clearInterval(logInterval);
   }, [mounted, dashboardMode]);
 
-  // Typing Effect Handler
   useEffect(() => {
     if (!mounted) return;
     const fullText = TYPING_TAGS[tagIndex].text;
-    const typingSpeed = isDeleting ? 50 : 100;
+    const typingSpeed = isDeleting ? 40 : 80;
 
     const timeout = setTimeout(() => {
       if (!isDeleting && currentText === fullText) {
-        setTimeout(() => setIsDeleting(true), 2000);
+        setTimeout(() => setIsDeleting(true), 1500);
       } else if (isDeleting && currentText === "") {
         setIsDeleting(false);
         setTagIndex((prev) => (prev + 1) % TYPING_TAGS.length);
@@ -108,50 +97,61 @@ export default function Hero() {
     return () => clearTimeout(timeout);
   }, [currentText, isDeleting, tagIndex, mounted]);
 
-  if (!mounted) return <section className="min-h-[70vh]"></section>;
+  if (!mounted) return <section className="min-h-[60vh]"></section>;
 
   const TagIcon = TYPING_TAGS[tagIndex].icon;
 
   return (
-    <section className="relative pt-32 pb-8 md:pt-40 md:pb-12 min-h-[60vh] lg:min-h-[75vh] flex items-start lg:items-center overflow-hidden noc-grid">
+    <section className="relative pt-24 pb-4 md:pt-28 md:pb-6 min-h-[65vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           
-          <div className="lg:col-span-7">
+          {/* LEFT CONTENT */}
+          <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
             <motion.div
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full mb-8 w-fit"
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center space-x-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-6 w-fit"
             >
-              <span className="h-2 w-2 rounded-full bg-turquoise animate-pulse"></span>
-              <span className="text-turquoise code-font text-[10px] font-black uppercase tracking-widest">v2.0 // Production Ready</span>
+              <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
+              <span className="text-white code-font text-[10px] font-black uppercase tracking-widest">v2.0 // Production Ready</span>
             </motion.div>
 
-            {/* Dynamic Typing Tag (Replacement of <DailyOps />) */}
-            <div className="flex items-center mb-6 h-10">
+            {/* Dynamic Typing Tag - REPOSITIONED & RESTYLED */}
+            <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
               <motion.div 
                 key={tagIndex}
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className="flex items-center space-x-3 px-4 py-2 bg-bg-secondary border border-border-main rounded-full shadow-lg"
+                className="flex items-center space-x-2 px-3 py-1.5 bg-bg-secondary/80 border border-border-main rounded-lg shadow-sm"
               >
-                <TagIcon size={16} className="text-turquoise" />
-                <div className="flex items-center text-turquoise font-mono text-sm font-bold tracking-widest uppercase">
+                <TagIcon size={14} className="text-turquoise" />
+                <div className="flex items-center text-turquoise font-mono text-[11px] font-bold tracking-widest uppercase">
                   <span>{currentText}</span>
-                  <motion.span 
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ duration: 0.6, repeat: Infinity }}
-                    className="w-1.5 h-4 bg-turquoise ml-1"
-                  />
+                  <motion.span animate={{ opacity: [1, 0] }} transition={{ duration: 0.6, repeat: Infinity }} className="w-1 h-3.5 bg-turquoise ml-1" />
                 </div>
               </motion.div>
+
+              {/* Movie Style Mini Terminal */}
+              <div className="hidden sm:flex flex-col w-48 bg-navy/90 border border-green-500/30 rounded-lg p-2 font-mono text-[8px] shadow-lg shadow-green-500/5">
+                <div className="flex space-x-1 mb-1 opacity-50">
+                  <div className="w-1 h-1 rounded-full bg-red-500/40"></div>
+                  <div className="w-1 h-1 rounded-full bg-yellow-500/40"></div>
+                  <div className="w-1 h-1 rounded-full bg-green-500/40"></div>
+                </div>
+                <div className="text-green-500/80 leading-tight">
+                  <div>$ tail -f /var/log/sys</div>
+                  <div className="flex items-center">
+                    <span className="animate-pulse">_</span>
+                    <span className="ml-1 overflow-hidden whitespace-nowrap text-green-400">auth.log: accepted...</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-3xl md:text-5xl lg:text-5xl font-black tracking-tight leading-[1] mb-5 code-font max-w-xl"
+              className="text-3xl md:text-5xl lg:text-5xl font-black tracking-tight leading-[1] mb-6 code-font max-w-xl"
             >
               <span className="text-text-primary block">{t("hero.title_part1")}</span>
               <span className="relative inline-block mt-1">
@@ -164,7 +164,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-xs md:text-sm lg:text-base text-text-secondary/80 max-w-lg mb-6 font-mono leading-relaxed"
+              className="text-xs md:text-sm lg:text-base text-text-secondary/80 max-w-lg mb-8 font-mono leading-relaxed"
             >
               {t("hero.desc")}
             </motion.p>
@@ -173,7 +173,7 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-3 mb-8"
+              className="flex flex-col sm:flex-row gap-3 mb-10"
             >
               <a href="#categories" className="px-6 py-3 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg text-[10px] tracking-widest uppercase">
                 {t("hero.cta_explore")} <ChevronRight size={14} className="ml-2" />
@@ -187,7 +187,7 @@ export default function Hero() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5 }}
-              className="flex flex-wrap gap-6 text-[8px] font-black uppercase tracking-[0.2em] text-text-secondary/40"
+              className="flex flex-wrap justify-center lg:justify-start gap-8 text-[8px] font-black uppercase tracking-[0.2em] text-text-secondary/40"
             >
               <div className="flex items-center"><Users size={12} className="mr-1.5" /> {t("hero.stat_engineers")}</div>
               <div className="flex items-center"><FileText size={12} className="mr-1.5" /> {t("hero.stat_articles")}</div>
@@ -253,7 +253,6 @@ export default function Hero() {
                       </div>
                       <span className="text-[8px] font-black text-text-primary uppercase tracking-[0.2em]">{t("hero.monitor_live")}</span>
                     </div>
-                    {/* RESTORED LIVE BUTTON */}
                     <div className="flex items-center space-x-2 bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
                       <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
                       <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">LIVE</span>
