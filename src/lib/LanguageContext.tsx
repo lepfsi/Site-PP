@@ -337,7 +337,7 @@ const STORAGE_KEY = "dailyops-lang";
 const LanguageContext = createContext<{
   lang: Language;
   setLang: (lang: Language) => void;
-  t: (key: keyof TranslationKeys) => string;
+  t: (key: keyof TranslationKeys | string) => string;
 } | undefined>(undefined);
 
 export function LanguageProvider({ children }: { children: React.ReactNode }) {
@@ -359,7 +359,8 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem(STORAGE_KEY, newLang);
   };
 
-  const t = (key: keyof TranslationKeys) => translations[lang][key] || key;
+  const t = (key: keyof TranslationKeys | string) =>
+    translations[lang][key as keyof TranslationKeys] ?? String(key);
 
   return (
     <LanguageContext.Provider value={{ lang, setLang, t }}>
