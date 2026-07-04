@@ -34,19 +34,19 @@ export default function CommandSearch() {
     <>
       <button 
         onClick={() => setIsOpen(true)}
-        className="flex items-center space-x-2 px-3 py-1.5 bg-bg-secondary/50 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group"
+        className="flex items-center space-x-3 px-3 py-1.5 bg-bg-secondary/50 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group min-w-[130px]"
       >
-        <Search size={14} className="text-text-secondary group-hover:text-turquoise" />
-        <span className="text-[10px] font-black text-text-secondary/50 uppercase tracking-widest">Search...</span>
-        <kbd className="hidden sm:inline-flex items-center px-1.5 py-0.5 border border-border-main rounded text-[8px] font-mono font-bold text-text-secondary/40 bg-bg-primary">
-          <Command size={8} className="mr-1" /> K
-        </kbd>
+        <Search size={12} className="text-text-secondary group-hover:text-turquoise" />
+        <span className="text-[9px] font-black text-text-secondary/50 uppercase tracking-[0.2em] flex-grow text-left">Search</span>
+        <div className="flex items-center space-x-1 px-1.5 py-0.5 border border-border-main rounded bg-bg-primary/50">
+          <Command size={8} className="text-text-secondary/40" />
+          <span className="text-[8px] font-mono font-bold text-text-secondary/40">K</span>
+        </div>
       </button>
 
       <AnimatePresence>
         {isOpen && (
           <div className="fixed inset-0 z-[200] flex items-start justify-center pt-24 px-4 sm:px-6">
-            {/* Backdrop */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -54,8 +54,6 @@ export default function CommandSearch() {
               onClick={() => setIsOpen(false)}
               className="absolute inset-0 bg-navy/80 backdrop-blur-sm"
             />
-
-            {/* Modal */}
             <motion.div 
               initial={{ opacity: 0, y: -20, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -75,13 +73,8 @@ export default function CommandSearch() {
                   <X size={18} className="text-text-secondary" />
                 </button>
               </div>
-
               <div className="p-4 max-h-[400px] overflow-y-auto">
-                {query ? (
-                  <div className="py-12 text-center">
-                    <p className="text-text-secondary font-mono text-sm italic">Searching for "{query}"...</p>
-                  </div>
-                ) : (
+                {!query && (
                   <div className="space-y-2">
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary/40 px-4 mb-4">Quick Links</p>
                     {["BGP Troubleshooting", "Firewall Hygiène", "Kubernetes Network Policies"].map((item) => (
@@ -90,19 +83,10 @@ export default function CommandSearch() {
                           <CornerDownLeft size={14} className="text-turquoise mr-3 opacity-0 group-hover:opacity-100 transition-opacity" />
                           <span className="text-sm font-bold text-text-secondary group-hover:text-turquoise">{item}</span>
                         </div>
-                        <span className="text-[10px] font-mono text-text-secondary/30">Node_ID: 0x42</span>
                       </div>
                     ))}
                   </div>
                 )}
-              </div>
-
-              <div className="p-4 bg-bg-primary/50 border-t border-border-main flex items-center justify-between text-[10px] font-bold text-text-secondary/40 uppercase tracking-widest">
-                <div className="flex space-x-4">
-                  <span><kbd className="bg-bg-secondary px-1 py-0.5 rounded border border-border-main text-text-secondary">ESC</kbd> to close</span>
-                  <span><kbd className="bg-bg-secondary px-1 py-0.5 rounded border border-border-main text-text-secondary">ENT</kbd> to select</span>
-                </div>
-                <span>DailyOps DB v2.4</span>
               </div>
             </motion.div>
           </div>

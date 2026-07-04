@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, Mail, Users, FileText, RefreshCw, Terminal as TerminalIcon, Activity, ShieldAlert } from "lucide-react";
+import { ChevronRight, Mail, Users, FileText, RefreshCw, Terminal as TerminalIcon, Activity, ShieldAlert, Code2, Shield, Cloud } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 
@@ -16,6 +16,14 @@ const LOG_LINES = [
   "[14:22:32] OPS: Baseline applied to CORE-SW-01"
 ];
 
+const TYPING_TAGS = [
+  { text: "Infrastructure IT", icon: Code2 },
+  { text: "Cybersécurité", icon: Shield },
+  { text: "Cloud Native", icon: Cloud },
+  { text: "Networking", icon: RefreshCw },
+  { text: "Troubleshooting", icon: Activity }
+];
+
 export default function Hero() {
   const { t } = useLanguage();
   const [mounted, setMounted] = useState(false);
@@ -24,12 +32,16 @@ export default function Hero() {
   const [dashboardMode, setDashboardMode] = useState<"mesh" | "terminal">("mesh");
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
   
-  const logIndexRef = useRef(0);
+  // Typing Effect Logic
+  const [tagIndex, setTagIndex] = useState(0);
+  const [currentText, setCurrentText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
 
   useEffect(() => {
     setMounted(true);
   }, []);
 
+  // Dashboard Toggle
   useEffect(() => {
     if (!mounted) return;
     const modeInterval = setInterval(() => {
@@ -38,6 +50,7 @@ export default function Hero() {
     return () => clearInterval(modeInterval);
   }, [mounted]);
 
+  // Metrics Simulation
   useEffect(() => {
     if (!mounted) return;
     const metricsInterval = setInterval(() => {
@@ -53,13 +66,14 @@ export default function Hero() {
     return () => clearInterval(metricsInterval);
   }, [mounted]);
 
+  // Terminal Logs
+  const logIndexRef = useRef(0);
   useEffect(() => {
     if (!mounted || dashboardMode !== "terminal") {
       setVisibleLogs([]);
       logIndexRef.current = 0;
       return;
     }
-
     const logInterval = setInterval(() => {
       setVisibleLogs(prev => {
         const nextLog = LOG_LINES[logIndexRef.current % LOG_LINES.length];
@@ -68,36 +82,70 @@ export default function Hero() {
         return newList.length > 6 ? newList.slice(1) : newList;
       });
     }, 800);
-
     return () => clearInterval(logInterval);
   }, [mounted, dashboardMode]);
 
+  // Typing Effect Handler
+  useEffect(() => {
+    if (!mounted) return;
+    const fullText = TYPING_TAGS[tagIndex].text;
+    const typingSpeed = isDeleting ? 50 : 100;
+
+    const timeout = setTimeout(() => {
+      if (!isDeleting && currentText === fullText) {
+        setTimeout(() => setIsDeleting(true), 2000);
+      } else if (isDeleting && currentText === "") {
+        setIsDeleting(false);
+        setTagIndex((prev) => (prev + 1) % TYPING_TAGS.length);
+      } else {
+        const nextChar = isDeleting 
+          ? fullText.substring(0, currentText.length - 1)
+          : fullText.substring(0, currentText.length + 1);
+        setCurrentText(nextChar);
+      }
+    }, typingSpeed);
+
+    return () => clearTimeout(timeout);
+  }, [currentText, isDeleting, tagIndex, mounted]);
+
   if (!mounted) return <section className="min-h-[70vh]"></section>;
 
+  const TagIcon = TYPING_TAGS[tagIndex].icon;
+
   return (
-    <section className="relative pt-24 pb-4 md:pt-28 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-start lg:items-center overflow-hidden noc-grid">
+    <section className="relative pt-32 pb-8 md:pt-40 md:pb-12 min-h-[60vh] lg:min-h-[75vh] flex items-start lg:items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           
-          {/* LEFT CONTENT */}
-          <div className="lg:col-span-7 flex flex-col justify-start">
+          <div className="lg:col-span-7">
             <motion.div
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full mb-6 w-fit"
+              className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full mb-8 w-fit"
             >
               <span className="h-2 w-2 rounded-full bg-turquoise animate-pulse"></span>
               <span className="text-turquoise code-font text-[10px] font-black uppercase tracking-widest">v2.0 // Production Ready</span>
             </motion.div>
 
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-turquoise font-mono text-xs mb-3"
-            >
-              {t("hero.tagline")}
-            </motion.div>
+            {/* Dynamic Typing Tag (Replacement of <DailyOps />) */}
+            <div className="flex items-center mb-6 h-10">
+              <motion.div 
+                key={tagIndex}
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex items-center space-x-3 px-4 py-2 bg-bg-secondary border border-border-main rounded-full shadow-lg"
+              >
+                <TagIcon size={16} className="text-turquoise" />
+                <div className="flex items-center text-turquoise font-mono text-sm font-bold tracking-widest uppercase">
+                  <span>{currentText}</span>
+                  <motion.span 
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.6, repeat: Infinity }}
+                    className="w-1.5 h-4 bg-turquoise ml-1"
+                  />
+                </div>
+              </motion.div>
+            </div>
 
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -147,7 +195,6 @@ export default function Hero() {
             </motion.div>
           </div>
 
-          {/* RIGHT CONTENT - HYBRID DASHBOARD */}
           <div className="lg:col-span-5 relative hidden lg:block">
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
@@ -155,8 +202,6 @@ export default function Hero() {
               className="relative aspect-square max-w-[360px] ml-auto"
             >
               <div className="absolute inset-0 bg-bg-secondary/40 border border-white/5 backdrop-blur-3xl rounded-[1.5rem] shadow-2xl overflow-hidden flex flex-col">
-                
-                {/* MAC TITLE BAR */}
                 <div className="bg-navy/60 border-b border-white/5 px-4 py-3 flex items-center justify-between">
                   <div className="flex space-x-2">
                     <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
@@ -169,31 +214,15 @@ export default function Hero() {
                   <div className="w-10"></div>
                 </div>
 
-                {/* ANIMATION AREA */}
                 <div className="flex-grow relative overflow-hidden bg-navy/10">
                   <AnimatePresence mode="wait">
                     {dashboardMode === "mesh" ? (
-                      <motion.div
-                        key="mesh-mode"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="absolute inset-0 p-6 flex items-center justify-center"
-                      >
+                      <motion.div key="mesh-mode" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 p-6 flex items-center justify-center">
                         <svg className="w-full h-full text-turquoise/20" viewBox="0 0 100 100">
                           <line x1="20" y1="20" x2="50" y2="80" stroke="currentColor" strokeWidth="0.5" />
                           <line x1="50" y1="80" x2="85" y2="30" stroke="currentColor" strokeWidth="0.5" />
                           <line x1="20" y1="20" x2="85" y2="30" stroke="currentColor" strokeWidth="0.5" />
-                          <motion.path
-                            d="M 20 20 L 50 80 L 85 30 Z"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="1"
-                            strokeDasharray="200"
-                            className="text-turquoise"
-                            animate={{ strokeDashoffset: [200, 0] }}
-                            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-                          />
+                          <motion.path d="M 20 20 L 50 80 L 85 30 Z" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="200" className="text-turquoise" animate={{ strokeDashoffset: [200, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} />
                           <motion.circle r="1.5" className="fill-turquoise shadow-lg shadow-turquoise">
                             <animateMotion dur="2.5s" repeatCount="indefinite" path="M 20 20 L 50 80 L 85 30 Z" />
                           </motion.circle>
@@ -203,13 +232,7 @@ export default function Hero() {
                         </svg>
                       </motion.div>
                     ) : (
-                      <motion.div
-                        key="terminal-mode"
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className="absolute inset-0 p-6 font-mono text-[9px]"
-                      >
+                      <motion.div key="terminal-mode" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="absolute inset-0 p-6 font-mono text-[9px]">
                         <div className="space-y-1.5">
                           {visibleLogs.map((log, idx) => (
                             <div key={`${log}-${idx}`} className={log.includes("FW_BLOCK") ? "text-pink-500" : "text-turquoise/90"}>
@@ -217,17 +240,11 @@ export default function Hero() {
                             </div>
                           ))}
                         </div>
-                        <motion.div
-                          animate={{ opacity: [1, 0] }}
-                          transition={{ duration: 0.6, repeat: Infinity }}
-                          className="w-2 h-3 bg-turquoise mt-2"
-                        />
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* BOTTOM METRICS SECTION */}
                 <div className="bg-navy/80 border-t border-white/5 p-4 md:p-6 backdrop-blur-xl">
                   <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center space-x-2">
@@ -235,6 +252,11 @@ export default function Hero() {
                         <Activity size={12} />
                       </div>
                       <span className="text-[8px] font-black text-text-primary uppercase tracking-[0.2em]">{t("hero.monitor_live")}</span>
+                    </div>
+                    {/* RESTORED LIVE BUTTON */}
+                    <div className="flex items-center space-x-2 bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
+                      <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+                      <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">LIVE</span>
                     </div>
                   </div>
 
@@ -245,10 +267,7 @@ export default function Hero() {
                         <span className="text-turquoise code-font">{Math.round(networkValue)} Mbps</span>
                       </div>
                       <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div
-                          animate={{ width: `${(networkValue / 1000) * 100}%` }}
-                          className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full"
-                        />
+                        <motion.div animate={{ width: `${(networkValue / 1000) * 100}%` }} className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full" />
                       </div>
                     </div>
 
@@ -261,10 +280,7 @@ export default function Hero() {
                         </div>
                       </div>
                       <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                        <motion.div
-                          animate={{ width: `${(securityValue / 25) * 100}%` }}
-                          className="h-full bg-gradient-to-r from-pink-500/40 to-pink-500 rounded-full"
-                        />
+                        <motion.div animate={{ width: `${(securityValue / 25) * 100}%` }} className="h-full bg-gradient-to-r from-pink-500/40 to-pink-500 rounded-full" />
                       </div>
                     </div>
                   </div>
