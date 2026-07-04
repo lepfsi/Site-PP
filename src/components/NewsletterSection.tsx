@@ -56,7 +56,7 @@ export default function NewsletterSection() {
                       subscribed ? "bg-green-500 text-bg-primary" : "bg-turquoise text-navy hover:scale-105 active:scale-95"
                     }`}
                   >
-                    {subscribed ? "OK" : t("news.btn")} <Send size={18} className="ml-2" />
+                    {subscribed ? t("news.subscribed") : t("news.btn")} <Send size={18} className="ml-2" />
                   </button>
                 </form>
               </div>
@@ -69,7 +69,7 @@ export default function NewsletterSection() {
                 ].map((item) => (
                   <div key={item.key} className="flex items-center space-x-2 text-turquoise/50">
                     <item.icon size={16} />
-                    <span className="text-[10px] font-black uppercase tracking-widest">{t(item.key as any)}</span>
+                    <span className="text-[10px] font-black uppercase tracking-widest">{t(item.key)}</span>
                   </div>
                 ))}
               </div>

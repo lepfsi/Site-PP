@@ -16,8 +16,8 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "DailyOps.Tech | Knowledge Hub IT Infrastructure",
-  description: "Base de connaissances technique pour les professionnels de l'infrastructure IT.",
+  title: "DailyOps.Tech | IT Infrastructure Knowledge Hub",
+  description: "Premium technical knowledge base for IT infrastructure professionals — networking, security, cloud and operations.",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning>
       <body className={cn(
         inter.variable, 
         jetbrainsMono.variable,

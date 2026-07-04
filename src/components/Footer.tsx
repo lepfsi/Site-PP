@@ -11,8 +11,7 @@ export default function Footer() {
     <footer className="bg-bg-primary border-t border-border-main pt-24 pb-12">
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
-          
-          {/* Logo and Social Section (Left) */}
+
           <div className="md:col-span-4 lg:col-span-5">
             <Link href="/" className="flex items-center group mb-6">
               <div className="bg-[#00bcd4] text-white w-9 h-9 rounded-xl flex items-center justify-center shadow-lg shadow-[#00bcd4]/20 group-hover:scale-105 transition-transform duration-300">
@@ -23,22 +22,21 @@ export default function Footer() {
                 <span className="text-xl font-bold tracking-tight text-[#00bcd4]">.Tech</span>
               </div>
             </Link>
-            
+
             <p className="text-text-secondary text-base max-w-sm mb-8 font-medium leading-relaxed">
-              A premium knowledge base for IT infrastructure professionals — networking, security, cloud and operations.
+              {t("footer.desc")}
             </p>
-            
-            {/* Social Icons Aligned - Circular Style from Image */}
+
             <div className="flex space-x-3">
               {[
                 { Icon: Linkedin, href: "#" },
                 { Icon: Github, href: "#" },
                 { Icon: Twitter, href: "#" },
-                { Icon: Rss, href: "#" }
+                { Icon: Rss, href: "#" },
               ].map((item, i) => (
-                <Link 
+                <Link
                   key={i}
-                  href={item.href} 
+                  href={item.href}
                   className="w-10 h-10 flex items-center justify-center rounded-full border border-border-main text-text-secondary hover:text-[#00bcd4] hover:border-[#00bcd4] transition-all bg-transparent"
                 >
                   <item.Icon size={18} />
@@ -46,42 +44,38 @@ export default function Footer() {
               ))}
             </div>
           </div>
-          
-          {/* Categories Column */}
+
           <div className="md:col-span-2 lg:col-span-2">
-            <h4 className="text-sm font-bold text-text-primary mb-6">Categories</h4>
+            <h4 className="text-sm font-bold text-text-primary mb-6">{t("footer.categories")}</h4>
             <ul className="space-y-4">
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Networking</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Cybersecurity</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Infrastructure</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Cloud & Virt.</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Troubleshooting</Link></li>
-            </ul>
-          </div>
-          
-          {/* Resources Column */}
-          <div className="md:col-span-3 lg:col-span-2">
-            <h4 className="text-sm font-bold text-text-primary mb-6">Resources</h4>
-            <ul className="space-y-4">
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Technical glossary</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Operational checklists</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Field feedback</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">About the author</Link></li>
+              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("cat.networking_name")}</Link></li>
+              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("cat.cybersecurity_name")}</Link></li>
+              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("cat.infrastructure_name")}</Link></li>
+              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.cloud_short")}</Link></li>
+              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("cat.troubleshooting_name")}</Link></li>
             </ul>
           </div>
 
-          {/* Information Column */}
           <div className="md:col-span-3 lg:col-span-2">
-            <h4 className="text-sm font-bold text-text-primary mb-6">Information</h4>
+            <h4 className="text-sm font-bold text-text-primary mb-6">{t("footer.resources")}</h4>
             <ul className="space-y-4">
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Legal notice</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Privacy policy</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">Contact</Link></li>
+              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.glossary")}</Link></li>
+              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.checklists")}</Link></li>
+              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.field_feedback")}</Link></li>
+              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.about_author")}</Link></li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-3 lg:col-span-2">
+            <h4 className="text-sm font-bold text-text-primary mb-6">{t("footer.information")}</h4>
+            <ul className="space-y-4">
+              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.legal")}</Link></li>
+              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.privacy")}</Link></li>
+              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-[#00bcd4] transition-colors">{t("footer.contact")}</Link></li>
             </ul>
           </div>
         </div>
-        
-        {/* Bottom Bar */}
+
         <div className="pt-12 border-t border-border-main flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-[10px] font-black text-text-secondary/50 uppercase tracking-widest">
             © 2026 DailyOps.Tech — {t("footer.rights")}

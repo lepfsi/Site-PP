@@ -1,51 +1,54 @@
 "use client";
 
-import { Clock, Calendar, Lock, Box, Network, Wrench, Code, Server, ArrowRight } from "lucide-react";
+import { Clock, Calendar, Lock, Box, Network, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/lib/LanguageContext";
 
 const articles = [
   {
-    title: "Implémenter Zero Trust Network Access en 2024",
-    excerpt: "Guide complet pour migrer vers une architecture Zero Trust : principes, outils, et retour d'expérience terrain.",
+    titleKey: "articles.1.title" as const,
+    excerptKey: "articles.1.excerpt" as const,
+    categoryKey: "articles.1.category" as const,
     date: "15 Jan 2024",
-    category: "Cybersecurity",
     readTime: "12 min",
     icon: Lock,
   },
   {
-    title: "Kubernetes Network Policies : Best Practices",
-    excerpt: "Sécuriser vos workloads K8s avec des network policies efficaces : exemples pratiques et anti-patterns à éviter.",
+    titleKey: "articles.2.title" as const,
+    excerptKey: "articles.2.excerpt" as const,
+    categoryKey: "articles.2.category" as const,
     date: "12 Jan 2024",
-    category: "Cloud",
     readTime: "15 min",
     icon: Box,
   },
   {
-    title: "BGP Route Reflection vs Confederation",
-    excerpt: "Comparaison approfondie des deux approches de scaling BGP dans les grands réseaux d'entreprise.",
+    titleKey: "articles.3.title" as const,
+    excerptKey: "articles.3.excerpt" as const,
+    categoryKey: "articles.3.category" as const,
     date: "10 Jan 2024",
-    category: "Networking",
     readTime: "18 min",
     icon: Network,
-  }
+  },
 ];
 
 export default function FeaturedArticles() {
+  const { t } = useLanguage();
+
   return (
     <section id="articles" className="py-20 bg-deepblue">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-turquoise">// </span>Articles Récents
+            <span className="text-turquoise">// </span>{t("articles.title")}
           </h2>
-          <p className="text-foreground/50 text-lg">Les dernières publications de la base de connaissances</p>
+          <p className="text-foreground/50 text-lg">{t("articles.subtitle")}</p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
           {articles.map((article, index) => (
-            <motion.div 
-              key={article.title}
+            <motion.div
+              key={article.titleKey}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: index * 0.1 }}
@@ -58,16 +61,16 @@ export default function FeaturedArticles() {
 
               <div className="mb-3">
                 <span className="px-2 py-1 rounded-md bg-turquoise/10 text-turquoise text-[10px] font-bold uppercase tracking-wider">
-                  {article.category}
+                  {t(article.categoryKey)}
                 </span>
               </div>
 
               <h3 className="text-xl font-bold text-foreground mb-3 group-hover:text-turquoise transition-colors cursor-pointer">
-                {article.title}
+                {t(article.titleKey)}
               </h3>
-              
+
               <p className="text-foreground/50 text-sm mb-6 flex-grow leading-relaxed">
-                {article.excerpt}
+                {t(article.excerptKey)}
               </p>
 
               <div className="flex justify-between items-center text-xs text-foreground/30 border-t border-bluedark pt-4">
@@ -77,10 +80,10 @@ export default function FeaturedArticles() {
             </motion.div>
           ))}
         </div>
-        
+
         <div className="text-center mt-12">
           <Link href="#" className="inline-flex items-center px-8 py-3 rounded-lg bg-gradient-to-r from-turquoise to-turquoise-dark text-navy font-bold hover:scale-105 transition-all shadow-lg shadow-turquoise/20">
-            Voir tous les articles
+            {t("articles.view_all")} <ArrowRight className="ml-2 h-4 w-4" />
           </Link>
         </div>
       </div>
