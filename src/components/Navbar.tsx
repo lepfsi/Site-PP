@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X, Moon, Sun, ChevronDown, Command } from "lucide-react";
+import { Menu, X, Moon, Sun, ChevronDown, Command, Globe, Shield, Server, Cloud, Bug, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -9,12 +9,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import CommandSearch from "./CommandSearch";
 
 const CATEGORIES = [
-  { id: "networking", color: "bg-blue-500" },
-  { id: "cybersecurity", color: "bg-red-500" },
-  { id: "infrastructure", color: "bg-orange-500" },
-  { id: "cloud", color: "bg-purple-500" },
-  { id: "automation", color: "bg-cyan-500", label: "Automation & AI" },
-  { id: "troubleshooting", color: "bg-green-500" },
+  { id: "networking", color: "bg-blue-500", icon: Globe },
+  { id: "cybersecurity", color: "bg-red-500", icon: Shield },
+  { id: "infrastructure", color: "bg-orange-500", icon: Server },
+  { id: "cloud", color: "bg-purple-500", icon: Cloud },
+  { id: "automation", color: "bg-cyan-500", label: "Automation & AI", icon: Zap },
+  { id: "troubleshooting", color: "bg-green-500", icon: Bug },
 ];
 
 export default function Navbar() {
@@ -80,7 +80,9 @@ export default function Navbar() {
                       href={`/category/${cat.id}`}
                       className="flex items-center p-2.5 hover:bg-bg-primary rounded-lg group transition-all"
                     >
-                      <div className={`w-1.5 h-1.5 rounded-full ${cat.color} mr-3 group-hover:scale-110 transition-transform shadow-[0_0_8px_rgba(0,0,0,0.3)] shadow-current`} />
+                      <div className={`flex items-center justify-center w-6 h-6 rounded-lg bg-bg-primary mr-3 text-text-secondary group-hover:text-turquoise transition-colors`}>
+                        <cat.icon size={14} />
+                      </div>
                       <div>
                         <div className="text-[10px] font-bold text-text-primary uppercase tracking-widest group-hover:text-turquoise transition-colors">
                           {cat.label || (cat.id.charAt(0).toUpperCase() + cat.id.slice(1))}

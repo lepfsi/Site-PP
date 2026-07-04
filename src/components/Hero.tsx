@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, Mail, Users, FileText, RefreshCw, Terminal as TerminalIcon, Activity, ShieldAlert, Code2, Shield, Cloud } from "lucide-react";
+import { ChevronRight, Mail, Users, FileText, RefreshCw, Terminal as TerminalIcon, Activity, ShieldAlert, Code2, Shield, Cloud, Bug, Globe } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 
@@ -17,11 +17,11 @@ const LOG_LINES = [
 ];
 
 const TYPING_TAGS = [
-  { text: "Infrastructure IT", icon: Code2 },
-  { text: "Cybersécurité", icon: Shield },
-  { text: "Cloud Native", icon: Cloud },
-  { text: "Networking", icon: RefreshCw },
-  { text: "Troubleshooting", icon: Activity }
+  { text: "Infrastructure IT", icon: Code2, cmd: "$ terraform apply", log: "plan: 4 to add, 0 change" },
+  { text: "Cybersécurité", icon: Shield, cmd: "$ nmap -sV target.io", log: "port 443/tcp open (https)" },
+  { text: "Cloud Native", icon: Cloud, cmd: "$ kubectl get pods", log: "api-v2-7x9z Running 1/1" },
+  { text: "Networking", icon: Globe, cmd: "$ show ip bgp summ", log: "neighbor 1.1.1.1 Establ." },
+  { text: "Troubleshooting", icon: Bug, cmd: "$ tcpdump -i eth0", log: "12:04:15.82 IP: ICMP echo" }
 ];
 
 export default function Hero() {
@@ -99,10 +99,11 @@ export default function Hero() {
 
   if (!mounted) return <section className="min-h-[60vh]"></section>;
 
-  const TagIcon = TYPING_TAGS[tagIndex].icon;
+  const activeTag = TYPING_TAGS[tagIndex];
+  const TagIcon = activeTag.icon;
 
   return (
-    <section className="relative pt-24 pb-4 md:pt-28 md:pb-6 min-h-[65vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
+    <section className="relative pt-20 pb-4 md:pt-24 md:pb-6 min-h-[65vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
           
@@ -111,13 +112,13 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full mb-6 w-fit"
+              className="inline-flex items-center space-x-2 px-3 py-1 bg-white border border-white/20 rounded-full mb-6 w-fit shadow-[0_0_15px_rgba(255,255,255,0.1)]"
             >
-              <span className="h-2 w-2 rounded-full bg-white animate-pulse"></span>
-              <span className="text-white code-font text-[10px] font-black uppercase tracking-widest">v2.0 // Production Ready</span>
+              <span className="h-2 w-2 rounded-full bg-navy animate-pulse"></span>
+              <span className="text-navy code-font text-[10px] font-black uppercase tracking-widest">v2.0 // Production Ready</span>
             </motion.div>
 
-            {/* Dynamic Typing Tag - REPOSITIONED & RESTYLED */}
+            {/* Repositioned Tags & Reactive Mini Terminal */}
             <div className="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-8">
               <motion.div 
                 key={tagIndex}
@@ -130,18 +131,18 @@ export default function Hero() {
                 </div>
               </motion.div>
 
-              {/* Movie Style Mini Terminal */}
-              <div className="hidden sm:flex flex-col w-48 bg-navy/90 border border-green-500/30 rounded-lg p-2 font-mono text-[8px] shadow-lg shadow-green-500/5">
+              {/* Reactive Mini Terminal */}
+              <div className="hidden sm:flex flex-col w-48 bg-navy/90 border border-green-500/30 rounded-lg p-2 font-mono text-[8px] shadow-lg shadow-green-500/5 min-h-[40px]">
                 <div className="flex space-x-1 mb-1 opacity-50">
-                  <div className="w-1 h-1 rounded-full bg-red-500/40"></div>
-                  <div className="w-1 h-1 rounded-full bg-yellow-500/40"></div>
-                  <div className="w-1 h-1 rounded-full bg-green-500/40"></div>
+                  <div className="w-1 h-1 rounded-full bg-[#ff5f57]/60"></div>
+                  <div className="w-1 h-1 rounded-full bg-[#febc2e]/60"></div>
+                  <div className="w-1 h-1 rounded-full bg-[#28c840]/60"></div>
                 </div>
                 <div className="text-green-500/80 leading-tight">
-                  <div>$ tail -f /var/log/sys</div>
+                  <div className="truncate">{activeTag.cmd}</div>
                   <div className="flex items-center">
                     <span className="animate-pulse">_</span>
-                    <span className="ml-1 overflow-hidden whitespace-nowrap text-green-400">auth.log: accepted...</span>
+                    <span className="ml-1 truncate text-green-400 opacity-70">{activeTag.log}</span>
                   </div>
                 </div>
               </div>
@@ -151,11 +152,11 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="text-3xl md:text-5xl lg:text-5xl font-black tracking-tight leading-[1] mb-6 code-font max-w-xl"
+              className="text-3xl md:text-5xl lg:text-5xl font-black tracking-tight leading-[1.1] mb-6 code-font max-w-2xl"
             >
-              <span className="text-text-primary block">{t("hero.title_part1")}</span>
+              <span className="text-text-primary block whitespace-nowrap">L'expertise infrastructure</span>
               <span className="relative inline-block mt-1">
-                <span className="relative z-10 text-turquoise italic">{t("hero.title_part2")}</span>
+                <span className="relative z-10 text-turquoise italic">sans compromis.</span>
                 <span className="absolute inset-0 bg-turquoise/20 blur-[60px] rounded-full scale-125 animate-pulse"></span>
               </span>
             </motion.h1>
@@ -175,10 +176,10 @@ export default function Hero() {
               transition={{ delay: 0.4 }}
               className="flex flex-col sm:flex-row gap-3 mb-10"
             >
-              <a href="#categories" className="px-6 py-3 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg text-[10px] tracking-widest uppercase">
+              <a href="#categories" className="px-6 py-3.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg text-[10px] tracking-widest uppercase">
                 {t("hero.cta_explore")} <ChevronRight size={14} className="ml-2" />
               </a>
-              <a href="#newsletter" className="px-6 py-3 bg-bg-secondary border border-border-main text-text-primary font-bold rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/5 hover:border-turquoise text-[10px] tracking-widest uppercase">
+              <a href="#newsletter" className="px-6 py-3.5 bg-bg-secondary border border-border-main text-text-primary font-bold rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/5 hover:border-turquoise text-[10px] tracking-widest uppercase">
                 <Mail size={14} className="mr-2" /> {t("hero.cta_news")}
               </a>
             </motion.div>
