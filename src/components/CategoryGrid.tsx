@@ -124,7 +124,7 @@ const categories = [
     id: "devops",
     nameKey: "cat.automation_name" as const,
     descKey: "cat.automation_full" as const,
-    icon: GitBranch,
+    icon: Zap,
     tags: ["Ansible", "Terraform", "GitOps", "Python"],
     count: 39,
     href: "/category/devops",
@@ -187,3 +187,4 @@ export default function CategoryGrid() {
     </section>
   );
 }
+

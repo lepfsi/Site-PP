@@ -23,9 +23,10 @@ export default function NewsletterSection() {
     <section id="newsletter" className="py-24 bg-bg-primary overflow-hidden">
       <div className="container-custom">
         <div className="relative group">
-          <div className="absolute -inset-0.5 bg-gradient-to-r from-turquoise/50 via-deepblue/50 to-turquoise/50 rounded-[2.5rem] blur-xl opacity-20 group-hover:opacity-40 transition duration-1000"></div>
+          {/* GREEN BORDER ON HOVER EFFECT */}
+          <div className="absolute -inset-0.5 bg-gradient-to-r from-turquoise/50 via-deepblue/50 to-turquoise/50 rounded-[2.5rem] blur-xl opacity-0 group-hover:opacity-40 transition duration-1000"></div>
           
-          <div className="relative bg-text-primary rounded-[2.5rem] px-8 py-12 md:px-16 md:py-16 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-12">
+          <div className="relative bg-text-primary rounded-[2.5rem] px-8 py-12 md:px-16 md:py-16 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-12 border-2 border-transparent group-hover:border-turquoise/30 transition-all duration-500">
             <div className="flex-1 text-center lg:text-left">
               <div className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/20 border border-turquoise/30 rounded-full mb-6">
                 <MailCheck size={14} className="text-turquoise" />
@@ -34,7 +35,7 @@ export default function NewsletterSection() {
               <h2 className="text-3xl md:text-5xl font-black text-bg-primary mb-4 tracking-tighter leading-none">
                 {t("news.title")}
               </h2>
-              <p className="text-bg-primary/50 text-base md:text-lg font-medium max-w-md mx-auto lg:mx-0">
+              <p className="text-bg-primary/60 text-base md:text-lg font-medium max-w-md mx-auto lg:mx-0">
                 {t("news.desc")}
               </p>
             </div>
