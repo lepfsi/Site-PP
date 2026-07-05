@@ -1,9 +1,15 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
+<<<<<<< HEAD
 import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Code2, Shield, Cloud, Bug, Globe, type LucideIcon } from "lucide-react";
 import { useLanguage, type TranslationKeys } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef, useMemo } from "react";
+=======
+import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Crown } from "lucide-react";
+import { useLanguage } from "@/lib/LanguageContext";
+import { useState, useEffect, useRef } from "react";
+>>>>>>> 574c149 (New Hero)
 
 const LOG_LINES = [
   "[14:22:01] BGP_SESSION: Peer 10.0.4.1 Established",
@@ -16,6 +22,7 @@ const LOG_LINES = [
   "[14:22:32] OPS: Baseline applied to CORE-SW-01",
 ];
 
+<<<<<<< HEAD
 type TypingTag = {
   textKey: "hero.tag_infrastructure" | "hero.tag_cybersecurity" | "hero.tag_cloud" | "hero.tag_networking" | "hero.tag_troubleshooting";
   icon: LucideIcon;
@@ -30,6 +37,113 @@ const TYPING_TAG_CONFIG: TypingTag[] = [
   { textKey: "hero.tag_networking", icon: Globe, cmd: "$ show ip bgp summ", log: "neighbor 1.1.1.1 Establ." },
   { textKey: "hero.tag_troubleshooting", icon: Bug, cmd: "$ tcpdump -i eth0", log: "12:04:15.82 IP: ICMP echo" },
 ];
+=======
+function HeroDashboard({
+  dashboardMode,
+  visibleLogs,
+  networkValue,
+  securityValue,
+  t,
+}: {
+  dashboardMode: "mesh" | "terminal";
+  visibleLogs: string[];
+  networkValue: number;
+  securityValue: number;
+  t: (key: any) => string;
+}) {
+  return (
+    <div className="relative aspect-square max-w-[380px] ml-auto w-full">
+      <div className="absolute inset-0 bg-bg-secondary/40 border border-white/5 backdrop-blur-3xl rounded-[1.5rem] shadow-2xl overflow-hidden flex flex-col">
+        {/* Mac Title Bar */}
+        <div className="bg-navy/60 border-b border-white/5 px-4 py-3 flex items-center justify-between">
+          <div className="flex space-x-2">
+            <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></div>
+            <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]"></div>
+          </div>
+          <div className="text-[9px] font-mono text-text-secondary/50 uppercase tracking-widest font-bold">
+            {dashboardMode === "mesh" ? t("hero.monitor_mesh") : t("hero.monitor_terminal")}
+          </div>
+          <div className="w-10"></div>
+        </div>
+
+        {/* Animation Area */}
+        <div className="flex-grow relative overflow-hidden bg-navy/10">
+          <AnimatePresence mode="wait">
+            {dashboardMode === "mesh" ? (
+              <motion.div key="mesh-mode" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 p-6 flex items-center justify-center">
+                <svg className="w-full h-full text-turquoise/20" viewBox="0 0 100 100">
+                  <line x1="20" y1="20" x2="50" y2="80" stroke="currentColor" strokeWidth="0.5" />
+                  <line x1="50" y1="80" x2="85" y2="30" stroke="currentColor" strokeWidth="0.5" />
+                  <line x1="20" y1="20" x2="85" y2="30" stroke="currentColor" strokeWidth="0.5" />
+                  <motion.path d="M 20 20 L 50 80 L 85 30 Z" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="200" className="text-turquoise" animate={{ strokeDashoffset: [200, 0] }} transition={{ duration: 4, repeat: Infinity, ease: "linear" }} />
+                  <motion.circle r="1.5" className="fill-turquoise shadow-lg shadow-turquoise">
+                    <animateMotion dur="2.5s" repeatCount="indefinite" path="M 20 20 L 50 80 L 85 30 Z" />
+                  </motion.circle>
+                  <circle cx="20" cy="20" r="2" className="fill-turquoise" />
+                  <circle cx="50" cy="80" r="2" className="fill-turquoise" />
+                  <circle cx="85" cy="30" r="2" className="fill-turquoise" />
+                </svg>
+              </motion.div>
+            ) : (
+              <motion.div key="terminal-mode" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="absolute inset-0 p-6 font-mono text-[9px]">
+                <div className="space-y-1.5">
+                  {visibleLogs.map((log, idx) => (
+                    <div key={idx} className={log.includes("FW_BLOCK") ? "text-pink-500" : "text-turquoise/90"}>
+                      <span className="opacity-30 mr-2">{">"}</span> {log}
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+
+        {/* Metrics Section */}
+        <div className="bg-navy/80 border-t border-white/5 p-6 backdrop-blur-xl">
+          <div className="flex justify-between items-center mb-4">
+            <div className="flex items-center space-x-2">
+              <div className="p-1.5 bg-turquoise/20 rounded-lg text-turquoise">
+                <Activity size={12} />
+              </div>
+              <span className="text-[8px] font-black text-text-primary uppercase tracking-[0.2em]">{t("hero.monitor_live")}</span>
+            </div>
+            <div className="flex items-center space-x-2 bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
+              <span className="h-1 w-1 rounded-full bg-green-500 animate-pulse"></span>
+              <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">{t("hero.monitor_live_badge")}</span>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between text-[8px] font-bold text-text-secondary/60 mb-1 uppercase tracking-widest">
+                <span>{t("hero.monitor_network")}</span>
+                <span className="text-turquoise code-font">{Math.round(networkValue)} Mbps</span>
+              </div>
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                <motion.div animate={{ width: `${(networkValue / 1000) * 100}%` }} className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full" />
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between text-[8px] font-bold text-text-secondary/60 mb-1 uppercase tracking-widest">
+                <span>{t("hero.monitor_security")}</span>
+                <div className="flex items-center text-pink-500">
+                  <ShieldAlert size={10} className="mr-1.5" />
+                  <span className="code-font">{Math.round(securityValue)}/min</span>
+                </div>
+              </div>
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+                <motion.div animate={{ width: `${(securityValue / 25) * 100}%` }} className="h-full bg-gradient-to-r from-pink-500/40 to-pink-500 rounded-full" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+>>>>>>> 574c149 (New Hero)
 
 function HeroDashboard({
   dashboardMode,
@@ -143,10 +257,15 @@ export default function Hero() {
   const [securityValue, setSecurityValue] = useState(12);
   const [dashboardMode, setDashboardMode] = useState<"mesh" | "terminal">("mesh");
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
+<<<<<<< HEAD
 
   const [tagIndex, setTagIndex] = useState(0);
   const [currentText, setCurrentText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
+=======
+  
+  const logIndexRef = useRef(0);
+>>>>>>> 574c149 (New Hero)
 
   const typingTags = useMemo(
     () => TYPING_TAG_CONFIG.map((tag) => ({ ...tag, text: t(tag.textKey) })),
@@ -180,7 +299,6 @@ export default function Hero() {
     return () => clearInterval(metricsInterval);
   }, [mounted]);
 
-  const logIndexRef = useRef(0);
   useEffect(() => {
     if (!mounted || dashboardMode !== "terminal") {
       setVisibleLogs([]);
@@ -198,6 +316,7 @@ export default function Hero() {
     return () => clearInterval(logInterval);
   }, [mounted, dashboardMode]);
 
+<<<<<<< HEAD
   useEffect(() => {
     if (!mounted) return;
     const fullText = typingTags[tagIndex].text;
@@ -224,6 +343,9 @@ export default function Hero() {
 
   const activeTag = typingTags[tagIndex];
   const TagIcon = activeTag.icon;
+=======
+  if (!mounted) return <section className="min-h-[70vh]"></section>;
+>>>>>>> 574c149 (New Hero)
 
   const dashboardProps = {
     dashboardMode,
@@ -234,16 +356,25 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-20 pb-4 md:pt-24 md:pb-6 min-h-[65vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
+    <section className="relative pt-24 pb-8 md:pt-32 md:pb-12 min-h-[70vh] lg:min-h-[85vh] flex items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
+<<<<<<< HEAD
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
 
           <div className="lg:col-span-7 flex flex-col items-center lg:items-start text-center lg:text-left">
+=======
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
+          
+          {/* LEFT CONTENT */}
+          <div className="lg:col-span-7 flex flex-col justify-center">
+            {/* NEW BADGE STYLE */}
+>>>>>>> 574c149 (New Hero)
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-white border border-white/20 rounded-full mb-6 w-fit shadow-[0_0_15px_rgba(255,255,255,0.1)]"
+              className="inline-flex items-center space-x-2 px-4 py-1 bg-green-500/10 border border-green-500/20 rounded-full mb-10 w-fit"
             >
+<<<<<<< HEAD
               <span className="h-2 w-2 rounded-full bg-navy animate-pulse"></span>
               <span className="text-navy code-font text-[10px] font-black uppercase tracking-widest">{t("hero.badge")}</span>
             </motion.div>
@@ -289,11 +420,30 @@ export default function Hero() {
               </span>
             </motion.h1>
 
+=======
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+              <span className="text-green-500 code-font text-[10px] font-black uppercase tracking-widest">{t("hero.badge")}</span>
+            </motion.div>
+
+            {/* NEW VERTICAL TITLE */}
+            <div className="space-y-2 mb-8">
+              <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="text-5xl md:text-7xl font-black tracking-tighter text-text-primary code-font">
+                {t("hero.title_part1")}
+              </motion.h1>
+              <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }} className="text-5xl md:text-7xl font-black tracking-tighter text-turquoise italic code-font">
+                {t("hero.title_part2")}
+              </motion.h1>
+              <motion.h1 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }} className="text-5xl md:text-7xl font-black tracking-tighter text-text-primary code-font">
+                {t("hero.title_part3")}
+              </motion.h1>
+            </div>
+
+>>>>>>> 574c149 (New Hero)
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-xs md:text-sm lg:text-base text-text-secondary/80 max-w-lg mb-8 font-mono leading-relaxed"
+              transition={{ delay: 0.4 }}
+              className="text-base md:text-lg text-text-secondary/80 max-w-xl mb-10 font-medium leading-relaxed tracking-tight"
             >
               {t("hero.desc")}
             </motion.p>
@@ -301,29 +451,34 @@ export default function Hero() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row gap-3 mb-10"
+              transition={{ delay: 0.5 }}
+              className="flex flex-wrap gap-4 mb-12"
             >
-              <a href="#categories" className="px-6 py-3.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-lg text-[10px] tracking-widest uppercase">
-                {t("hero.cta_explore")} <ChevronRight size={14} className="ml-2" />
+              <a href="#categories" className="px-8 py-4 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-xs tracking-widest uppercase">
+                {t("hero.cta_explore")}
               </a>
-              <a href="#newsletter" className="px-6 py-3.5 bg-bg-secondary border border-border-main text-text-primary font-bold rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/5 hover:border-turquoise text-[10px] tracking-widest uppercase">
-                <Mail size={14} className="mr-2" /> {t("hero.cta_news")}
+              <a href="#" className="px-8 py-4 bg-bg-secondary border-2 border-turquoise text-turquoise font-black rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/10 text-xs tracking-widest uppercase group">
+                <Crown size={14} className="mr-2 group-hover:rotate-12 transition-transform" />
+                {t("hero.cta_premium")}
+              </a>
+              <a href="#newsletter" className="px-8 py-4 bg-bg-secondary border border-border-main text-text-secondary font-bold rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/5 text-xs tracking-widest uppercase">
+                {t("hero.cta_news")}
               </a>
             </motion.div>
 
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex flex-wrap justify-center lg:justify-start gap-8 text-[8px] font-black uppercase tracking-[0.2em] text-text-secondary/40"
+              transition={{ delay: 0.6 }}
+              className="flex flex-wrap gap-8 text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/40"
             >
-              <div className="flex items-center"><Users size={12} className="mr-1.5" /> {t("hero.stat_engineers")}</div>
-              <div className="flex items-center"><FileText size={12} className="mr-1.5" /> {t("hero.stat_articles")}</div>
-              <div className="flex items-center"><RefreshCw size={12} className="mr-1.5" /> {t("hero.stat_updated")}</div>
+              <div className="flex items-center"><Users size={14} className="mr-2" /> {t("hero.stat_engineers")}</div>
+              <div className="flex items-center"><FileText size={14} className="mr-2" /> {t("hero.stat_articles")}</div>
+              <div className="flex items-center"><RefreshCw size={14} className="mr-2" /> {t("hero.stat_updated")}</div>
             </motion.div>
           </div>
 
+<<<<<<< HEAD
           {/* Mobile dashboard — shown below content on small screens */}
           <div className="lg:hidden w-full">
             <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
@@ -335,6 +490,22 @@ export default function Hero() {
           <div className="lg:col-span-5 relative hidden lg:block">
             <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}>
               <HeroDashboard {...dashboardProps} />
+=======
+          {/* RIGHT DASHBOARD */}
+          <div className="lg:col-span-5 relative hidden lg:block">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+            >
+              <HeroDashboard 
+                dashboardMode={dashboardMode}
+                visibleLogs={visibleLogs}
+                networkValue={networkValue}
+                securityValue={securityValue}
+                t={t}
+              />
+>>>>>>> 574c149 (New Hero)
             </motion.div>
           </div>
 
@@ -342,4 +513,9 @@ export default function Hero() {
       </div>
     </section>
   );
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 574c149 (New Hero)

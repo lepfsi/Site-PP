@@ -80,4 +80,8 @@ export default function NewsletterSection() {
       </div>
     </section>
   );
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 574c149 (New Hero)
