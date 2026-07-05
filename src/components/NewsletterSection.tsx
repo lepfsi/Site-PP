@@ -3,6 +3,7 @@
 import { Send, Bell, Shield, Zap, MailCheck } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { motion } from "framer-motion";
 
 export default function NewsletterSection() {
   const { t } = useLanguage();
@@ -23,7 +24,7 @@ export default function NewsletterSection() {
       <div className="container-custom">
         <div className="relative group">
           <div className="absolute -inset-0.5 bg-gradient-to-r from-turquoise/50 via-deepblue/50 to-turquoise/50 rounded-[2.5rem] blur-xl opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-
+          
           <div className="relative bg-text-primary rounded-[2.5rem] px-8 py-12 md:px-16 md:py-16 shadow-2xl flex flex-col lg:flex-row items-center justify-between gap-12">
             <div className="flex-1 text-center lg:text-left">
               <div className="inline-flex items-center space-x-2 px-3 py-1 bg-turquoise/20 border border-turquoise/30 rounded-full mb-6">
@@ -37,42 +38,40 @@ export default function NewsletterSection() {
                 {t("news.desc")}
               </p>
             </div>
-
+            
             <div className="flex-1 w-full max-w-xl">
               <div className="bg-bg-primary/5 p-2 rounded-3xl border border-white/5 backdrop-blur-md">
                 <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-2">
-                  <input
-                    type="email"
+                  <input 
+                    type="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t("news.input")}
                     className="flex-grow bg-white/10 border-none rounded-2xl px-6 py-5 text-bg-primary placeholder-white/20 focus:ring-2 focus:ring-turquoise transition-all font-medium"
                     required
                   />
-                  <button
+                  <button 
                     disabled={subscribed}
                     className={`px-8 py-5 rounded-2xl font-black uppercase tracking-widest flex items-center justify-center transition-all ${
                       subscribed ? "bg-green-500 text-bg-primary" : "bg-turquoise text-navy hover:scale-105 active:scale-95"
                     }`}
                   >
-                    {subscribed ? t("news.subscribed") : t("news.btn")} <Send size={18} className="ml-2" />
+                    {subscribed ? "OK" : t("news.btn")} <Send size={18} className="ml-2" />
                   </button>
                 </form>
               </div>
-
+              
               <div className="flex flex-wrap justify-center lg:justify-start gap-6 mt-8">
-                <div className="flex items-center space-x-2 text-turquoise/50">
-                  <Bell size={16} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">{t("news.feature1")}</span>
-                </div>
-                <div className="flex items-center space-x-2 text-turquoise/50">
-                  <Shield size={16} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">{t("news.feature2")}</span>
-                </div>
-                <div className="flex items-center space-x-2 text-turquoise/50">
-                  <Zap size={16} />
-                  <span className="text-[10px] font-black uppercase tracking-widest">{t("news.feature3")}</span>
-                </div>
+                {[
+                  { icon: Bell, key: "news.feature1" },
+                  { icon: Shield, key: "news.feature2" },
+                  { icon: Zap, key: "news.feature3" }
+                ].map((item) => (
+                  <div key={item.key} className="flex items-center space-x-2 text-turquoise/50">
+                    <item.icon size={16} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">{t(item.key as any)}</span>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
@@ -80,8 +79,4 @@ export default function NewsletterSection() {
       </div>
     </section>
   );
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 574c149 (New Hero)

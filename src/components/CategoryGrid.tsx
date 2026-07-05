@@ -1,11 +1,7 @@
 "use client";
 
-import { Shield, Server, Cloud, Bug, Globe, Zap, ArrowRight, Code2, Activity } from "lucide-react";
+import { Shield, Server, Cloud, Bug, Globe, Zap, ArrowRight, Code2, Activity, GitBranch } from "lucide-react";
 import Link from "next/link";
-<<<<<<< HEAD
-import { motion } from "framer-motion";
-import { useLanguage } from "@/lib/LanguageContext";
-=======
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect } from "react";
@@ -77,18 +73,13 @@ function TypewriterTerminal() {
     </div>
   );
 }
->>>>>>> 574c149 (New Hero)
 
 const categories = [
   {
     id: "networking",
     nameKey: "cat.networking_name" as const,
     descKey: "cat.networking_full" as const,
-<<<<<<< HEAD
-    icon: Network,
-=======
     icon: Globe,
->>>>>>> 574c149 (New Hero)
     tags: ["Cisco", "BGP", "OSPF", "SD-WAN"],
     count: 42,
     href: "/category/networking",
@@ -124,11 +115,7 @@ const categories = [
     id: "troubleshooting",
     nameKey: "cat.troubleshooting_name" as const,
     descKey: "cat.troubleshooting_full" as const,
-<<<<<<< HEAD
-    icon: Wrench,
-=======
     icon: Bug,
->>>>>>> 574c149 (New Hero)
     tags: ["Wireshark", "tcpdump", "Debug", "Tools"],
     count: 45,
     href: "/category/troubleshooting",
@@ -137,11 +124,7 @@ const categories = [
     id: "devops",
     nameKey: "cat.automation_name" as const,
     descKey: "cat.automation_full" as const,
-<<<<<<< HEAD
     icon: GitBranch,
-=======
-    icon: Zap,
->>>>>>> 574c149 (New Hero)
     tags: ["Ansible", "Terraform", "GitOps", "Python"],
     count: 39,
     href: "/category/devops",
@@ -154,13 +137,6 @@ export default function CategoryGrid() {
   return (
     <section id="categories" className="py-20 bg-bg-primary">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-<<<<<<< HEAD
-        <div className="text-center mb-12">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="text-turquoise">// </span>{t("cat.title")}
-          </h2>
-          <p className="text-foreground/50 text-lg">{t("cat.subtitle")}</p>
-=======
         <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
           <div className="text-center md:text-left">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -169,9 +145,7 @@ export default function CategoryGrid() {
             <p className="text-text-secondary text-lg font-medium">{t("cat.subtitle")}</p>
           </div>
           
-          {/* MOVED TYPING TERMINAL HERE */}
           <TypewriterTerminal />
->>>>>>> 574c149 (New Hero)
         </div>
 
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -190,13 +164,8 @@ export default function CategoryGrid() {
                 <category.icon className="h-6 w-6" />
               </div>
 
-<<<<<<< HEAD
-              <h3 className="text-xl font-bold text-foreground mb-3">{t(category.nameKey)}</h3>
-              <p className="text-foreground/50 text-sm mb-4 leading-relaxed">
-=======
               <h3 className="text-xl font-bold text-text-primary mb-3">{t(category.nameKey)}</h3>
               <p className="text-text-secondary text-sm mb-4 leading-relaxed">
->>>>>>> 574c149 (New Hero)
                 {t(category.descKey)}
               </p>
 
