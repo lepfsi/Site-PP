@@ -14,9 +14,11 @@ interface TranslationKeys {
   "hero.badge": string;
   "hero.title_part1": string;
   "hero.title_part2": string;
+  "hero.title_part3": string;
   "hero.desc": string;
   "hero.cta_explore": string;
   "hero.cta_news": string;
+  "hero.cta_premium": string;
   "hero.stat_engineers": string;
   "hero.stat_articles": string;
   "hero.stat_updated": string;
@@ -121,12 +123,14 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.expertise": "Expertise",
     "nav.about": "About",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "v2.0 // Production Ready",
-    "hero.title_part1": "Infrastructure expertise",
-    "hero.title_part2": "without compromise.",
-    "hero.desc": "Premium technical documentation, operational playbooks and field experience for systems, network and security engineers.",
-    "hero.cta_explore": "Explore categories",
-    "hero.cta_news": "Weekly newsletter",
+    "hero.badge": "v2.0 // PRODUCTION KNOWLEDGE HUB",
+    "hero.title_part1": "Operate.",
+    "hero.title_part2": "Optimize.",
+    "hero.title_part3": "Secure.",
+    "hero.desc": "Learn from production-ready guides, troubleshooting playbooks and real-world experience across networking, cybersecurity and infrastructure.",
+    "hero.cta_explore": "Explore Categories",
+    "hero.cta_news": "Newsletter",
+    "hero.cta_premium": "Premium Labs",
     "hero.stat_engineers": "12K+ Engineers",
     "hero.stat_articles": "450+ Articles",
     "hero.stat_updated": "24/7 Updated",
@@ -229,12 +233,14 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.expertise": "Expertise",
     "nav.about": "À propos",
     "nav.newsletter": "Ops Mail",
-    "hero.badge": "v2.0 // Production Ready",
-    "hero.title_part1": "L'expertise infrastructure",
-    "hero.title_part2": "sans compromis.",
-    "hero.desc": "Documentation technique premium, playbooks opérationnels et retours d'expérience terrain pour les ingénieurs système, réseaux et sécurité.",
-    "hero.cta_explore": "Explorer les catégories",
-    "hero.cta_news": "Newsletter hebdo",
+    "hero.badge": "V2.0 // PRODUCTION KNOWLEDGE HUB",
+    "hero.title_part1": "Operate.",
+    "hero.title_part2": "Optimize.",
+    "hero.title_part3": "Secure.",
+    "hero.desc": "Apprenez grâce à des guides prêts pour la production, des playbooks de dépannage et des retours d'expérience réels en réseau, cybersécurité et infrastructure.",
+    "hero.cta_explore": "Explorer les Catégories",
+    "hero.cta_news": "Newsletter",
+    "hero.cta_premium": "Labs Premium",
     "hero.stat_engineers": "12K+ Ingénieurs",
     "hero.stat_articles": "450+ Articles",
     "hero.stat_updated": "Mis à jour 24/7",
