@@ -38,13 +38,14 @@ export default function Logo({ className, iconOnly = false }: { className?: stri
             <span className="text-xl md:text-2xl font-bold tracking-tight text-text-primary">DailyOps</span>
             <span className="text-xl md:text-2xl font-bold tracking-tight text-[#2BD9C5]">.Tech</span>
           </div>
-          <div className="text-[7px] md:text-[8px] font-bold tracking-[0.3em] uppercase mt-1 flex items-center">
+          {/* REBALANCED TAGLINE: Adjusted tracking to not exceed text width */}
+          <div className="text-[6.5px] md:text-[7.5px] font-bold tracking-[0.2em] uppercase mt-1 flex items-center w-full justify-between">
             <span className="text-text-secondary">OPERATE</span>
-            <span className="text-[#2BD9C5] mx-1">.</span>
+            <span className="text-[#2BD9C5]">.</span>
             <span className="text-text-secondary">OPTIMIZE</span>
-            <span className="text-[#2BD9C5] mx-1">.</span>
+            <span className="text-[#2BD9C5]">.</span>
             <span className="text-text-secondary">SECURE</span>
-            <span className="text-[#2BD9C5] mx-1">.</span>
+            <span className="text-[#2BD9C5]">.</span>
           </div>
         </div>
       )}

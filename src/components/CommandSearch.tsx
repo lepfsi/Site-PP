@@ -38,7 +38,7 @@ export default function CommandSearch() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center space-x-3 px-3 py-1.5 bg-bg-secondary/50 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group min-w-[130px]"
+        className="flex items-center space-x-3 px-3 py-1.5 bg-bg-secondary/50 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group min-w-[150px] lg:min-w-[180px]"
       >
         <Search size={12} className="text-text-secondary group-hover:text-turquoise" />
         <span className="text-[9px] font-black text-text-secondary/50 uppercase tracking-[0.2em] flex-grow text-left">{t("search.label")}</span>

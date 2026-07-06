@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Bug, Globe, Terminal as TerminalIcon } from "lucide-react";
+import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Crown } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 
@@ -31,14 +31,14 @@ function HeroDashboard({
 }) {
   return (
     <div className="relative aspect-square max-w-[380px] ml-auto w-full">
-      {/* FLOATING STATS BLOCK - Shifted left for better visibility */}
+      {/* FLOATING STATS BLOCK - Shifted further left for visibility */}
       <motion.div 
         animate={{ 
           y: [0, -12, 0],
           x: [0, 8, 0]
         }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute -top-14 -left-20 z-0 opacity-15 pointer-events-none hidden xl:block bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
+        className="absolute -top-14 -left-28 z-0 opacity-15 pointer-events-none hidden xl:block bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
       >
         <div className="space-y-4 font-mono text-[9px] text-turquoise uppercase tracking-[0.2em]">
           <div className="flex items-center space-x-2"><Users size={12} /> <span>7K+ Active Ops</span></div>
@@ -67,7 +67,6 @@ function HeroDashboard({
             {dashboardMode === "mesh" ? (
               <motion.div key="mesh-mode" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 p-6 flex items-center justify-center">
                 <svg className="w-full h-full text-turquoise/20" viewBox="0 0 100 100">
-                  {/* Complex Multi-Polygon Mesh */}
                   {[...Array(12)].map((_, i) => (
                     <motion.line 
                       key={i} 
@@ -110,7 +109,7 @@ function HeroDashboard({
           </AnimatePresence>
         </div>
 
-        {/* Monitoring Section */}
+        {/* Monitoring Bottom Section */}
         <div className="bg-navy/80 border-t border-white/5 p-4 md:p-6 backdrop-blur-xl">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center space-x-2">
@@ -131,7 +130,7 @@ function HeroDashboard({
                 <span>{t("hero.monitor_network")}</span>
                 <span className="text-turquoise code-font">{Math.round(networkValue)} Mbps</span>
               </div>
-              <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
                 <motion.div animate={{ width: `${(networkValue / 1000) * 100}%` }} className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full" />
               </div>
             </div>
@@ -224,17 +223,16 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           
           <div className="lg:col-span-7 flex flex-col justify-center">
-            {/* REDUCED PADDING TOP */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full mb-8 w-fit"
+              className="inline-flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full mb-10 w-fit"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
               <span className="text-green-500 code-font text-[9px] font-black uppercase tracking-widest">{t("hero.badge")}</span>
             </motion.div>
 
-            <div className="mb-8">
+            <div className="mb-6 lg:mb-8">
               <motion.h1 
                 initial={{ opacity: 0, y: 10 }} 
                 animate={{ opacity: 1, y: 0 }} 
@@ -259,19 +257,20 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
-              className="text-xs md:text-sm text-text-secondary/80 max-w-xl mb-10 font-medium leading-relaxed tracking-tight"
+              className="text-xs md:text-sm text-text-secondary/80 max-w-xl mb-14 lg:mb-16 font-medium leading-relaxed tracking-tight"
             >
               {t("hero.desc")}
             </motion.p>
 
-            <div className="flex flex-wrap gap-3 mb-12">
+            {/* BUTTONS TRIPLET - Shifted down with more margin */}
+            <div className="flex flex-wrap gap-3 mt-4">
               <a href="#categories" className="px-5 py-2.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-[10px] tracking-widest uppercase border border-transparent">
                 {t("hero.cta_explore")}
               </a>
               <a href="#articles" className="px-5 py-2.5 bg-bg-secondary border-2 border-turquoise text-turquoise font-black rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/10 text-[10px] tracking-widest uppercase shadow-lg shadow-turquoise/5">
                 {t("hero.cta_browse")}
               </a>
-              <a href="#newsletter" className="px-5 py-2.5 bg-bg-secondary border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise font-bold rounded-xl flex items-center justify-center transition-all text-[10px] tracking-widest uppercase group">
+              <a href="#newsletter" className="px-5 py-2.5 bg-bg-secondary border border-border-main text-text-secondary font-bold rounded-xl flex items-center justify-center transition-all text-[10px] tracking-widest uppercase group hover:border-turquoise hover:text-turquoise">
                 <Mail size={12} className="mr-2 group-hover:scale-110" />
                 {t("hero.cta_news")}
               </a>
@@ -279,10 +278,24 @@ export default function Hero() {
           </div>
 
           <div className="lg:col-span-5 relative hidden lg:block">
+            {/* Stats block - Shifted left */}
+            <motion.div 
+              animate={{ y: [0, -12, 0], x: [0, 8, 0] }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-14 -left-28 z-0 opacity-15 pointer-events-none bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
+            >
+              <div className="space-y-4 font-mono text-[9px] text-turquoise uppercase tracking-[0.2em]">
+                <div className="flex items-center space-x-2"><Users size={12} /> <span>7K+ Active Ops</span></div>
+                <div className="flex items-center space-x-2"><FileText size={12} /> <span>340+ Technical Nodes</span></div>
+                <div className="flex items-center space-x-2"><RefreshCw size={12} /> <span>Verified Baselines</span></div>
+              </div>
+            </motion.div>
+
             <motion.div
               initial={{ opacity: 0, scale: 0.98 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.8 }}
+              className="relative z-10"
             >
               <HeroDashboard 
                 dashboardMode={dashboardMode}
