@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Search, X, Command, CornerDownLeft } from "lucide-react";
+import { Search, X, CornerDownLeft } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 
@@ -11,9 +11,12 @@ export default function CommandSearch() {
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [isMac, setIsMac] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+    
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
         e.preventDefault();
@@ -38,13 +41,14 @@ export default function CommandSearch() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center space-x-3 px-3 py-1.5 bg-bg-secondary/50 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group min-w-[150px] lg:min-w-[180px]"
+        className="flex items-center space-x-3 px-4 py-2 bg-bg-secondary/40 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group min-w-[160px] lg:min-w-[200px]"
       >
-        <Search size={12} className="text-text-secondary group-hover:text-turquoise" />
-        <span className="text-[9px] font-black text-text-secondary/50 uppercase tracking-[0.2em] flex-grow text-left">{t("search.label")}</span>
-        <div className="flex items-center space-x-1 px-1.5 py-0.5 border border-border-main rounded bg-bg-primary/50">
-          <Command size={8} className="text-text-secondary/40" />
-          <span className="text-[8px] font-mono font-bold text-text-secondary/40">K</span>
+        <Search size={14} className="text-turquoise" />
+        <span className="text-sm font-medium text-text-primary/70 flex-grow text-left">Search...</span>
+        <div className="flex items-center px-2 py-1 border border-border-main/50 rounded-lg bg-bg-primary/30">
+          <span className="text-[10px] font-mono font-medium text-text-secondary/60">
+            {isMac ? "⌘ K" : "Ctrl K"}
+          </span>
         </div>
       </button>
 
@@ -106,3 +110,4 @@ export default function CommandSearch() {
     </>
   );
 }
+
