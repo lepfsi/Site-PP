@@ -5,17 +5,6 @@ import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, 
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 
-const LOG_LINES = [
-  "[14:22:01] BGP_SESSION: Peer 10.0.4.1 Established",
-  "[14:22:05] FW_BLOCK: Denied inbound from 185.x.x.x",
-  "[14:22:12] K8S_NODE: node-04 scaling up...",
-  "[14:22:15] MONITOR: Latency spikes detected on AS64496",
-  "[14:22:20] SSH_LOGIN: Accepted key for user 'ops'",
-  "[14:22:24] BGP_PREFIX: 172.16.0.0/24 advertised",
-  "[14:22:28] SSL_CERT: Expiring in 12 days (renewing...)",
-  "[14:22:32] OPS: Baseline applied to CORE-SW-01"
-];
-
 function HeroDashboard({
   networkValue,
   t,
@@ -24,8 +13,17 @@ function HeroDashboard({
   t: (key: any) => string;
 }) {
   return (
-    <div className="relative aspect-square max-w-[360px] ml-auto w-full">
-      <div className="absolute inset-0 bg-bg-secondary/40 border border-white/5 backdrop-blur-3xl rounded-[1.5rem] shadow-2xl overflow-hidden flex flex-col">
+    <div className="relative aspect-square max-w-[380px] ml-auto w-full">
+      {/* BACKGROUND STATISTICS BEHIND TERMINAL */}
+      <div className="absolute -top-12 -left-12 z-0 opacity-10 pointer-events-none hidden xl:block">
+        <div className="space-y-4 font-mono text-[10px] text-turquoise uppercase tracking-[0.2em]">
+          <div className="flex items-center space-x-2"><Users size={12} /> <span>{t("hero.stat_engineers")}</span></div>
+          <div className="flex items-center space-x-2"><FileText size={12} /> <span>{t("hero.stat_articles")}</span></div>
+          <div className="flex items-center space-x-2"><RefreshCw size={12} /> <span>{t("hero.stat_updated")}</span></div>
+        </div>
+      </div>
+
+      <div className="relative z-10 bg-bg-secondary/40 border border-white/5 backdrop-blur-3xl rounded-[1.5rem] shadow-2xl overflow-hidden flex flex-col h-full">
         {/* Mac Title Bar */}
         <div className="bg-navy/60 border-b border-white/5 px-4 py-3 flex items-center justify-between">
           <div className="flex space-x-2">
@@ -133,6 +131,7 @@ export default function Hero() {
       <div className="container-custom relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           
+          {/* LEFT CONTENT */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -149,13 +148,13 @@ export default function Hero() {
                animate="show"
                className="space-y-1 mb-8"
             >
-              <motion.h1 variants={staggeredItem} className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-text-primary code-font">
+              <motion.h1 variants={staggeredItem} className="text-5xl md:text-7xl lg:text-7xl font-black tracking-tighter text-text-primary code-font">
                 {t("hero.title_part1")}
               </motion.h1>
-              <motion.h1 variants={staggeredItem} className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-turquoise italic code-font">
+              <motion.h1 variants={staggeredItem} className="text-5xl md:text-7xl lg:text-7xl font-black tracking-tighter text-turquoise italic code-font">
                 {t("hero.title_part2")}
               </motion.h1>
-              <motion.h1 variants={staggeredItem} className="text-4xl md:text-6xl lg:text-7xl font-black tracking-tighter text-text-primary code-font">
+              <motion.h1 variants={staggeredItem} className="text-5xl md:text-7xl lg:text-7xl font-black tracking-tighter text-text-primary code-font">
                 {t("hero.title_part3")}
               </motion.h1>
             </motion.div>
@@ -164,36 +163,32 @@ export default function Hero() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
-              className="text-sm md:text-base text-text-secondary/80 max-w-xl mb-10 font-medium leading-relaxed tracking-tight"
+              className="text-base md:text-lg text-text-secondary/80 max-w-xl mb-10 font-medium leading-relaxed tracking-tight"
             >
               {t("hero.desc")}
             </motion.p>
 
             <div className="flex flex-wrap gap-4 mb-12">
-              <a href="#categories" className="px-6 py-2.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-[10px] tracking-widest uppercase border border-transparent">
+              <a href="#categories" className="px-8 py-4 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-xs tracking-widest uppercase">
                 {t("hero.cta_explore")}
               </a>
-              <a href="#articles" className="px-6 py-2.5 bg-bg-secondary border-2 border-turquoise text-turquoise font-black rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/10 text-[10px] tracking-widest uppercase shadow-lg">
+              <a href="#articles" className="px-8 py-4 bg-bg-secondary border-2 border-turquoise text-turquoise font-black rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/10 text-xs tracking-widest uppercase shadow-lg shadow-turquoise/5">
                 {t("hero.cta_browse")}
               </a>
-              <a href="#newsletter" className="px-6 py-2.5 bg-bg-secondary border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise font-bold rounded-xl flex items-center justify-center transition-all text-[10px] tracking-widest uppercase group">
-                <Mail size={12} className="mr-2 group-hover:scale-110" />
+              <a href="#newsletter" className="px-8 py-4 bg-bg-secondary border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise font-bold rounded-xl flex items-center justify-center transition-all text-xs tracking-widest uppercase group">
+                <Mail size={14} className="mr-2 group-hover:scale-110" />
                 {t("hero.cta_news")}
               </a>
             </div>
           </div>
 
+          {/* RIGHT DASHBOARD */}
           <div className="lg:col-span-5 relative hidden lg:block">
-            {/* Stats behind dashboard */}
-            <div className="absolute -top-12 -left-12 z-0 opacity-10 pointer-events-none">
-              <div className="space-y-4 font-mono text-[9px] text-turquoise uppercase tracking-[0.2em]">
-                <div className="flex items-center space-x-2"><Users size={12} /> <span>{t("hero.stat_engineers")}</span></div>
-                <div className="flex items-center space-x-2"><FileText size={12} /> <span>{t("hero.stat_articles")}</span></div>
-                <div className="flex items-center space-x-2"><RefreshCw size={12} /> <span>{t("hero.stat_updated")}</span></div>
-              </div>
-            </div>
-
-            <motion.div initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8 }}>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.8 }}
+            >
               <HeroDashboard 
                 networkValue={networkValue}
                 t={t}
