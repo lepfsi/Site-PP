@@ -12,10 +12,8 @@ interface TranslationKeys {
   "nav.about": string;
   "nav.newsletter": string;
   "hero.badge": string;
-  "hero.tagline": string;
-  "hero.title_part1": string;
-  "hero.title_part2": string;
-  "hero.title_part3": string;
+  "hero.title_main": string;
+  "hero.title_sub": string;
   "hero.desc": string;
   "hero.cta_explore": string;
   "hero.cta_browse": string;
@@ -132,14 +130,12 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.about": "About",
     "nav.newsletter": "Ops Mail",
     "hero.badge": "v2.0 // PRODUCTION KNOWLEDGE HUB",
-    "hero.tagline": "<DailyOps />",
-    "hero.title_part1": "Operate.",
-    "hero.title_part2": "Optimize.",
-    "hero.title_part3": "Secure.",
+    "hero.title_main": "Real-World IT Operations",
+    "hero.title_sub": "Operate. Optimize. Secure.",
     "hero.desc": "Learn from production-ready guides, troubleshooting playbooks and real-world experience across networking, cybersecurity and infrastructure.",
     "hero.cta_explore": "Explore Categories",
     "hero.cta_browse": "Browse Articles",
-    "hero.cta_news": "Newsletter",
+    "hero.cta_news": "Weekly Newsletter",
     "hero.cta_premium": "Premium Labs",
     "hero.stat_engineers": "12K+ Engineers",
     "hero.stat_articles": "450+ Articles",
@@ -250,10 +246,8 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.about": "À propos",
     "nav.newsletter": "Ops Mail",
     "hero.badge": "V2.0 // PRODUCTION KNOWLEDGE HUB",
-    "hero.tagline": "<DailyOps />",
-    "hero.title_part1": "Operate.",
-    "hero.title_part2": "Optimize.",
-    "hero.title_part3": "Secure.",
+    "hero.title_main": "Real-World IT Operations",
+    "hero.title_sub": "Operate. Optimize. Secure.",
     "hero.desc": "Apprenez grâce à des guides prêts pour la production, des playbooks de dépannage et des retours d'expérience réels en réseau, cybersécurité et infrastructure.",
     "hero.cta_explore": "Explorer les Catégories",
     "hero.cta_browse": "Parcourir les Articles",
