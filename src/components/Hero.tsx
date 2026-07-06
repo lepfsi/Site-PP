@@ -219,7 +219,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-20 pb-4 md:pt-24 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
+    <section className="relative pt-28 pb-4 md:pt-32 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           
