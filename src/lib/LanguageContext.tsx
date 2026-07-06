@@ -12,6 +12,7 @@ interface TranslationKeys {
   "nav.about": string;
   "nav.newsletter": string;
   "hero.badge": string;
+  "hero.tagline": string;
   "hero.title_part1": string;
   "hero.title_part2": string;
   "hero.title_part3": string;
@@ -19,6 +20,7 @@ interface TranslationKeys {
   "hero.cta_explore": string;
   "hero.cta_browse": string;
   "hero.cta_news": string;
+  "hero.cta_premium": string;
   "hero.stat_engineers": string;
   "hero.stat_articles": string;
   "hero.stat_updated": string;
@@ -54,6 +56,12 @@ interface TranslationKeys {
   "cat.troubleshooting_full": string;
   "cat.automation_full": string;
   "cat.articles": string;
+  "cat.cert_net": string;
+  "cat.cert_cyber": string;
+  "cat.cert_infra": string;
+  "cat.cert_cloud": string;
+  "cat.cert_trouble": string;
+  "cat.cert_auto": string;
   "articles.title": string;
   "articles.subtitle": string;
   "articles.view_all": string;
@@ -124,6 +132,7 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.about": "About",
     "nav.newsletter": "Ops Mail",
     "hero.badge": "v2.0 // PRODUCTION KNOWLEDGE HUB",
+    "hero.tagline": "<DailyOps />",
     "hero.title_part1": "Operate.",
     "hero.title_part2": "Optimize.",
     "hero.title_part3": "Secure.",
@@ -131,6 +140,7 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.cta_explore": "Explore Categories",
     "hero.cta_browse": "Browse Articles",
     "hero.cta_news": "Newsletter",
+    "hero.cta_premium": "Premium Labs",
     "hero.stat_engineers": "12K+ Engineers",
     "hero.stat_articles": "450+ Articles",
     "hero.stat_updated": "24/7 Updated",
@@ -145,27 +155,33 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.tag_cloud": "Cloud Native",
     "hero.tag_networking": "Networking",
     "hero.tag_troubleshooting": "Troubleshooting",
-    "cat.title": "Core Categories",
-    "cat.subtitle": "Technical expertise organized by domain.",
+    "cat.title": "Expertise Domains",
+    "cat.subtitle": "Technical content verified and updated by experienced field engineers.",
     "cat.networking_name": "Networking",
     "cat.cybersecurity_name": "Cybersecurity",
     "cat.infrastructure_name": "Infrastructure",
-    "cat.cloud_name": "Cloud & Virtualization",
+    "cat.cloud_name": "Cloud & Virtualisation",
     "cat.troubleshooting_name": "Troubleshooting",
-    "cat.automation_name": "Automation & AI",
+    "cat.automation_name": "Automation",
     "cat.networking_desc": "Protocols, routing, switching...",
     "cat.cybersecurity_desc": "SOC, detection, incident response...",
     "cat.infrastructure_desc": "Servers, storage, monitoring and...",
     "cat.cloud_desc": "AWS, Azure, VMware, containers...",
     "cat.troubleshooting_desc": "Methodologies, post-mortems and...",
     "cat.automation_desc": "Ansible, Terraform, AI-Ops...",
-    "cat.networking_full": "Routing, switching, SD-WAN, protocols and modern network architectures.",
-    "cat.cybersecurity_full": "Firewalls, IDS/IPS, Zero Trust, network security and compliance.",
-    "cat.infrastructure_full": "Datacenter, storage, compute, high availability and disaster recovery.",
-    "cat.cloud_full": "AWS, Azure, GCP, VMware, containers and Kubernetes orchestration.",
-    "cat.troubleshooting_full": "Methodologies, tools, network debugging and performance analysis.",
-    "cat.automation_full": "IaC, CI/CD, Ansible, Terraform and infrastructure automation.",
+    "cat.networking_full": "BGP, OSPF, SD-WAN, advanced switching, network design and automation.",
+    "cat.cybersecurity_full": "SOC operations, threat hunting, hardening, SIEM and incident response.",
+    "cat.infrastructure_full": "Windows/Linux Server, storage, on-premise virtualization and clustering.",
+    "cat.cloud_full": "AWS, Azure, GCP, Kubernetes, Docker and hybrid architectures.",
+    "cat.troubleshooting_full": "Diagnostic methodologies, war stories and complex failure resolution.",
+    "cat.automation_full": "Python, Go, Ansible, Terraform and CI/CD pipelines for infrastructure.",
     "cat.articles": "articles",
+    "cat.cert_net": "CCIE/JNCIE",
+    "cat.cert_cyber": "CISSP/GCIH",
+    "cat.cert_infra": "RHCE/VCP",
+    "cat.cert_cloud": "CKA/SAA",
+    "cat.cert_trouble": "SRE/DevOps",
+    "cat.cert_auto": "IaC/GitOps",
     "articles.title": "Recent Articles",
     "articles.subtitle": "Latest publications from the knowledge base.",
     "articles.view_all": "View all articles",
@@ -234,6 +250,7 @@ const translations: Record<Language, TranslationKeys> = {
     "nav.about": "À propos",
     "nav.newsletter": "Ops Mail",
     "hero.badge": "V2.0 // PRODUCTION KNOWLEDGE HUB",
+    "hero.tagline": "<DailyOps />",
     "hero.title_part1": "Operate.",
     "hero.title_part2": "Optimize.",
     "hero.title_part3": "Secure.",
@@ -241,6 +258,7 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.cta_explore": "Explorer les Catégories",
     "hero.cta_browse": "Parcourir les Articles",
     "hero.cta_news": "Newsletter",
+    "hero.cta_premium": "Labs Premium",
     "hero.stat_engineers": "12K+ Ingénieurs",
     "hero.stat_articles": "450+ Articles",
     "hero.stat_updated": "Mis à jour 24/7",
@@ -255,27 +273,33 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.tag_cloud": "Cloud Native",
     "hero.tag_networking": "Réseau",
     "hero.tag_troubleshooting": "Troubleshooting",
-    "cat.title": "Catégories Principales",
-    "cat.subtitle": "Expertise technique organisée par domaine.",
-    "cat.networking_name": "Réseau",
-    "cat.cybersecurity_name": "Cybersécurité",
+    "cat.title": "Domaines d'expertise",
+    "cat.subtitle": "Contenu technique vérifié et maintenu à jour par des ingénieurs expérimentés sur le terrain.",
+    "cat.networking_name": "Networking",
+    "cat.cybersecurity_name": "Cybersecurity",
     "cat.infrastructure_name": "Infrastructure",
     "cat.cloud_name": "Cloud & Virtualisation",
     "cat.troubleshooting_name": "Troubleshooting",
-    "cat.automation_name": "Automation & IA",
+    "cat.automation_name": "Automation",
     "cat.networking_desc": "Protocoles, routage, switching...",
     "cat.cybersecurity_desc": "SOC, détection, réponse incident...",
     "cat.infrastructure_desc": "Serveurs, stockage, monitoring...",
     "cat.cloud_desc": "AWS, Azure, VMware, conteneurs...",
     "cat.troubleshooting_desc": "Méthodologies, post-mortems...",
     "cat.automation_desc": "Ansible, Terraform, AI-Ops...",
-    "cat.networking_full": "Routing, switching, SD-WAN, protocoles et architectures réseau modernes.",
-    "cat.cybersecurity_full": "Firewalls, IDS/IPS, Zero Trust, sécurité réseau et conformité.",
-    "cat.infrastructure_full": "Datacenter, stockage, compute, haute disponibilité et disaster recovery.",
-    "cat.cloud_full": "AWS, Azure, GCP, VMware, conteneurs et orchestration Kubernetes.",
-    "cat.troubleshooting_full": "Méthodologies, outils, debugging réseau et analyse de performance.",
-    "cat.automation_full": "IaC, CI/CD, Ansible, Terraform et automatisation infrastructure.",
+    "cat.networking_full": "BGP, OSPF, SD-WAN, switching avancé, design réseau et automatisation.",
+    "cat.cybersecurity_full": "SOC operations, threat hunting, hardening, SIEM et réponse aux incidents.",
+    "cat.infrastructure_full": "Windows/Linux Server, stockage, virtualisation on-premise et clustering.",
+    "cat.cloud_full": "AWS, Azure, GCP, Kubernetes, Docker et architectures hybrides.",
+    "cat.troubleshooting_full": "Méthodologies de diagnostic, war stories et résolution de pannes complexes.",
+    "cat.automation_full": "Python, Go, Ansible, Terraform et CI/CD pipelines pour l'infrastructure.",
     "cat.articles": "articles",
+    "cat.cert_net": "CCIE/JNCIE",
+    "cat.cert_cyber": "CISSP/GCIH",
+    "cat.cert_infra": "RHCE/VCP",
+    "cat.cert_cloud": "CKA/SAA",
+    "cat.cert_trouble": "SRE/DevOps",
+    "cat.cert_auto": "IaC/GitOps",
     "articles.title": "Articles Récents",
     "articles.subtitle": "Les dernières publications de la base de connaissances.",
     "articles.view_all": "Voir tous les articles",

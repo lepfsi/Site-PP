@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { cn } from "@/lib/utils";
 
 export default function Logo({ className, iconOnly = false }: { className?: string, iconOnly?: boolean }) {
@@ -23,7 +22,7 @@ export default function Logo({ className, iconOnly = false }: { className?: stri
             y="52%" 
             dominantBaseline="middle" 
             textAnchor="middle" 
-            fill="#2BD9C5" 
+            fill="white" 
             fontSize="32" 
             fontWeight="900"
             className="code-font"
@@ -39,8 +38,13 @@ export default function Logo({ className, iconOnly = false }: { className?: stri
             <span className="text-xl md:text-2xl font-bold tracking-tight text-text-primary">DailyOps</span>
             <span className="text-xl md:text-2xl font-bold tracking-tight text-[#2BD9C5]">.Tech</span>
           </div>
-          <div className="text-[7px] md:text-[8px] font-bold tracking-[0.3em] text-text-secondary uppercase mt-1">
-            Operate. Optimize. Secure.
+          <div className="text-[7px] md:text-[8px] font-bold tracking-[0.3em] uppercase mt-1 flex items-center">
+            <span className="text-text-secondary">OPERATE</span>
+            <span className="text-[#2BD9C5] mx-1">.</span>
+            <span className="text-text-secondary">OPTIMIZE</span>
+            <span className="text-[#2BD9C5] mx-1">.</span>
+            <span className="text-text-secondary">SECURE</span>
+            <span className="text-[#2BD9C5] mx-1">.</span>
           </div>
         </div>
       )}
