@@ -1,20 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { Menu, X, Moon, Sun, ChevronDown, Globe, Shield, Server, Cloud, Bug, Zap } from "lucide-react";
+import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
 import CommandSearch from "./CommandSearch";
+import Logo from "./Logo";
 
 const CATEGORIES = [
-  { id: "networking", color: "bg-blue-500", icon: Globe },
-  { id: "cybersecurity", color: "bg-red-500", icon: Shield },
-  { id: "infrastructure", color: "bg-orange-500", icon: Server },
-  { id: "cloud", color: "bg-purple-500", icon: Cloud },
-  { id: "automation", color: "bg-cyan-500", label: "Automation & AI", icon: Zap },
-  { id: "troubleshooting", color: "bg-green-500", icon: Bug },
+  { id: "networking", color: "bg-blue-500" },
+  { id: "cybersecurity", color: "bg-red-500" },
+  { id: "infrastructure", color: "bg-orange-500" },
+  { id: "cloud", color: "bg-purple-500" },
+  { id: "automation", color: "bg-cyan-500", label: "Automation & AI" },
+  { id: "troubleshooting", color: "bg-green-500" },
 ];
 
 export default function Navbar() {
@@ -43,14 +44,8 @@ export default function Navbar() {
       <div className="flex h-10 items-center justify-between relative">
         
         {/* LOGO */}
-        <Link href="/" className="flex items-center group flex-shrink-0 z-10">
-          <div className="bg-[#00bcd4] text-white w-7 h-7 rounded-lg flex items-center justify-center shadow-lg shadow-[#00bcd4]/20 group-hover:scale-105 transition-transform duration-300">
-            <span className="code-font text-xs font-bold tracking-tighter">{">_"}</span>
-          </div>
-          <div className="ml-2.5 hidden sm:flex items-baseline">
-            <span className="text-base font-bold tracking-tight text-text-primary">DailyOps</span>
-            <span className="text-base font-bold tracking-tight text-[#00bcd4]">.Tech</span>
-          </div>
+        <Link href="/" className="z-10">
+          <Logo />
         </Link>
 
         {/* CENTERED LINKS */}
@@ -80,9 +75,7 @@ export default function Navbar() {
                       href={`/category/${cat.id}`}
                       className="flex items-center p-2.5 hover:bg-bg-primary rounded-lg group transition-all"
                     >
-                      <div className={`flex items-center justify-center w-6 h-6 rounded-lg bg-bg-primary mr-3 text-text-secondary group-hover:text-turquoise transition-colors`}>
-                        <cat.icon size={14} />
-                      </div>
+                      <div className={`w-1.5 h-1.5 rounded-full ${cat.color} mr-3 group-hover:scale-110 transition-transform shadow-[0_0_8px_rgba(0,0,0,0.3)] shadow-current`} />
                       <div>
                         <div className="text-[10px] font-bold text-text-primary uppercase tracking-widest group-hover:text-turquoise transition-colors">
                           {cat.label || (cat.id.charAt(0).toUpperCase() + cat.id.slice(1))}

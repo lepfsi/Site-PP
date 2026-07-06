@@ -1,11 +1,11 @@
 @import "tailwindcss";
 
 @theme {
-  --color-navy: #0a1120;
-  --color-deepblue: #0f172a;
-  --color-bluedark: #1e293b;
-  --color-turquoise: #2dd4bf;
-  --color-turquoise-dark: #0d9488;
+  --color-navy: #0A1128;
+  --color-deepblue: #111C44;
+  --color-bluedark: #1E293B;
+  --color-turquoise: #2BD9C5;
+  --color-turquoise-dark: #22af9d;
   
   --color-bg-primary: var(--bg-primary);
   --color-bg-secondary: var(--bg-secondary);
@@ -21,21 +21,21 @@
 :root {
   --bg-primary: #f8fafc;
   --bg-secondary: #ffffff;
-  --text-primary: #0f172a;
+  --text-primary: #0A1128;
   --text-secondary: #475569;
   --border-main: #e2e8f0;
-  --accent: #0d9488;
+  --accent: #22af9d;
   --liquid-bg: rgba(255, 255, 255, 0.4);
   --liquid-border: rgba(255, 255, 255, 0.2);
 }
 
 .dark {
-  --bg-primary: #0a1120; /* Slightly lighter than #020617 for better eye comfort */
-  --bg-secondary: #111a2e;
+  --bg-primary: #0A1128;
+  --bg-secondary: #111C44;
   --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --border-main: #1e293b;
-  --accent: #2dd4bf;
+  --text-secondary: #94A3B8;
+  --border-main: #1E293B;
+  --accent: #2BD9C5;
   --liquid-bg: rgba(15, 23, 42, 0.4);
   --liquid-border: rgba(255, 255, 255, 0.05);
 }
