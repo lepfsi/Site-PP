@@ -234,16 +234,16 @@ export default function Hero() {
             </motion.div>
 
             <div className="mb-6 lg:mb-8">
-              {/* REDUCED TITLE FONT SIZE */}
+              {/* SLIGHTLY INCREASED TITLE FONT SIZE */}
               <motion.h1 
                 initial={{ opacity: 0, y: 10 }} 
                 animate={{ opacity: 1, y: 0 }} 
-                className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter text-text-primary code-font mb-4 whitespace-nowrap"
+                className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font mb-4 whitespace-nowrap"
               >
                 Real-World IT Operations
               </motion.h1>
               
-              {/* STAGGERED SUB-TITLE (PUSHED DOWN) */}
+              {/* STAGGERED SUB-TITLE */}
               <motion.div 
                 variants={staggeredContainer}
                 initial="hidden"
@@ -256,12 +256,12 @@ export default function Hero() {
               </motion.div>
             </div>
 
-            {/* DESCRIPTION (PUSHED DOWN) */}
+            {/* DESCRIPTION (REDUCED MARGINS) */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
-              className="text-xs md:text-sm text-text-secondary/80 max-w-xl mb-14 lg:mb-16 font-medium leading-relaxed tracking-tight mt-8 lg:mt-10"
+              className="text-xs md:text-sm text-text-secondary/80 max-w-xl mb-10 lg:mb-12 font-medium leading-relaxed tracking-tight mt-6 lg:mt-8"
             >
               {t("hero.desc")}
             </motion.p>
