@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Crown } from "lucide-react";
+import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Bug, Globe, Terminal as TerminalIcon } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 
@@ -31,7 +31,7 @@ function HeroDashboard({
 }) {
   return (
     <div className="relative aspect-square max-w-[380px] ml-auto w-full">
-      {/* FLOATING STATS BLOCK - Shifted further left for visibility */}
+      {/* FLOATING STATS BLOCK */}
       <motion.div 
         animate={{ 
           y: [0, -12, 0],
@@ -223,6 +223,7 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           
           <div className="lg:col-span-7 flex flex-col justify-center">
+            {/* BADGE */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -233,19 +234,21 @@ export default function Hero() {
             </motion.div>
 
             <div className="mb-6 lg:mb-8">
+              {/* REDUCED TITLE FONT SIZE */}
               <motion.h1 
                 initial={{ opacity: 0, y: 10 }} 
                 animate={{ opacity: 1, y: 0 }} 
-                className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font mb-4 whitespace-nowrap"
+                className="text-3xl md:text-4xl lg:text-5xl font-black tracking-tighter text-text-primary code-font mb-4 whitespace-nowrap"
               >
                 Real-World IT Operations
               </motion.h1>
               
+              {/* STAGGERED SUB-TITLE (PUSHED DOWN) */}
               <motion.div 
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="flex items-center space-x-3 text-xl md:text-2xl lg:text-3xl font-black code-font text-text-primary"
+                className="flex items-center space-x-3 text-xl md:text-2xl lg:text-3xl font-black code-font text-text-primary mt-6 lg:mt-8"
               >
                 <motion.span variants={staggeredItem}>Operate.</motion.span>
                 <motion.span variants={staggeredItem} className="text-turquoise italic">Optimize.</motion.span>
@@ -253,16 +256,16 @@ export default function Hero() {
               </motion.div>
             </div>
 
+            {/* DESCRIPTION (PUSHED DOWN) */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
-              className="text-xs md:text-sm text-text-secondary/80 max-w-xl mb-14 lg:mb-16 font-medium leading-relaxed tracking-tight"
+              className="text-xs md:text-sm text-text-secondary/80 max-w-xl mb-14 lg:mb-16 font-medium leading-relaxed tracking-tight mt-8 lg:mt-10"
             >
               {t("hero.desc")}
             </motion.p>
 
-            {/* BUTTONS TRIPLET - Shifted down with more margin */}
             <div className="flex flex-wrap gap-3 mt-4">
               <a href="#categories" className="px-5 py-2.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-[10px] tracking-widest uppercase border border-transparent">
                 {t("hero.cta_explore")}
@@ -278,11 +281,11 @@ export default function Hero() {
           </div>
 
           <div className="lg:col-span-5 relative hidden lg:block">
-            {/* Stats block - Shifted left */}
+            {/* Stats block shifted further left */}
             <motion.div 
               animate={{ y: [0, -12, 0], x: [0, 8, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-14 -left-28 z-0 opacity-15 pointer-events-none bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
+              className="absolute -top-14 -left-36 z-0 opacity-15 pointer-events-none bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
             >
               <div className="space-y-4 font-mono text-[9px] text-turquoise uppercase tracking-[0.2em]">
                 <div className="flex items-center space-x-2"><Users size={12} /> <span>7K+ Active Ops</span></div>

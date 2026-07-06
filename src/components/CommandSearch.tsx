@@ -15,7 +15,7 @@ export default function CommandSearch() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    setIsMac(navigator.platform.toUpperCase().indexOf('MAC') >= 0);
+    setIsMac(typeof navigator !== 'undefined' && navigator.platform.toUpperCase().indexOf('MAC') >= 0);
     
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === "k") {
@@ -41,12 +41,12 @@ export default function CommandSearch() {
     <>
       <button
         onClick={() => setIsOpen(true)}
-        className="flex items-center space-x-3 px-4 py-2 bg-bg-secondary/40 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group min-w-[160px] lg:min-w-[200px]"
+        className="flex items-center space-x-2 px-3 py-1.5 bg-bg-secondary/40 border border-border-main rounded-xl hover:border-turquoise/50 transition-all group min-w-[140px] lg:min-w-[160px]"
       >
-        <Search size={14} className="text-turquoise" />
-        <span className="text-sm font-medium text-text-primary/70 flex-grow text-left">Search...</span>
-        <div className="flex items-center px-2 py-1 border border-border-main/50 rounded-lg bg-bg-primary/30">
-          <span className="text-[10px] font-mono font-medium text-text-secondary/60">
+        <Search size={12} className="text-turquoise" />
+        <span className="text-[11px] font-medium text-text-primary/70 flex-grow text-left">Search...</span>
+        <div className="flex items-center px-1.5 py-0.5 border border-border-main/50 rounded-lg bg-bg-primary/30">
+          <span className="text-[9px] font-mono font-medium text-text-secondary/60">
             {isMac ? "⌘ K" : "Ctrl K"}
           </span>
         </div>
