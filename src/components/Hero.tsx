@@ -1,9 +1,14 @@
 "use client";
 
+import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Globe, Terminal as TerminalIcon } from "lucide-react";
-import { useLanguage } from "@/lib/LanguageContext";
-import { useState, useEffect, useRef } from "react";
+import { ChevronRight, Mail, FileText, Layers, Calendar, Activity, ShieldAlert } from "lucide-react";
+import { useLanguage, type Language } from "@/lib/LanguageContext";
+import { useState, useEffect, useRef, useMemo } from "react";
+import ArticleVisual from "@/components/article-visuals/ArticleVisual";
+import { getAllArticles, getFeaturedArticle } from "@/lib/articles";
+import { CATEGORIES } from "@/lib/categories";
+import type { Article } from "@/lib/articles";
 
 const LOG_LINES = [
   "[14:22:01] BGP_SESSION: Peer 10.0.4.1 Established",
@@ -13,73 +18,91 @@ const LOG_LINES = [
   "[14:22:20] SSH_LOGIN: Accepted key for user 'ops'",
   "[14:22:24] BGP_PREFIX: 172.16.0.0/24 advertised",
   "[14:22:28] SSL_CERT: Expiring in 12 days (renewing...)",
-  "[14:22:32] OPS: Baseline applied to CORE-SW-01"
+  "[14:22:32] OPS: Baseline applied to CORE-SW-01",
 ];
+
+function formatHeroDate(date: string, lang: Language): string {
+  return new Date(`${date}T00:00:00`).toLocaleDateString(lang === "FR" ? "fr-FR" : "en-US", {
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function useHeroStats() {
+  return useMemo(() => {
+    const articles = getAllArticles();
+    const articleCount = articles.length;
+    const domainCount = CATEGORIES.length;
+    const lastUpdated = articles.reduce((latest, article) => (article.date > latest ? article.date : latest), articles[0]?.date ?? "");
+    return { articles, articleCount, domainCount, lastUpdated, featured: getFeaturedArticle() };
+  }, []);
+}
 
 function HeroDashboard({
   dashboardMode,
   visibleLogs,
-  networkValue,
-  securityValue,
+  featured,
+  articleCount,
+  domainCount,
   t,
 }: {
-  dashboardMode: "mesh" | "terminal";
+  dashboardMode: "featured" | "terminal";
   visibleLogs: string[];
-  networkValue: number;
-  securityValue: number;
-  t: (key: any) => string;
+  featured: Article;
+  articleCount: number;
+  domainCount: number;
+  t: (key: string) => string;
 }) {
   return (
-    <div className="relative aspect-square max-w-[360px] ml-auto w-full">
-      {/* Mac Title Bar */}
-      <div className="bg-bg-secondary/80 border border-border-main border-b-0 px-4 py-3 rounded-t-[1.5rem] flex items-center justify-between backdrop-blur-md">
+    <Link
+      href={`/articles/${featured.slug}`}
+      className="group block relative aspect-square max-w-[360px] ml-auto w-full transition-transform hover:scale-[1.02] active:scale-[0.99]"
+    >
+      <div className="bg-bg-secondary/80 border border-border-main group-hover:border-turquoise/40 border-b-0 px-4 py-3 rounded-t-[1.5rem] flex items-center justify-between backdrop-blur-md transition-colors">
         <div className="flex space-x-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
-          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></div>
-          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]"></div>
+          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
+          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
         </div>
         <div className="text-[9px] font-mono text-text-secondary/50 uppercase tracking-widest font-bold">
-          {dashboardMode === "mesh" ? t("hero.monitor_mesh") : t("hero.monitor_terminal")}
+          {dashboardMode === "featured" ? t("hero.monitor_featured") : t("hero.monitor_terminal")}
         </div>
-        <div className="w-10"></div>
+        <ChevronRight size={12} className="text-turquoise/50 group-hover:text-turquoise group-hover:translate-x-0.5 transition-all" />
       </div>
 
-      <div className="relative z-10 bg-bg-secondary/60 border border-border-main border-t-0 backdrop-blur-3xl rounded-b-[1.5rem] shadow-2xl overflow-hidden flex flex-col h-[calc(100%-40px)]">
-        {/* Animation Area */}
-        <div className="flex-grow relative overflow-hidden bg-bg-primary/30">
+      <div className="relative z-10 bg-bg-secondary/60 border border-border-main group-hover:border-turquoise/30 border-t-0 backdrop-blur-3xl rounded-b-[1.5rem] shadow-2xl group-hover:shadow-turquoise/10 overflow-hidden flex flex-col h-[calc(100%-40px)] transition-all">
+        <div className="flex-grow relative overflow-hidden bg-bg-primary/30 min-h-[180px]">
           <AnimatePresence mode="wait">
-            {dashboardMode === "mesh" ? (
-              <motion.div key="mesh-mode" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 p-6 flex items-center justify-center">
-                <svg className="w-full h-full text-turquoise/20" viewBox="0 0 100 100">
-                  {[...Array(12)].map((_, i) => (
-                    <motion.line 
-                      key={i} 
-                      x1={Math.random() * 100} y1={Math.random() * 100} 
-                      x2={Math.random() * 100} y2={Math.random() * 100} 
-                      stroke="currentColor" strokeWidth="0.3" 
-                      animate={{ opacity: [0.05, 0.2, 0.05] }}
-                      transition={{ duration: 3 + Math.random() * 3, repeat: Infinity, delay: i * 0.5 }}
-                    />
-                  ))}
-                  <motion.path 
-                    d="M 20 20 L 50 80 L 85 30 L 70 10 L 20 20 M 50 80 L 10 60 L 20 20" 
-                    fill="none" stroke="currentColor" strokeWidth="0.8" 
-                    strokeDasharray="300"
-                    className="text-turquoise"
-                    animate={{ strokeDashoffset: [300, 0] }}
-                    transition={{ duration: 6, repeat: Infinity, ease: "linear" }}
-                  />
-                  <motion.circle r="1.5" className="fill-turquoise">
-                    <animateMotion dur="3s" repeatCount="indefinite" path="M 20 20 L 50 80 L 85 30 L 70 10 L 20 20" />
-                  </motion.circle>
-                  <circle cx="20" cy="20" r="2" className="fill-turquoise" />
-                  <circle cx="50" cy="80" r="2" className="fill-turquoise" />
-                  <circle cx="85" cy="30" r="2" className="fill-turquoise" />
-                  <circle cx="70" cy="10" r="2" className="fill-turquoise" />
-                </svg>
+            {dashboardMode === "featured" ? (
+              <motion.div
+                key="featured-mode"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0"
+              >
+                <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/95 via-bg-primary/30 to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 pointer-events-none">
+                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-white/5 ${featured.bg} ${featured.color} mb-2`}>
+                    {t(featured.categoryLabelKey)}
+                  </span>
+                  <p className="text-[11px] sm:text-xs font-bold text-text-primary leading-snug line-clamp-2 mb-2">
+                    {t(featured.titleKey)}
+                  </p>
+                  <span className="inline-flex items-center text-[8px] font-black uppercase tracking-widest text-turquoise group-hover:underline">
+                    {t("hero.dashboard_cta")} <ChevronRight size={10} className="ml-1 group-hover:translate-x-0.5 transition-transform" />
+                  </span>
+                </div>
               </motion.div>
             ) : (
-              <motion.div key="terminal-mode" initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -10 }} className="absolute inset-0 p-6 font-mono text-[9px]">
+              <motion.div
+                key="terminal-mode"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="absolute inset-0 p-6 font-mono text-[9px]"
+              >
                 <div className="space-y-1.5">
                   {visibleLogs.map((log, idx) => (
                     <div key={`${log}-${idx}`} className={log.includes("FW_BLOCK") ? "text-pink-500" : "text-turquoise/90"}>
@@ -93,7 +116,6 @@ function HeroDashboard({
           </AnimatePresence>
         </div>
 
-        {/* Monitoring Bottom Section */}
         <div className="bg-bg-secondary/90 border-t border-border-main p-4 md:p-6 backdrop-blur-xl">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center space-x-2">
@@ -103,7 +125,7 @@ function HeroDashboard({
               <span className="text-[8px] font-black text-text-primary uppercase tracking-[0.2em]">{t("hero.monitor_live")}</span>
             </div>
             <div className="flex items-center space-x-2 bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
               <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">{t("hero.monitor_live_badge")}</span>
             </div>
           </div>
@@ -111,42 +133,70 @@ function HeroDashboard({
           <div className="space-y-4">
             <div>
               <div className="flex justify-between text-[8px] font-bold text-text-secondary/60 mb-1 uppercase tracking-widest">
-                <span>{t("hero.monitor_network")}</span>
-                <span className="text-turquoise code-font">{Math.round(networkValue)} Mbps</span>
+                <span>{t("hero.monitor_guides")}</span>
+                <span className="text-turquoise code-font">{articleCount}/{articleCount}</span>
               </div>
               <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                <motion.div animate={{ width: `${(networkValue / 1000) * 100}%` }} className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full" />
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1.2, ease: "easeOut" }}
+                  className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full"
+                />
               </div>
             </div>
-            
+
             <div>
               <div className="flex justify-between text-[8px] font-bold text-text-secondary/60 mb-1 uppercase tracking-widest">
-                <span>{t("hero.monitor_security")}</span>
+                <span>{t("hero.monitor_domains")}</span>
                 <div className="flex items-center text-pink-500">
                   <ShieldAlert size={10} className="mr-1.5" />
-                  <span className="code-font">{Math.round(securityValue)}/min</span>
+                  <span className="code-font">{domainCount}/{domainCount}</span>
                 </div>
               </div>
               <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                <motion.div animate={{ width: `${(securityValue / 25) * 100}%` }} className="h-full bg-gradient-to-r from-pink-500/40 to-pink-500 rounded-full" />
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: "100%" }}
+                  transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
+                  className="h-full bg-gradient-to-r from-pink-500/40 to-pink-500 rounded-full"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
+    </Link>
+  );
+}
+
+function HeroStatCard({
+  icon: Icon,
+  label,
+}: {
+  icon: typeof FileText;
+  label: string;
+}) {
+  return (
+    <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
+      <Icon size={14} className="mx-auto mb-1.5 text-turquoise" />
+      <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{label}</div>
     </div>
   );
 }
 
 export default function Hero() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
+  const { articleCount, domainCount, lastUpdated, featured } = useHeroStats();
   const [mounted, setMounted] = useState(false);
-  const [networkValue, setNetworkValue] = useState(847);
-  const [securityValue, setSecurityValue] = useState(12);
-  const [dashboardMode, setDashboardMode] = useState<"mesh" | "terminal">("mesh");
+  const [dashboardMode, setDashboardMode] = useState<"featured" | "terminal">("featured");
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
-  
+
   const logIndexRef = useRef(0);
+
+  const statGuides = t("hero.stat_guides").replace("{count}", String(articleCount));
+  const statDomains = t("hero.stat_domains").replace("{count}", String(domainCount));
+  const statUpdated = t("hero.stat_updated").replace("{date}", formatHeroDate(lastUpdated, lang));
 
   useEffect(() => {
     setMounted(true);
@@ -155,18 +205,9 @@ export default function Hero() {
   useEffect(() => {
     if (!mounted) return;
     const modeInterval = setInterval(() => {
-      setDashboardMode(prev => (prev === "mesh" ? "terminal" : "mesh"));
-    }, 5000);
+      setDashboardMode((prev) => (prev === "featured" ? "terminal" : "featured"));
+    }, 6000);
     return () => clearInterval(modeInterval);
-  }, [mounted]);
-
-  useEffect(() => {
-    if (!mounted) return;
-    const metricsInterval = setInterval(() => {
-      setNetworkValue(prev => Math.max(820, Math.min(980, prev + (Math.random() * 30 - 15))));
-      setSecurityValue(prev => Math.max(10, Math.min(22, prev + (Math.random() * 2 - 1))));
-    }, 2000);
-    return () => clearInterval(metricsInterval);
   }, [mounted]);
 
   useEffect(() => {
@@ -176,7 +217,7 @@ export default function Hero() {
       return;
     }
     const logInterval = setInterval(() => {
-      setVisibleLogs(prev => {
+      setVisibleLogs((prev) => {
         const nextLog = LOG_LINES[logIndexRef.current % LOG_LINES.length];
         logIndexRef.current++;
         const newList = [...prev, nextLog];
@@ -186,49 +227,54 @@ export default function Hero() {
     return () => clearInterval(logInterval);
   }, [mounted, dashboardMode]);
 
-  if (!mounted) return <section className="min-h-[70vh]"></section>;
+  if (!mounted) return <section className="min-h-[70vh]" />;
 
   const staggeredContainer: Variants = {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
+      transition: { staggerChildren: 0.15 },
+    },
   };
 
   const staggeredItem: Variants = {
     hidden: { opacity: 0, x: -20 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.5 } }
+    show: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+  };
+
+  const dashboardProps = {
+    dashboardMode,
+    visibleLogs,
+    featured,
+    articleCount,
+    domainCount,
+    t,
   };
 
   return (
     <section className="relative pt-28 pb-4 md:pt-32 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          
           <div className="lg:col-span-7 flex flex-col justify-center">
-            {/* BADGE */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               className="inline-flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full mb-10 w-fit"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
+              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
               <span className="text-green-500 code-font text-[9px] font-black uppercase tracking-widest">{t("hero.badge")}</span>
             </motion.div>
 
             <div className="mb-6 lg:mb-8">
-              {/* SLIGHTLY INCREASED TITLE FONT SIZE */}
-              <motion.h1 
-                initial={{ opacity: 0, y: 10 }} 
-                animate={{ opacity: 1, y: 0 }} 
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
                 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font mb-4"
               >
                 {t("hero.title_main")}
               </motion.h1>
-              
-              {/* STAGGERED SUB-TITLE */}
-              <motion.div 
+
+              <motion.div
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
@@ -240,7 +286,6 @@ export default function Hero() {
               </motion.div>
             </div>
 
-            {/* DESCRIPTION (REDUCED MARGINS) */}
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -263,45 +308,27 @@ export default function Hero() {
               </a>
             </div>
 
-            {/* Mobile stats */}
             <div className="lg:hidden mt-8 grid grid-cols-3 gap-3">
-              <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
-                <Users size={14} className="mx-auto mb-1.5 text-turquoise" />
-                <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{t("hero.stat_engineers")}</div>
-              </div>
-              <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
-                <FileText size={14} className="mx-auto mb-1.5 text-turquoise" />
-                <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{t("hero.stat_articles")}</div>
-              </div>
-              <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
-                <RefreshCw size={14} className="mx-auto mb-1.5 text-turquoise" />
-                <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{t("hero.stat_updated")}</div>
-              </div>
+              <HeroStatCard icon={FileText} label={statGuides} />
+              <HeroStatCard icon={Layers} label={statDomains} />
+              <HeroStatCard icon={Calendar} label={statUpdated} />
             </div>
           </div>
 
-          {/* Mobile dashboard */}
           <div className="lg:col-span-5 relative lg:hidden mt-6">
-            <HeroDashboard 
-              dashboardMode={dashboardMode}
-              visibleLogs={visibleLogs}
-              networkValue={networkValue}
-              securityValue={securityValue}
-              t={t}
-            />
+            <HeroDashboard {...dashboardProps} />
           </div>
 
           <div className="lg:col-span-5 relative hidden lg:block">
-            {/* Stats block shifted further left */}
-            <motion.div 
+            <motion.div
               animate={{ y: [0, -12, 0], x: [0, 8, 0] }}
               transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-14 -left-36 z-0 opacity-15 pointer-events-none bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
+              className="absolute -top-14 -left-36 z-0 opacity-20 pointer-events-none bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
             >
               <div className="space-y-4 font-mono text-[9px] text-turquoise uppercase tracking-[0.2em]">
-                <div className="flex items-center space-x-2"><Users size={12} /> <span>{t("hero.stat_engineers")}</span></div>
-                <div className="flex items-center space-x-2"><FileText size={12} /> <span>{t("hero.stat_articles")}</span></div>
-                <div className="flex items-center space-x-2"><RefreshCw size={12} /> <span>{t("hero.stat_updated")}</span></div>
+                <div className="flex items-center space-x-2"><FileText size={12} /> <span>{statGuides}</span></div>
+                <div className="flex items-center space-x-2"><Layers size={12} /> <span>{statDomains}</span></div>
+                <div className="flex items-center space-x-2"><Calendar size={12} /> <span>{statUpdated}</span></div>
               </div>
             </motion.div>
 
@@ -311,19 +338,11 @@ export default function Hero() {
               transition={{ duration: 0.8 }}
               className="relative z-10"
             >
-              <HeroDashboard 
-                dashboardMode={dashboardMode}
-                visibleLogs={visibleLogs}
-                networkValue={networkValue}
-                securityValue={securityValue}
-                t={t}
-              />
+              <HeroDashboard {...dashboardProps} />
             </motion.div>
           </div>
-
         </div>
       </div>
     </section>
   );
 }
-

@@ -17,15 +17,16 @@ export interface TranslationKeys {
   "hero.cta_explore": string;
   "hero.cta_browse": string;
   "hero.cta_news": string;
-  "hero.stat_engineers": string;
-  "hero.stat_articles": string;
+  "hero.stat_guides": string;
+  "hero.stat_domains": string;
   "hero.stat_updated": string;
   "hero.monitor_live": string;
-  "hero.monitor_network": string;
-  "hero.monitor_security": string;
+  "hero.monitor_guides": string;
+  "hero.monitor_domains": string;
   "hero.monitor_live_badge": string;
-  "hero.monitor_mesh": string;
+  "hero.monitor_featured": string;
   "hero.monitor_terminal": string;
+  "hero.dashboard_cta": string;
   "hero.tag_infrastructure": string;
   "hero.tag_cybersecurity": string;
   "hero.tag_cloud": string;
@@ -319,15 +320,16 @@ export const translations: Record<Language, TranslationKeys> = {
     "hero.cta_explore": "Explore Categories",
     "hero.cta_browse": "Browse Articles",
     "hero.cta_news": "Newsletter",
-    "hero.stat_engineers": "7K+ Active Ops",
-    "hero.stat_articles": "340+ Technical Nodes",
-    "hero.stat_updated": "Verified Baselines",
-    "hero.monitor_live": "LIVE MONITORING",
-    "hero.monitor_network": "Network Throughput",
-    "hero.monitor_security": "Security Events",
-    "hero.monitor_live_badge": "LIVE",
-    "hero.monitor_mesh": "topology_viz.sh",
+    "hero.stat_guides": "{count} Production Guides",
+    "hero.stat_domains": "{count} Ops Domains",
+    "hero.stat_updated": "Updated {date}",
+    "hero.monitor_live": "CONTENT SYNC",
+    "hero.monitor_guides": "Guides indexed",
+    "hero.monitor_domains": "Domains live",
+    "hero.monitor_live_badge": "SYNCED",
+    "hero.monitor_featured": "featured_node.preview",
     "hero.monitor_terminal": "ops_logs_live.tail",
+    "hero.dashboard_cta": "Open featured guide",
     "hero.tag_infrastructure": "IT Infrastructure",
     "hero.tag_cybersecurity": "Cybersecurity",
     "hero.tag_cloud": "Cloud Native",
@@ -619,15 +621,16 @@ export const translations: Record<Language, TranslationKeys> = {
     "hero.cta_explore": "Explorer les Catégories",
     "hero.cta_browse": "Parcourir les Articles",
     "hero.cta_news": "Newsletter",
-    "hero.stat_engineers": "7K+ Ops Actifs",
-    "hero.stat_articles": "340+ Noeuds Techniques",
-    "hero.stat_updated": "Baselines Vérifiées",
-    "hero.monitor_live": "SURVEILLANCE LIVE",
-    "hero.monitor_network": "Débit réseau",
-    "hero.monitor_security": "Événements sécurité",
-    "hero.monitor_live_badge": "LIVE",
-    "hero.monitor_mesh": "topology_viz.sh",
+    "hero.stat_guides": "{count} guides production",
+    "hero.stat_domains": "{count} domaines ops",
+    "hero.stat_updated": "MAJ {date}",
+    "hero.monitor_live": "SYNC CONTENU",
+    "hero.monitor_guides": "Guides indexés",
+    "hero.monitor_domains": "Domaines actifs",
+    "hero.monitor_live_badge": "SYNC",
+    "hero.monitor_featured": "featured_node.preview",
     "hero.monitor_terminal": "ops_logs_live.tail",
+    "hero.dashboard_cta": "Ouvrir le guide",
     "hero.tag_infrastructure": "Infrastructure IT",
     "hero.tag_cybersecurity": "Cybersécurité",
     "hero.tag_cloud": "Cloud Native",
