@@ -18,7 +18,7 @@ export const RESOURCE_SECTIONS: ResourceSection[] = [
     titleKey: "res.1.title",
     descKey: "res.page.cheatsheets_desc",
     linkKey: "res.1.link",
-    articleSlugs: ["ospf-neighbor-init-diagnosis", "bgp-communities-policy-routing"],
+    articleSlugs: ["packet-loss-diagnosis", "ospf-neighbor-init-diagnosis", "vlan-trunking-runbook"],
     categorySlug: "troubleshooting",
   },
   {
@@ -36,7 +36,7 @@ export const RESOURCE_SECTIONS: ResourceSection[] = [
     titleKey: "res.3.title",
     descKey: "res.page.templates_desc",
     linkKey: "res.3.link",
-    articleSlugs: ["zero-trust-freeipa-vault", "proxmox-ha-cluster-guide"],
+    articleSlugs: ["soc-incident-response-playbook", "linux-hardening-baseline", "zero-trust-freeipa-vault"],
     categorySlug: "infrastructure",
   },
   {
@@ -45,7 +45,7 @@ export const RESOURCE_SECTIONS: ResourceSection[] = [
     titleKey: "res.4.title",
     descKey: "res.page.training_desc",
     linkKey: "res.4.link",
-    articleSlugs: ["kubernetes-network-policies", "wireguard-enterprise-deployment"],
+    articleSlugs: ["eks-production-checklist", "kubernetes-network-policies"],
     categorySlug: "cloud",
   },
 ];

@@ -108,6 +108,21 @@ export interface TranslationKeys {
   "articles.8.title": string;
   "articles.8.excerpt": string;
   "articles.8.category": string;
+  "articles.9.title": string;
+  "articles.9.excerpt": string;
+  "articles.9.category": string;
+  "articles.10.title": string;
+  "articles.10.excerpt": string;
+  "articles.10.category": string;
+  "articles.11.title": string;
+  "articles.11.excerpt": string;
+  "articles.11.category": string;
+  "articles.12.title": string;
+  "articles.12.excerpt": string;
+  "articles.12.category": string;
+  "articles.13.title": string;
+  "articles.13.excerpt": string;
+  "articles.13.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -390,6 +405,21 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.8.title": "Ansible CI/CD Pipeline for Production Infrastructure",
     "articles.8.excerpt": "Design a gated Ansible pipeline with lint, Molecule tests, staging deploy, and production approval — field-tested on 200+ hosts.",
     "articles.8.category": "Automation",
+    "articles.9.title": "VLAN Trunking Runbook for Production Switches",
+    "articles.9.excerpt": "Standardize 802.1Q trunk configuration, native VLAN policy, and validation checks across Cisco and Arista estates.",
+    "articles.9.category": "Networking",
+    "articles.10.title": "SOC Incident Response Playbook — First 30 Minutes",
+    "articles.10.excerpt": "Structured triage workflow for phishing, malware, and lateral movement alerts — from detection to containment.",
+    "articles.10.category": "Cybersecurity",
+    "articles.11.title": "Linux Server Hardening Baseline — Production Checklist",
+    "articles.11.excerpt": "CIS-aligned hardening steps for RHEL/Debian servers: SSH, firewall, auditing, and automated compliance checks.",
+    "articles.11.category": "Infrastructure",
+    "articles.12.title": "EKS Production Cluster — Pre-Go-Live Checklist",
+    "articles.12.excerpt": "Control plane hardening, node group sizing, IRSA, network policies, and observability gates before production traffic.",
+    "articles.12.category": "Cloud",
+    "articles.13.title": "Network Packet Loss — Field Diagnosis Runbook",
+    "articles.13.excerpt": "Layer-by-layer workflow to isolate packet loss: interface errors, QoS drops, ACLs, and path MTU issues.",
+    "articles.13.category": "Troubleshooting",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -670,6 +700,21 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.8.title": "Pipeline CI/CD Ansible pour l'infrastructure de production",
     "articles.8.excerpt": "Concevoir un pipeline Ansible avec lint, tests Molecule, déploiement staging et validation production — éprouvé sur 200+ hôtes.",
     "articles.8.category": "Automation",
+    "articles.9.title": "Runbook VLAN Trunking pour switches de production",
+    "articles.9.excerpt": "Standardiser la config 802.1Q, la native VLAN et les checks de validation sur parcs Cisco et Arista.",
+    "articles.9.category": "Networking",
+    "articles.10.title": "Playbook réponse incident SOC — les 30 premières minutes",
+    "articles.10.excerpt": "Workflow de triage structuré pour alertes phishing, malware et mouvement latéral — de la détection au confinement.",
+    "articles.10.category": "Cybersécurité",
+    "articles.11.title": "Baseline durcissement Linux — checklist production",
+    "articles.11.excerpt": "Étapes de durcissement alignées CIS pour serveurs RHEL/Debian : SSH, firewall, audit et contrôles automatisés.",
+    "articles.11.category": "Infrastructure",
+    "articles.12.title": "Cluster EKS production — checklist pré-mise en prod",
+    "articles.12.excerpt": "Durcissement control plane, sizing node groups, IRSA, network policies et observabilité avant trafic production.",
+    "articles.12.category": "Cloud",
+    "articles.13.title": "Perte de paquets réseau — runbook de diagnostic terrain",
+    "articles.13.excerpt": "Workflow couche par couche pour isoler la perte : erreurs interface, drops QoS, ACLs et problèmes MTU.",
+    "articles.13.category": "Troubleshooting",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",
