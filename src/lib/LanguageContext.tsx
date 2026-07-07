@@ -148,6 +148,10 @@ interface TranslationKeys {
   "about.form_message": string;
   "about.form_send": string;
   "about.form_sent": string;
+  "about.form_sending": string;
+  "about.form_error": string;
+  "news.sending": string;
+  "news.error": string;
   "res.title": string;
   "res.subtitle": string;
   "res.1.title": string;
@@ -380,6 +384,10 @@ const translations: Record<Language, TranslationKeys> = {
     "about.form_message": "Your message",
     "about.form_send": "Send message",
     "about.form_sent": "Message sent — we'll get back to you soon.",
+    "about.form_sending": "Sending...",
+    "about.form_error": "Failed to send. Please try again or email contact@dailyops.tech directly.",
+    "news.sending": "Subscribing...",
+    "news.error": "Subscription failed. Please try again later.",
     "res.title": "Tools & Resources",
     "res.subtitle": "Toolbox for infrastructure professionals",
     "res.1.title": "Cheatsheets",
@@ -610,6 +618,10 @@ const translations: Record<Language, TranslationKeys> = {
     "about.form_message": "Votre message",
     "about.form_send": "Envoyer le message",
     "about.form_sent": "Message envoyé — nous vous répondrons rapidement.",
+    "about.form_sending": "Envoi en cours...",
+    "about.form_error": "Échec de l'envoi. Réessayez ou écrivez à contact@dailyops.tech directement.",
+    "news.sending": "Inscription...",
+    "news.error": "Échec de l'inscription. Veuillez réessayer plus tard.",
     "res.title": "Outils & Ressources",
     "res.subtitle": "Toolbox pour professionnels infrastructure",
     "res.1.title": "Cheatsheets",

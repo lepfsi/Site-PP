@@ -6,17 +6,41 @@ import { useLanguage } from "@/lib/LanguageContext";
 import { motion } from "framer-motion";
 
 export default function NewsletterSection() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubscribed(true);
-    setTimeout(() => {
-      setSubscribed(false);
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          lang,
+          website: formData.get("website"),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+
+      setSubscribed(true);
       setEmail("");
-    }, 3000);
+      setTimeout(() => setSubscribed(false), 5000);
+    } catch {
+      setError(t("news.error"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const features = [
@@ -52,25 +76,42 @@ export default function NewsletterSection() {
               </div>
 
               <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto mb-4">
+                <input
+                  type="text"
+                  name="website"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  className="hidden"
+                  aria-hidden="true"
+                />
+                {error && (
+                  <p className="text-red-500 text-xs font-medium mb-3">{error}</p>
+                )}
                 <div className="flex flex-col sm:flex-row gap-2">
                   <input
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t("news.input")}
-                    className="flex-grow bg-bg-secondary border border-border-main rounded-xl px-5 py-3 text-sm text-text-primary placeholder:text-text-secondary/40 focus:ring-1 focus:ring-turquoise outline-none transition-all"
+                    disabled={loading || subscribed}
+                    className="flex-grow bg-bg-secondary border border-border-main rounded-xl px-5 py-3 text-sm text-text-primary placeholder:text-text-secondary/40 focus:ring-1 focus:ring-turquoise outline-none transition-all disabled:opacity-60"
                     required
                   />
                   <button
-                    disabled={subscribed}
-                    className={`px-6 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center transition-all ${
+                    type="submit"
+                    disabled={loading || subscribed}
+                    className={`px-6 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center transition-all disabled:cursor-not-allowed ${
                       subscribed
                         ? "bg-green-500 text-white"
-                        : "bg-turquoise text-navy hover:scale-105 active:scale-95"
+                        : "bg-turquoise text-navy hover:scale-105 active:scale-95 disabled:opacity-60"
                     }`}
                   >
                     <Send size={14} className="mr-2" />
-                    {subscribed ? t("news.subscribed") : t("news.btn")}
+                    {subscribed
+                      ? t("news.subscribed")
+                      : loading
+                        ? t("news.sending")
+                        : t("news.btn")}
                   </button>
                 </div>
               </form>

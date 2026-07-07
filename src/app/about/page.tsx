@@ -16,17 +16,43 @@ export default function AboutPage() {
   const [subject, setSubject] = useState("");
   const [message, setMessage] = useState("");
   const [sent, setSent] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSent(true);
-    setTimeout(() => {
-      setSent(false);
+    setLoading(true);
+    setError("");
+
+    const formData = new FormData(e.currentTarget);
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          subject,
+          message,
+          website: formData.get("website"),
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || "Failed");
+
+      setSent(true);
       setName("");
       setEmail("");
       setSubject("");
       setMessage("");
-    }, 4000);
+      setTimeout(() => setSent(false), 5000);
+    } catch {
+      setError(t("about.form_error"));
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -105,6 +131,17 @@ export default function AboutPage() {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-5">
+                    <input
+                      type="text"
+                      name="website"
+                      tabIndex={-1}
+                      autoComplete="off"
+                      className="hidden"
+                      aria-hidden="true"
+                    />
+                    {error && (
+                      <p className="text-red-500 text-xs font-medium text-center">{error}</p>
+                    )}
                     <div>
                       <label className="flex items-center text-[10px] font-black uppercase tracking-widest text-text-secondary mb-2">
                         <User size={12} className="mr-1.5" /> {t("about.form_name")}
@@ -155,10 +192,11 @@ export default function AboutPage() {
                     </div>
                     <button
                       type="submit"
-                      className="w-full py-4 bg-turquoise text-navy font-black uppercase tracking-widest text-[10px] rounded-xl flex items-center justify-center hover:scale-[1.02] active:scale-95 transition-all"
+                      disabled={loading}
+                      className="w-full py-4 bg-turquoise text-navy font-black uppercase tracking-widest text-[10px] rounded-xl flex items-center justify-center hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
                     >
                       <Send size={14} className="mr-2" />
-                      {t("about.form_send")}
+                      {loading ? t("about.form_sending") : t("about.form_send")}
                     </button>
                   </form>
                 )}
