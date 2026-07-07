@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { FileText, Clock, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
-import CategoryVisual from "@/components/category-visuals/CategoryVisual";
+import ArticleVisual from "@/components/article-visuals/ArticleVisual";
 import type { Article } from "@/lib/articles";
 import type { CategoryConfig } from "@/lib/categories";
 
@@ -29,7 +29,7 @@ export default function ArticleCategoryCard({ article, category, index }: Articl
         className="block rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise/40 transition-all group overflow-hidden"
       >
         <div className="relative h-24 sm:h-28 border-b border-border-main/50 overflow-hidden">
-          <CategoryVisual slug={category.slug} variant="card" />
+          <ArticleVisual slug={article.slug} category={category.slug} variant="card" />
           <div className="absolute inset-0 bg-gradient-to-t from-bg-secondary/90 via-transparent to-transparent pointer-events-none" />
         </div>
 

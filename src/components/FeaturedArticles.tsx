@@ -1,54 +1,11 @@
 "use client";
 
-import { Clock, Calendar, ArrowRight, Network } from "lucide-react";
+import { Clock, Calendar, ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getFeaturedArticle, getRecentArticles } from "@/lib/articles";
-
-function RoutingTopology() {
-  return (
-    <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-[#0a1628]">
-      <div className="absolute inset-0 tech-grid opacity-10"></div>
-      
-      <svg className="w-[85%] h-[85%] text-turquoise/20" viewBox="0 0 100 100">
-        <path d="M 40 50 L 65 70 L 90 50" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" className="opacity-30" />
-        
-        <motion.path
-          d="M 15 50 L 40 50 L 65 30 L 90 50"
-          fill="none"
-          stroke="#2dd4bf"
-          strokeWidth="1"
-          strokeDasharray="200"
-          initial={{ strokeDashoffset: 200 }}
-          animate={{ strokeDashoffset: 0 }}
-          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-          className="opacity-40"
-        />
-
-        <motion.circle r="2" className="fill-turquoise shadow-[0_0_10px_#2dd4bf]">
-          <animateMotion 
-            dur="3s" 
-            repeatCount="indefinite" 
-            path="M 15 50 L 40 50 L 65 30 L 90 50" 
-          />
-        </motion.circle>
-
-        <circle cx="15" cy="50" r="2" className="fill-text-secondary/40" />
-        
-        <foreignObject x="32" y="42" width="16" height="16">
-          <div className="w-full h-full flex items-center justify-center bg-bg-secondary rounded-md border border-turquoise/40 shadow-lg">
-            <Network size={10} className="text-turquoise" />
-          </div>
-        </foreignObject>
-
-        <circle cx="65" cy="30" r="2" className="fill-turquoise shadow-[0_0_8px_#2dd4bf]" />
-        <circle cx="65" cy="70" r="2" className="fill-text-secondary/20" />
-        <circle cx="90" cy="50" r="2.5" className="fill-turquoise shadow-[0_0_12px_#2dd4bf]" />
-      </svg>
-    </div>
-  );
-}
+import ArticleVisual from "@/components/article-visuals/ArticleVisual";
 
 export default function FeaturedArticles() {
   const { t } = useLanguage();
@@ -85,8 +42,8 @@ export default function FeaturedArticles() {
         >
           <Link href={`/articles/${featured.slug}`} className="block">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px]">
-              <div className="lg:col-span-5 h-56 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative overflow-hidden bg-[#0a1628]">
-                <RoutingTopology />
+              <div className="lg:col-span-5 h-56 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative overflow-hidden">
+                <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
               </div>
               
               <div className="lg:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-center">

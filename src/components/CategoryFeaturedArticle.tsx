@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Clock, Calendar, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
-import CategoryVisual from "@/components/category-visuals/CategoryVisual";
+import ArticleVisual from "@/components/article-visuals/ArticleVisual";
 import type { Article } from "@/lib/articles";
 import type { CategoryConfig } from "@/lib/categories";
 
@@ -26,7 +26,7 @@ export default function CategoryFeaturedArticle({ article, category }: CategoryF
       <Link href={`/articles/${article.slug}`} className="block">
         <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[280px]">
           <div className="lg:col-span-5 h-52 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative">
-            <CategoryVisual slug={category.slug} variant="article" />
+            <ArticleVisual slug={article.slug} category={category.slug} variant="article" />
             <span className={`absolute top-4 left-4 px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-[0.2em] border border-white/5 ${article.bg} ${article.color}`}>
               {t("catpage.spotlight")}
             </span>
