@@ -1,10 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu, X, Moon, Sun, ChevronDown, Globe, Shield, Server, Cloud, Bug, Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/LanguageContext";
+import { navigateHashPath, navigateHomePath } from "@/lib/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import CommandSearch from "./CommandSearch";
 import Logo from "./Logo";
@@ -19,12 +21,23 @@ const CATEGORIES = [
 ] as const;
 
 export default function Navbar() {
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isCatOpen, setIsCatOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const { lang, setLang, t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const handleHomeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    navigateHomePath(pathname, event);
+    setIsOpen(false);
+  };
+
+  const handleHashClick = (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    navigateHashPath(pathname, href, event);
+    setIsOpen(false);
+  };
 
   useEffect(() => {
     setMounted(true);
@@ -44,13 +57,13 @@ export default function Navbar() {
       <div className="flex h-11 items-center justify-between relative">
         
         {/* LOGO - Always points to top of home */}
-        <Link href="/#" className="z-10 flex-shrink-0">
+        <Link href="/" onClick={handleHomeClick} className="z-10 flex-shrink-0">
           <Logo />
         </Link>
 
         {/* CENTERED LINKS */}
         <div className="hidden lg:flex items-center space-x-1 absolute left-1/2 -translate-x-1/2 w-max">
-          <Link href="/#" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-turquoise">{t("nav.home")}</Link>
+          <Link href="/" onClick={handleHomeClick} className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-turquoise">{t("nav.home")}</Link>
           
           <div 
             className="relative"
@@ -95,7 +108,7 @@ export default function Navbar() {
 
           {/* Corrected paths to point to home page sections from anywhere */}
           <Link href="/articles" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.articles")}</Link>
-          <Link href="/#experience" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.expertise")}</Link>
+          <Link href="/#experience" onClick={handleHashClick("/#experience")} className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.expertise")}</Link>
           <Link href="/about" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.about")}</Link>
         </div>
 
@@ -132,7 +145,7 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden mt-4 pt-4 border-t border-border-main/20 space-y-1 overflow-hidden pb-4"
           >
-            <Link href="/#" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.home")}</Link>
+            <Link href="/" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={handleHomeClick}>{t("nav.home")}</Link>
             <div className="px-4 py-2 text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/50">{t("nav.categories")}</div>
             {CATEGORIES.map((cat) => (
               <Link
@@ -146,7 +159,7 @@ export default function Navbar() {
               </Link>
             ))}
             <Link href="/articles" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
-            <Link href="/#experience" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.expertise")}</Link>
+            <Link href="/#experience" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={handleHashClick("/#experience")}>{t("nav.expertise")}</Link>
             <Link href="/about" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
             <div className="flex items-center justify-center gap-2 px-4 pt-4">
               <button onClick={() => setLang("FR")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>FR</button>
