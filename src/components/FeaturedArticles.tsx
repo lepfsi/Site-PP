@@ -82,20 +82,20 @@ function AnimatedTopology() {
           transition={{ duration: 4, repeat: Infinity, delay: 1 }}
         />
         
-        {/* Animated Nodes */}
+        {/* Nodes from image */}
         <motion.circle cx="50" cy="20" r="1.5" className="fill-turquoise" animate={{ r: [1.5, 2.5, 1.5] }} transition={{ duration: 2, repeat: Infinity }} />
         <motion.circle cx="20" cy="50" r="1.5" className="fill-turquoise" animate={{ r: [1.5, 2.5, 1.5] }} transition={{ duration: 2, repeat: Infinity, delay: 0.5 }} />
         <motion.circle cx="50" cy="80" r="1.5" className="fill-turquoise" animate={{ r: [1.5, 2.5, 1.5] }} transition={{ duration: 2, repeat: Infinity, delay: 1 }} />
         <motion.circle cx="80" cy="50" r="1.5" className="fill-turquoise" animate={{ r: [1.5, 2.5, 1.5] }} transition={{ duration: 2, repeat: Infinity, delay: 1.5 }} />
         
-        {/* Central Icon */}
+        {/* Central Icon Area */}
         <foreignObject x="42" y="42" width="16" height="16">
           <div className="w-full h-full flex items-center justify-center bg-bg-secondary rounded-md border border-turquoise/30 shadow-[0_0_10px_rgba(45,212,191,0.2)]">
             <Network size={10} className="text-turquoise" />
           </div>
         </foreignObject>
         
-        <text x="50" y="65" textAnchor="middle" className="text-[4px] font-mono fill-turquoise opacity-40 uppercase tracking-widest">
+        <text x="50" y="65" textAnchor="middle" className="text-[4px] font-mono fill-turquoise opacity-40 uppercase tracking-widest font-bold">
           BGP • ROUTING • POLICY
         </text>
       </svg>
@@ -107,53 +107,54 @@ export default function FeaturedArticles() {
   const { t } = useLanguage();
 
   return (
-    <section id="articles" className="py-24 bg-bg-primary">
-      <div className="container-custom">
+    <section id="articles" className="py-24 bg-bg-primary relative overflow-hidden noc-grid">
+      {/* Cadrillé background effect */}
+      <div className="absolute inset-0 noc-grid opacity-10 pointer-events-none"></div>
+
+      <div className="container-custom relative z-10">
         <div className="flex justify-between items-end mb-12">
-          <div>
-            <h2 className="text-4xl font-black tracking-tight text-text-primary mb-2">Featured articles</h2>
-          </div>
+          <h2 className="text-4xl font-black tracking-tight text-text-primary uppercase">Featured articles</h2>
           <Link href="#" className="flex items-center text-xs font-black uppercase tracking-widest text-turquoise hover:underline group">
             All articles <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* Featured Article Card (Image 2 style) */}
+        {/* COMPACT Featured Article Card (Image Reference style) */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative bg-bg-secondary/40 border border-border-main rounded-[2rem] overflow-hidden mb-12 group hover:border-turquoise/30 transition-colors"
+          className="relative bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-12 group hover:border-turquoise/30 transition-all shadow-xl"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            {/* Left: Animated Graphics */}
-            <div className="h-64 lg:h-auto bg-navy/20 border-r border-border-main/50 relative">
-              <div className="absolute inset-0 noc-grid opacity-10"></div>
+          <div className="grid grid-cols-1 lg:grid-cols-2 min-h-[340px]">
+            {/* Left: Graphic Area - Adjusted sizing */}
+            <div className="h-48 lg:h-auto bg-[#0a1628] border-r border-border-main/50 relative overflow-hidden">
+              <div className="absolute inset-0 noc-grid opacity-5"></div>
               <AnimatedTopology />
             </div>
             
-            {/* Right: Content */}
-            <div className="p-8 md:p-12 flex flex-col justify-center">
-              <div className="flex items-center space-x-4 mb-6">
-                <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 text-[10px] font-bold uppercase tracking-widest">NETWORKING</span>
-                <span className="text-[10px] font-mono text-text-secondary/40">15 min de lecture</span>
+            {/* Right: Content Area - Refined typography */}
+            <div className="p-8 md:p-10 flex flex-col justify-center">
+              <div className="flex items-center space-x-4 mb-5">
+                <span className="px-2.5 py-1 rounded bg-blue-500/20 text-blue-500 text-[10px] font-black uppercase tracking-[0.2em] border border-blue-500/10">NETWORKING</span>
+                <span className="text-[10px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">15 min de lecture</span>
               </div>
               
-              <h3 className="text-3xl md:text-4xl font-black text-text-primary mb-6 leading-tight group-hover:text-turquoise transition-colors">
+              <h3 className="text-2xl md:text-3xl font-black text-text-primary mb-5 leading-tight group-hover:text-turquoise transition-colors tracking-tighter">
                 Mastering BGP Communities for Policy Routing
               </h3>
               
-              <p className="text-text-secondary text-base md:text-lg mb-10 leading-relaxed font-medium">
+              <p className="text-text-secondary text-sm md:text-base mb-8 leading-relaxed font-medium opacity-80 line-clamp-3">
                 Comprehensive guide on advanced BGP communities usage to control traffic flow, implement routing policies, and optimize peering with your upstreams.
               </p>
               
-              <div className="flex items-center space-x-4">
-                <div className="w-10 h-10 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20">
-                  <span className="text-turquoise font-black text-sm">D</span>
+              <div className="flex items-center space-x-3 mt-auto">
+                <div className="w-9 h-9 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20">
+                  <span className="text-turquoise font-black text-xs">D</span>
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-text-primary">DailyOps</div>
-                  <div className="text-[10px] font-mono text-text-secondary/40">2025-01-15</div>
+                  <div className="text-xs font-bold text-text-primary uppercase tracking-widest">DailyOps</div>
+                  <div className="text-[9px] font-mono text-text-secondary/40 font-bold">2025-01-15</div>
                 </div>
               </div>
             </div>
@@ -168,24 +169,24 @@ export default function FeaturedArticles() {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="p-8 bg-bg-secondary/40 border border-border-main rounded-2xl flex flex-col hover:border-turquoise/30 transition-all group"
+              transition={{ delay: index * 0.05 }}
+              className="p-8 bg-bg-secondary/60 border border-border-main rounded-2xl flex flex-col hover:border-turquoise/30 transition-all group backdrop-blur-sm"
             >
               <div className="mb-6">
-                <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} text-[9px] font-bold uppercase tracking-widest`}>
+                <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} text-[9px] font-bold uppercase tracking-widest border border-white/5`}>
                   {article.category}
                 </span>
               </div>
               
-              <h4 className="text-xl font-bold text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors">
+              <h4 className="text-lg font-bold text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors">
                 {article.title}
               </h4>
               
-              <p className="text-text-secondary text-sm mb-8 flex-grow font-medium leading-relaxed">
+              <p className="text-text-secondary text-xs mb-8 flex-grow font-medium leading-relaxed opacity-70">
                 {article.excerpt}
               </p>
               
-              <div className="flex justify-between items-center pt-6 border-t border-border-main/50 text-[10px] font-mono text-text-secondary/40">
+              <div className="flex justify-between items-center pt-6 border-t border-border-main/50 text-[9px] font-mono text-text-secondary/40 font-bold">
                 <span className="flex items-center"><Clock size={12} className="mr-1.5" /> {article.readTime}</span>
                 <span>{article.date}</span>
               </div>
