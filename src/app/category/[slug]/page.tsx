@@ -8,6 +8,7 @@ import { useParams } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getCategoryBySlug, CATEGORIES } from "@/lib/categories";
 import { getArticlesByCategory } from "@/lib/articles";
+import CategoryVisual from "@/components/category-visuals/CategoryVisual";
 import { motion } from "framer-motion";
 
 export default function CategoryPage() {
@@ -33,71 +34,76 @@ export default function CategoryPage() {
               <span className="text-text-primary">{t(category.nameKey)}</span>
             </nav>
 
-            <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                className={`p-6 sm:p-8 rounded-2xl bg-bg-secondary border border-border-main shadow-2xl ${category.color} w-fit`}
-              >
-                <CategoryIcon size={48} className="sm:w-14 sm:h-14" />
-              </motion.div>
-
-              <div className="flex-grow">
-                <motion.h1
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-text-primary tracking-tighter code-font"
-                >
-                  {t(category.nameKey)}
-                </motion.h1>
-                <motion.p
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.1 }}
-                  className="mt-4 text-text-secondary text-lg sm:text-xl font-medium max-w-2xl leading-relaxed"
-                >
-                  {t(category.descKey)}
-                </motion.p>
-
-                {/* Stats row */}
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="flex flex-wrap gap-4 mt-8"
-                >
-                  <div className="flex items-center px-4 py-2 rounded-xl bg-bg-primary/60 border border-border-main">
-                    <FileText size={14} className={`mr-2 ${category.color}`} />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-text-primary">
-                      {category.count} {t("cat.articles")}
-                    </span>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              className={`relative max-w-6xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden shadow-2xl ${category.border}`}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[320px] lg:min-h-[360px]">
+                <div className="lg:col-span-5 h-56 sm:h-64 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative">
+                  <CategoryVisual slug={category.slug} />
+                  <div className={`absolute top-4 left-4 flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#0a1628]/80 border border-border-main/50 ${category.color}`}>
+                    <CategoryIcon size={14} />
+                    <span className="text-[9px] font-black uppercase tracking-widest">{t(category.nameKey)}</span>
                   </div>
-                  <div className="flex items-center px-4 py-2 rounded-xl bg-bg-primary/60 border border-border-main">
-                    <RefreshCw size={14} className={`mr-2 ${category.color}`} />
-                    <span className="text-[10px] font-black uppercase tracking-widest text-text-primary">
-                      {t("catpage.verified")}
-                    </span>
-                  </div>
-                  <div className="flex items-center px-4 py-2 rounded-xl bg-bg-primary/60 border border-border-main">
-                    <span className={`text-[10px] font-black uppercase tracking-widest ${category.color}`}>
-                      {t(category.certKey)}
-                    </span>
-                  </div>
-                </motion.div>
+                </div>
 
-                {/* Tags */}
-                <div className="flex flex-wrap gap-2 mt-6">
-                  {category.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className={`px-3 py-1 rounded-md bg-bg-primary border border-border-main text-[10px] font-bold uppercase tracking-wider ${category.color}`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="lg:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
+                  <motion.h1
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-3xl sm:text-4xl md:text-5xl font-black text-text-primary tracking-tighter code-font leading-tight"
+                  >
+                    {t(category.nameKey)}
+                  </motion.h1>
+                  <motion.p
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.15 }}
+                    className="mt-4 text-text-secondary text-sm sm:text-base font-medium max-w-xl leading-relaxed opacity-80"
+                  >
+                    {t(category.descKey)}
+                  </motion.p>
+
+                  <motion.div
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.2 }}
+                    className="flex flex-wrap gap-3 mt-6"
+                  >
+                    <div className="flex items-center px-3 py-1.5 rounded-xl bg-bg-primary/60 border border-border-main">
+                      <FileText size={12} className={`mr-2 ${category.color}`} />
+                      <span className="text-[9px] font-black uppercase tracking-widest text-text-primary">
+                        {articles.length} {t("cat.articles")}
+                      </span>
+                    </div>
+                    <div className="flex items-center px-3 py-1.5 rounded-xl bg-bg-primary/60 border border-border-main">
+                      <RefreshCw size={12} className={`mr-2 ${category.color}`} />
+                      <span className="text-[9px] font-black uppercase tracking-widest text-text-primary">
+                        {t("catpage.verified")}
+                      </span>
+                    </div>
+                    <div className="flex items-center px-3 py-1.5 rounded-xl bg-bg-primary/60 border border-border-main">
+                      <span className={`text-[9px] font-black uppercase tracking-widest ${category.color}`}>
+                        {t(category.certKey)}
+                      </span>
+                    </div>
+                  </motion.div>
+
+                  <div className="flex flex-wrap gap-2 mt-5">
+                    {category.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className={`px-2.5 py-0.5 rounded-md bg-bg-primary border border-border-main text-[9px] font-bold uppercase tracking-wider ${category.color}`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </div>
         </header>
 
