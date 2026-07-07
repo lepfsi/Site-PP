@@ -94,7 +94,7 @@ export default function Navbar() {
           </div>
 
           {/* Corrected paths to point to home page sections from anywhere */}
-          <Link href="/#articles" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.articles")}</Link>
+          <Link href="/articles" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.articles")}</Link>
           <Link href="/#experience" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.expertise")}</Link>
           <Link href="/about" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.about")}</Link>
         </div>
@@ -145,7 +145,7 @@ export default function Navbar() {
                 {t(`cat.${cat.id}_name`)}
               </Link>
             ))}
-            <Link href="/#articles" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
+            <Link href="/articles" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
             <Link href="/#experience" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.expertise")}</Link>
             <Link href="/about" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
             <div className="flex items-center justify-center gap-2 px-4 pt-4">

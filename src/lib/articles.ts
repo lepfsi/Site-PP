@@ -129,3 +129,7 @@ export function getFeaturedArticle(): Article {
 export function getRecentArticles(limit = 6): Article[] {
   return ARTICLES.filter((a) => !a.featured).slice(0, limit);
 }
+
+export function getAllArticles(): Article[] {
+  return ARTICLES;
+}

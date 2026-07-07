@@ -71,7 +71,7 @@ export default function FeaturedArticles() {
           </motion.h2>
           <div className="flex flex-col items-center">
             <p className="text-text-secondary text-lg font-medium mb-4">{t("articles.featured_subtitle")}</p>
-            <Link href="/#articles" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
+            <Link href="/articles" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
               {t("articles.view_all")} <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
             </Link>
           </div>

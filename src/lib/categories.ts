@@ -12,6 +12,7 @@ export interface CategoryConfig {
   slug: CategorySlug;
   nameKey: `cat.${string}_name`;
   descKey: `cat.${string}_full`;
+  overviewKey: `cat.${string}_overview`;
   shortDescKey: `cat.${string}_desc`;
   certKey: `cat.${string}`;
   icon: LucideIcon;
@@ -27,6 +28,7 @@ export const CATEGORIES: CategoryConfig[] = [
     slug: "networking",
     nameKey: "cat.networking_name",
     descKey: "cat.networking_full",
+    overviewKey: "cat.networking_overview",
     shortDescKey: "cat.networking_desc",
     certKey: "cat.cert_net",
     icon: Globe,
@@ -40,6 +42,7 @@ export const CATEGORIES: CategoryConfig[] = [
     slug: "cybersecurity",
     nameKey: "cat.cybersecurity_name",
     descKey: "cat.cybersecurity_full",
+    overviewKey: "cat.cybersecurity_overview",
     shortDescKey: "cat.cybersecurity_desc",
     certKey: "cat.cert_cyber",
     icon: Shield,
@@ -53,6 +56,7 @@ export const CATEGORIES: CategoryConfig[] = [
     slug: "infrastructure",
     nameKey: "cat.infrastructure_name",
     descKey: "cat.infrastructure_full",
+    overviewKey: "cat.infrastructure_overview",
     shortDescKey: "cat.infrastructure_desc",
     certKey: "cat.cert_infra",
     icon: Server,
@@ -66,6 +70,7 @@ export const CATEGORIES: CategoryConfig[] = [
     slug: "cloud",
     nameKey: "cat.cloud_name",
     descKey: "cat.cloud_full",
+    overviewKey: "cat.cloud_overview",
     shortDescKey: "cat.cloud_desc",
     certKey: "cat.cert_cloud",
     icon: Cloud,
@@ -79,6 +84,7 @@ export const CATEGORIES: CategoryConfig[] = [
     slug: "automation",
     nameKey: "cat.automation_name",
     descKey: "cat.automation_full",
+    overviewKey: "cat.automation_overview",
     shortDescKey: "cat.automation_desc",
     certKey: "cat.cert_auto",
     icon: Zap,
@@ -92,6 +98,7 @@ export const CATEGORIES: CategoryConfig[] = [
     slug: "troubleshooting",
     nameKey: "cat.troubleshooting_name",
     descKey: "cat.troubleshooting_full",
+    overviewKey: "cat.troubleshooting_overview",
     shortDescKey: "cat.troubleshooting_desc",
     certKey: "cat.cert_trouble",
     icon: Bug,

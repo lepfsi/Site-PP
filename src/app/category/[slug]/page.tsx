@@ -101,8 +101,51 @@ export default function CategoryPage() {
           </div>
         </header>
 
+        {/* Category overview — what this domain covers */}
+        <section className="py-12 sm:py-16 border-b border-border-main bg-bg-primary">
+          <div className="container-custom max-w-4xl">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-2xl sm:text-3xl font-black text-text-primary mb-6 flex items-center">
+                <CategoryIcon size={24} className={`mr-3 ${category.color}`} />
+                {t("catpage.overview_title")}
+              </h2>
+              <div className="space-y-4 mb-8">
+                {t(category.overviewKey).split("\n\n").map((paragraph, i) => (
+                  <p key={i} className="text-text-secondary text-base leading-relaxed font-medium">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+              <div>
+                <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-4">
+                  {t("catpage.topics_title")}
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {category.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={`px-3 py-1.5 rounded-lg bg-bg-secondary border border-border-main text-[10px] font-bold uppercase tracking-wider ${category.color}`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
         <section className="py-16 sm:py-24">
           <div className="container-custom">
+            <h2 className="text-2xl sm:text-3xl font-black text-text-primary mb-10 flex items-center">
+              <FileText size={22} className={`mr-3 ${category.color}`} />
+              {t("catpage.articles_section")}
+              <span className="ml-3 text-sm font-mono text-text-secondary/50">({articles.length})</span>
+            </h2>
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
               <div className="lg:col-span-2 space-y-6">
                 {articles.length > 0 ? (

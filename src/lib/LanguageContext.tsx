@@ -123,6 +123,31 @@ interface TranslationKeys {
   "catpage.expertise_desc": string;
   "catpage.contact_noc": string;
   "catpage.verified": string;
+  "catpage.overview_title": string;
+  "catpage.topics_title": string;
+  "catpage.articles_section": string;
+  "cat.networking_overview": string;
+  "cat.cybersecurity_overview": string;
+  "cat.infrastructure_overview": string;
+  "cat.cloud_overview": string;
+  "cat.automation_overview": string;
+  "cat.troubleshooting_overview": string;
+  "articles.all_title": string;
+  "articles.all_subtitle": string;
+  "articles.all_count": string;
+  "about.title": string;
+  "about.subtitle": string;
+  "about.mission": string;
+  "about.methodology_title": string;
+  "about.methodology_desc": string;
+  "about.contact_title": string;
+  "about.contact_desc": string;
+  "about.form_name": string;
+  "about.form_email": string;
+  "about.form_subject": string;
+  "about.form_message": string;
+  "about.form_send": string;
+  "about.form_sent": string;
   "res.title": string;
   "res.subtitle": string;
   "res.1.title": string;
@@ -330,6 +355,31 @@ const translations: Record<Language, TranslationKeys> = {
     "catpage.expertise_desc": "Architecture design, complex troubleshooting and production audit.",
     "catpage.contact_noc": "Contact NOC",
     "catpage.verified": "Verified Baselines",
+    "catpage.overview_title": "What this domain covers",
+    "catpage.topics_title": "Key topics",
+    "catpage.articles_section": "Articles in this category",
+    "cat.networking_overview": "This domain covers everything that moves packets across your infrastructure — from campus switching to internet BGP peering. We document production configurations, design patterns, and troubleshooting workflows validated in live NOC environments.\n\nYou'll find deep dives on routing protocols, VPN architectures, SD-WAN deployments, and network automation. Every guide is written for engineers who need to implement, operate, and fix — not just understand theory.",
+    "cat.cybersecurity_overview": "Security operations in production require more than compliance checklists. This category covers SOC workflows, threat detection, hardening baselines, incident response playbooks, and Zero Trust architectures deployed in real environments.\n\nContent spans identity management, SIEM rule engineering, penetration testing methodologies, and post-incident analysis. We focus on what works under pressure when the alert fires at 3 AM.",
+    "cat.infrastructure_overview": "The foundation layer: servers, storage, virtualization, and high-availability clustering. This category documents how to design, deploy, and maintain on-premise and hybrid infrastructure that survives production workloads.\n\nTopics include Windows/Linux server administration, Proxmox and VMware clusters, Ceph and SAN storage, backup strategies, and monitoring baselines. Field-tested configurations, not lab-only demos.",
+    "cat.cloud_overview": "Cloud-native and hybrid cloud operations — from the first Terraform module to production Kubernetes clusters. This category covers AWS, Azure, GCP, containers, and the networking layer that ties multi-cloud environments together.\n\nWe publish guides on IaC patterns, K8s security, cost optimization, migration strategies, and hybrid connectivity. Everything is structured for teams running real workloads at scale.",
+    "cat.automation_overview": "Infrastructure as code, CI/CD pipelines, and the tooling that eliminates manual toil. This category covers Ansible, Terraform, Python, Go, and GitOps workflows used by platform teams in production.\n\nFrom writing your first playbook to designing self-healing pipelines, we document patterns that reduce MTTR and deployment risk. AI-Ops and observability automation included.",
+    "cat.troubleshooting_overview": "When production breaks, theory won't save you. This category provides systematic diagnostic methodologies, war stories, packet captures, and runbooks for resolving complex failures across network, systems, and applications.\n\nWe cover RCA frameworks, post-mortem templates, and step-by-step resolution paths for the incidents that keep NOC engineers awake. Learn from real outages, not hypothetical scenarios.",
+    "articles.all_title": "All Articles",
+    "articles.all_subtitle": "Complete knowledge base — networking, security, cloud, infrastructure and operations.",
+    "articles.all_count": "articles published",
+    "about.title": "About DailyOps",
+    "about.subtitle": "Production knowledge forged in NOCs and SOCs.",
+    "about.mission": "DailyOps is a technical knowledge base built by field engineers for field engineers. Every article, playbook, and baseline is validated in production environments — no empty theory, no marketing fluff.",
+    "about.methodology_title": "Our methodology",
+    "about.methodology_desc": "We document what we deploy, break, and fix. Each guide follows a production-ready structure: context, architecture, step-by-step implementation, validation checks, and rollback procedures. Content is reviewed and updated as technologies evolve.",
+    "about.contact_title": "Contact us",
+    "about.contact_desc": "Need expertise, spotted an error, or want to contribute? Send us a message — we respond within 48 hours.",
+    "about.form_name": "Full name",
+    "about.form_email": "Email address",
+    "about.form_subject": "Subject",
+    "about.form_message": "Your message",
+    "about.form_send": "Send message",
+    "about.form_sent": "Message sent — we'll get back to you soon.",
     "res.title": "Tools & Resources",
     "res.subtitle": "Toolbox for infrastructure professionals",
     "res.1.title": "Cheatsheets",
@@ -535,6 +585,31 @@ const translations: Record<Language, TranslationKeys> = {
     "catpage.expertise_desc": "Design d'architecture, troubleshooting complexe et audit de production.",
     "catpage.contact_noc": "Contacter le NOC",
     "catpage.verified": "Baselines Vérifiées",
+    "catpage.overview_title": "Ce que couvre ce domaine",
+    "catpage.topics_title": "Sujets clés",
+    "catpage.articles_section": "Articles de cette catégorie",
+    "cat.networking_overview": "Ce domaine couvre tout ce qui fait circuler les paquets dans votre infrastructure — du switching campus au peering BGP internet. Nous documentons des configurations de production, des patterns de design et des workflows de troubleshooting validés en NOC.\n\nVous y trouverez des analyses approfondies sur les protocoles de routage, les architectures VPN, les déploiements SD-WAN et l'automatisation réseau. Chaque guide est écrit pour les ingénieurs qui doivent implémenter, opérer et réparer — pas seulement comprendre la théorie.",
+    "cat.cybersecurity_overview": "Les opérations de sécurité en production exigent plus que des checklists de conformité. Cette catégorie couvre les workflows SOC, la détection de menaces, les baselines de hardening, les playbooks de réponse incident et les architectures Zero Trust déployées en conditions réelles.\n\nLe contenu couvre la gestion d'identité, l'ingénierie de règles SIEM, les méthodologies de pentest et l'analyse post-incident. Nous nous concentrons sur ce qui fonctionne sous pression quand l'alerte tombe à 3h du matin.",
+    "cat.infrastructure_overview": "La couche fondation : serveurs, stockage, virtualisation et clustering haute disponibilité. Cette catégorie documente comment concevoir, déployer et maintenir une infrastructure on-premise et hybride qui survit aux charges de production.\n\nLes sujets incluent l'administration Windows/Linux, les clusters Proxmox et VMware, le stockage Ceph et SAN, les stratégies de backup et les baselines de monitoring. Des configurations éprouvées sur le terrain, pas des démos de lab uniquement.",
+    "cat.cloud_overview": "Opérations cloud-native et cloud hybride — du premier module Terraform aux clusters Kubernetes de production. Cette catégorie couvre AWS, Azure, GCP, les conteneurs et la couche réseau qui relie les environnements multi-cloud.\n\nNous publions des guides sur les patterns IaC, la sécurité K8s, l'optimisation des coûts, les stratégies de migration et la connectivité hybride. Tout est structuré pour les équipes qui font tourner de vraies charges à l'échelle.",
+    "cat.automation_overview": "Infrastructure as code, pipelines CI/CD et outillage qui élimine le toil manuel. Cette catégorie couvre Ansible, Terraform, Python, Go et les workflows GitOps utilisés par les équipes plateforme en production.\n\nDe l'écriture de votre premier playbook à la conception de pipelines auto-réparants, nous documentons les patterns qui réduisent le MTTR et le risque de déploiement. AI-Ops et automatisation observabilité inclus.",
+    "cat.troubleshooting_overview": "Quand la production casse, la théorie ne vous sauvera pas. Cette catégorie fournit des méthodologies de diagnostic systématiques, des war stories, des captures de paquets et des runbooks pour résoudre des pannes complexes sur le réseau, les systèmes et les applications.\n\nNous couvrons les frameworks RCA, les templates de post-mortem et les chemins de résolution pas à pas pour les incidents qui empêchent les ingénieurs NOC de dormir. Apprenez de vraies pannes, pas de scénarios hypothétiques.",
+    "articles.all_title": "Tous les articles",
+    "articles.all_subtitle": "Base de connaissances complète — réseau, sécurité, cloud, infrastructure et opérations.",
+    "articles.all_count": "articles publiés",
+    "about.title": "À propos de DailyOps",
+    "about.subtitle": "Savoir de production forgé dans les NOC et SOC.",
+    "about.mission": "DailyOps est une base de connaissances techniques construite par des ingénieurs terrain pour des ingénieurs terrain. Chaque article, playbook et baseline est validé en environnement de production — pas de théorie vide, pas de marketing.",
+    "about.methodology_title": "Notre méthodologie",
+    "about.methodology_desc": "Nous documentons ce que nous déployons, cassons et réparons. Chaque guide suit une structure production-ready : contexte, architecture, implémentation pas à pas, checks de validation et procédures de rollback. Le contenu est revu et mis à jour au fil de l'évolution des technologies.",
+    "about.contact_title": "Nous contacter",
+    "about.contact_desc": "Besoin d'expertise, erreur repérée ou envie de contribuer ? Envoyez-nous un message — nous répondons sous 48 heures.",
+    "about.form_name": "Nom complet",
+    "about.form_email": "Adresse email",
+    "about.form_subject": "Sujet",
+    "about.form_message": "Votre message",
+    "about.form_send": "Envoyer le message",
+    "about.form_sent": "Message envoyé — nous vous répondrons rapidement.",
     "res.title": "Outils & Ressources",
     "res.subtitle": "Toolbox pour professionnels infrastructure",
     "res.1.title": "Cheatsheets",

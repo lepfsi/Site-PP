@@ -23,7 +23,7 @@ export default function ArticlePage() {
         <div className="flex-grow flex items-center justify-center pt-28">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-text-primary mb-4">404</h1>
-            <Link href="/#articles" className="text-turquoise hover:underline text-sm font-bold uppercase tracking-widest">
+            <Link href="/articles" className="text-turquoise hover:underline text-sm font-bold uppercase tracking-widest">
               {t("article.back")}
             </Link>
           </div>
@@ -126,7 +126,7 @@ export default function ArticlePage() {
                 </div>
 
                 <Link
-                  href="/#articles"
+                  href="/articles"
                   className="inline-flex items-center mt-12 text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group"
                 >
                   <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" />
