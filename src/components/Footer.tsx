@@ -40,6 +40,7 @@ const FOOTER_RESOURCES = [
 
 const FOOTER_ABOUT = [
   { key: "footer.articles", href: "/articles" },
+  { key: "footer.experience", href: "/experience" },
   { key: "footer.newsletter", href: "/#newsletter" },
   { key: "footer.about_author", href: "/about#author" },
   { key: "footer.methodology", href: "/about#methodology" },

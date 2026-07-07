@@ -193,6 +193,11 @@ export interface TranslationKeys {
 
   "exp.title": string;
   "exp.subtitle": string;
+  "exp.view_all": string;
+  "exp.all_title": string;
+  "exp.all_subtitle": string;
+  "exp.all_count": string;
+  "exp.all_filter_all": string;
   "exp.read_case": string;
   "exp.views": string;
   "exp.badge_incident": string;
@@ -298,6 +303,7 @@ export interface TranslationKeys {
   "footer.made": string;
   "footer.about": string;
   "footer.articles": string;
+  "footer.experience": string;
   "footer.newsletter": string;
   "footer.methodology": string;
   "footer.rss": string;
@@ -503,6 +509,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.4.link": "5 guides",
     "exp.title": "Field experience feedback",
     "exp.subtitle": "From the field, validated in production. No empty theory — content forged in NOCs and SOCs.",
+    "exp.view_all": "View all case studies",
+    "exp.all_title": "Field Experience",
+    "exp.all_subtitle": "Production war stories, incident post-mortems, and lessons learned from high-stakes environments.",
+    "exp.all_count": "case studies published",
+    "exp.all_filter_all": "All cases",
     "exp.read_case": "Read case study",
     "exp.views": "views",
     "exp.badge_incident": "INCIDENT RESOLVED",
@@ -607,6 +618,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.made": "Made with passion for IT pros",
     "footer.about": "About",
     "footer.articles": "Articles",
+    "footer.experience": "Field Experience",
     "footer.newsletter": "Newsletter",
     "footer.methodology": "Methodology",
     "footer.rss": "RSS Feed",
@@ -810,6 +822,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.4.link": "5 guides",
     "exp.title": "Retours d'expérience terrain",
     "exp.subtitle": "Du terrain, validé en production. Pas de théorie vide — contenu forgé dans les NOC et SOC.",
+    "exp.view_all": "Voir tous les retours",
+    "exp.all_title": "Retours d'expérience",
+    "exp.all_subtitle": "War stories production, post-mortems d'incidents et leçons tirées d'environnements à forte exigence.",
+    "exp.all_count": "retours publiés",
+    "exp.all_filter_all": "Tous les cas",
     "exp.read_case": "Lire le cas",
     "exp.views": "vues",
     "exp.badge_incident": "INCIDENT RÉSOLU",
@@ -914,6 +931,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.made": "Conçu avec passion pour les Ops",
     "footer.about": "À propos",
     "footer.articles": "Articles",
+    "footer.experience": "Retours d'expérience",
     "footer.newsletter": "Newsletter",
     "footer.methodology": "Méthodologie",
     "footer.rss": "Flux RSS",

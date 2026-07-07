@@ -91,6 +91,12 @@ export function getExperienceBySlug(slug: string): ExperienceCase | undefined {
   return EXPERIENCES.find((e) => e.slug === slug);
 }
 
-export function getExperiencesForHome(): ExperienceCase[] {
-  return EXP_HOME_ORDER.map((id) => EXPERIENCES.find((e) => e.id === id)!);
+export function getAllExperiences(): ExperienceCase[] {
+  const ordered = EXP_HOME_ORDER.map((id) => EXPERIENCES.find((e) => e.id === id)!);
+  const rest = EXPERIENCES.filter((e) => !EXP_HOME_ORDER.includes(e.id as (typeof EXP_HOME_ORDER)[number]));
+  return [...ordered, ...rest];
+}
+
+export function getExperiencesForHome(limit = 3): ExperienceCase[] {
+  return getAllExperiences().slice(0, limit);
 }

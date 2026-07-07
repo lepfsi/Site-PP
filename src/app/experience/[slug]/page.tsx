@@ -24,7 +24,7 @@ export default function ExperiencePage() {
         <div className="flex-grow flex items-center justify-center pt-28">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-text-primary mb-4">404</h1>
-            <Link href="/#experience" className="text-turquoise hover:underline text-sm font-bold uppercase tracking-widest">
+            <Link href="/experience" className="text-turquoise hover:underline text-sm font-bold uppercase tracking-widest">
               {t("exp.page.back")}
             </Link>
           </div>
@@ -54,7 +54,7 @@ export default function ExperiencePage() {
             <nav className="flex flex-wrap items-center mb-8 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
               <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
-              <Link href="/#experience" className="hover:text-turquoise transition-colors">{t("exp.title")}</Link>
+              <Link href="/experience" className="hover:text-turquoise transition-colors">{t("exp.title")}</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
               <span className="text-text-primary truncate max-w-[200px] sm:max-w-none">{t(experience.titleKey)}</span>
             </nav>
@@ -123,7 +123,7 @@ export default function ExperiencePage() {
                 </div>
 
                 <Link
-                  href="/#experience"
+                  href="/experience"
                   className="inline-flex items-center mt-12 text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group"
                 >
                   <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" />
