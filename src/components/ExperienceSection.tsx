@@ -1,12 +1,12 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Eye, Clock, AlertTriangle, Settings, Shield, Zap, AlertCircle, Move, Gauge, Activity, Network } from "lucide-react";
+import { ArrowRight, Eye, Clock, AlertTriangle, Settings, Shield, Zap, Move, Gauge, Network } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 
 const experiences = [
-  // First 3 (Modern Edge-Border style)
+  // First 3 (Muted Neutral style)
   {
     id: "04",
     titleKey: "exp.4.title" as const,
@@ -14,8 +14,8 @@ const experiences = [
     footerKey: "exp.4.footer" as const,
     badgeKey: "exp.badge_incident" as const,
     icon: AlertTriangle,
-    color: "border-l-blue-500",
-    iconColor: "text-blue-500",
+    color: "border-l-slate-700", // Neutral color
+    iconColor: "text-turquoise/50",
     bgColor: "bg-[#0f172a]"
   },
   {
@@ -25,8 +25,8 @@ const experiences = [
     footerKey: "exp.5.footer" as const,
     badgeKey: "exp.badge_optimization" as const,
     icon: Settings,
-    color: "border-l-orange-500",
-    iconColor: "text-orange-500",
+    color: "border-l-slate-700", // Neutral color
+    iconColor: "text-turquoise/50",
     bgColor: "bg-[#0f172a]"
   },
   {
@@ -36,18 +36,19 @@ const experiences = [
     footerKey: "exp.6.footer" as const,
     badgeKey: "exp.badge_security" as const,
     icon: Shield,
-    color: "border-l-red-500",
-    iconColor: "text-red-500",
+    color: "border-l-slate-700", // Neutral color
+    iconColor: "text-turquoise/50",
     bgColor: "bg-[#0f172a]"
   },
-  // Last 3 (Horizontal Wide Cards style as requested)
+  // Last 3 (Horizontal Wide Cards style with Neutral Icons)
   {
     id: "01",
     titleKey: "exp.1.title" as const,
     descKey: "exp.1.desc" as const,
     tags: ["INCIDENT", "PRODUCTION", "NETWORKING"],
     icon: Network,
-    iconContainerColor: "bg-red-500",
+    iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
+    iconColor: "text-turquoise",
     readTime: "25 min",
     views: "8.2K",
     horizontal: true
@@ -58,7 +59,8 @@ const experiences = [
     descKey: "exp.2.desc" as const,
     tags: ["MIGRATION", "CLOUD", "SUCCESS STORY"],
     icon: Move,
-    iconContainerColor: "bg-green-500",
+    iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
+    iconColor: "text-turquoise",
     readTime: "30 min",
     views: "12.5K",
     horizontal: true
@@ -69,7 +71,8 @@ const experiences = [
     descKey: "exp.3.desc" as const,
     tags: ["PERFORMANCE", "OPTIMIZATION", "K8S"],
     icon: Gauge,
-    iconContainerColor: "bg-yellow-500",
+    iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
+    iconColor: "text-turquoise",
     readTime: "22 min",
     views: "9.8K",
     horizontal: true
@@ -104,7 +107,7 @@ export default function ExperienceSection() {
         </div>
 
         <div className="flex flex-col space-y-6 max-w-6xl mx-auto">
-          {/* Top 3: Grid */}
+          {/* Top 3: Grid - Now with NEUTRAL borders */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {experiences.slice(0, 3).map((exp, index) => (
               <motion.div
@@ -113,11 +116,11 @@ export default function ExperienceSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`flex flex-col p-8 ${exp.bgColor} border-l-4 ${exp.color} rounded-r-2xl shadow-xl transition-all hover:translate-x-1`}
+                className={`flex flex-col p-8 ${exp.bgColor} border-l-4 ${exp.color} rounded-r-2xl shadow-xl transition-all hover:border-l-turquoise group`}
               >
                 <div className="flex items-center space-x-2 mb-6">
                   {exp.icon && <exp.icon size={16} className={exp.iconColor} />}
-                  <span className={`text-[10px] font-black uppercase tracking-widest ${exp.iconColor}`}>
+                  <span className={`text-[10px] font-black uppercase tracking-widest text-text-secondary/60 group-hover:text-turquoise transition-colors`}>
                     {t(exp.badgeKey as any)}
                   </span>
                 </div>
@@ -130,7 +133,7 @@ export default function ExperienceSection() {
             ))}
           </div>
 
-          {/* Bottom 3: Wide Horizontal Style */}
+          {/* Bottom 3: Wide Horizontal Style - Now with NEUTRAL icons */}
           {experiences.slice(3, 6).map((exp, index) => (
             <motion.div
               key={exp.id}
@@ -140,7 +143,7 @@ export default function ExperienceSection() {
               transition={{ delay: index * 0.1 }}
               className="group flex flex-col md:flex-row items-center p-6 bg-[#0f172a] border border-white/5 rounded-2xl shadow-xl transition-all hover:border-turquoise/20"
             >
-              <div className={`flex-shrink-0 w-16 h-16 ${exp.iconContainerColor} rounded-xl flex items-center justify-center text-white shadow-lg mb-4 md:mb-0 md:mr-8`}>
+              <div className={`flex-shrink-0 w-16 h-16 ${exp.iconContainerColor} rounded-xl flex items-center justify-center ${exp.iconColor} shadow-lg mb-4 md:mb-0 md:mr-8 transition-all group-hover:scale-105`}>
                 {exp.icon && <exp.icon size={24} />}
               </div>
               
@@ -174,4 +177,3 @@ export default function ExperienceSection() {
     </section>
   );
 }
-
