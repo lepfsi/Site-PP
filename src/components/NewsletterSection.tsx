@@ -50,7 +50,7 @@ export default function NewsletterSection() {
   ];
 
   return (
-    <section id="newsletter" className="py-12 bg-bg-secondary overflow-hidden">
+    <section id="newsletter" className="py-12 bg-bg-primary overflow-hidden border-t border-border-main">
       <div className="container-custom">
         <div className="max-w-3xl mx-auto">
           <motion.div

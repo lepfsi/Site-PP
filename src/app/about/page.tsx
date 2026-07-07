@@ -94,7 +94,7 @@ export default function AboutPage() {
           </div>
         </header>
 
-        <section className="py-16 sm:py-20">
+        <section className="py-16 sm:py-20 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
               <div className="space-y-10">

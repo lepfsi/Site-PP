@@ -103,7 +103,7 @@ export default function ExperiencePage() {
           </div>
         </header>
 
-        <section className="py-16 sm:py-20">
+        <section className="py-16 sm:py-20 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
               <article className="lg:col-span-8">

@@ -52,7 +52,8 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-bg-primary border-t border-border-main pt-12 pb-8">
+    <footer className="relative bg-bg-secondary border-t-2 border-turquoise/15 shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.45)] pt-12 pb-8">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/35 to-transparent pointer-events-none" aria-hidden />
       <div className="container-custom">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-12">
           <div className="md:col-span-4 lg:col-span-4">

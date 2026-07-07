@@ -54,7 +54,7 @@ export default function ArticlesPage() {
           </div>
         </header>
 
-        <section className="py-12 sm:py-16">
+        <section className="py-12 sm:py-16 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
             <div className="flex flex-wrap gap-2 mb-10">
               <button

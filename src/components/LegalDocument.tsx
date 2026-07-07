@@ -38,7 +38,7 @@ export default function LegalDocument({ titleKey, updatedKey, introKey, sections
           </div>
         </header>
 
-        <section className="py-12 sm:py-16">
+        <section className="py-12 sm:py-16 bg-bg-primary border-b border-border-main">
           <div className="container-custom max-w-3xl">
             <motion.p
               initial={{ opacity: 0, y: 10 }}

@@ -151,7 +151,7 @@ export default function CategoryPage() {
           </div>
         </section>
 
-        <section className="py-16 sm:py-24">
+        <section className="py-16 sm:py-24 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
             <h2 className="text-2xl sm:text-3xl font-black text-text-primary mb-10 flex items-center">
               <FileText size={22} className={`mr-3 ${category.color}`} />

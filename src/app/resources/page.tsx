@@ -55,7 +55,7 @@ export default function ResourcesPage() {
           </div>
         </header>
 
-        <section className="py-16 sm:py-20">
+        <section className="py-16 sm:py-20 bg-bg-primary border-b border-border-main">
           <div className="container-custom space-y-20">
             {RESOURCE_SECTIONS.map((section, index) => {
               const category = section.categorySlug ? getCategoryBySlug(section.categorySlug) : undefined;
