@@ -300,7 +300,7 @@ export default function Hero() {
               {t("hero.desc")}
             </motion.p>
 
-            <div className="flex flex-wrap gap-2.5 md:gap-3">
+            <div className="flex flex-wrap gap-2.5 md:gap-3 mt-4 md:mt-6 lg:mt-8">
               <a href="#categories" className="px-5 py-2.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-[10px] tracking-widest uppercase border border-transparent">
                 {t("hero.cta_explore")}
               </a>
