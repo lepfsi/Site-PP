@@ -197,6 +197,21 @@ interface TranslationKeys {
   "exp.6.title": string;
   "exp.6.desc": string;
   "exp.6.footer": string;
+  "exp.1.body": string;
+  "exp.2.body": string;
+  "exp.3.body": string;
+  "exp.4.body": string;
+  "exp.5.body": string;
+  "exp.6.body": string;
+  "exp.page.back": string;
+  "exp.page.related": string;
+  "res.page.title": string;
+  "res.page.subtitle": string;
+  "res.page.cheatsheets_desc": string;
+  "res.page.scripts_desc": string;
+  "res.page.templates_desc": string;
+  "res.page.training_desc": string;
+  "res.page.view_category": string;
   "news.title": string;
   "news.desc": string;
   "news.input": string;
@@ -461,6 +476,21 @@ const translations: Record<Language, TranslationKeys> = {
     "exp.6.title": "Detecting Lateral Movement via SIEM",
     "exp.6.desc": "How a custom SIEM rule detected lateral movement following a successful phishing attack on a service account.",
     "exp.6.footer": "Detection < 5min | Containment",
+    "exp.1.body": "At 03:14 UTC, our BGP monitoring stack flagged an unexpected AS-PATH for a /22 prefix we originate. Within 90 seconds, traffic to that prefix dropped 40% as upstream peers accepted a more-specific announcement from an unauthorized origin.\n\nWe immediately triggered our incident playbook: isolated the affected edge routers, applied emergency prefix filters, and contacted upstream NOCs with IRR-validated route objects. RPKI ROV had not yet been enforced on two transit links — a gap we closed the same week.\n\nTotal time from alert to full traffic restoration: 15 minutes. Post-incident, we added automated prefix-origin validation and peer-specific community tagging for faster triage.",
+    "exp.2.body": "A 500-VM datacenter had to move to AWS within a 72-hour maintenance window with zero user-facing downtime. We chose CloudEndure for continuous block-level replication and staged cutover groups by application tier.\n\nPre-migration validation included DNS TTL reduction, connection draining tests, and rollback snapshots at each wave. Network connectivity used redundant Direct Connect links with BGP failover pre-tested in a shadow VPC.\n\nAll 500 VMs migrated successfully. Rollback was never triggered. The key lesson: invest 60% of the timeline in rehearsal and dependency mapping, not in the cutover itself.",
+    "exp.3.body": "A production Kubernetes cluster serving API traffic showed p95 latency stuck at 200ms despite adequate CPU and memory headroom. Packet captures revealed excessive east-west hairpinning and CNI conntrack pressure under burst load.\n\nWe tightened NetworkPolicies to reduce unnecessary cross-namespace flows, switched to a CNI with eBPF-based routing, and tuned kube-proxy mode on affected node pools. HPA thresholds were recalibrated after observing new baseline metrics.\n\nLatency dropped from 200ms to 15ms at p95 within 48 hours. The fix was operational tuning — not throwing more nodes at the problem.",
+    "exp.4.body": "A major transit provider leaked routes learned from a downstream customer, pulling 40% of our outbound traffic through an unintended path. Latency spiked and packet loss appeared within minutes across multiple regions.\n\nWe correlated BGP updates with our looking-glass collectors and confirmed the leak via unexpected AS-PATH prepends. Emergency AS-PATH filters and prefix-list adjustments on edge routers contained the impact while we opened a P1 ticket with the provider.\n\nMTTR was 45 minutes. We subsequently enforced RPKI ROV on all transit sessions and added automated alerts for path-length anomalies.",
+    "exp.5.body": "Our Proxmox cluster relied on NFS storage approaching end-of-life. We planned a live migration to a Ceph-backed pool without VM downtime, using Proxmox live storage migration and staged workload groups.\n\nEach migration window included pre-flight IOPS benchmarks, Ceph health checks, and rollback snapshots. Network isolation between Ceph public and cluster networks was validated under production load before cutover.\n\nThe migration completed over three weeks with zero downtime. Performance improved 30% on random I/O workloads. The main lesson: never migrate storage and hypervisor firmware in the same window.",
+    "exp.6.body": "A successful phishing campaign compromised a service account with broad LDAP read access. Within five minutes, our SIEM correlated impossible-travel logins with unusual Kerberos ticket requests — a custom rule we built after a previous red-team exercise.\n\nWe isolated the account, forced a domain-wide password reset for the affected OU, and blocked outbound C2 destinations at the firewall. Forensics confirmed lateral movement attempts were stopped before privilege escalation.\n\nDetection-to-containment took under five minutes. The incident reinforced that service accounts need the same monitoring rigor as human users — and that tabletop exercises pay off.",
+    "exp.page.back": "Back to field experience",
+    "exp.page.related": "Related guide",
+    "res.page.title": "Tools & Resources",
+    "res.page.subtitle": "Curated references, scripts, templates, and training material from our production guides.",
+    "res.page.cheatsheets_desc": "Quick-reference command sheets for troubleshooting and daily operations — BGP, OSPF, Linux networking, and more.",
+    "res.page.scripts_desc": "Automation utilities and infrastructure-as-code patterns ready to adapt to your environment.",
+    "res.page.templates_desc": "Runbook and architecture documentation templates used in real incident response and migration projects.",
+    "res.page.training_desc": "Hands-on guides and lab-oriented articles to build practical skills on cloud, security, and infrastructure.",
+    "res.page.view_category": "Browse category",
     "news.title": "Weekly Newsletter",
     "news.desc": "Get the best articles, tech news, and infrastructure tips every week.",
     "news.input": "your.email@ops.tech",
@@ -723,6 +753,21 @@ const translations: Record<Language, TranslationKeys> = {
     "exp.6.title": "Détection de mouvement latéral via SIEM",
     "exp.6.desc": "Comment une règle SIEM personnalisée a détecté un mouvement latéral suite à un phishing réussi sur un compte de service.",
     "exp.6.footer": "Détection < 5min | Confinement",
+    "exp.1.body": "À 03h14 UTC, notre stack de monitoring BGP a signalé un AS-PATH inattendu pour un préfixe /22 que nous annonçons. En 90 secondes, le trafic vers ce préfixe a chuté de 40% alors que des peers acceptaient une annonce plus spécifique depuis une origine non autorisée.\n\nNous avons immédiatement déclenché notre playbook incident : isolation des routeurs edge affectés, filtres de préfixes d'urgence, et contact des NOC upstream avec des route objects validés IRR. La ROV RPKI n'était pas encore appliquée sur deux liens transit — une lacune comblée la même semaine.\n\nTemps total de l'alerte à la restauration complète du trafic : 15 minutes. Post-incident, nous avons ajouté une validation automatisée d'origine de préfixe et un tagging community par peer pour un triage plus rapide.",
+    "exp.2.body": "Un datacenter de 500 VMs devait migrer vers AWS dans une fenêtre de maintenance de 72 heures sans downtime visible pour les utilisateurs. Nous avons choisi CloudEndure pour une réplication block-level continue et découpé les vagues par tier applicatif.\n\nLa validation pré-migration incluait la réduction des TTL DNS, des tests de connection draining et des snapshots de rollback à chaque vague. La connectivité réseau utilisait des liens Direct Connect redondants avec failover BGP pré-testé dans un VPC shadow.\n\nLes 500 VMs ont migré avec succès. Aucun rollback n'a été nécessaire. La leçon clé : investir 60% du temps en répétition et cartographie des dépendances, pas seulement sur le cutover.",
+    "exp.3.body": "Un cluster Kubernetes de production affichait une latence p95 bloquée à 200ms malgré des ressources CPU/mémoire suffisantes. Les captures révélaient un hairpinning east-west excessif et une pression conntrack du CNI sous charge burst.\n\nNous avons resserré les NetworkPolicies, migré vers un CNI avec routage eBPF et ajusté le mode kube-proxy sur les node pools concernés. Les seuils HPA ont été recalibrés après observation des nouvelles métriques de base.\n\nLa latence est passée de 200ms à 15ms en p95 en 48 heures. Le correctif était du tuning opérationnel — pas l'ajout de nœuds.",
+    "exp.4.body": "Un grand fournisseur transit a fait fuiter des routes apprises d'un client downstream, détournant 40% de notre trafic sortant. La latence a explosé et des pertes de paquets sont apparues en quelques minutes sur plusieurs régions.\n\nNous avons corrélé les updates BGP avec nos collecteurs looking-glass et confirmé la fuite via des prepends AS-PATH inattendus. Des filtres AS-PATH d'urgence et des prefix-list sur les routeurs edge ont contenu l'impact pendant l'ouverture d'un ticket P1.\n\nMTTR : 45 minutes. Nous avons ensuite imposé la ROV RPKI sur toutes les sessions transit et ajouté des alertes automatiques sur les anomalies de longueur de chemin.",
+    "exp.5.body": "Notre cluster Proxmox reposait sur un stockage NFS en fin de vie. Nous avons planifié une migration live vers un pool Ceph sans interruption des VMs, via la migration storage live de Proxmox et des groupes de charge par vagues.\n\nChaque fenêtre incluait des benchmarks IOPS, des checks de santé Ceph et des snapshots de rollback. L'isolation réseau entre les réseaux public et cluster Ceph a été validée sous charge production avant cutover.\n\nLa migration s'est étalée sur trois semaines avec zéro downtime. Les I/O aléatoires ont gagné 30%. La leçon principale : ne jamais migrer stockage et firmware hyperviseur dans la même fenêtre.",
+    "exp.6.body": "Une campagne de phishing a compromis un compte de service avec un accès LDAP large. En moins de cinq minutes, notre SIEM a corrélé des logins impossible-travel avec des requêtes Kerberos inhabituelles — une règle custom construite après un exercice red-team précédent.\n\nNous avons isolé le compte, forcé une réinitialisation de mots de passe sur l'OU affectée et bloqué les destinations C2 au firewall. Les forensics ont confirmé que les tentatives de mouvement latéral ont été stoppées avant escalade de privilèges.\n\nDétection à confinement en moins de cinq minutes. L'incident a renforcé que les comptes de service méritent le même monitoring que les utilisateurs humains — et que les tabletop paient.",
+    "exp.page.back": "Retour aux retours terrain",
+    "exp.page.related": "Guide connexe",
+    "res.page.title": "Outils & Ressources",
+    "res.page.subtitle": "Références, scripts, templates et contenus de formation issus de nos guides de production.",
+    "res.page.cheatsheets_desc": "Aide-mémoires de commandes pour le dépannage et les opérations quotidiennes — BGP, OSPF, réseau Linux, et plus.",
+    "res.page.scripts_desc": "Utilitaires d'automatisation et patterns infrastructure-as-code prêts à adapter à votre environnement.",
+    "res.page.templates_desc": "Templates de runbooks et documentation d'architecture utilisés en incident response et migrations réelles.",
+    "res.page.training_desc": "Guides pratiques et articles orientés lab pour monter en compétence cloud, sécurité et infrastructure.",
+    "res.page.view_category": "Parcourir la catégorie",
     "news.title": "Newsletter Hebdomadaire",
     "news.desc": "Recevez chaque semaine les meilleurs articles, news tech, et astuces infrastructure.",
     "news.input": "votre.email@ops.tech",

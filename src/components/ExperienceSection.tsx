@@ -1,94 +1,147 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Eye, Clock, AlertTriangle, Settings, Shield, Zap, Move, Gauge, Network } from "lucide-react";
+import { ArrowRight, Eye, Clock, AlertTriangle, Settings, Shield, Network, Move, Gauge } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
+import { getExperiencesForHome } from "@/lib/experiences";
+import type { ExperienceCase } from "@/lib/experiences";
+import type { LucideIcon } from "lucide-react";
 
-const experiences = [
-  // First 3 (Muted Neutral style)
-  {
-    id: "04",
-    titleKey: "exp.4.title" as const,
-    descKey: "exp.4.desc" as const,
-    footerKey: "exp.4.footer" as const,
-    badgeKey: "exp.badge_incident" as const,
-    icon: AlertTriangle,
-    color: "border-l-border-main",
-    iconColor: "text-turquoise/70",
-    bgColor: "bg-bg-primary"
-  },
-  {
-    id: "05",
-    titleKey: "exp.5.title" as const,
-    descKey: "exp.5.desc" as const,
-    footerKey: "exp.5.footer" as const,
-    badgeKey: "exp.badge_optimization" as const,
-    icon: Settings,
-    color: "border-l-border-main",
-    iconColor: "text-turquoise/70",
-    bgColor: "bg-bg-primary"
-  },
-  {
-    id: "06",
-    titleKey: "exp.6.title" as const,
-    descKey: "exp.6.desc" as const,
-    footerKey: "exp.6.footer" as const,
-    badgeKey: "exp.badge_security" as const,
-    icon: Shield,
-    color: "border-l-border-main",
-    iconColor: "text-turquoise/70",
-    bgColor: "bg-bg-primary"
-  },
-  // Last 3 (Horizontal Wide Cards style with Neutral Icons)
-  {
-    id: "01",
-    titleKey: "exp.1.title" as const,
-    descKey: "exp.1.desc" as const,
-    tagKeys: ["exp.1.tag1", "exp.1.tag2", "exp.1.tag3"] as const,
+const MUTED_STYLE = {
+  color: "border-l-border-main",
+  iconColor: "text-turquoise/70",
+  bgColor: "bg-bg-primary",
+} as const;
+
+const EXP_UI: Record<string, {
+  icon: LucideIcon;
+  horizontal?: boolean;
+  iconContainerColor?: string;
+  color?: string;
+  iconColor?: string;
+  bgColor?: string;
+}> = {
+  "04": { icon: AlertTriangle, ...MUTED_STYLE },
+  "05": { icon: Settings, ...MUTED_STYLE },
+  "06": { icon: Shield, ...MUTED_STYLE },
+  "01": {
     icon: Network,
     iconContainerColor: "bg-bg-secondary border border-border-main",
     iconColor: "text-turquoise",
-    readTime: "25 min",
-    views: "8.2K",
-    horizontal: true
+    horizontal: true,
   },
-  {
-    id: "02",
-    titleKey: "exp.2.title" as const,
-    descKey: "exp.2.desc" as const,
-    tagKeys: ["exp.2.tag1", "exp.2.tag2", "exp.2.tag3"] as const,
+  "02": {
     icon: Move,
     iconContainerColor: "bg-bg-secondary border border-border-main",
     iconColor: "text-turquoise",
-    readTime: "30 min",
-    views: "12.5K",
-    horizontal: true
+    horizontal: true,
   },
-  {
-    id: "03",
-    titleKey: "exp.3.title" as const,
-    descKey: "exp.3.desc" as const,
-    tagKeys: ["exp.3.tag1", "exp.3.tag2", "exp.3.tag3"] as const,
+  "03": {
     icon: Gauge,
     iconContainerColor: "bg-bg-secondary border border-border-main",
     iconColor: "text-turquoise",
-    readTime: "22 min",
-    views: "9.8K",
-    horizontal: true
+    horizontal: true,
   },
-];
+};
+
+function MutedCard({ exp, ui, index }: { exp: ExperienceCase; ui: (typeof EXP_UI)[string]; index: number }) {
+  const { t } = useLanguage();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+    >
+      <Link
+        href={`/experience/${exp.slug}`}
+        className={`flex flex-col p-8 ${ui.bgColor} border border-border-main border-l-4 ${ui.color} rounded-r-2xl shadow-lg transition-all hover:border-l-turquoise group h-full`}
+      >
+        <div className="flex items-center space-x-2 mb-6">
+          <ui.icon size={16} className={ui.iconColor} />
+          {exp.badgeKey && (
+            <span className="text-[10px] font-black uppercase tracking-widest text-text-secondary/60 group-hover:text-turquoise transition-colors">
+              {t(exp.badgeKey)}
+            </span>
+          )}
+        </div>
+        <h3 className="text-xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors">{t(exp.titleKey)}</h3>
+        <p className="text-text-secondary text-sm leading-relaxed mb-10 flex-grow font-medium">{t(exp.descKey)}</p>
+        {exp.footerKey && (
+          <div className="pt-6 border-t border-border-main text-[10px] font-mono text-text-secondary/70 uppercase font-bold tracking-widest flex items-center">
+            <Clock size={12} className="mr-1.5" /> {t(exp.footerKey)}
+          </div>
+        )}
+      </Link>
+    </motion.div>
+  );
+}
+
+function HorizontalCard({ exp, ui, index }: { exp: ExperienceCase; ui: (typeof EXP_UI)[string]; index: number }) {
+  const { t } = useLanguage();
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ delay: index * 0.1 }}
+    >
+      <Link
+        href={`/experience/${exp.slug}`}
+        className="group flex flex-col md:flex-row items-center p-6 bg-bg-primary border border-border-main rounded-2xl shadow-lg transition-all hover:border-turquoise/30"
+      >
+        <div className={`flex-shrink-0 w-16 h-16 ${ui.iconContainerColor} rounded-xl flex items-center justify-center ${ui.iconColor} shadow-lg mb-4 md:mb-0 md:mr-8 transition-all group-hover:scale-105`}>
+          <ui.icon size={24} />
+        </div>
+
+        <div className="flex-grow text-center md:text-left">
+          <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-3">
+            {exp.tagKeys?.map((tagKey) => (
+              <span key={tagKey} className="px-2 py-0.5 rounded bg-turquoise/5 text-turquoise text-[9px] font-black uppercase tracking-wider border border-turquoise/10">
+                {t(tagKey)}
+              </span>
+            ))}
+          </div>
+          <h3 className="text-xl font-bold text-text-primary mb-2 group-hover:text-turquoise transition-colors">
+            {t(exp.titleKey)}
+          </h3>
+          <p className="text-text-secondary text-sm font-medium leading-relaxed mb-4 line-clamp-2 md:line-clamp-1">
+            {t(exp.descKey)}
+          </p>
+
+          <div className="flex items-center justify-center md:justify-start space-x-6 text-[10px] font-mono text-text-secondary/70 font-bold uppercase tracking-widest">
+            {exp.readTime && (
+              <span className="flex items-center"><Clock size={12} className="mr-1.5 text-turquoise" /> {exp.readTime}</span>
+            )}
+            {exp.views && (
+              <span className="flex items-center"><Eye size={12} className="mr-1.5 text-turquoise" /> {exp.views} {t("exp.views")}</span>
+            )}
+            <span className="hidden md:flex ml-auto items-center text-turquoise group-hover:underline group-hover:translate-x-1 transition-transform">
+              {t("exp.read_case")} <ArrowRight size={14} className="ml-1.5" />
+            </span>
+          </div>
+        </div>
+      </Link>
+    </motion.div>
+  );
+}
 
 export default function ExperienceSection() {
   const { t } = useLanguage();
+  const experiences = getExperiencesForHome();
+  const topCards = experiences.slice(0, 3);
+  const bottomCards = experiences.slice(3, 6);
 
   return (
     <section id="experience" className="py-24 bg-bg-secondary relative overflow-hidden">
       <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none"></div>
-      
+
       <div className="container-custom relative z-10">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -96,7 +149,7 @@ export default function ExperienceSection() {
           >
             {t("exp.title")}
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -107,70 +160,14 @@ export default function ExperienceSection() {
         </div>
 
         <div className="flex flex-col space-y-6 max-w-6xl mx-auto">
-          {/* Top 3: Grid - Now with NEUTRAL borders */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {experiences.slice(0, 3).map((exp, index) => (
-              <motion.div
-                key={exp.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className={`flex flex-col p-8 ${exp.bgColor} border border-border-main border-l-4 ${exp.color} rounded-r-2xl shadow-lg transition-all hover:border-l-turquoise group`}
-              >
-                <div className="flex items-center space-x-2 mb-6">
-                  {exp.icon && <exp.icon size={16} className={exp.iconColor} />}
-                  <span className={`text-[10px] font-black uppercase tracking-widest text-text-secondary/60 group-hover:text-turquoise transition-colors`}>
-                    {t(exp.badgeKey as any)}
-                  </span>
-                </div>
-                <h3 className="text-xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors">{t(exp.titleKey)}</h3>
-                <p className="text-text-secondary text-sm leading-relaxed mb-10 flex-grow font-medium">{t(exp.descKey)}</p>
-                <div className="pt-6 border-t border-border-main text-[10px] font-mono text-text-secondary/70 uppercase font-bold tracking-widest flex items-center">
-                  <Clock size={12} className="mr-1.5" /> {t(exp.footerKey as any)}
-                </div>
-              </motion.div>
+            {topCards.map((exp, index) => (
+              <MutedCard key={exp.id} exp={exp} ui={EXP_UI[exp.id]} index={index} />
             ))}
           </div>
 
-          {/* Bottom 3: Wide Horizontal Style - Now with NEUTRAL icons */}
-          {experiences.slice(3, 6).map((exp, index) => (
-            <motion.div
-              key={exp.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="group flex flex-col md:flex-row items-center p-6 bg-bg-primary border border-border-main rounded-2xl shadow-lg transition-all hover:border-turquoise/30"
-            >
-              <div className={`flex-shrink-0 w-16 h-16 ${exp.iconContainerColor} rounded-xl flex items-center justify-center ${exp.iconColor} shadow-lg mb-4 md:mb-0 md:mr-8 transition-all group-hover:scale-105`}>
-                {exp.icon && <exp.icon size={24} />}
-              </div>
-              
-              <div className="flex-grow text-center md:text-left">
-                <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-3">
-                  {exp.tagKeys?.map(tagKey => (
-                    <span key={tagKey} className="px-2 py-0.5 rounded bg-turquoise/5 text-turquoise text-[9px] font-black uppercase tracking-wider border border-turquoise/10">
-                      {t(tagKey)}
-                    </span>
-                  ))}
-                </div>
-                <h3 className="text-xl font-bold text-text-primary mb-2 group-hover:text-turquoise transition-colors">
-                  {t(exp.titleKey)}
-                </h3>
-                <p className="text-text-secondary text-sm font-medium leading-relaxed mb-4 line-clamp-2 md:line-clamp-1">
-                  {t(exp.descKey)}
-                </p>
-                
-                <div className="flex items-center justify-center md:justify-start space-x-6 text-[10px] font-mono text-text-secondary/70 font-bold uppercase tracking-widest">
-                  <span className="flex items-center"><Clock size={12} className="mr-1.5 text-turquoise" /> {exp.readTime}</span>
-                  <span className="flex items-center"><Eye size={12} className="mr-1.5 text-turquoise" /> {exp.views} {t("exp.views")}</span>
-                  <Link href="#" className="hidden md:flex ml-auto items-center text-turquoise hover:underline group-hover:translate-x-1 transition-transform">
-                    {t("exp.read_case")} <ArrowRight size={14} className="ml-1.5" />
-                  </Link>
-                </div>
-              </div>
-            </motion.div>
+          {bottomCards.map((exp, index) => (
+            <HorizontalCard key={exp.id} exp={exp} ui={EXP_UI[exp.id]} index={index} />
           ))}
         </div>
       </div>

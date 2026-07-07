@@ -1,33 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Rss, Heart, Facebook } from "lucide-react";
+import { Github, Rss, Mail, Heart } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { CATEGORIES } from "@/lib/categories";
+import { SOCIAL_LINKS } from "@/lib/site";
 import Logo from "./Logo";
 
-const XIcon = ({ size = 20 }: { size?: number }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M4 4l11.733 16H20L8.267 4z" />
-    <path d="M4 20l6.768-6.768m2.464-2.464L20 4" />
-  </svg>
-);
-
 const FOOTER_RESOURCES = [
-  { key: "footer.cheatsheets", href: "#" },
-  { key: "footer.templates", href: "#" },
-  { key: "footer.scripts", href: "#" },
-  { key: "footer.training", href: "#" },
-  { key: "footer.lab", href: "#" },
+  { key: "footer.cheatsheets", href: "/resources#cheatsheets" },
+  { key: "footer.templates", href: "/resources#templates" },
+  { key: "footer.scripts", href: "/resources#scripts" },
+  { key: "footer.training", href: "/resources#training" },
+  { key: "footer.lab", href: "/resources#training" },
 ] as const;
 
 const FOOTER_ABOUT = [
@@ -38,6 +23,12 @@ const FOOTER_ABOUT = [
   { key: "footer.legal", href: "/legal" },
   { key: "footer.rss", href: "/articles" },
 ] as const;
+
+const SOCIAL_ICONS = {
+  github: Github,
+  contact: Mail,
+  rss: Rss,
+} as const;
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -56,22 +47,19 @@ export default function Footer() {
             </p>
 
             <div className="flex space-x-5">
-              {[
-                { Icon: Linkedin, title: "LinkedIn" },
-                { Icon: Github, title: "GitHub" },
-                { Icon: XIcon, title: "X" },
-                { Icon: Facebook, title: "Facebook" },
-                { Icon: Rss, title: "RSS" },
-              ].map(({ Icon, title }) => (
-                <Link
-                  key={title}
-                  href="#"
-                  className="text-text-secondary hover:text-turquoise transition-colors"
-                  title={title}
-                >
-                  <Icon size={20} />
-                </Link>
-              ))}
+              {SOCIAL_LINKS.map(({ id, href, label }) => {
+                const Icon = SOCIAL_ICONS[id];
+                return (
+                  <Link
+                    key={id}
+                    href={href}
+                    className="text-text-secondary hover:text-turquoise transition-colors"
+                    title={label}
+                  >
+                    <Icon size={20} />
+                  </Link>
+                );
+              })}
             </div>
           </div>
 
