@@ -101,7 +101,7 @@ export default function CategoryGrid() {
           <TypewriterTerminal />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {CATEGORIES.map((category, index) => (
             <motion.div
               key={category.slug}
@@ -112,36 +112,38 @@ export default function CategoryGrid() {
             >
               <Link 
                 href={`/category/${category.slug}`}
-                className={`group flex flex-col h-full p-6 sm:p-8 bg-bg-primary/40 border border-border-main rounded-2xl transition-all duration-300 ${category.border} backdrop-blur-sm hover:shadow-2xl hover:shadow-black/20`}
+                className={`group flex flex-col h-full p-6 sm:p-8 bg-bg-primary/40 border border-border-main rounded-2xl transition-all duration-300 ${category.border} backdrop-blur-sm hover:border-turquoise/30 relative`}
               >
-                <div className="flex justify-between items-start mb-8">
-                  <div className={`w-12 h-12 rounded-xl ${category.bg} ${category.color} flex items-center justify-center transition-transform duration-500 group-hover:rotate-12 group-hover:scale-110`}>
-                    <category.icon size={24} />
+                <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-2xl"></div>
+
+                <div className="flex justify-between items-start mb-4 relative z-10">
+                  <div className={`w-9 h-9 rounded-lg ${category.bg} ${category.color} flex items-center justify-center transition-transform duration-500 group-hover:scale-105`}>
+                    <category.icon size={18} />
                   </div>
-                  <span className="text-[10px] font-mono text-text-secondary/40 uppercase tracking-widest pt-2">
+                  <span className="text-[9px] font-mono text-text-secondary/40 uppercase tracking-widest pt-1">
                     {category.count} {t("cat.articles")}
                   </span>
                 </div>
                 
-                <h3 className="text-2xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors">
+                <h3 className="text-lg font-bold text-text-primary mb-3 leading-tight group-hover:text-turquoise transition-colors relative z-10">
                   {t(category.nameKey)}
                 </h3>
                 
-                <p className="text-text-secondary text-sm leading-relaxed mb-8 flex-grow font-medium">
+                <p className="text-text-secondary text-xs leading-relaxed mb-6 flex-grow font-medium opacity-70 relative z-10">
                   {t(category.descKey)}
                 </p>
                 
-                <div className="flex flex-wrap gap-2 pt-6 border-t border-border-main/50">
+                <div className="flex flex-wrap items-center gap-1.5 pt-5 border-t border-border-main/50 relative z-10">
                   {category.tags.map((tag) => (
                     <span 
                       key={tag} 
-                      className={`px-3 py-1 rounded-md bg-bg-secondary border border-border-main text-[10px] font-bold uppercase tracking-wider ${category.color} opacity-70 group-hover:opacity-100 transition-opacity`}
+                      className={`px-2 py-0.5 rounded bg-bg-secondary border border-border-main text-[9px] font-bold uppercase tracking-wider ${category.color} opacity-70 group-hover:opacity-100 transition-opacity`}
                     >
                       {tag}
                     </span>
                   ))}
-                  <div className="ml-auto w-7 h-7 rounded-full bg-bg-primary border border-border-main flex items-center justify-center text-text-secondary group-hover:text-turquoise group-hover:border-turquoise transition-all">
-                    <ArrowRight size={12} />
+                  <div className="ml-auto w-6 h-6 rounded-full bg-bg-primary border border-border-main flex items-center justify-center text-text-secondary group-hover:text-turquoise group-hover:border-turquoise transition-all">
+                    <ArrowRight size={11} />
                   </div>
                 </div>
               </Link>
