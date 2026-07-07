@@ -3,9 +3,10 @@
 import { useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight, Clock, Eye, ArrowRight, AlertTriangle } from "lucide-react";
+import { Clock, Eye, ArrowRight, AlertTriangle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageHeader, { PAGE_TOP_OFFSET } from "@/components/PageHeader";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getAllExperiences } from "@/lib/experiences";
 import { CATEGORIES } from "@/lib/categories";
@@ -24,39 +25,24 @@ export default function ExperiencePage() {
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
-      <div className="flex-grow pt-28">
-        <header className="relative py-16 sm:py-20 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
-          <div className="absolute inset-0 noc-grid opacity-20 pointer-events-none" />
-          <div className="container-custom relative z-10">
-            <nav className="flex items-center mb-8 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
-              <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
-              <ChevronRight className="mx-2 h-3 w-3" />
-              <span className="text-text-primary">{t("exp.all_title")}</span>
-            </nav>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-black text-text-primary tracking-tight code-font mb-4"
-            >
-              <span className="text-turquoise">//</span> {t("exp.all_title")}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-text-secondary text-lg font-medium max-w-2xl mb-6"
-            >
-              {t("exp.all_subtitle")}
-            </motion.p>
+      <div className={`flex-grow ${PAGE_TOP_OFFSET}`}>
+        <PageHeader
+          breadcrumbs={[
+            { label: t("catpage.breadcrumb"), href: "/" },
+            { label: t("exp.all_title") },
+          ]}
+          title={t("exp.all_title")}
+          subtitle={t("exp.all_subtitle")}
+          meta={
             <p className="text-[10px] font-black uppercase tracking-widest text-turquoise">
               {allExperiences.length} {t("exp.all_count")}
             </p>
-          </div>
-        </header>
+          }
+        />
 
-        <section className="py-12 sm:py-16 bg-bg-primary border-b border-border-main">
+        <section className="py-8 sm:py-10 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
-            <div className="flex flex-wrap gap-2 mb-10">
+            <div className="flex flex-wrap gap-2 mb-8">
               <button
                 onClick={() => setFilter("all")}
                 className={`px-4 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${

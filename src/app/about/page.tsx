@@ -2,11 +2,10 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageHeader, { PAGE_TOP_OFFSET } from "@/components/PageHeader";
 import { useLanguage } from "@/lib/LanguageContext";
 import { motion } from "framer-motion";
 import { Send, Mail, User, MessageSquare, FileText, CheckCircle } from "lucide-react";
-import Link from "next/link";
-import { ChevronRight } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function AboutPage() {
@@ -67,34 +66,19 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
-      <div className="flex-grow pt-28">
-        <header className="relative py-16 sm:py-20 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
-          <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none"></div>
-          <div className="container-custom relative z-10">
-            <nav className="flex items-center mb-8 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
-              <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
-              <ChevronRight className="mx-2 h-3 w-3" />
-              <span className="text-text-primary">{t("about.title")}</span>
-            </nav>
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-black text-text-primary tracking-tight code-font mb-4"
-            >
-              {t("about.title")}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-text-secondary text-lg sm:text-xl font-medium max-w-2xl"
-            >
-              {t("about.subtitle")}
-            </motion.p>
-          </div>
-        </header>
+      <div className={`flex-grow ${PAGE_TOP_OFFSET}`}>
+        <PageHeader
+          grid="tech"
+          breadcrumbs={[
+            { label: t("catpage.breadcrumb"), href: "/" },
+            { label: t("about.title") },
+          ]}
+          title={t("about.title")}
+          subtitle={t("about.subtitle")}
+          showPrefix={false}
+        />
 
-        <section className="py-16 sm:py-20 bg-bg-primary border-b border-border-main">
+        <section className="py-8 sm:py-10 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
               <div className="space-y-10">
@@ -103,7 +87,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="scroll-mt-32 p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary"
+                  className="scroll-mt-24 p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary"
                 >
                   <h2 className="text-xl font-bold text-text-primary mb-6">{t("about.author_title")}</h2>
                   <div className="flex items-start gap-4 mb-6">
@@ -128,7 +112,7 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary scroll-mt-32"
+                  className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary scroll-mt-24"
                 >
                   <h2 className="text-xl font-bold text-text-primary mb-4">{t("about.methodology_title")}</h2>
                   <p className="text-text-secondary text-sm leading-relaxed font-medium">
@@ -142,7 +126,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-xl scroll-mt-32"
+                className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-xl scroll-mt-24"
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <Mail className="text-turquoise" size={20} />

@@ -2,7 +2,8 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ChevronRight, FileText, RefreshCw } from "lucide-react";
+import PageHeader, { PAGE_TOP_OFFSET } from "@/components/PageHeader";
+import { FileText, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -28,25 +29,21 @@ export default function CategoryPage() {
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
-      <div className="flex-grow pt-28">
-        {/* Hero header — aligned with home design */}
-        <header className="relative py-16 sm:py-24 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
-          <div className="absolute inset-0 noc-grid opacity-20 pointer-events-none"></div>
-          <div className="scanline"></div>
-          <div className="container-custom relative z-10">
-            <nav className="flex flex-wrap items-center mb-10 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
-              <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
-              <ChevronRight className="mx-2 h-3 w-3" />
-              <span className="text-text-primary">{t(category.nameKey)}</span>
-            </nav>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className={`relative max-w-6xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden shadow-2xl ${category.border}`}
-            >
-              <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[320px] lg:min-h-[360px]">
-                <div className="lg:col-span-5 h-56 sm:h-64 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative">
+      <div className={`flex-grow ${PAGE_TOP_OFFSET}`}>
+        <PageHeader
+          compact
+          breadcrumbs={[
+            { label: t("catpage.breadcrumb"), href: "/" },
+            { label: t(category.nameKey) },
+          ]}
+        >
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            className={`relative max-w-6xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden shadow-2xl ${category.border}`}
+          >
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[260px] lg:min-h-[300px]">
+              <div className="lg:col-span-5 h-48 sm:h-52 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative">
                   <CategoryVisual slug={category.slug} />
                   <div className={`absolute top-4 left-4 flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#0a1628]/80 border border-border-main/50 ${category.color}`}>
                     <CategoryIcon size={14} />
@@ -54,12 +51,12 @@ export default function CategoryPage() {
                   </div>
                 </div>
 
-                <div className="lg:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
+                <div className="lg:col-span-7 p-5 sm:p-6 md:p-8 flex flex-col justify-center">
                   <motion.h1
-                    initial={{ opacity: 0, y: 16 }}
+                    initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.1 }}
-                    className="text-3xl sm:text-4xl md:text-5xl font-black text-text-primary tracking-tighter code-font leading-tight"
+                    transition={{ delay: 0.08 }}
+                    className="text-2xl sm:text-3xl md:text-4xl font-black text-text-primary tracking-tighter code-font leading-tight"
                   >
                     {t(category.nameKey)}
                   </motion.h1>
@@ -109,12 +106,11 @@ export default function CategoryPage() {
                   </div>
                 </div>
               </div>
-            </motion.div>
-          </div>
-        </header>
+          </motion.div>
+        </PageHeader>
 
         {/* Category overview — what this domain covers */}
-        <section className="py-12 sm:py-16 border-b border-border-main bg-bg-primary">
+        <section className="py-8 sm:py-10 border-b border-border-main bg-bg-primary">
           <div className="container-custom max-w-4xl">
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -151,7 +147,7 @@ export default function CategoryPage() {
           </div>
         </section>
 
-        <section className="py-16 sm:py-24 bg-bg-primary border-b border-border-main">
+        <section className="py-8 sm:py-12 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
             <h2 className="text-2xl sm:text-3xl font-black text-text-primary mb-10 flex items-center">
               <FileText size={22} className={`mr-3 ${category.color}`} />
