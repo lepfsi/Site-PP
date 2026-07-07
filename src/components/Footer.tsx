@@ -36,16 +36,17 @@ const FOOTER_RESOURCES = [
   { key: "footer.templates", href: "/resources#templates" },
   { key: "footer.scripts", href: "/resources#scripts" },
   { key: "footer.training", href: "/resources#training" },
-  { key: "footer.lab", href: "/resources#training" },
+  { key: "footer.lab", href: "/resources#lab" },
 ] as const;
 
 const FOOTER_ABOUT = [
-  { key: "footer.about_author", href: "/about" },
-  { key: "footer.methodology", href: "/about" },
-  { key: "footer.contact", href: "/about" },
+  { key: "footer.articles", href: "/articles" },
+  { key: "footer.newsletter", href: "/#newsletter" },
+  { key: "footer.about_author", href: "/about#author" },
+  { key: "footer.methodology", href: "/about#methodology" },
+  { key: "footer.contact", href: "/about#contact" },
   { key: "footer.privacy", href: "/privacy" },
   { key: "footer.legal", href: "/legal" },
-  { key: "footer.rss", href: "/feed.xml" },
 ] as const;
 
 export default function Footer() {

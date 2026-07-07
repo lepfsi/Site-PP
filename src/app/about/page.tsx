@@ -7,7 +7,7 @@ import { motion } from "framer-motion";
 import { Send, Mail, User, MessageSquare, FileText, CheckCircle } from "lucide-react";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AboutPage() {
   const { t } = useLanguage();
@@ -18,6 +18,15 @@ export default function AboutPage() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash) return;
+    const el = document.getElementById(hash);
+    if (el) {
+      setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 100);
+    }
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -90,9 +99,11 @@ export default function AboutPage() {
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 max-w-6xl mx-auto">
               <div className="space-y-10">
                 <motion.div
+                  id="author"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
+                  className="scroll-mt-32"
                 >
                   <p className="text-text-secondary text-base sm:text-lg leading-relaxed font-medium">
                     {t("about.mission")}
@@ -100,10 +111,11 @@ export default function AboutPage() {
                 </motion.div>
 
                 <motion.div
+                  id="methodology"
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary"
+                  className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary scroll-mt-32"
                 >
                   <h2 className="text-xl font-bold text-text-primary mb-4">{t("about.methodology_title")}</h2>
                   <p className="text-text-secondary text-sm leading-relaxed font-medium">
@@ -113,10 +125,11 @@ export default function AboutPage() {
               </div>
 
               <motion.div
+                id="contact"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-xl"
+                className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-xl scroll-mt-32"
               >
                 <div className="flex items-center space-x-3 mb-2">
                   <Mail className="text-turquoise" size={20} />

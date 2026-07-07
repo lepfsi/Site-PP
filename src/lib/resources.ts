@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { FileCode, Laptop, Book, GraduationCap } from "lucide-react";
+import { FileCode, Laptop, Book, GraduationCap, FlaskConical } from "lucide-react";
 
 export interface ResourceSection {
   id: string;
@@ -47,5 +47,14 @@ export const RESOURCE_SECTIONS: ResourceSection[] = [
     linkKey: "res.4.link",
     articleSlugs: ["eks-production-checklist", "kubernetes-network-policies"],
     categorySlug: "cloud",
+  },
+  {
+    id: "lab",
+    icon: FlaskConical,
+    titleKey: "res.5.title",
+    descKey: "res.page.lab_desc",
+    linkKey: "res.5.link",
+    articleSlugs: ["proxmox-ha-cluster-guide", "wireguard-enterprise-deployment", "ospf-neighbor-init-diagnosis"],
+    categorySlug: "infrastructure",
   },
 ];

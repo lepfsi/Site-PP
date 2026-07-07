@@ -186,6 +186,9 @@ export interface TranslationKeys {
   "res.4.title": string;
   "res.4.desc": string;
   "res.4.link": string;
+  "res.5.title": string;
+  "res.5.desc": string;
+  "res.5.link": string;
   "exp.title": string;
   "exp.subtitle": string;
   "exp.read_case": string;
@@ -231,6 +234,7 @@ export interface TranslationKeys {
   "res.page.scripts_desc": string;
   "res.page.templates_desc": string;
   "res.page.training_desc": string;
+  "res.page.lab_desc": string;
   "res.page.view_category": string;
   "news.title": string;
   "news.desc": string;
@@ -291,6 +295,8 @@ export interface TranslationKeys {
   "footer.rights": string;
   "footer.made": string;
   "footer.about": string;
+  "footer.articles": string;
+  "footer.newsletter": string;
   "footer.methodology": string;
   "footer.rss": string;
   "footer.cheatsheets": string;
@@ -489,6 +495,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.4.title": "Training",
     "res.4.desc": "Practical guides and hands-on labs",
     "res.4.link": "12 courses",
+    "res.5.title": "Lab Environment",
+    "res.5.desc": "Hands-on infrastructure and networking labs",
+    "res.5.link": "3 lab guides",
     "exp.title": "Field experience feedback",
     "exp.subtitle": "From the field, validated in production. No empty theory — content forged in NOCs and SOCs.",
     "exp.read_case": "Read case study",
@@ -533,7 +542,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.page.cheatsheets_desc": "Quick-reference command sheets for troubleshooting and daily operations — BGP, OSPF, Linux networking, and more.",
     "res.page.scripts_desc": "Automation utilities and infrastructure-as-code patterns ready to adapt to your environment.",
     "res.page.templates_desc": "Runbook and architecture documentation templates used in real incident response and migration projects.",
-    "res.page.training_desc": "Hands-on guides and lab-oriented articles to build practical skills on cloud, security, and infrastructure.",
+    "res.page.training_desc": "Structured learning paths and cloud-native guides to build practical skills step by step.",
+    "res.page.lab_desc": "Reproducible lab setups for HA clusters, VPN tunnels, and protocol troubleshooting in isolated environments.",
     "res.page.view_category": "Browse category",
     "news.title": "Weekly Newsletter",
     "news.desc": "Get the best articles, tech news, and infrastructure tips every week.",
@@ -594,6 +604,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.rights": "All rights reserved",
     "footer.made": "Made with passion for IT pros",
     "footer.about": "About",
+    "footer.articles": "Articles",
+    "footer.newsletter": "Newsletter",
     "footer.methodology": "Methodology",
     "footer.rss": "RSS Feed",
     "footer.cheatsheets": "Cheatsheets",
@@ -790,6 +802,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.4.title": "Formations",
     "res.4.desc": "Guides et labs pratiques",
     "res.4.link": "12 cours",
+    "res.5.title": "Environnement Lab",
+    "res.5.desc": "Labs infrastructure et réseau",
+    "res.5.link": "3 guides lab",
     "exp.title": "Retours d'expérience terrain",
     "exp.subtitle": "Du terrain, validé en production. Pas de théorie vide — contenu forgé dans les NOC et SOC.",
     "exp.read_case": "Lire le cas",
@@ -834,7 +849,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.page.cheatsheets_desc": "Aide-mémoires de commandes pour le dépannage et les opérations quotidiennes — BGP, OSPF, réseau Linux, et plus.",
     "res.page.scripts_desc": "Utilitaires d'automatisation et patterns infrastructure-as-code prêts à adapter à votre environnement.",
     "res.page.templates_desc": "Templates de runbooks et documentation d'architecture utilisés en incident response et migrations réelles.",
-    "res.page.training_desc": "Guides pratiques et articles orientés lab pour monter en compétence cloud, sécurité et infrastructure.",
+    "res.page.training_desc": "Parcours structurés et guides cloud-native pour monter en compétence étape par étape.",
+    "res.page.lab_desc": "Setups lab reproductibles pour clusters HA, tunnels VPN et troubleshooting protocoles en environnement isolé.",
     "res.page.view_category": "Parcourir la catégorie",
     "news.title": "Newsletter Hebdomadaire",
     "news.desc": "Recevez chaque semaine les meilleurs articles, news tech, et astuces infrastructure.",
@@ -895,6 +911,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.rights": "Tous droits réservés",
     "footer.made": "Conçu avec passion pour les Ops",
     "footer.about": "À propos",
+    "footer.articles": "Articles",
+    "footer.newsletter": "Newsletter",
     "footer.methodology": "Méthodologie",
     "footer.rss": "Flux RSS",
     "footer.cheatsheets": "Cheatsheets",
