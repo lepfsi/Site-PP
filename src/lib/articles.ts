@@ -65,14 +65,38 @@ export const ARTICLES: Article[] = [
     bg: "bg-orange-500/10",
   },
   {
+    slug: "proxmox-ha-cluster-guide",
+    category: "infrastructure",
+    titleKey: "articles.6.title",
+    excerptKey: "articles.6.excerpt",
+    bodyKey: "articles.6.body",
+    categoryLabelKey: "articles.6.category",
+    readTime: "20 min",
+    date: "2025-01-05",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+  },
+  {
+    slug: "wireguard-enterprise-deployment",
+    category: "networking",
+    titleKey: "articles.7.title",
+    excerptKey: "articles.7.excerpt",
+    bodyKey: "articles.7.body",
+    categoryLabelKey: "articles.7.category",
+    readTime: "14 min",
+    date: "2025-01-03",
+    color: "text-blue-500",
+    bg: "bg-blue-500/10",
+  },
+  {
     slug: "kubernetes-network-policies",
     category: "cloud",
     titleKey: "articles.2.title",
     excerptKey: "articles.2.excerpt",
     bodyKey: "articles.2.body",
     categoryLabelKey: "articles.2.category",
-    readTime: "14 min",
-    date: "2024-12-20",
+    readTime: "10 min",
+    date: "2024-12-28",
     color: "text-blue-400",
     bg: "bg-blue-400/10",
   },
@@ -102,6 +126,6 @@ export function getFeaturedArticle(): Article {
   return ARTICLES.find((a) => a.featured) ?? ARTICLES[0];
 }
 
-export function getRecentArticles(limit = 3): Article[] {
+export function getRecentArticles(limit = 6): Article[] {
   return ARTICLES.filter((a) => !a.featured).slice(0, limit);
 }

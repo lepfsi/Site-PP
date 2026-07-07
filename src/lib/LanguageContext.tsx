@@ -101,6 +101,14 @@ interface TranslationKeys {
   "articles.5.excerpt": string;
   "articles.5.category": string;
   "articles.5.body": string;
+  "articles.6.title": string;
+  "articles.6.excerpt": string;
+  "articles.6.category": string;
+  "articles.6.body": string;
+  "articles.7.title": string;
+  "articles.7.excerpt": string;
+  "articles.7.category": string;
+  "articles.7.body": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -272,8 +280,8 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.1.excerpt": "Complete guide to migrating to a Zero Trust architecture: principles, tools, and field experience.",
     "articles.1.category": "Cybersecurity",
     "articles.1.body": "Zero Trust is not a product — it's an operational model. This article documents our migration from perimeter-based security to identity-centric access using FreeIPA for centralized authentication and HashiCorp Vault for secrets management.\n\nWe cover the phased rollout: inventory of service accounts, certificate rotation, network segmentation boundaries, and the SIEM rules that validate every access attempt.\n\nKey takeaway: start with your most exposed services, not your most critical ones. Early wins build organizational trust in the model.",
-    "articles.2.title": "Kubernetes Network Policies: Best Practices",
-    "articles.2.excerpt": "Secure your K8s workloads with effective network policies: practical examples and anti-patterns to avoid.",
+    "articles.2.title": "Kubernetes Network Policies: Securing Intra-Cluster Traffic",
+    "articles.2.excerpt": "Network Policy patterns for effective micro-segmentation in K8s.",
     "articles.2.category": "Cloud",
     "articles.2.body": "Network policies are often misconfigured or ignored entirely. This guide provides production-ready examples for namespace isolation, egress control, and DNS-aware policies.\n\nWe document common anti-patterns: overly permissive default-deny rules, policies that break health checks, and CNI-specific gotchas with Calico and Cilium.\n\nIncludes a validation checklist and tcpdump-based troubleshooting workflow for when policies don't behave as expected.",
     "articles.3.title": "BGP Route Reflection vs Confederation",
@@ -288,6 +296,14 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.5.excerpt": "Detailed runbook for resolving stuck OSPF adjacencies, with Wireshark captures.",
     "articles.5.category": "Troubleshooting",
     "articles.5.body": "An OSPF neighbor stuck in INIT state is one of the most common production issues — and one of the most misdiagnosed. This runbook walks through the complete diagnostic chain.\n\nWe cover MTU mismatches, ACL filtering, authentication key mismatches, and broadcast network type errors with packet captures for each scenario.\n\nIncludes a decision tree and the exact show commands to run on Cisco, Juniper, and Arista platforms.",
+    "articles.6.title": "Proxmox VE HA Cluster: Production Guide",
+    "articles.6.excerpt": "Deploying a high-availability Proxmox cluster with Ceph and corosync quorum.",
+    "articles.6.category": "Infrastructure",
+    "articles.6.body": "Running Proxmox in production requires more than a single node. This guide walks through building a 3-node HA cluster with shared Ceph storage and proper corosync quorum configuration.\n\nWe cover network design (separate cluster, storage and migration networks), fencing configuration, and the sysctl/kernel tunings that prevent split-brain scenarios.\n\nIncludes a pre-flight checklist, rolling upgrade procedure, and lessons learned from a live migration of 120 VMs without downtime.",
+    "articles.7.title": "WireGuard VPN: From Theory to Enterprise Deployment",
+    "articles.7.excerpt": "Technical comparison, advanced configuration, and integration into existing IT systems.",
+    "articles.7.category": "Networking",
+    "articles.7.body": "WireGuard has replaced IPsec and OpenVPN in many production environments — but enterprise deployment requires careful planning. This article compares WireGuard against legacy VPN solutions on performance, key management, and auditability.\n\nWe cover hub-and-spoke vs full-mesh topologies, integration with FreeIPA/LDAP for key distribution, and iptables/nftables rules for split-tunnel vs full-tunnel policies.\n\nIncludes configuration templates for Linux gateways, Windows clients, and monitoring via Prometheus exporters.",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -457,8 +473,8 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.1.excerpt": "Guide complet pour migrer vers une architecture Zero Trust : principes, outils et retour d'expérience terrain.",
     "articles.1.category": "Cybersécurité",
     "articles.1.body": "Zero Trust n'est pas un produit — c'est un modèle opérationnel. Cet article documente notre migration d'une sécurité périmétrique vers un accès centré sur l'identité avec FreeIPA pour l'authentification et HashiCorp Vault pour la gestion des secrets.\n\nNous couvrons le déploiement par phases : inventaire des comptes de service, rotation des certificats, segmentation réseau et règles SIEM validant chaque tentative d'accès.\n\nPoint clé : commencez par vos services les plus exposés, pas les plus critiques. Les premières victoires construisent la confiance organisationnelle dans le modèle.",
-    "articles.2.title": "Kubernetes Network Policies : Best Practices",
-    "articles.2.excerpt": "Sécuriser vos workloads K8s avec des network policies efficaces : exemples pratiques et anti-patterns à éviter.",
+    "articles.2.title": "Kubernetes Network Policies : sécuriser le trafic intra-cluster",
+    "articles.2.excerpt": "Patterns de Network Policy pour une micro-segmentation efficace en K8s.",
     "articles.2.category": "Cloud",
     "articles.2.body": "Les network policies sont souvent mal configurées ou ignorées. Ce guide fournit des exemples prêts pour la production : isolation de namespace, contrôle egress et policies compatibles DNS.\n\nNous documentons les anti-patterns courants : règles default-deny trop permissives, policies qui cassent les health checks, et pièges spécifiques aux CNI Calico et Cilium.\n\nInclut une checklist de validation et un workflow de troubleshooting basé sur tcpdump.",
     "articles.3.title": "BGP Route Reflection vs Confederation",
@@ -473,6 +489,14 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.5.excerpt": "Runbook détaillé pour résoudre les adjacences OSPF bloquées, avec captures Wireshark.",
     "articles.5.category": "Troubleshooting",
     "articles.5.body": "Un voisin OSPF bloqué en état INIT est l'un des problèmes les plus courants en production — et l'un des plus mal diagnostiqués. Ce runbook parcourt la chaîne de diagnostic complète.\n\nNous couvrons les mismatches MTU, le filtrage ACL, les erreurs de clés d'authentification et les types de réseau broadcast avec captures pour chaque scénario.\n\nInclut un arbre de décision et les commandes show exactes sur Cisco, Juniper et Arista.",
+    "articles.6.title": "Cluster HA Proxmox VE : guide de production",
+    "articles.6.excerpt": "Déployer un cluster Proxmox haute disponibilité avec Ceph et quorum corosync.",
+    "articles.6.category": "Infrastructure",
+    "articles.6.body": "Faire tourner Proxmox en production exige plus qu'un nœud unique. Ce guide détaille la construction d'un cluster HA 3 nœuds avec stockage Ceph partagé et configuration corosync adaptée.\n\nNous couvrons le design réseau (réseaux cluster, stockage et migration séparés), la configuration du fencing et les tunings sysctl/kernel pour éviter les split-brain.\n\nInclut une checklist pré-vol, une procédure de mise à jour rolling et les leçons d'une migration live de 120 VMs sans interruption.",
+    "articles.7.title": "WireGuard VPN : de la théorie au déploiement entreprise",
+    "articles.7.excerpt": "Comparaison technique, configuration avancée et intégration dans un SI existant.",
+    "articles.7.category": "Networking",
+    "articles.7.body": "WireGuard a remplacé IPsec et OpenVPN dans de nombreux environnements de production — mais le déploiement entreprise demande une planification rigoureuse. Cet article compare WireGuard aux VPN legacy sur la performance, la gestion des clés et l'auditabilité.\n\nNous couvrons les topologies hub-and-spoke vs full-mesh, l'intégration FreeIPA/LDAP pour la distribution des clés, et les règles iptables/nftables pour split-tunnel vs full-tunnel.\n\nInclut des templates de configuration pour gateways Linux, clients Windows et monitoring via exporters Prometheus.",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",

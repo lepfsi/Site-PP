@@ -53,7 +53,7 @@ function RoutingTopology() {
 export default function FeaturedArticles() {
   const { t } = useLanguage();
   const featured = getFeaturedArticle();
-  const recentArticles = getRecentArticles(3);
+  const recentArticles = getRecentArticles(6);
 
   return (
     <section id="articles" className="py-24 bg-bg-primary relative overflow-hidden">
