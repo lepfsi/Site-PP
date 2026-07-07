@@ -32,7 +32,7 @@ function HeroDashboard({
   return (
     <div className="relative aspect-square max-w-[360px] ml-auto w-full">
       {/* Mac Title Bar */}
-      <div className="bg-navy/60 border border-white/10 border-b-0 px-4 py-3 rounded-t-[1.5rem] flex items-center justify-between backdrop-blur-md">
+      <div className="bg-bg-secondary/80 border border-border-main border-b-0 px-4 py-3 rounded-t-[1.5rem] flex items-center justify-between backdrop-blur-md">
         <div className="flex space-x-2">
           <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]"></div>
           <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]"></div>
@@ -44,9 +44,9 @@ function HeroDashboard({
         <div className="w-10"></div>
       </div>
 
-      <div className="relative z-10 bg-bg-secondary/40 border border-white/5 border-t-0 backdrop-blur-3xl rounded-b-[1.5rem] shadow-2xl overflow-hidden flex flex-col h-[calc(100%-40px)]">
+      <div className="relative z-10 bg-bg-secondary/60 border border-border-main border-t-0 backdrop-blur-3xl rounded-b-[1.5rem] shadow-2xl overflow-hidden flex flex-col h-[calc(100%-40px)]">
         {/* Animation Area */}
-        <div className="flex-grow relative overflow-hidden bg-navy/10">
+        <div className="flex-grow relative overflow-hidden bg-bg-primary/30">
           <AnimatePresence mode="wait">
             {dashboardMode === "mesh" ? (
               <motion.div key="mesh-mode" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="absolute inset-0 p-6 flex items-center justify-center">
@@ -94,7 +94,7 @@ function HeroDashboard({
         </div>
 
         {/* Monitoring Bottom Section */}
-        <div className="bg-navy/80 border-t border-white/5 p-4 md:p-6 backdrop-blur-xl">
+        <div className="bg-bg-secondary/90 border-t border-border-main p-4 md:p-6 backdrop-blur-xl">
           <div className="flex justify-between items-center mb-4">
             <div className="flex items-center space-x-2">
               <div className="p-1.5 bg-turquoise/20 rounded-lg text-turquoise">

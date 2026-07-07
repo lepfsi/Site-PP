@@ -176,6 +176,8 @@ interface TranslationKeys {
   "news.feature1": string;
   "news.feature2": string;
   "news.feature3": string;
+  "news.subscribers": string;
+  "news.privacy": string;
   "search.label": string;
   "search.placeholder": string;
   "search.quick_links": string;
@@ -196,6 +198,16 @@ interface TranslationKeys {
   "footer.cloud_short": string;
   "footer.rights": string;
   "footer.made": string;
+  "footer.about": string;
+  "footer.methodology": string;
+  "footer.rss": string;
+  "footer.cheatsheets": string;
+  "footer.templates": string;
+  "footer.scripts": string;
+  "footer.training": string;
+  "footer.lab": string;
+  "footer.copyright": string;
+  "footer.production_ready": string;
 }
 
 const translations: Record<Language, TranslationKeys> = {
@@ -363,14 +375,16 @@ const translations: Record<Language, TranslationKeys> = {
     "exp.6.title": "Detecting Lateral Movement via SIEM",
     "exp.6.desc": "How a custom SIEM rule detected lateral movement following a successful phishing attack on a service account.",
     "exp.6.footer": "Detection < 5min | Containment",
-    "news.title": "Production Ready News",
-    "news.desc": "Weekly infrastructure essentials.",
+    "news.title": "Weekly Newsletter",
+    "news.desc": "Get the best articles, tech news, and infrastructure tips every week.",
     "news.input": "your.email@ops.tech",
     "news.btn": "Subscribe",
     "news.subscribed": "OK",
-    "news.feature1": "CVE Alerts",
-    "news.feature2": "Shell Scripts",
-    "news.feature3": "RCA Deep-dive",
+    "news.feature1": "Premium",
+    "news.feature2": "Alerts",
+    "news.feature3": "Resources",
+    "news.subscribers": "+5,000 IT professionals already subscribed",
+    "news.privacy": "Your data is secure. Unsubscribe in 1 click.",
     "search.label": "Search",
     "search.placeholder": "Search a baseline, log, or incident...",
     "search.quick_links": "Quick Links",
@@ -390,7 +404,17 @@ const translations: Record<Language, TranslationKeys> = {
     "footer.contact": "Contact",
     "footer.cloud_short": "Cloud & Virt.",
     "footer.rights": "All rights reserved",
-    "footer.made": "Designed with passion for Ops",
+    "footer.made": "Made with passion for IT pros",
+    "footer.about": "About",
+    "footer.methodology": "Methodology",
+    "footer.rss": "RSS Feed",
+    "footer.cheatsheets": "Cheatsheets",
+    "footer.templates": "Templates",
+    "footer.scripts": "Scripts & Tools",
+    "footer.training": "Training",
+    "footer.lab": "Lab Environment",
+    "footer.copyright": "© 2026 DailyOps.Tech —",
+    "footer.production_ready": "Production Ready",
   },
   FR: {
     "nav.home": "Accueil",
@@ -556,14 +580,16 @@ const translations: Record<Language, TranslationKeys> = {
     "exp.6.title": "Détection de mouvement latéral via SIEM",
     "exp.6.desc": "Comment une règle SIEM personnalisée a détecté un mouvement latéral suite à un phishing réussi sur un compte de service.",
     "exp.6.footer": "Détection < 5min | Confinement",
-    "news.title": "Production Ready News",
-    "news.desc": "L'essentiel de l'infrastructure hebdomadaire.",
+    "news.title": "Newsletter Hebdomadaire",
+    "news.desc": "Recevez chaque semaine les meilleurs articles, news tech, et astuces infrastructure.",
     "news.input": "votre.email@ops.tech",
     "news.btn": "S'abonner",
     "news.subscribed": "OK",
-    "news.feature1": "Alertes CVE",
-    "news.feature2": "Scripts Shell",
-    "news.feature3": "RCA Deep-dive",
+    "news.feature1": "Premium",
+    "news.feature2": "Alertes",
+    "news.feature3": "Ressources",
+    "news.subscribers": "+5 000 professionnels IT déjà abonnés",
+    "news.privacy": "Vos données sont sécurisées. Désabonnement en 1 clic.",
     "search.label": "Rechercher",
     "search.placeholder": "Rechercher une baseline, un log, un incident...",
     "search.quick_links": "Liens rapides",
@@ -584,6 +610,16 @@ const translations: Record<Language, TranslationKeys> = {
     "footer.cloud_short": "Cloud & Virt.",
     "footer.rights": "Tous droits réservés",
     "footer.made": "Conçu avec passion pour les Ops",
+    "footer.about": "À propos",
+    "footer.methodology": "Méthodologie",
+    "footer.rss": "Flux RSS",
+    "footer.cheatsheets": "Cheatsheets",
+    "footer.templates": "Templates",
+    "footer.scripts": "Scripts & Outils",
+    "footer.training": "Formations",
+    "footer.lab": "Environnement Lab",
+    "footer.copyright": "© 2026 DailyOps.Tech —",
+    "footer.production_ready": "Production Ready",
   },
 };
 

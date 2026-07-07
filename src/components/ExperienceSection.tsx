@@ -14,9 +14,9 @@ const experiences = [
     footerKey: "exp.4.footer" as const,
     badgeKey: "exp.badge_incident" as const,
     icon: AlertTriangle,
-    color: "border-l-slate-700", // Neutral color
-    iconColor: "text-turquoise/50",
-    bgColor: "bg-[#0f172a]"
+    color: "border-l-border-main",
+    iconColor: "text-turquoise/70",
+    bgColor: "bg-bg-primary"
   },
   {
     id: "05",
@@ -25,9 +25,9 @@ const experiences = [
     footerKey: "exp.5.footer" as const,
     badgeKey: "exp.badge_optimization" as const,
     icon: Settings,
-    color: "border-l-slate-700", // Neutral color
-    iconColor: "text-turquoise/50",
-    bgColor: "bg-[#0f172a]"
+    color: "border-l-border-main",
+    iconColor: "text-turquoise/70",
+    bgColor: "bg-bg-primary"
   },
   {
     id: "06",
@@ -36,9 +36,9 @@ const experiences = [
     footerKey: "exp.6.footer" as const,
     badgeKey: "exp.badge_security" as const,
     icon: Shield,
-    color: "border-l-slate-700", // Neutral color
-    iconColor: "text-turquoise/50",
-    bgColor: "bg-[#0f172a]"
+    color: "border-l-border-main",
+    iconColor: "text-turquoise/70",
+    bgColor: "bg-bg-primary"
   },
   // Last 3 (Horizontal Wide Cards style with Neutral Icons)
   {
@@ -47,7 +47,7 @@ const experiences = [
     descKey: "exp.1.desc" as const,
     tagKeys: ["exp.1.tag1", "exp.1.tag2", "exp.1.tag3"] as const,
     icon: Network,
-    iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
+    iconContainerColor: "bg-bg-secondary border border-border-main",
     iconColor: "text-turquoise",
     readTime: "25 min",
     views: "8.2K",
@@ -59,7 +59,7 @@ const experiences = [
     descKey: "exp.2.desc" as const,
     tagKeys: ["exp.2.tag1", "exp.2.tag2", "exp.2.tag3"] as const,
     icon: Move,
-    iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
+    iconContainerColor: "bg-bg-secondary border border-border-main",
     iconColor: "text-turquoise",
     readTime: "30 min",
     views: "12.5K",
@@ -71,7 +71,7 @@ const experiences = [
     descKey: "exp.3.desc" as const,
     tagKeys: ["exp.3.tag1", "exp.3.tag2", "exp.3.tag3"] as const,
     icon: Gauge,
-    iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
+    iconContainerColor: "bg-bg-secondary border border-border-main",
     iconColor: "text-turquoise",
     readTime: "22 min",
     views: "9.8K",
@@ -116,7 +116,7 @@ export default function ExperienceSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className={`flex flex-col p-8 ${exp.bgColor} border-l-4 ${exp.color} rounded-r-2xl shadow-xl transition-all hover:border-l-turquoise group`}
+                className={`flex flex-col p-8 ${exp.bgColor} border border-border-main border-l-4 ${exp.color} rounded-r-2xl shadow-lg transition-all hover:border-l-turquoise group`}
               >
                 <div className="flex items-center space-x-2 mb-6">
                   {exp.icon && <exp.icon size={16} className={exp.iconColor} />}
@@ -124,9 +124,9 @@ export default function ExperienceSection() {
                     {t(exp.badgeKey as any)}
                   </span>
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-turquoise transition-colors">{t(exp.titleKey)}</h3>
-                <p className="text-slate-400 text-sm leading-relaxed mb-10 flex-grow font-medium">{t(exp.descKey)}</p>
-                <div className="pt-6 border-t border-white/5 text-[10px] font-mono text-slate-500 uppercase font-bold tracking-widest flex items-center">
+                <h3 className="text-xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors">{t(exp.titleKey)}</h3>
+                <p className="text-text-secondary text-sm leading-relaxed mb-10 flex-grow font-medium">{t(exp.descKey)}</p>
+                <div className="pt-6 border-t border-border-main text-[10px] font-mono text-text-secondary/70 uppercase font-bold tracking-widest flex items-center">
                   <Clock size={12} className="mr-1.5" /> {t(exp.footerKey as any)}
                 </div>
               </motion.div>
@@ -141,7 +141,7 @@ export default function ExperienceSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="group flex flex-col md:flex-row items-center p-6 bg-[#0f172a] border border-white/5 rounded-2xl shadow-xl transition-all hover:border-turquoise/20"
+              className="group flex flex-col md:flex-row items-center p-6 bg-bg-primary border border-border-main rounded-2xl shadow-lg transition-all hover:border-turquoise/30"
             >
               <div className={`flex-shrink-0 w-16 h-16 ${exp.iconContainerColor} rounded-xl flex items-center justify-center ${exp.iconColor} shadow-lg mb-4 md:mb-0 md:mr-8 transition-all group-hover:scale-105`}>
                 {exp.icon && <exp.icon size={24} />}
@@ -155,14 +155,14 @@ export default function ExperienceSection() {
                     </span>
                   ))}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-turquoise transition-colors">
+                <h3 className="text-xl font-bold text-text-primary mb-2 group-hover:text-turquoise transition-colors">
                   {t(exp.titleKey)}
                 </h3>
-                <p className="text-slate-400 text-sm font-medium opacity-80 leading-relaxed mb-4 line-clamp-2 md:line-clamp-1">
+                <p className="text-text-secondary text-sm font-medium leading-relaxed mb-4 line-clamp-2 md:line-clamp-1">
                   {t(exp.descKey)}
                 </p>
                 
-                <div className="flex items-center justify-center md:justify-start space-x-6 text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest">
+                <div className="flex items-center justify-center md:justify-start space-x-6 text-[10px] font-mono text-text-secondary/70 font-bold uppercase tracking-widest">
                   <span className="flex items-center"><Clock size={12} className="mr-1.5 text-turquoise" /> {exp.readTime}</span>
                   <span className="flex items-center"><Eye size={12} className="mr-1.5 text-turquoise" /> {exp.views} {t("exp.views")}</span>
                   <Link href="#" className="hidden md:flex ml-auto items-center text-turquoise hover:underline group-hover:translate-x-1 transition-transform">
