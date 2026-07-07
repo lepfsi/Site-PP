@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Code2, Shield, Cloud, Globe, Bug } from "lucide-react";
+import { ArrowRight, Code2, Shield, Cloud, Globe, Wrench } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -12,7 +12,7 @@ const TYPING_TAGS = [
   { textKey: "hero.tag_cybersecurity" as const, icon: Shield, cmdKey: "hero.term.2.cmd" as const, logKey: "hero.term.2.log" as const },
   { textKey: "hero.tag_cloud" as const, icon: Cloud, cmdKey: "hero.term.3.cmd" as const, logKey: "hero.term.3.log" as const },
   { textKey: "hero.tag_networking" as const, icon: Globe, cmdKey: "hero.term.4.cmd" as const, logKey: "hero.term.4.log" as const },
-  { textKey: "hero.tag_troubleshooting" as const, icon: Bug, cmdKey: "hero.term.5.cmd" as const, logKey: "hero.term.5.log" as const },
+  { textKey: "hero.tag_troubleshooting" as const, icon: Wrench, cmdKey: "hero.term.5.cmd" as const, logKey: "hero.term.5.log" as const },
 ];
 
 function TypewriterTerminal() {

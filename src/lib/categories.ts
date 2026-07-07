@@ -1,4 +1,4 @@
-import { Globe, Shield, Server, Cloud, Zap, Bug, type LucideIcon } from "lucide-react";
+import { Globe, Shield, Server, Cloud, Workflow, Wrench, type LucideIcon } from "lucide-react";
 
 export type CategorySlug =
   | "networking"
@@ -87,7 +87,7 @@ export const CATEGORIES: CategoryConfig[] = [
     overviewKey: "cat.automation_overview",
     shortDescKey: "cat.automation_desc",
     certKey: "cat.cert_auto",
-    icon: Zap,
+    icon: Workflow,
     color: "text-pink-500",
     bg: "bg-pink-500/10",
     border: "group-hover:border-pink-500/50",
@@ -101,7 +101,7 @@ export const CATEGORIES: CategoryConfig[] = [
     overviewKey: "cat.troubleshooting_overview",
     shortDescKey: "cat.troubleshooting_desc",
     certKey: "cat.cert_trouble",
-    icon: Bug,
+    icon: Wrench,
     color: "text-orange-500",
     bg: "bg-orange-500/10",
     border: "group-hover:border-orange-500/50",

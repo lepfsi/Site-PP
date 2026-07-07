@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Bug, Globe, Terminal as TerminalIcon } from "lucide-react";
+import { ChevronRight, Mail, Users, FileText, RefreshCw, Activity, ShieldAlert, Globe, Terminal as TerminalIcon } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef } from "react";
 

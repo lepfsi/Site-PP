@@ -2,7 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu, X, Moon, Sun, ChevronDown, Globe, Shield, Server, Cloud, Bug, Zap } from "lucide-react";
+import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
+import { CATEGORIES } from "@/lib/categories";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -10,15 +11,6 @@ import { navigateHashPath, navigateHomePath } from "@/lib/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import CommandSearch from "./CommandSearch";
 import Logo from "./Logo";
-
-const CATEGORIES = [
-  { id: "networking", icon: Globe },
-  { id: "cybersecurity", icon: Shield },
-  { id: "infrastructure", icon: Server },
-  { id: "cloud", icon: Cloud },
-  { id: "automation", icon: Zap },
-  { id: "troubleshooting", icon: Bug },
-] as const;
 
 export default function Navbar() {
   const pathname = usePathname();
@@ -84,8 +76,8 @@ export default function Navbar() {
                 >
                   {CATEGORIES.map((cat) => (
                     <Link 
-                      key={cat.id}
-                      href={`/category/${cat.id}`}
+                      key={cat.slug}
+                      href={`/category/${cat.slug}`}
                       className="flex items-center p-3 hover:bg-bg-primary rounded-lg group transition-all"
                     >
                       <div className={`flex items-center justify-center w-7 h-7 rounded-lg bg-bg-primary mr-3 text-text-secondary group-hover:text-turquoise transition-colors`}>
@@ -93,10 +85,10 @@ export default function Navbar() {
                       </div>
                       <div>
                         <div className="text-[10px] font-bold text-text-primary uppercase tracking-widest group-hover:text-turquoise transition-colors">
-                          {t(`cat.${cat.id}_name`)}
+                          {t(cat.nameKey)}
                         </div>
                         <div className="text-[8px] text-text-secondary/60 font-mono leading-none mt-1">
-                          {t(`cat.${cat.id}_desc` as any)}
+                          {t(cat.shortDescKey)}
                         </div>
                       </div>
                     </Link>
@@ -149,13 +141,13 @@ export default function Navbar() {
             <div className="px-4 py-2 text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/50">{t("nav.categories")}</div>
             {CATEGORIES.map((cat) => (
               <Link
-                key={cat.id}
-                href={`/category/${cat.id}`}
+                key={cat.slug}
+                href={`/category/${cat.slug}`}
                 className="flex items-center px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-turquoise border-b border-border-main/10"
                 onClick={() => setIsOpen(false)}
               >
                 <cat.icon size={12} className="mr-2" />
-                {t(`cat.${cat.id}_name`)}
+                {t(cat.nameKey)}
               </Link>
             ))}
             <Link href="/articles" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
