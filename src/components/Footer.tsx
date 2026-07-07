@@ -1,11 +1,35 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Rss, Mail, Heart } from "lucide-react";
+import { Github, Linkedin, Rss, Heart, Facebook } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { CATEGORIES } from "@/lib/categories";
-import { SOCIAL_LINKS } from "@/lib/site";
+import { SOCIAL_LINKS, type SocialId } from "@/lib/site";
 import Logo from "./Logo";
+
+const XIcon = ({ size = 20 }: { size?: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M4 4l11.733 16H20L8.267 4z" />
+    <path d="M4 20l6.768-6.768m2.464-2.464L20 4" />
+  </svg>
+);
+
+const SOCIAL_ICONS: Record<SocialId, React.ComponentType<{ size?: number }>> = {
+  linkedin: Linkedin,
+  github: Github,
+  x: XIcon,
+  facebook: Facebook,
+  rss: Rss,
+};
 
 const FOOTER_RESOURCES = [
   { key: "footer.cheatsheets", href: "/resources#cheatsheets" },
@@ -24,12 +48,6 @@ const FOOTER_ABOUT = [
   { key: "footer.rss", href: "/feed.xml" },
 ] as const;
 
-const SOCIAL_ICONS = {
-  github: Github,
-  contact: Mail,
-  rss: Rss,
-} as const;
-
 export default function Footer() {
   const { t } = useLanguage();
 
@@ -47,7 +65,7 @@ export default function Footer() {
             </p>
 
             <div className="flex space-x-5">
-              {SOCIAL_LINKS.map(({ id, href, label }) => {
+              {SOCIAL_LINKS.map(({ id, href, label, external }) => {
                 const Icon = SOCIAL_ICONS[id];
                 return (
                   <Link
@@ -55,6 +73,7 @@ export default function Footer() {
                     href={href}
                     className="text-text-secondary hover:text-turquoise transition-colors"
                     title={label}
+                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   >
                     <Icon size={20} />
                   </Link>
