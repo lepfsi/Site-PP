@@ -113,7 +113,7 @@ export default function FeaturedArticles() {
     <section id="articles" className="py-20 bg-bg-primary relative overflow-hidden tech-grid border-t border-border-main">
       <div className="container-custom relative z-10">
         <div className="flex justify-between items-end mb-10 max-w-5xl mx-auto">
-          <h2 className="text-3xl font-black tracking-tight text-text-primary uppercase leading-none italic">Featured articles</h2>
+          <h2 className="text-3xl font-black tracking-tight text-text-primary uppercase leading-none italic"><span className="text-turquoise">//</span>Featured articles</h2>
           <Link href="#" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
             All articles <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
           </Link>
