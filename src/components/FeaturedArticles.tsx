@@ -2,7 +2,7 @@
 
 import { Clock, Calendar, ArrowRight, Network, ShieldCheck, Zap, Bug, Globe, Code2 } from "lucide-react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 
 const recentArticles = [
@@ -32,6 +32,33 @@ const recentArticles = [
     date: "2025-01-08",
     color: "text-orange-500",
     bg: "bg-orange-500/10"
+  },
+  {
+    title: "Proxmox VE HA Cluster: Production Guide",
+    excerpt: "Deploying a high-availability Proxmox cluster with Ceph and corosync quorum.",
+    category: "INFRASTRUCTURE",
+    readTime: "20 min",
+    date: "2025-01-05",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10"
+  },
+  {
+    title: "WireGuard VPN: From Theory to Enterprise Deployment",
+    excerpt: "Technical comparison, advanced configuration, and integration into existing IT systems.",
+    category: "NETWORKING",
+    readTime: "14 min",
+    date: "2025-01-03",
+    color: "text-blue-500",
+    bg: "bg-blue-500/10"
+  },
+  {
+    title: "Kubernetes Network Policies: Securing Intra-Cluster Traffic",
+    excerpt: "Network Policy patterns for effective micro-segmentation in K8s.",
+    category: "CLOUD",
+    readTime: "10 min",
+    date: "2024-12-28",
+    color: "text-blue-400",
+    bg: "bg-blue-400/10"
   }
 ];
 
@@ -83,12 +110,12 @@ export default function FeaturedArticles() {
   const { t } = useLanguage();
 
   return (
-    <section id="articles" className="py-24 bg-bg-primary relative overflow-hidden tech-grid border-t border-border-main">
+    <section id="articles" className="py-20 bg-bg-primary relative overflow-hidden tech-grid border-t border-border-main">
       <div className="container-custom relative z-10">
-        <div className="flex justify-between items-end mb-12">
-          <h2 className="text-4xl font-black tracking-tight text-text-primary uppercase leading-none">Featured articles</h2>
-          <Link href="#" className="flex items-center text-xs font-black uppercase tracking-widest text-turquoise hover:underline group">
-            All articles <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
+        <div className="flex justify-between items-end mb-10 max-w-5xl mx-auto">
+          <h2 className="text-3xl font-black tracking-tight text-text-primary uppercase leading-none italic">Featured articles</h2>
+          <Link href="#" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
+            All articles <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
@@ -97,16 +124,16 @@ export default function FeaturedArticles() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative max-w-6xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-12 group hover:border-turquoise/30 transition-all shadow-2xl"
+          className="relative max-w-5xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-12 group hover:border-turquoise/30 transition-all shadow-2xl"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[260px] md:min-h-[280px]">
             {/* Left: Graphic Area - Path Selection Animation */}
-            <div className="lg:col-span-4 h-44 lg:h-auto border-r border-border-main/50 relative overflow-hidden bg-[#0a1628]">
+            <div className="lg:col-span-5 h-44 lg:h-auto border-r border-border-main/50 relative overflow-hidden bg-[#0a1628]">
               <RoutingTopology />
             </div>
             
             {/* Right: Content Area */}
-            <div className="lg:col-span-8 p-6 md:p-8 flex flex-col justify-center">
+            <div className="lg:col-span-7 p-6 md:p-8 flex flex-col justify-center">
               <div className="flex items-center space-x-4 mb-3">
                 <span className="px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-500 text-[10px] font-black uppercase tracking-[0.2em] border border-blue-500/10">NETWORKING</span>
                 <span className="text-[9px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">15 min read</span>
@@ -133,8 +160,8 @@ export default function FeaturedArticles() {
           </div>
         </motion.div>
 
-        {/* Recent Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        {/* Recent Articles Grid - RESTORED TO 6 ARTICLES (2 ROWS OF 3) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {recentArticles.map((article, index) => (
             <motion.article 
               key={article.title}
@@ -171,6 +198,7 @@ export default function FeaturedArticles() {
     </section>
   );
 }
+
 
 
 
