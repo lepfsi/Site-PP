@@ -6,7 +6,7 @@ import { ChevronRight, Mail, FileText, Layers, Calendar, Activity, ShieldAlert }
 import { useLanguage, type Language } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef, useMemo } from "react";
 import ArticleVisual from "@/components/article-visuals/ArticleVisual";
-import { getAllArticles, getHeroSpotlightArticles } from "@/lib/articles";
+import { getAllArticles, getFeaturedArticle } from "@/lib/articles";
 import { CATEGORIES } from "@/lib/categories";
 import type { Article } from "@/lib/articles";
 
@@ -21,8 +21,7 @@ const LOG_LINES = [
   "[14:22:32] OPS: Baseline applied to CORE-SW-01",
 ];
 
-const SPOTLIGHT_ROTATE_MS = 5000;
-const MODE_TOGGLE_MS = 8000;
+const MODE_TOGGLE_MS = 6000;
 
 function formatHeroDate(date: string, lang: Language): string {
   return new Date(`${date}T00:00:00`).toLocaleDateString(lang === "FR" ? "fr-FR" : "en-US", {
@@ -34,39 +33,34 @@ function formatHeroDate(date: string, lang: Language): string {
 function useHeroStats() {
   return useMemo(() => {
     const articles = getAllArticles();
-    const spotlightArticles = getHeroSpotlightArticles(4);
     const articleCount = articles.length;
     const domainCount = CATEGORIES.length;
     const lastUpdated = articles.reduce(
       (latest, article) => (article.date > latest ? article.date : latest),
       articles[0]?.date ?? "",
     );
-    return { articleCount, domainCount, lastUpdated, spotlightArticles };
+    return { articleCount, domainCount, lastUpdated, featured: getFeaturedArticle() };
   }, []);
 }
 
 function HeroDashboard({
   dashboardMode,
   visibleLogs,
-  spotlightArticle,
-  spotlightIndex,
-  spotlightTotal,
+  featured,
   articleCount,
   domainCount,
   t,
 }: {
   dashboardMode: "featured" | "terminal";
   visibleLogs: string[];
-  spotlightArticle: Article;
-  spotlightIndex: number;
-  spotlightTotal: number;
+  featured: Article;
   articleCount: number;
   domainCount: number;
   t: (key: string) => string;
 }) {
   return (
     <Link
-      href={`/articles/${spotlightArticle.slug}`}
+      href={`/articles/${featured.slug}`}
       className="group block relative aspect-square max-w-[360px] ml-auto w-full transition-transform hover:scale-[1.02] active:scale-[0.99]"
     >
       <div className="bg-bg-secondary/80 border border-border-main group-hover:border-turquoise/40 border-b-0 px-4 py-3 rounded-t-[1.5rem] flex items-center justify-between backdrop-blur-md transition-colors">
@@ -86,29 +80,20 @@ function HeroDashboard({
           <AnimatePresence mode="wait">
             {dashboardMode === "featured" ? (
               <motion.div
-                key={spotlightArticle.slug}
-                initial={{ opacity: 0, x: 12 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -12 }}
-                transition={{ duration: 0.35 }}
+                key="featured-mode"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 className="absolute inset-0"
               >
-                <ArticleVisual slug={spotlightArticle.slug} category={spotlightArticle.category} variant="article" />
+                <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/95 via-bg-primary/30 to-transparent pointer-events-none" />
-                <div className="absolute top-3 right-3 flex items-center gap-1 pointer-events-none">
-                  {Array.from({ length: spotlightTotal }).map((_, i) => (
-                    <span
-                      key={i}
-                      className={`h-1 rounded-full transition-all ${i === spotlightIndex ? "w-3 bg-turquoise" : "w-1 bg-white/20"}`}
-                    />
-                  ))}
-                </div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 pointer-events-none">
-                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-white/5 ${spotlightArticle.bg} ${spotlightArticle.color} mb-1.5`}>
-                    {t(spotlightArticle.categoryLabelKey)}
+                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-white/5 ${featured.bg} ${featured.color} mb-1.5`}>
+                    {t(featured.categoryLabelKey)}
                   </span>
                   <p className="text-[11px] sm:text-xs font-bold text-text-primary leading-snug line-clamp-2 mb-1.5">
-                    {t(spotlightArticle.titleKey)}
+                    {t(featured.titleKey)}
                   </p>
                   <span className="inline-flex items-center text-[8px] font-black uppercase tracking-widest text-turquoise group-hover:underline">
                     {t("hero.dashboard_cta")} <ChevronRight size={10} className="ml-1 group-hover:translate-x-0.5 transition-transform" />
@@ -207,14 +192,12 @@ function HeroStatCard({
 
 export default function Hero() {
   const { t, lang } = useLanguage();
-  const { articleCount, domainCount, lastUpdated, spotlightArticles } = useHeroStats();
+  const { articleCount, domainCount, lastUpdated, featured } = useHeroStats();
   const [mounted, setMounted] = useState(false);
   const [dashboardMode, setDashboardMode] = useState<"featured" | "terminal">("featured");
-  const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
 
   const logIndexRef = useRef(0);
-  const spotlightArticle = spotlightArticles[spotlightIndex] ?? spotlightArticles[0];
 
   const statGuides = t("hero.stat_guides").replace("{count}", String(articleCount));
   const statDomains = t("hero.stat_domains").replace("{count}", String(domainCount));
@@ -231,14 +214,6 @@ export default function Hero() {
     }, MODE_TOGGLE_MS);
     return () => clearInterval(modeInterval);
   }, [mounted]);
-
-  useEffect(() => {
-    if (!mounted || dashboardMode !== "featured" || spotlightArticles.length <= 1) return;
-    const rotateInterval = setInterval(() => {
-      setSpotlightIndex((prev) => (prev + 1) % spotlightArticles.length);
-    }, SPOTLIGHT_ROTATE_MS);
-    return () => clearInterval(rotateInterval);
-  }, [mounted, dashboardMode, spotlightArticles.length]);
 
   useEffect(() => {
     if (!mounted || dashboardMode !== "terminal") {
@@ -275,9 +250,7 @@ export default function Hero() {
   const dashboardProps = {
     dashboardMode,
     visibleLogs,
-    spotlightArticle,
-    spotlightIndex,
-    spotlightTotal: spotlightArticles.length,
+    featured,
     articleCount,
     domainCount,
     t,
