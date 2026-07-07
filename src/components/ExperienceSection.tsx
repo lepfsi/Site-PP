@@ -83,7 +83,7 @@ export default function ExperienceSection() {
   const { t } = useLanguage();
 
   return (
-    <section id="experience" className="py-24 bg-bg-primary relative overflow-hidden">
+    <section id="experience" className="py-24 bg-bg-secondary relative overflow-hidden">
       <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none"></div>
       
       <div className="container-custom relative z-10">

@@ -20,14 +20,14 @@ export default function NewsletterSection() {
   };
 
   return (
-    <section id="newsletter" className="py-12 bg-bg-primary overflow-hidden">
+    <section id="newsletter" className="py-12 bg-bg-secondary overflow-hidden">
       <div className="container-custom">
         <div className="max-w-3xl mx-auto">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative bg-[#111c44]/40 border border-white/5 rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-turquoise/5 text-center overflow-hidden"
+            className="relative bg-bg-primary/40 border border-white/5 rounded-[2.5rem] p-8 md:p-10 shadow-2xl shadow-turquoise/5 text-center overflow-hidden"
           >
             <div className="relative z-10">
               <Mail className="text-white/60 mx-auto mb-4 h-6 w-6" />
@@ -51,7 +51,7 @@ export default function NewsletterSection() {
                     type="email" 
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    placeholder="votre.email@entreprise.com"
+                    placeholder="votre.email@ops.tech"
                     className="flex-grow bg-[#0a1128] border border-white/10 rounded-xl px-5 py-3 text-sm text-white placeholder-white/20 focus:ring-1 focus:ring-turquoise outline-none transition-all"
                     required
                   />
@@ -75,12 +75,12 @@ export default function NewsletterSection() {
               <div className="grid grid-cols-3 gap-6 w-full pt-8 border-t border-white/5">
                 <div className="flex flex-col items-center">
                   <Newspaper className="text-turquoise/60 mb-2 h-4 w-4" />
-                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Articles Premium</h4>
+                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Premium</h4>
                 </div>
                 
                 <div className="flex flex-col items-center">
                   <Bell className="text-turquoise/60 mb-2 h-4 w-4" />
-                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Alertes de Sécurité</h4>
+                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Alertes</h4>
                 </div>
                 
                 <div className="flex flex-col items-center">
