@@ -34,8 +34,9 @@ const FOOTER_ABOUT = [
   { key: "footer.about_author", href: "/about" },
   { key: "footer.methodology", href: "/about" },
   { key: "footer.contact", href: "/about" },
-  { key: "footer.legal", href: "#" },
-  { key: "footer.rss", href: "#" },
+  { key: "footer.privacy", href: "/privacy" },
+  { key: "footer.legal", href: "/legal" },
+  { key: "footer.rss", href: "/articles" },
 ] as const;
 
 export default function Footer() {

@@ -213,6 +213,34 @@ interface TranslationKeys {
   "search.link1": string;
   "search.link2": string;
   "search.link3": string;
+  "search.no_results": string;
+  "search.articles": string;
+  "search.categories": string;
+  "search.close": string;
+  "legal.title": string;
+  "legal.updated": string;
+  "legal.intro": string;
+  "legal.s1.title": string;
+  "legal.s1.body": string;
+  "legal.s2.title": string;
+  "legal.s2.body": string;
+  "legal.s3.title": string;
+  "legal.s3.body": string;
+  "legal.s4.title": string;
+  "legal.s4.body": string;
+  "privacy.title": string;
+  "privacy.updated": string;
+  "privacy.intro": string;
+  "privacy.s1.title": string;
+  "privacy.s1.body": string;
+  "privacy.s2.title": string;
+  "privacy.s2.body": string;
+  "privacy.s3.title": string;
+  "privacy.s3.body": string;
+  "privacy.s4.title": string;
+  "privacy.s4.body": string;
+  "privacy.s5.title": string;
+  "privacy.s5.body": string;
   "footer.desc": string;
   "footer.categories": string;
   "footer.resources": string;
@@ -449,6 +477,34 @@ const translations: Record<Language, TranslationKeys> = {
     "search.link1": "BGP Troubleshooting",
     "search.link2": "Firewall Hygiene",
     "search.link3": "Kubernetes Network Policies",
+    "search.no_results": "No results found",
+    "search.articles": "Articles",
+    "search.categories": "Categories",
+    "search.close": "close",
+    "legal.title": "Legal Notice",
+    "legal.updated": "Last updated: January 2026",
+    "legal.intro": "This legal notice governs the use of the DailyOps.Tech website. By accessing this site, you agree to the terms below.",
+    "legal.s1.title": "Publisher",
+    "legal.s1.body": "DailyOps.Tech is a technical knowledge base dedicated to IT infrastructure professionals.\n\nContact: contact@dailyops.tech\nWebsite: https://dailyops.tech",
+    "legal.s2.title": "Hosting",
+    "legal.s2.body": "This website is hosted by Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, United States.",
+    "legal.s3.title": "Intellectual property",
+    "legal.s3.body": "All content on this site (text, graphics, logos, articles) is protected by copyright. Reproduction, distribution, or commercial use without prior written consent is prohibited.\n\nShort excerpts may be cited with a clear link to the original source.",
+    "legal.s4.title": "Limitation of liability",
+    "legal.s4.body": "Content is provided for informational purposes only. DailyOps.Tech makes no guarantee regarding accuracy, completeness, or suitability for a specific production environment.\n\nUse of technical guides and configurations is at your own risk. Always test in a non-production environment first.",
+    "privacy.title": "Privacy Policy",
+    "privacy.updated": "Last updated: January 2026",
+    "privacy.intro": "DailyOps.Tech respects your privacy. This policy explains what data we collect and how we use it.",
+    "privacy.s1.title": "Data collected",
+    "privacy.s1.body": "We collect data you voluntarily provide:\n\n• Contact form: name, email, subject, message\n• Newsletter: email address\n\nWe also collect anonymous technical data via standard server logs (IP address, browser type, pages visited) for security and performance purposes.",
+    "privacy.s2.title": "How we use your data",
+    "privacy.s2.body": "Your data is used exclusively to:\n\n• Respond to contact requests\n• Manage newsletter subscriptions\n• Improve site security and performance\n\nWe do not sell or rent your personal data to third parties.",
+    "privacy.s3.title": "Email services",
+    "privacy.s3.body": "Contact and newsletter emails are processed via Resend (resend.com), a GDPR-compliant email service. Your email address is stored on their servers for delivery purposes only.",
+    "privacy.s4.title": "Cookies & local storage",
+    "privacy.s4.body": "The site uses local storage to remember your language preference (EN/FR) and theme (dark/light). No advertising or third-party tracking cookies are used.",
+    "privacy.s5.title": "Your rights",
+    "privacy.s5.body": "Under GDPR, you have the right to access, rectify, or delete your personal data. To unsubscribe from the newsletter, use the link in any email or contact us at contact@dailyops.tech.\n\nFor any privacy-related request: contact@dailyops.tech",
     "footer.desc": "A premium knowledge base for IT infrastructure professionals — networking, security, cloud and operations.",
     "footer.categories": "Categories",
     "footer.resources": "Resources",
@@ -683,6 +739,34 @@ const translations: Record<Language, TranslationKeys> = {
     "search.link1": "Dépannage BGP",
     "search.link2": "Hygiène Firewall",
     "search.link3": "Kubernetes Network Policies",
+    "search.no_results": "Aucun résultat",
+    "search.articles": "Articles",
+    "search.categories": "Catégories",
+    "search.close": "fermer",
+    "legal.title": "Mentions légales",
+    "legal.updated": "Dernière mise à jour : janvier 2026",
+    "legal.intro": "Les présentes mentions légales régissent l'utilisation du site DailyOps.Tech. En accédant à ce site, vous acceptez les conditions ci-dessous.",
+    "legal.s1.title": "Éditeur",
+    "legal.s1.body": "DailyOps.Tech est une base de connaissances technique dédiée aux professionnels de l'infrastructure IT.\n\nContact : contact@dailyops.tech\nSite : https://dailyops.tech",
+    "legal.s2.title": "Hébergement",
+    "legal.s2.body": "Ce site est hébergé par Vercel Inc., 440 N Barranca Ave #4133, Covina, CA 91723, États-Unis.",
+    "legal.s3.title": "Propriété intellectuelle",
+    "legal.s3.body": "L'ensemble du contenu de ce site (textes, graphiques, logos, articles) est protégé par le droit d'auteur. Toute reproduction, distribution ou usage commercial sans autorisation écrite préalable est interdite.\n\nDe courts extraits peuvent être cités avec un lien clair vers la source originale.",
+    "legal.s4.title": "Limitation de responsabilité",
+    "legal.s4.body": "Le contenu est fourni à titre informatif uniquement. DailyOps.Tech ne garantit pas l'exactitude, l'exhaustivité ou l'adéquation à un environnement de production spécifique.\n\nL'utilisation des guides techniques et configurations se fait sous votre propre responsabilité. Testez toujours en environnement non-production d'abord.",
+    "privacy.title": "Politique de confidentialité",
+    "privacy.updated": "Dernière mise à jour : janvier 2026",
+    "privacy.intro": "DailyOps.Tech respecte votre vie privée. Cette politique explique quelles données nous collectons et comment nous les utilisons.",
+    "privacy.s1.title": "Données collectées",
+    "privacy.s1.body": "Nous collectons les données que vous fournissez volontairement :\n\n• Formulaire de contact : nom, email, sujet, message\n• Newsletter : adresse email\n\nNous collectons également des données techniques anonymes via les logs serveur (adresse IP, type de navigateur, pages visitées) à des fins de sécurité et de performance.",
+    "privacy.s2.title": "Utilisation des données",
+    "privacy.s2.body": "Vos données sont utilisées exclusivement pour :\n\n• Répondre aux demandes de contact\n• Gérer les inscriptions newsletter\n• Améliorer la sécurité et les performances du site\n\nNous ne vendons ni ne louons vos données personnelles à des tiers.",
+    "privacy.s3.title": "Services email",
+    "privacy.s3.body": "Les emails de contact et newsletter sont traités via Resend (resend.com), un service email conforme RGPD. Votre adresse email est stockée sur leurs serveurs uniquement pour la livraison.",
+    "privacy.s4.title": "Cookies & stockage local",
+    "privacy.s4.body": "Le site utilise le stockage local pour mémoriser votre préférence de langue (EN/FR) et de thème (sombre/clair). Aucun cookie publicitaire ou de tracking tiers n'est utilisé.",
+    "privacy.s5.title": "Vos droits",
+    "privacy.s5.body": "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour vous désabonner de la newsletter, utilisez le lien dans tout email ou contactez-nous à contact@dailyops.tech.\n\nPour toute demande relative à la vie privée : contact@dailyops.tech",
     "footer.desc": "Base de connaissances premium pour les professionnels de l'infrastructure IT — réseau, sécurité, cloud et opérations.",
     "footer.categories": "Catégories",
     "footer.resources": "Ressources",
