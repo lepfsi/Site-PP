@@ -32,33 +32,6 @@ const recentArticles = [
     date: "2025-01-08",
     color: "text-orange-500",
     bg: "bg-orange-500/10"
-  },
-  {
-    title: "Proxmox VE HA Cluster: Production Guide",
-    excerpt: "Deploying a high-availability Proxmox cluster with Ceph and corosync quorum.",
-    category: "INFRASTRUCTURE",
-    readTime: "20 min",
-    date: "2025-01-05",
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10"
-  },
-  {
-    title: "WireGuard VPN: From Theory to Enterprise Deployment",
-    excerpt: "Technical comparison, advanced configuration, and integration into existing IT systems.",
-    category: "NETWORKING",
-    readTime: "14 min",
-    date: "2025-01-03",
-    color: "text-blue-500",
-    bg: "bg-blue-500/10"
-  },
-  {
-    title: "Kubernetes Network Policies: Securing Intra-Cluster Traffic",
-    excerpt: "Network Policy patterns for effective micro-segmentation in K8s.",
-    category: "CLOUD",
-    readTime: "10 min",
-    date: "2024-12-28",
-    color: "text-blue-400",
-    bg: "bg-blue-400/10"
   }
 ];
 
@@ -110,57 +83,68 @@ export default function FeaturedArticles() {
   const { t } = useLanguage();
 
   return (
-    <section id="articles" className="py-20 bg-bg-primary relative overflow-hidden tech-grid border-t border-border-main">
+    <section id="articles" className="py-24 bg-bg-primary relative overflow-hidden">
+      <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none"></div>
+
       <div className="container-custom relative z-10">
-        <div className="flex justify-between items-end mb-10 max-w-5xl mx-auto">
-          <h2 className="text-3xl font-black tracking-tight text-text-primary uppercase leading-none italic"><span className="text-turquoise">//</span>Featured articles</h2>
-          <Link href="#" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
-            All articles <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
-          </Link>
+        {/* CENTERED HEADER - ALIGNED WITH EXPERIENCE SECTION STYLE */}
+        <div className="text-center mb-16">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-4xl md:text-5xl font-black tracking-tight text-text-primary mb-4"
+          >
+            <span className="text-turquoise">//</span> Featured Articles
+          </motion.h2>
+          <div className="flex flex-col items-center">
+            <p className="text-text-secondary text-lg font-medium mb-4">Latest technical insights from our knowledge base</p>
+            <Link href="#" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
+              All articles <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
         </div>
 
-        {/* REDUCED HEIGHT Featured Article Card */}
+        {/* Featured Article Card */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative max-w-5xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-12 group hover:border-turquoise/30 transition-all shadow-2xl"
+          className="relative max-w-5xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-16 group hover:border-turquoise/30 transition-all shadow-2xl"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[260px] md:min-h-[280px]">
-            {/* Left: Graphic Area - Path Selection Animation */}
-            <div className="lg:col-span-5 h-44 lg:h-auto border-r border-border-main/50 relative overflow-hidden bg-[#0a1628]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px]">
+            <div className="lg:col-span-5 h-56 lg:h-auto border-r border-border-main/50 relative overflow-hidden bg-[#0a1628]">
               <RoutingTopology />
             </div>
             
-            {/* Right: Content Area */}
-            <div className="lg:col-span-7 p-6 md:p-8 flex flex-col justify-center">
-              <div className="flex items-center space-x-4 mb-3">
+            <div className="lg:col-span-7 p-8 md:p-10 flex flex-col justify-center">
+              <div className="flex items-center space-x-3 mb-5">
                 <span className="px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-500 text-[10px] font-black uppercase tracking-[0.2em] border border-blue-500/10">NETWORKING</span>
                 <span className="text-[9px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">15 min read</span>
               </div>
               
-              <h3 className="text-xl md:text-2xl font-black text-text-primary mb-3 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
+              <h3 className="text-2xl md:text-3xl font-black text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
                 Mastering BGP Communities for Policy Routing
               </h3>
               
-              <p className="text-text-secondary text-xs md:text-sm mb-6 leading-relaxed font-medium opacity-80 line-clamp-2 md:line-clamp-3">
+              <p className="text-text-secondary text-sm md:text-base mb-8 leading-relaxed font-medium opacity-80">
                 Comprehensive guide on advanced BGP communities usage to control traffic flow, implement routing policies, and optimize peering with your upstreams.
               </p>
               
-              <div className="flex items-center space-x-3 mt-2">
+              <div className="flex items-center space-x-3 mt-auto">
                 <div className="w-8 h-8 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20 font-black text-[10px] text-turquoise">
                   D
                 </div>
                 <div>
-                  <div className="text-[10px] font-bold text-text-primary uppercase tracking-widest leading-none">DailyOps</div>
-                  <div className="text-[8px] font-mono text-text-secondary/40 font-bold mt-1">2025-01-15</div>
+                  <div className="text-[11px] font-bold text-text-primary uppercase tracking-widest leading-none">DailyOps</div>
+                  <div className="text-[9px] font-mono text-text-secondary/40 mt-1">2025-01-15</div>
                 </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Recent Articles Grid - RESTORED TO 6 ARTICLES (2 ROWS OF 3) */}
+        {/* Recent Articles Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {recentArticles.map((article, index) => (
             <motion.article 
@@ -169,7 +153,7 @@ export default function FeaturedArticles() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
-              className="p-6 md:p-8 bg-bg-secondary border border-border-main rounded-2xl flex flex-col hover:border-turquoise/30 transition-all group backdrop-blur-sm relative"
+              className="p-8 bg-bg-secondary/40 border border-border-main rounded-2xl flex flex-col hover:border-turquoise/30 transition-all group backdrop-blur-sm relative"
             >
               <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-2xl"></div>
               
@@ -183,7 +167,7 @@ export default function FeaturedArticles() {
                 {article.title}
               </h4>
               
-              <p className="text-text-secondary text-xs mb-6 flex-grow font-medium leading-relaxed opacity-70 relative z-10">
+              <p className="text-text-secondary text-xs mb-8 flex-grow font-medium leading-relaxed opacity-70 relative z-10">
                 {article.excerpt}
               </p>
               
@@ -198,7 +182,3 @@ export default function FeaturedArticles() {
     </section>
   );
 }
-
-
-
-
