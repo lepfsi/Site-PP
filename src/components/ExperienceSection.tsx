@@ -1,13 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, Eye, Clock, AlertTriangle, Settings, Shield, Zap, Flame, CheckCircle2, Monitor, Bug, Globe, Code2 } from "lucide-react";
+import { ArrowRight, Eye, Clock, AlertTriangle, Settings, Shield, Zap, AlertCircle, Move, Gauge, Activity, Network } from "lucide-react";
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 
-const allExperiences = [
-  // THE "NEW" ONES FROM PREVIOUS CAPTURES
+const experiences = [
+  // First 3 (Modern Edge-Border style)
   {
+    id: "04",
     titleKey: "exp.4.title" as const,
     descKey: "exp.4.desc" as const,
     footerKey: "exp.4.footer" as const,
@@ -15,9 +16,10 @@ const allExperiences = [
     icon: AlertTriangle,
     color: "border-l-blue-500",
     iconColor: "text-blue-500",
-    id: "04"
+    bgColor: "bg-[#0f172a]"
   },
   {
+    id: "05",
     titleKey: "exp.5.title" as const,
     descKey: "exp.5.desc" as const,
     footerKey: "exp.5.footer" as const,
@@ -25,9 +27,10 @@ const allExperiences = [
     icon: Settings,
     color: "border-l-orange-500",
     iconColor: "text-orange-500",
-    id: "05"
+    bgColor: "bg-[#0f172a]"
   },
   {
+    id: "06",
     titleKey: "exp.6.title" as const,
     descKey: "exp.6.desc" as const,
     footerKey: "exp.6.footer" as const,
@@ -35,35 +38,41 @@ const allExperiences = [
     icon: Shield,
     color: "border-l-red-500",
     iconColor: "text-red-500",
-    id: "06"
+    bgColor: "bg-[#0f172a]"
   },
-  // THE "OLD" ONES FROM THE LATEST CAPTURE
+  // Last 3 (Horizontal Wide Cards style as requested)
   {
+    id: "01",
     titleKey: "exp.1.title" as const,
     descKey: "exp.1.desc" as const,
-    emoji: "🔥",
-    color: "border-l-red-500",
-    readTime: "25 MIN",
+    tags: ["INCIDENT", "PRODUCTION", "NETWORKING"],
+    icon: Network,
+    iconContainerColor: "bg-red-500",
+    readTime: "25 min",
     views: "8.2K",
-    id: "01"
+    horizontal: true
   },
   {
+    id: "02",
     titleKey: "exp.2.title" as const,
     descKey: "exp.2.desc" as const,
-    emoji: "✅",
-    color: "border-l-green-500",
-    readTime: "30 MIN",
+    tags: ["MIGRATION", "CLOUD", "SUCCESS STORY"],
+    icon: Move,
+    iconContainerColor: "bg-green-500",
+    readTime: "30 min",
     views: "12.5K",
-    id: "02"
+    horizontal: true
   },
   {
+    id: "03",
     titleKey: "exp.3.title" as const,
     descKey: "exp.3.desc" as const,
-    emoji: "⚡",
-    color: "border-l-yellow-500",
-    readTime: "22 MIN",
+    tags: ["PERFORMANCE", "OPTIMIZATION", "K8S"],
+    icon: Gauge,
+    iconContainerColor: "bg-yellow-500",
+    readTime: "22 min",
     views: "9.8K",
-    id: "03"
+    horizontal: true
   },
 ];
 
@@ -75,7 +84,7 @@ export default function ExperienceSection() {
       <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none"></div>
       
       <div className="container-custom relative z-10">
-        <div className="text-center mb-20">
+        <div className="text-center mb-16">
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -88,60 +97,75 @@ export default function ExperienceSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: 0.1 }}
             className="text-text-secondary text-lg max-w-3xl mx-auto font-medium"
           >
             {t("exp.subtitle")}
           </motion.p>
         </div>
 
-        {/* Unified Horizontal Grid - 3 columns */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {allExperiences.map((exp, index) => (
+        <div className="flex flex-col space-y-6 max-w-6xl mx-auto">
+          {/* Top 3: Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {experiences.slice(0, 3).map((exp, index) => (
+              <motion.div
+                key={exp.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className={`flex flex-col p-8 ${exp.bgColor} border-l-4 ${exp.color} rounded-r-2xl shadow-xl transition-all hover:translate-x-1`}
+              >
+                <div className="flex items-center space-x-2 mb-6">
+                  {exp.icon && <exp.icon size={16} className={exp.iconColor} />}
+                  <span className={`text-[10px] font-black uppercase tracking-widest ${exp.iconColor}`}>
+                    {t(exp.badgeKey as any)}
+                  </span>
+                </div>
+                <h3 className="text-xl font-bold text-white mb-4 group-hover:text-turquoise transition-colors">{t(exp.titleKey)}</h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-10 flex-grow font-medium">{t(exp.descKey)}</p>
+                <div className="pt-6 border-t border-white/5 text-[10px] font-mono text-slate-500 uppercase font-bold tracking-widest flex items-center">
+                  <Clock size={12} className="mr-1.5" /> {t(exp.footerKey as any)}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+
+          {/* Bottom 3: Wide Horizontal Style */}
+          {experiences.slice(3, 6).map((exp, index) => (
             <motion.div
               key={exp.id}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
               viewport={{ once: true }}
-              className={`group flex flex-col p-8 bg-[#0f172a] border-l-4 ${exp.color} rounded-r-2xl shadow-xl transition-all hover:translate-y-[-4px] hover:shadow-turquoise/5`}
+              transition={{ delay: index * 0.1 }}
+              className="group flex flex-col md:flex-row items-center p-6 bg-[#0f172a] border border-white/5 rounded-2xl shadow-xl transition-all hover:border-turquoise/20"
             >
-              <div className="flex items-center justify-between mb-8">
-                {exp.emoji ? (
-                  <span className="text-2xl">{exp.emoji}</span>
-                ) : exp.icon ? (
-                  <exp.icon size={20} className={exp.iconColor} />
-                ) : null}
-                <span className="text-[10px] font-mono text-text-secondary/40 uppercase font-black tracking-widest">
-                  CASE LOG #{exp.id}
-                </span>
+              <div className={`flex-shrink-0 w-16 h-16 ${exp.iconContainerColor} rounded-xl flex items-center justify-center text-white shadow-lg mb-4 md:mb-0 md:mr-8`}>
+                {exp.icon && <exp.icon size={24} />}
               </div>
               
-              <h3 className="text-xl font-bold text-white mb-4 group-hover:text-turquoise transition-colors leading-tight">
-                {t(exp.titleKey)}
-              </h3>
-              
-              <p className="text-slate-400 text-sm leading-relaxed mb-10 flex-grow font-medium opacity-80">
-                {t(exp.descKey)}
-              </p>
-              
-              <div className="flex items-center justify-between pt-6 border-t border-white/5">
-                <div className="flex items-center space-x-4 text-[10px] font-mono text-slate-500 uppercase font-bold tracking-widest">
-                  {exp.footerKey ? (
-                    <div className="flex items-center">
-                      <Clock size={12} className="mr-1.5" />
-                      {t(exp.footerKey)}
-                    </div>
-                  ) : (
-                    <>
-                      <span className="flex items-center"><Clock size={12} className="mr-1.5" /> {exp.readTime}</span>
-                      <span className="flex items-center"><Eye size={12} className="mr-1.5" /> {exp.views}</span>
-                    </>
-                  )}
+              <div className="flex-grow text-center md:text-left">
+                <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-3">
+                  {exp.tags?.map(tag => (
+                    <span key={tag} className="px-2 py-0.5 rounded bg-turquoise/5 text-turquoise text-[9px] font-black uppercase tracking-wider border border-turquoise/10">
+                      {tag}
+                    </span>
+                  ))}
                 </div>
-                <Link href="#" className="text-turquoise opacity-50 group-hover:opacity-100 transition-all">
-                  <ArrowRight size={16} />
-                </Link>
+                <h3 className="text-xl font-bold text-white mb-2 group-hover:text-turquoise transition-colors">
+                  {t(exp.titleKey)}
+                </h3>
+                <p className="text-slate-400 text-sm font-medium opacity-80 leading-relaxed mb-4 line-clamp-2 md:line-clamp-1">
+                  {t(exp.descKey)}
+                </p>
+                
+                <div className="flex items-center justify-center md:justify-start space-x-6 text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest">
+                  <span className="flex items-center"><Clock size={12} className="mr-1.5 text-turquoise" /> {exp.readTime}</span>
+                  <span className="flex items-center"><Eye size={12} className="mr-1.5 text-turquoise" /> {exp.views} views</span>
+                  <Link href="#" className="hidden md:flex ml-auto items-center text-turquoise hover:underline group-hover:translate-x-1 transition-transform">
+                    {t("exp.read_case")} <ArrowRight size={14} className="ml-1.5" />
+                  </Link>
+                </div>
               </div>
             </motion.div>
           ))}
@@ -150,3 +174,4 @@ export default function ExperienceSection() {
     </section>
   );
 }
+
