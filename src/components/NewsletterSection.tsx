@@ -75,12 +75,12 @@ export default function NewsletterSection() {
               <div className="grid grid-cols-3 gap-6 w-full pt-8 border-t border-white/5">
                 <div className="flex flex-col items-center">
                   <Newspaper className="text-turquoise/60 mb-2 h-4 w-4" />
-                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Premium</h4>
+                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Articles Premium</h4>
                 </div>
                 
                 <div className="flex flex-col items-center">
                   <Bell className="text-turquoise/60 mb-2 h-4 w-4" />
-                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Alertes</h4>
+                  <h4 className="font-bold text-white text-[10px] uppercase tracking-wider">Alertes de Sécurité</h4>
                 </div>
                 
                 <div className="flex flex-col items-center">
