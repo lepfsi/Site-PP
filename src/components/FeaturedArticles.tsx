@@ -2,7 +2,7 @@
 
 import { Clock, Calendar, ArrowRight, Network, ShieldCheck, Zap, Bug, Globe, Code2 } from "lucide-react";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 
 const recentArticles = [
@@ -32,101 +32,59 @@ const recentArticles = [
     date: "2025-01-08",
     color: "text-orange-500",
     bg: "bg-orange-500/10"
-  },
-  {
-    title: "Proxmox VE HA Cluster: Production Guide",
-    excerpt: "Deploying a high-availability Proxmox cluster with Ceph and corosync quorum.",
-    category: "INFRASTRUCTURE",
-    readTime: "20 min",
-    date: "2025-01-05",
-    color: "text-emerald-500",
-    bg: "bg-emerald-500/10"
-  },
-  {
-    title: "WireGuard VPN: From Theory to Enterprise Deployment",
-    excerpt: "Technical comparison, advanced configuration, and integration into existing IT systems.",
-    category: "NETWORKING",
-    readTime: "14 min",
-    date: "2025-01-03",
-    color: "text-blue-500",
-    bg: "bg-blue-500/10"
-  },
-  {
-    title: "Kubernetes Network Policies: Securing Intra-Cluster Traffic",
-    excerpt: "Network Policy patterns for effective micro-segmentation in K8s.",
-    category: "CLOUD",
-    readTime: "10 min",
-    date: "2024-12-28",
-    color: "text-blue-400",
-    bg: "bg-blue-400/10"
   }
 ];
 
-function TreeTopology() {
+function RoutingTopology() {
   return (
-    <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-gradient-to-br from-[#0a1628] to-[#112240]">
-      <div className="absolute inset-0 noc-grid opacity-10"></div>
+    <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-[#0a1628]">
+      <div className="absolute inset-0 noc-grid opacity-5"></div>
       
-      <svg className="w-[85%] h-[85%] text-turquoise/20" viewBox="0 0 100 100">
-        {/* Background Dotted Lines */}
-        <motion.line 
-          x1="10" y1="30" x2="90" y2="40" 
-          stroke="currentColor" strokeWidth="0.3" strokeDasharray="2 2"
-          animate={{ opacity: [0.1, 0.3, 0.1] }}
-          transition={{ duration: 5, repeat: Infinity }}
-        />
-        <motion.line 
-          x1="20" y1="80" x2="80" y2="10" 
-          stroke="currentColor" strokeWidth="0.3" strokeDasharray="2 2"
-          animate={{ opacity: [0.1, 0.3, 0.1] }}
-          transition={{ duration: 5, repeat: Infinity, delay: 1 }}
-        />
-
-        {/* Tree Structure Lines */}
+      <svg className="w-[80%] h-[80%] text-turquoise/20" viewBox="0 0 100 100">
+        {/* Network Nodes Positions */}
+        {/* Source: (15, 50), Router: (40, 50), Path1: (65, 30), Path2: (65, 70), Dest: (90, 50) */}
+        
+        {/* Background Potential Paths (Inactive) */}
+        <path d="M 40 50 L 65 70 L 90 50" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" className="opacity-30" />
+        
+        {/* Selected Optimal Path (Active) */}
         <motion.path
-          d="M 35 50 L 60 25 M 35 50 L 75 55 M 35 50 L 65 85"
+          d="M 15 50 L 40 50 L 65 30 L 90 50"
           fill="none"
-          stroke="currentColor"
-          strokeWidth="0.5"
-          strokeDasharray="4 4"
+          stroke="#2dd4bf"
+          strokeWidth="1"
+          strokeDasharray="200"
+          initial={{ strokeDashoffset: 200 }}
+          animate={{ strokeDashoffset: 0 }}
+          transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+          className="opacity-40"
         />
 
-        {/* Nodes */}
-        <motion.circle 
-          cx="60" cy="25" r="2.5" 
-          className="fill-turquoise opacity-40 shadow-[0_0_10px_#2dd4bf]"
-          animate={{ scale: [1, 1.3, 1], opacity: [0.2, 0.5, 0.2] }}
-          transition={{ duration: 3, repeat: Infinity }}
-        />
-        <motion.circle 
-          cx="75" cy="55" r="3.5" 
-          className="fill-turquoise shadow-[0_0_15px_#2dd4bf]"
-          animate={{ scale: [1, 1.2, 1], opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 4, repeat: Infinity, delay: 0.5 }}
-        />
-        <motion.circle 
-          cx="65" cy="85" r="2" 
-          className="fill-turquoise opacity-30 shadow-[0_0_8px_#2dd4bf]"
-          animate={{ scale: [1, 1.4, 1], opacity: [0.1, 0.4, 0.1] }}
-          transition={{ duration: 3.5, repeat: Infinity, delay: 1 }}
-        />
-        <motion.circle 
-          cx="15" cy="40" r="1.5" 
-          className="fill-turquoise opacity-20"
-          animate={{ opacity: [0.1, 0.4, 0.1] }}
-          transition={{ duration: 4, repeat: Infinity, delay: 2 }}
-        />
+        {/* Data Packet (The decision maker) */}
+        <motion.circle r="2" className="fill-turquoise shadow-[0_0_10px_#2dd4bf]">
+          <animateMotion 
+            dur="3s" 
+            repeatCount="indefinite" 
+            path="M 15 50 L 40 50 L 65 30 L 90 50" 
+          />
+        </motion.circle>
 
-        {/* Central Icon Area */}
-        <foreignObject x="25" y="40" width="20" height="20">
-          <div className="w-full h-full flex items-center justify-center bg-bg-secondary rounded-lg border border-turquoise/30 shadow-[0_0_15px_rgba(45,212,191,0.2)]">
-            <Network size={12} className="text-turquoise" />
+        {/* Node Points */}
+        <circle cx="15" cy="50" r="2" className="fill-text-secondary/40" />
+        
+        {/* Router Node with Icon */}
+        <foreignObject x="32" y="42" width="16" height="16">
+          <div className="w-full h-full flex items-center justify-center bg-bg-secondary rounded-md border border-turquoise/40 shadow-lg">
+            <Network size={10} className="text-turquoise" />
           </div>
         </foreignObject>
+
+        <circle cx="65" cy="30" r="2" className="fill-turquoise shadow-[0_0_8px_#2dd4bf]" />
+        <circle cx="65" cy="70" r="2" className="fill-text-secondary/20" />
+        <circle cx="90" cy="50" r="2.5" className="fill-turquoise shadow-[0_0_12px_#2dd4bf]" />
         
-        {/* Label underneath icon */}
-        <text x="35" y="66" textAnchor="middle" className="text-[3.5px] font-mono fill-turquoise/50 uppercase tracking-[0.3em] font-bold">
-          BGP • ROUTING • POLICY
+        <text x="40" y="68" textAnchor="middle" className="text-[3px] font-mono fill-turquoise opacity-40 uppercase tracking-[0.3em] font-bold">
+          PATH SELECTION ACTIVE
         </text>
       </svg>
     </div>
@@ -138,35 +96,34 @@ export default function FeaturedArticles() {
 
   return (
     <section id="articles" className="py-20 bg-bg-primary relative overflow-hidden">
-      {/* Subtle global cadrillé background */}
       <div className="absolute inset-0 noc-grid opacity-5 pointer-events-none"></div>
 
       <div className="container-custom relative z-10">
-        <div className="flex justify-between items-end mb-10">
+        <div className="flex justify-between items-end mb-10 max-w-5xl mx-auto">
           <h2 className="text-3xl font-black tracking-tight text-text-primary uppercase">Featured articles</h2>
           <Link href="#" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
             All articles <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* FEATURED CARD - Refined to match image dimensions and design */}
+        {/* REDUCED WIDTH CARD - Added max-w-5xl */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-10 group hover:border-turquoise/30 transition-all shadow-2xl"
+          className="relative max-w-5xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-16 group hover:border-turquoise/30 transition-all shadow-2xl"
         >
           <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px]">
-            {/* Left: Graphic Area (Tree Topology) */}
+            {/* Left: Graphic Area - Path Selection Animation */}
             <div className="lg:col-span-5 h-56 lg:h-auto border-r border-border-main/50 relative">
-              <TreeTopology />
+              <RoutingTopology />
             </div>
             
             {/* Right: Content Area */}
             <div className="lg:col-span-7 p-8 md:p-10 flex flex-col justify-center">
               <div className="flex items-center space-x-3 mb-5">
-                <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 text-[9px] font-black uppercase tracking-widest">NETWORKING</span>
-                <span className="text-[9px] font-mono text-text-secondary/40 uppercase font-bold">15 min de lecture</span>
+                <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 text-[9px] font-bold uppercase tracking-widest">NETWORKING</span>
+                <span className="text-[9px] font-mono text-text-secondary/40 uppercase font-bold">15 min read</span>
               </div>
               
               <h3 className="text-2xl md:text-3xl font-black text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
@@ -178,8 +135,8 @@ export default function FeaturedArticles() {
               </p>
               
               <div className="flex items-center space-x-3">
-                <div className="w-8 h-8 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20">
-                  <span className="text-turquoise font-black text-[10px]">D</span>
+                <div className="w-8 h-8 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20 font-black text-[10px] text-turquoise">
+                  D
                 </div>
                 <div>
                   <div className="text-[11px] font-bold text-text-primary uppercase tracking-widest leading-none">DailyOps</div>
@@ -190,8 +147,8 @@ export default function FeaturedArticles() {
           </div>
         </motion.div>
 
-        {/* Recent Articles Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Recent Articles Grid - Also balanced in width */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {recentArticles.map((article, index) => (
             <motion.article 
               key={article.title}
@@ -226,4 +183,5 @@ export default function FeaturedArticles() {
     </section>
   );
 }
+
 
