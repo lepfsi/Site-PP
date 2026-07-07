@@ -288,6 +288,8 @@ export interface TranslationKeys {
   "privacy.s5.title": string;
   "privacy.s5.body": string;
   "footer.desc": string;
+  "footer.explore": string;
+  "footer.categories_all": string;
   "footer.categories": string;
   "footer.resources": string;
   "footer.information": string;
@@ -602,7 +604,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "privacy.s4.body": "The site uses local storage to remember your language preference (EN/FR) and theme (dark/light). No advertising or third-party tracking cookies are used.",
     "privacy.s5.title": "Your rights",
     "privacy.s5.body": "Under GDPR, you have the right to access, rectify, or delete your personal data. To unsubscribe from the newsletter, use the link in any email or contact us at contact@dailyops.tech.\n\nFor any privacy-related request: contact@dailyops.tech",
-    "footer.desc": "A premium knowledge base for IT infrastructure professionals — networking, security, cloud and operations.",
+    "footer.desc": "Production knowledge for IT ops — networking, security, cloud and infrastructure.",
+    "footer.explore": "Explore",
+    "footer.categories_all": "All categories",
     "footer.categories": "Categories",
     "footer.resources": "Resources",
     "footer.information": "Information",
@@ -915,7 +919,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "privacy.s4.body": "Le site utilise le stockage local pour mémoriser votre préférence de langue (EN/FR) et de thème (sombre/clair). Aucun cookie publicitaire ou de tracking tiers n'est utilisé.",
     "privacy.s5.title": "Vos droits",
     "privacy.s5.body": "Conformément au RGPD, vous disposez d'un droit d'accès, de rectification et de suppression de vos données personnelles. Pour vous désabonner de la newsletter, utilisez le lien dans tout email ou contactez-nous à contact@dailyops.tech.\n\nPour toute demande relative à la vie privée : contact@dailyops.tech",
-    "footer.desc": "Base de connaissances premium pour les professionnels de l'infrastructure IT — réseau, sécurité, cloud et opérations.",
+    "footer.desc": "Savoir production pour les ops IT — réseau, sécurité, cloud et infrastructure.",
+    "footer.explore": "Explorer",
+    "footer.categories_all": "Toutes les catégories",
     "footer.categories": "Catégories",
     "footer.resources": "Ressources",
     "footer.information": "Informations",
