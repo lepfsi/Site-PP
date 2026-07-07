@@ -201,6 +201,29 @@ export function getFeaturedArticle(): Article {
   return ARTICLES.find((a) => a.featured) ?? ARTICLES[0];
 }
 
+/** Featured article first, then most recent — for Hero dashboard rotation */
+export function getHeroSpotlightArticles(limit = 4): Article[] {
+  const featured = getFeaturedArticle();
+  const sorted = [...ARTICLES].sort((a, b) => b.date.localeCompare(a.date));
+  const seen = new Set<string>();
+  const result: Article[] = [];
+
+  if (featured) {
+    result.push(featured);
+    seen.add(featured.slug);
+  }
+
+  for (const article of sorted) {
+    if (result.length >= limit) break;
+    if (!seen.has(article.slug)) {
+      result.push(article);
+      seen.add(article.slug);
+    }
+  }
+
+  return result;
+}
+
 export function getRecentArticles(limit = 6): Article[] {
   return ARTICLES.filter((a) => !a.featured).slice(0, limit);
 }

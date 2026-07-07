@@ -6,7 +6,7 @@ import { ChevronRight, Mail, FileText, Layers, Calendar, Activity, ShieldAlert }
 import { useLanguage, type Language } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef, useMemo } from "react";
 import ArticleVisual from "@/components/article-visuals/ArticleVisual";
-import { getAllArticles, getFeaturedArticle } from "@/lib/articles";
+import { getAllArticles, getHeroSpotlightArticles } from "@/lib/articles";
 import { CATEGORIES } from "@/lib/categories";
 import type { Article } from "@/lib/articles";
 
@@ -21,6 +21,9 @@ const LOG_LINES = [
   "[14:22:32] OPS: Baseline applied to CORE-SW-01",
 ];
 
+const SPOTLIGHT_ROTATE_MS = 5000;
+const MODE_TOGGLE_MS = 8000;
+
 function formatHeroDate(date: string, lang: Language): string {
   return new Date(`${date}T00:00:00`).toLocaleDateString(lang === "FR" ? "fr-FR" : "en-US", {
     month: "short",
@@ -31,31 +34,39 @@ function formatHeroDate(date: string, lang: Language): string {
 function useHeroStats() {
   return useMemo(() => {
     const articles = getAllArticles();
+    const spotlightArticles = getHeroSpotlightArticles(4);
     const articleCount = articles.length;
     const domainCount = CATEGORIES.length;
-    const lastUpdated = articles.reduce((latest, article) => (article.date > latest ? article.date : latest), articles[0]?.date ?? "");
-    return { articles, articleCount, domainCount, lastUpdated, featured: getFeaturedArticle() };
+    const lastUpdated = articles.reduce(
+      (latest, article) => (article.date > latest ? article.date : latest),
+      articles[0]?.date ?? "",
+    );
+    return { articleCount, domainCount, lastUpdated, spotlightArticles };
   }, []);
 }
 
 function HeroDashboard({
   dashboardMode,
   visibleLogs,
-  featured,
+  spotlightArticle,
+  spotlightIndex,
+  spotlightTotal,
   articleCount,
   domainCount,
   t,
 }: {
   dashboardMode: "featured" | "terminal";
   visibleLogs: string[];
-  featured: Article;
+  spotlightArticle: Article;
+  spotlightIndex: number;
+  spotlightTotal: number;
   articleCount: number;
   domainCount: number;
   t: (key: string) => string;
 }) {
   return (
     <Link
-      href={`/articles/${featured.slug}`}
+      href={`/articles/${spotlightArticle.slug}`}
       className="group block relative aspect-square max-w-[360px] ml-auto w-full transition-transform hover:scale-[1.02] active:scale-[0.99]"
     >
       <div className="bg-bg-secondary/80 border border-border-main group-hover:border-turquoise/40 border-b-0 px-4 py-3 rounded-t-[1.5rem] flex items-center justify-between backdrop-blur-md transition-colors">
@@ -75,20 +86,29 @@ function HeroDashboard({
           <AnimatePresence mode="wait">
             {dashboardMode === "featured" ? (
               <motion.div
-                key="featured-mode"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
+                key={spotlightArticle.slug}
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -12 }}
+                transition={{ duration: 0.35 }}
                 className="absolute inset-0"
               >
-                <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
+                <ArticleVisual slug={spotlightArticle.slug} category={spotlightArticle.category} variant="article" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/95 via-bg-primary/30 to-transparent pointer-events-none" />
+                <div className="absolute top-3 right-3 flex items-center gap-1 pointer-events-none">
+                  {Array.from({ length: spotlightTotal }).map((_, i) => (
+                    <span
+                      key={i}
+                      className={`h-1 rounded-full transition-all ${i === spotlightIndex ? "w-3 bg-turquoise" : "w-1 bg-white/20"}`}
+                    />
+                  ))}
+                </div>
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 pointer-events-none">
-                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-white/5 ${featured.bg} ${featured.color} mb-2`}>
-                    {t(featured.categoryLabelKey)}
+                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-white/5 ${spotlightArticle.bg} ${spotlightArticle.color} mb-1.5`}>
+                    {t(spotlightArticle.categoryLabelKey)}
                   </span>
-                  <p className="text-[11px] sm:text-xs font-bold text-text-primary leading-snug line-clamp-2 mb-2">
-                    {t(featured.titleKey)}
+                  <p className="text-[11px] sm:text-xs font-bold text-text-primary leading-snug line-clamp-2 mb-1.5">
+                    {t(spotlightArticle.titleKey)}
                   </p>
                   <span className="inline-flex items-center text-[8px] font-black uppercase tracking-widest text-turquoise group-hover:underline">
                     {t("hero.dashboard_cta")} <ChevronRight size={10} className="ml-1 group-hover:translate-x-0.5 transition-transform" />
@@ -187,12 +207,14 @@ function HeroStatCard({
 
 export default function Hero() {
   const { t, lang } = useLanguage();
-  const { articleCount, domainCount, lastUpdated, featured } = useHeroStats();
+  const { articleCount, domainCount, lastUpdated, spotlightArticles } = useHeroStats();
   const [mounted, setMounted] = useState(false);
   const [dashboardMode, setDashboardMode] = useState<"featured" | "terminal">("featured");
+  const [spotlightIndex, setSpotlightIndex] = useState(0);
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
 
   const logIndexRef = useRef(0);
+  const spotlightArticle = spotlightArticles[spotlightIndex] ?? spotlightArticles[0];
 
   const statGuides = t("hero.stat_guides").replace("{count}", String(articleCount));
   const statDomains = t("hero.stat_domains").replace("{count}", String(domainCount));
@@ -206,9 +228,17 @@ export default function Hero() {
     if (!mounted) return;
     const modeInterval = setInterval(() => {
       setDashboardMode((prev) => (prev === "featured" ? "terminal" : "featured"));
-    }, 6000);
+    }, MODE_TOGGLE_MS);
     return () => clearInterval(modeInterval);
   }, [mounted]);
+
+  useEffect(() => {
+    if (!mounted || dashboardMode !== "featured" || spotlightArticles.length <= 1) return;
+    const rotateInterval = setInterval(() => {
+      setSpotlightIndex((prev) => (prev + 1) % spotlightArticles.length);
+    }, SPOTLIGHT_ROTATE_MS);
+    return () => clearInterval(rotateInterval);
+  }, [mounted, dashboardMode, spotlightArticles.length]);
 
   useEffect(() => {
     if (!mounted || dashboardMode !== "terminal") {
@@ -233,19 +263,21 @@ export default function Hero() {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.15 },
+      transition: { staggerChildren: 0.12 },
     },
   };
 
   const staggeredItem: Variants = {
-    hidden: { opacity: 0, x: -20 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.5 } },
+    hidden: { opacity: 0, x: -16 },
+    show: { opacity: 1, x: 0, transition: { duration: 0.45 } },
   };
 
   const dashboardProps = {
     dashboardMode,
     visibleLogs,
-    featured,
+    spotlightArticle,
+    spotlightIndex,
+    spotlightTotal: spotlightArticles.length,
     articleCount,
     domainCount,
     t,
@@ -255,21 +287,21 @@ export default function Hero() {
     <section className="relative pt-28 pb-4 md:pt-32 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid">
       <div className="container-custom relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div className="lg:col-span-7 flex flex-col justify-center">
+          <div className="lg:col-span-7 flex flex-col justify-center gap-5 md:gap-6">
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full mb-10 w-fit"
+              className="inline-flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full w-fit"
             >
               <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
               <span className="text-green-500 code-font text-[9px] font-black uppercase tracking-widest">{t("hero.badge")}</span>
             </motion.div>
 
-            <div className="mb-6 lg:mb-8">
+            <div className="space-y-3 md:space-y-3.5">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font mb-4"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font leading-[1.05]"
               >
                 {t("hero.title_main")}
               </motion.h1>
@@ -278,7 +310,7 @@ export default function Hero() {
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg sm:text-xl md:text-2xl lg:text-3xl font-black code-font text-text-primary mt-6 lg:mt-8"
+                className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-lg sm:text-xl md:text-2xl lg:text-[1.65rem] font-black code-font text-text-primary"
               >
                 <motion.span variants={staggeredItem}>{t("hero.sub_operate")}</motion.span>
                 <motion.span variants={staggeredItem} className="text-turquoise italic">{t("hero.sub_optimize")}</motion.span>
@@ -287,15 +319,15 @@ export default function Hero() {
             </div>
 
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1 }}
-              className="text-xs md:text-sm text-text-secondary/80 max-w-xl mb-10 lg:mb-12 font-medium leading-relaxed tracking-tight mt-6 lg:mt-8"
+              transition={{ delay: 0.6 }}
+              className="text-xs md:text-sm text-text-secondary/80 max-w-xl font-medium leading-relaxed"
             >
               {t("hero.desc")}
             </motion.p>
 
-            <div className="flex flex-wrap gap-3 mt-4">
+            <div className="flex flex-wrap gap-2.5 md:gap-3">
               <a href="#categories" className="px-5 py-2.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-[10px] tracking-widest uppercase border border-transparent">
                 {t("hero.cta_explore")}
               </a>
@@ -308,14 +340,14 @@ export default function Hero() {
               </a>
             </div>
 
-            <div className="lg:hidden mt-8 grid grid-cols-3 gap-3">
+            <div className="lg:hidden grid grid-cols-3 gap-3 pt-1">
               <HeroStatCard icon={FileText} label={statGuides} />
               <HeroStatCard icon={Layers} label={statDomains} />
               <HeroStatCard icon={Calendar} label={statUpdated} />
             </div>
           </div>
 
-          <div className="lg:col-span-5 relative lg:hidden mt-6">
+          <div className="lg:col-span-5 relative lg:hidden mt-2">
             <HeroDashboard {...dashboardProps} />
           </div>
 
