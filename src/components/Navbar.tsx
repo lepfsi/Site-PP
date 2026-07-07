@@ -43,14 +43,14 @@ export default function Navbar() {
     >
       <div className="flex h-11 items-center justify-between relative">
         
-        {/* LOGO */}
-        <Link href="/" className="z-10 flex-shrink-0">
+        {/* LOGO - Always points to top of home */}
+        <Link href="/#" className="z-10 flex-shrink-0">
           <Logo />
         </Link>
 
         {/* CENTERED LINKS */}
         <div className="hidden lg:flex items-center space-x-1 absolute left-1/2 -translate-x-1/2 w-max">
-          <Link href="/" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-turquoise">{t("nav.home")}</Link>
+          <Link href="/#" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-turquoise">{t("nav.home")}</Link>
           
           <div 
             className="relative"
@@ -93,8 +93,9 @@ export default function Navbar() {
             </AnimatePresence>
           </div>
 
-          <Link href="#articles" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.articles")}</Link>
-          <Link href="#experience" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.expertise")}</Link>
+          {/* Corrected paths to point to home page sections from anywhere */}
+          <Link href="/#articles" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.articles")}</Link>
+          <Link href="/#experience" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.expertise")}</Link>
           <Link href="/about" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.about")}</Link>
         </div>
 
@@ -131,9 +132,10 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden mt-4 pt-4 border-t border-border-main/20 space-y-1 overflow-hidden pb-4"
           >
-            {["Home", "Categories", "Articles", "Expertise", "About"].map((item) => (
-              <Link key={item} href="#" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{item}</Link>
-            ))}
+            <Link href="/#" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.home")}</Link>
+            <Link href="/#articles" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
+            <Link href="/#experience" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.expertise")}</Link>
+            <Link href="/about" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
           </motion.div>
         )}
       </AnimatePresence>
