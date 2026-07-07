@@ -36,7 +36,6 @@ const FOOTER_RESOURCES = [
   { key: "footer.templates", href: "/resources#templates" },
   { key: "footer.scripts", href: "/resources#scripts" },
   { key: "footer.training", href: "/resources#training" },
-  { key: "footer.lab", href: "/resources#lab" },
 ] as const;
 
 const FOOTER_ABOUT = [

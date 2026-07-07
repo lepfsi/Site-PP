@@ -157,6 +157,10 @@ export interface TranslationKeys {
   "articles.all_count": string;
   "about.title": string;
   "about.subtitle": string;
+  "about.author_title": string;
+  "about.author_name": string;
+  "about.author_role": string;
+  "about.author_bio": string;
   "about.mission": string;
   "about.methodology_title": string;
   "about.methodology_desc": string;
@@ -186,9 +190,7 @@ export interface TranslationKeys {
   "res.4.title": string;
   "res.4.desc": string;
   "res.4.link": string;
-  "res.5.title": string;
-  "res.5.desc": string;
-  "res.5.link": string;
+
   "exp.title": string;
   "exp.subtitle": string;
   "exp.read_case": string;
@@ -234,7 +236,7 @@ export interface TranslationKeys {
   "res.page.scripts_desc": string;
   "res.page.templates_desc": string;
   "res.page.training_desc": string;
-  "res.page.lab_desc": string;
+
   "res.page.view_category": string;
   "news.title": string;
   "news.desc": string;
@@ -466,7 +468,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.all_count": "articles published",
     "about.title": "About DailyOps",
     "about.subtitle": "Production knowledge forged in NOCs and SOCs.",
-    "about.mission": "DailyOps is a technical knowledge base built by field engineers for field engineers. Every article, playbook, and baseline is validated in production environments — no empty theory, no marketing fluff.",
+    "about.author_title": "About the author",
+    "about.author_name": "Steve BA-NDOUWE",
+    "about.author_role": "Cybersecurity Engineer",
+    "about.author_bio": "Steve BA-NDOUWE is a cybersecurity engineer by training who rapidly expanded into full-spectrum IT operations. From the start of his career, he has worked in high-stakes environments — banking, airports, and critical infrastructure where high availability, regulatory rigor, and round-the-clock monitoring leave no margin for error.\n\nThose production constraints shaped how he designs secure architectures, hardens systems, and troubleshoots under pressure. DailyOps.Tech is where he shares the playbooks, baselines, and field lessons learned alongside NOC and SOC teams.",
+    "about.mission": "Every article on DailyOps is validated against real production constraints — no empty theory, no marketing fluff.",
     "about.methodology_title": "Our methodology",
     "about.methodology_desc": "We document what we deploy, break, and fix. Each guide follows a production-ready structure: context, architecture, step-by-step implementation, validation checks, and rollback procedures. Content is reviewed and updated as technologies evolve.",
     "about.contact_title": "Contact us",
@@ -492,12 +498,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.3.title": "Templates",
     "res.3.desc": "Documentation and runbook templates",
     "res.3.link": "20 templates",
-    "res.4.title": "Training",
-    "res.4.desc": "Practical guides and hands-on labs",
-    "res.4.link": "12 courses",
-    "res.5.title": "Lab Environment",
-    "res.5.desc": "Hands-on infrastructure and networking labs",
-    "res.5.link": "3 lab guides",
+    "res.4.title": "Training & Lab",
+    "res.4.desc": "Guides and hands-on lab environments",
+    "res.4.link": "5 guides",
     "exp.title": "Field experience feedback",
     "exp.subtitle": "From the field, validated in production. No empty theory — content forged in NOCs and SOCs.",
     "exp.read_case": "Read case study",
@@ -542,8 +545,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.page.cheatsheets_desc": "Quick-reference command sheets for troubleshooting and daily operations — BGP, OSPF, Linux networking, and more.",
     "res.page.scripts_desc": "Automation utilities and infrastructure-as-code patterns ready to adapt to your environment.",
     "res.page.templates_desc": "Runbook and architecture documentation templates used in real incident response and migration projects.",
-    "res.page.training_desc": "Structured learning paths and cloud-native guides to build practical skills step by step.",
-    "res.page.lab_desc": "Reproducible lab setups for HA clusters, VPN tunnels, and protocol troubleshooting in isolated environments.",
+    "res.page.training_desc": "Structured learning paths, cloud-native guides, and reproducible lab setups — HA clusters, VPN tunnels, and protocol troubleshooting in isolated environments.",
     "res.page.view_category": "Browse category",
     "news.title": "Weekly Newsletter",
     "news.desc": "Get the best articles, tech news, and infrastructure tips every week.",
@@ -611,7 +613,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.cheatsheets": "Cheatsheets",
     "footer.templates": "Templates",
     "footer.scripts": "Scripts & Tools",
-    "footer.training": "Training",
+    "footer.training": "Training & Lab",
     "footer.lab": "Lab Environment",
     "footer.copyright": "© 2026 DailyOps.Tech —",
     "footer.production_ready": "Production Ready",
@@ -773,7 +775,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.all_count": "articles publiés",
     "about.title": "À propos de DailyOps",
     "about.subtitle": "Savoir de production forgé dans les NOC et SOC.",
-    "about.mission": "DailyOps est une base de connaissances techniques construite par des ingénieurs terrain pour des ingénieurs terrain. Chaque article, playbook et baseline est validé en environnement de production — pas de théorie vide, pas de marketing.",
+    "about.author_title": "À propos de l'auteur",
+    "about.author_name": "Steve BA-NDOUWE",
+    "about.author_role": "Ingénieur en cybersécurité",
+    "about.author_bio": "Steve BA-NDOUWE est ingénieur en cybersécurité de formation, qui s'est très rapidement orienté vers les opérations IT dans leur ensemble. Dès le début de son parcours, il a évolué dans des environnements à forte exigence — banque, aéroports et infrastructures critiques où la haute disponibilité, la conformité réglementaire et la surveillance continue ne laissent aucune place à l'approximation.\n\nCes contraintes de production ont façonné sa façon de concevoir des architectures sécurisées, durcir les systèmes et diagnostiquer sous pression. DailyOps.Tech est l'endroit où il partage les playbooks, baselines et retours terrain acquis aux côtés des équipes NOC et SOC.",
+    "about.mission": "Chaque article sur DailyOps est validé face aux contraintes de production réelles — pas de théorie vide, pas de marketing.",
     "about.methodology_title": "Notre méthodologie",
     "about.methodology_desc": "Nous documentons ce que nous déployons, cassons et réparons. Chaque guide suit une structure production-ready : contexte, architecture, implémentation pas à pas, checks de validation et procédures de rollback. Le contenu est revu et mis à jour au fil de l'évolution des technologies.",
     "about.contact_title": "Nous contacter",
@@ -799,12 +805,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.3.title": "Templates",
     "res.3.desc": "Documentation et runbooks",
     "res.3.link": "20 templates",
-    "res.4.title": "Formations",
-    "res.4.desc": "Guides et labs pratiques",
-    "res.4.link": "12 cours",
-    "res.5.title": "Environnement Lab",
-    "res.5.desc": "Labs infrastructure et réseau",
-    "res.5.link": "3 guides lab",
+    "res.4.title": "Formation & Lab",
+    "res.4.desc": "Guides et environnements lab",
+    "res.4.link": "5 guides",
     "exp.title": "Retours d'expérience terrain",
     "exp.subtitle": "Du terrain, validé en production. Pas de théorie vide — contenu forgé dans les NOC et SOC.",
     "exp.read_case": "Lire le cas",
@@ -849,8 +852,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.page.cheatsheets_desc": "Aide-mémoires de commandes pour le dépannage et les opérations quotidiennes — BGP, OSPF, réseau Linux, et plus.",
     "res.page.scripts_desc": "Utilitaires d'automatisation et patterns infrastructure-as-code prêts à adapter à votre environnement.",
     "res.page.templates_desc": "Templates de runbooks et documentation d'architecture utilisés en incident response et migrations réelles.",
-    "res.page.training_desc": "Parcours structurés et guides cloud-native pour monter en compétence étape par étape.",
-    "res.page.lab_desc": "Setups lab reproductibles pour clusters HA, tunnels VPN et troubleshooting protocoles en environnement isolé.",
+    "res.page.training_desc": "Parcours structurés, guides cloud-native et setups lab reproductibles — clusters HA, tunnels VPN et troubleshooting protocoles en environnement isolé.",
     "res.page.view_category": "Parcourir la catégorie",
     "news.title": "Newsletter Hebdomadaire",
     "news.desc": "Recevez chaque semaine les meilleurs articles, news tech, et astuces infrastructure.",
@@ -918,7 +920,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.cheatsheets": "Cheatsheets",
     "footer.templates": "Templates",
     "footer.scripts": "Scripts & Outils",
-    "footer.training": "Formations",
+    "footer.training": "Formation & Lab",
     "footer.lab": "Environnement Lab",
     "footer.copyright": "© 2026 DailyOps.Tech —",
     "footer.production_ready": "Production Ready",

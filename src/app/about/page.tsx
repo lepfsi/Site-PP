@@ -103,9 +103,22 @@ export default function AboutPage() {
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  className="scroll-mt-32"
+                  className="scroll-mt-32 p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary"
                 >
-                  <p className="text-text-secondary text-base sm:text-lg leading-relaxed font-medium">
+                  <h2 className="text-xl font-bold text-text-primary mb-6">{t("about.author_title")}</h2>
+                  <div className="flex items-start gap-4 mb-6">
+                    <div className="w-14 h-14 rounded-full bg-turquoise/10 border border-turquoise/30 flex items-center justify-center font-black text-turquoise text-base shrink-0">
+                      SB
+                    </div>
+                    <div>
+                      <h3 className="text-lg font-black text-text-primary tracking-tight">{t("about.author_name")}</h3>
+                      <p className="text-turquoise text-[10px] font-bold uppercase tracking-widest mt-1.5">{t("about.author_role")}</p>
+                    </div>
+                  </div>
+                  <p className="text-text-secondary text-sm sm:text-base leading-relaxed font-medium whitespace-pre-line">
+                    {t("about.author_bio")}
+                  </p>
+                  <p className="text-text-secondary/70 text-sm leading-relaxed font-medium border-t border-border-main/60 pt-5 mt-5">
                     {t("about.mission")}
                   </p>
                 </motion.div>
