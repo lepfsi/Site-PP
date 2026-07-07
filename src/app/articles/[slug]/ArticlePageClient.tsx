@@ -9,7 +9,8 @@ import { getCategoryBySlug } from "@/lib/categories";
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight, Clock, Calendar, ArrowLeft, FileText, Share2 } from "lucide-react";
+import { ChevronRight, Clock, Calendar, ArrowLeft, FileText } from "lucide-react";
+import ArticleShareButton from "@/components/ArticleShareButton";
 
 interface ArticlePageClientProps {
   markdownBodies?: { EN: string | null; FR: string | null } | null;
@@ -103,9 +104,7 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
                     </div>
                   </div>
                 </div>
-                <button className="flex items-center text-turquoise hover:underline ml-auto">
-                  <Share2 size={12} className="mr-1.5" /> {t("article.share")}
-                </button>
+                <ArticleShareButton slug={slug} title={t(article.titleKey)} />
               </div>
             </motion.div>
           </div>

@@ -129,6 +129,9 @@ export interface TranslationKeys {
   "article.published": string;
   "article.related": string;
   "article.share": string;
+  "article.share_copy": string;
+  "article.share_copied": string;
+  "article.share_email": string;
   "catpage.breadcrumb": string;
   "catpage.stable": string;
   "catpage.read_node": string;
@@ -426,6 +429,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "article.published": "Published",
     "article.related": "Related articles",
     "article.share": "Share",
+    "article.share_copy": "Copy link",
+    "article.share_copied": "Copied!",
+    "article.share_email": "Email",
     "catpage.breadcrumb": "Nodes",
     "catpage.stable": "STABLE",
     "catpage.read_node": "Read Node",
@@ -721,6 +727,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "article.published": "Publié le",
     "article.related": "Articles connexes",
     "article.share": "Partager",
+    "article.share_copy": "Copier le lien",
+    "article.share_copied": "Copié !",
+    "article.share_email": "Email",
     "catpage.breadcrumb": "Nodes",
     "catpage.stable": "STABLE",
     "catpage.read_node": "Lire le node",
