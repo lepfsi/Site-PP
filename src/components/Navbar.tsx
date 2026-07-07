@@ -10,13 +10,13 @@ import CommandSearch from "./CommandSearch";
 import Logo from "./Logo";
 
 const CATEGORIES = [
-  { id: "networking", color: "bg-blue-500", icon: Globe },
-  { id: "cybersecurity", color: "bg-red-500", icon: Shield },
-  { id: "infrastructure", color: "bg-orange-500", icon: Server },
-  { id: "cloud", color: "bg-purple-500", icon: Cloud },
-  { id: "automation", color: "bg-cyan-500", label: "Automation & AI", icon: Zap },
-  { id: "troubleshooting", color: "bg-green-500", icon: Bug },
-];
+  { id: "networking", icon: Globe },
+  { id: "cybersecurity", icon: Shield },
+  { id: "infrastructure", icon: Server },
+  { id: "cloud", icon: Cloud },
+  { id: "automation", icon: Zap },
+  { id: "troubleshooting", icon: Bug },
+] as const;
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,7 +80,7 @@ export default function Navbar() {
                       </div>
                       <div>
                         <div className="text-[10px] font-bold text-text-primary uppercase tracking-widest group-hover:text-turquoise transition-colors">
-                          {cat.label || (cat.id.charAt(0).toUpperCase() + cat.id.slice(1))}
+                          {t(`cat.${cat.id}_name`)}
                         </div>
                         <div className="text-[8px] text-text-secondary/60 font-mono leading-none mt-1">
                           {t(`cat.${cat.id}_desc` as any)}
@@ -133,9 +133,25 @@ export default function Navbar() {
             className="lg:hidden mt-4 pt-4 border-t border-border-main/20 space-y-1 overflow-hidden pb-4"
           >
             <Link href="/#" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.home")}</Link>
+            <div className="px-4 py-2 text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/50">{t("nav.categories")}</div>
+            {CATEGORIES.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/category/${cat.id}`}
+                className="flex items-center px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-turquoise border-b border-border-main/10"
+                onClick={() => setIsOpen(false)}
+              >
+                <cat.icon size={12} className="mr-2" />
+                {t(`cat.${cat.id}_name`)}
+              </Link>
+            ))}
             <Link href="/#articles" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
             <Link href="/#experience" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.expertise")}</Link>
             <Link href="/about" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
+            <div className="flex items-center justify-center gap-2 px-4 pt-4">
+              <button onClick={() => setLang("FR")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>FR</button>
+              <button onClick={() => setLang("EN")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>EN</button>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

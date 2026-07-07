@@ -2,110 +2,186 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Network, Shield, Server, Cloud, Wrench, ChevronRight, FileText, ArrowRight, Zap, Globe, Bug } from "lucide-react";
+import { ChevronRight, FileText, ArrowRight, Clock, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext";
-
-const categoriesInfo = {
-  networking: { icon: Globe, color: "text-blue-500" },
-  cybersecurity: { icon: Shield, color: "text-purple-500" },
-  infrastructure: { icon: Server, color: "text-emerald-500" },
-  cloud: { icon: Cloud, color: "text-blue-400" },
-  automation: { icon: Zap, color: "text-pink-500" },
-  troubleshooting: { icon: Bug, color: "text-orange-500" },
-};
+import { getCategoryBySlug, CATEGORIES } from "@/lib/categories";
+import { getArticlesByCategory } from "@/lib/articles";
+import { motion } from "framer-motion";
 
 export default function CategoryPage() {
   const params = useParams();
-  const { lang } = useLanguage();
+  const { t } = useLanguage();
   const slug = params.slug as string;
-  const category = categoriesInfo[slug as keyof typeof categoriesInfo] || categoriesInfo.networking;
-
-  const title = slug.charAt(0).toUpperCase() + slug.slice(1);
+  const category = getCategoryBySlug(slug);
+  const articles = getArticlesByCategory(category.slug);
+  const CategoryIcon = category.icon;
 
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
-      <div className="flex-grow">
-        <header className="py-24 border-b border-border-main bg-bg-secondary/30 relative overflow-hidden">
+      <div className="flex-grow pt-28">
+        {/* Hero header — aligned with home design */}
+        <header className="relative py-16 sm:py-24 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
+          <div className="absolute inset-0 noc-grid opacity-20 pointer-events-none"></div>
           <div className="scanline"></div>
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
-            <nav className="flex mb-12 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
-              <Link href="/" className="hover:text-turquoise transition-colors">Nodes</Link>
+          <div className="container-custom relative z-10">
+            <nav className="flex flex-wrap items-center mb-10 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
+              <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
-              <span className="text-text-primary">{title}</span>
+              <span className="text-text-primary">{t(category.nameKey)}</span>
             </nav>
-            <div className="flex items-center space-x-8">
-              <div className={`p-6 rounded-2xl bg-bg-secondary border border-border-main shadow-xl ${category.color}`}>
-                <category.icon size={48} />
-              </div>
-              <div>
-                <h1 className="text-5xl md:text-7xl font-black text-text-primary tracking-tighter code-font">{title}</h1>
-                <p className="mt-4 text-text-secondary text-xl font-medium max-w-2xl">
-                  {lang === "FR" 
-                    ? `Base de connaissances technique dédiée au ${title}. Guides, checklists et baselines de production.`
-                    : `Technical knowledge base dedicated to ${title}. Guides, checklists and production baselines.`}
-                </p>
+
+            <div className="flex flex-col lg:flex-row lg:items-center gap-8 lg:gap-12">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.95 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className={`p-6 sm:p-8 rounded-2xl bg-bg-secondary border border-border-main shadow-2xl ${category.color} w-fit`}
+              >
+                <CategoryIcon size={48} className="sm:w-14 sm:h-14" />
+              </motion.div>
+
+              <div className="flex-grow">
+                <motion.h1
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-text-primary tracking-tighter code-font"
+                >
+                  {t(category.nameKey)}
+                </motion.h1>
+                <motion.p
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  className="mt-4 text-text-secondary text-lg sm:text-xl font-medium max-w-2xl leading-relaxed"
+                >
+                  {t(category.descKey)}
+                </motion.p>
+
+                {/* Stats row */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  className="flex flex-wrap gap-4 mt-8"
+                >
+                  <div className="flex items-center px-4 py-2 rounded-xl bg-bg-primary/60 border border-border-main">
+                    <FileText size={14} className={`mr-2 ${category.color}`} />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-text-primary">
+                      {category.count} {t("cat.articles")}
+                    </span>
+                  </div>
+                  <div className="flex items-center px-4 py-2 rounded-xl bg-bg-primary/60 border border-border-main">
+                    <RefreshCw size={14} className={`mr-2 ${category.color}`} />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-text-primary">
+                      {t("catpage.verified")}
+                    </span>
+                  </div>
+                  <div className="flex items-center px-4 py-2 rounded-xl bg-bg-primary/60 border border-border-main">
+                    <span className={`text-[10px] font-black uppercase tracking-widest ${category.color}`}>
+                      {t(category.certKey)}
+                    </span>
+                  </div>
+                </motion.div>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-2 mt-6">
+                  {category.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className={`px-3 py-1 rounded-md bg-bg-primary border border-border-main text-[10px] font-bold uppercase tracking-wider ${category.color}`}
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         </header>
 
-        <section className="py-24">
-          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
-              <div className="lg:col-span-2 space-y-4">
-                {[1, 2, 3].map((i) => (
-                  <article key={i} className="p-8 rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise transition-all group">
-                    <div className="flex items-center text-[10px] font-black text-text-secondary/30 mb-4 uppercase tracking-[0.2em]">
-                      <FileText className="mr-2 h-3 w-3" />
-                      JUN 2026 // STABLE
-                    </div>
-                    <h2 className="text-3xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors">
-                      {lang === "FR" ? "Baseline de configuration Production" : "Production Configuration Baseline"} #{i}
-                    </h2>
-                    <p className="text-text-secondary mb-8 leading-relaxed font-medium">
-                      {lang === "FR" 
-                        ? "Détails techniques sur l'implémentation des standards de sécurité et de performance en environnement critique."
-                        : "Technical details on implementing security and performance standards in critical environments."}
-                    </p>
-                    <Link href="#" className="inline-flex items-center text-xs font-black uppercase tracking-widest text-turquoise group-hover:underline">
-                      Read Node <ArrowRight className="ml-2 h-4 w-4" />
-                    </Link>
-                  </article>
-                ))}
+        <section className="py-16 sm:py-24">
+          <div className="container-custom">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+              <div className="lg:col-span-2 space-y-6">
+                {articles.length > 0 ? (
+                  articles.map((article, i) => (
+                    <motion.article
+                      key={article.slug}
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.05 }}
+                    >
+                      <Link
+                        href={`/articles/${article.slug}`}
+                        className="block p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise transition-all group"
+                      >
+                        <div className="flex flex-wrap items-center gap-3 text-[10px] font-black text-text-secondary/30 mb-4 uppercase tracking-[0.2em]">
+                          <FileText className="h-3 w-3" />
+                          {article.date} // {t("catpage.stable")}
+                          <span className="flex items-center ml-auto sm:ml-0">
+                            <Clock size={10} className="mr-1" /> {article.readTime}
+                          </span>
+                        </div>
+                        <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors leading-tight">
+                          {t(article.titleKey)}
+                        </h2>
+                        <p className="text-text-secondary mb-6 leading-relaxed font-medium">
+                          {t(article.excerptKey)}
+                        </p>
+                        <span className="inline-flex items-center text-xs font-black uppercase tracking-widest text-turquoise group-hover:underline">
+                          {t("catpage.read_node")} <ArrowRight className="ml-2 h-4 w-4" />
+                        </span>
+                      </Link>
+                    </motion.article>
+                  ))
+                ) : (
+                  <div className="p-8 rounded-2xl border border-border-main bg-bg-secondary text-center">
+                    <p className="text-text-secondary font-medium">{t("cat.subtitle")}</p>
+                  </div>
+                )}
               </div>
-              
+
               <aside className="space-y-8">
-                <div className="p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-sm">
-                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-8 border-b border-border-main pb-4">Index Nodes</h3>
-                  <ul className="space-y-6">
-                    {["Routing", "Switching", "Security", "SD-WAN"].map(item => (
-                      <li key={item} className="flex justify-between items-center group cursor-pointer">
-                        <span className="text-sm font-bold text-text-primary group-hover:text-turquoise transition-colors">{item}</span>
-                        <span className="text-[10px] font-black bg-bg-primary px-2 py-1 rounded border border-border-main text-text-secondary/50 group-hover:border-turquoise group-hover:text-turquoise transition-all">0{item.length}</span>
+                <div className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-sm">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-6 border-b border-border-main pb-4">
+                    {t("catpage.index_nodes")}
+                  </h3>
+                  <ul className="space-y-4">
+                    {CATEGORIES.map((cat) => (
+                      <li key={cat.slug}>
+                        <Link
+                          href={`/category/${cat.slug}`}
+                          className={`flex justify-between items-center group ${cat.slug === category.slug ? "text-turquoise" : ""}`}
+                        >
+                          <span className="text-sm font-bold text-text-primary group-hover:text-turquoise transition-colors flex items-center">
+                            <cat.icon size={14} className="mr-2 opacity-60" />
+                            {t(cat.nameKey)}
+                          </span>
+                          <span className="text-[10px] font-black bg-bg-primary px-2 py-1 rounded border border-border-main text-text-secondary/50 group-hover:border-turquoise group-hover:text-turquoise transition-all">
+                            {cat.count}
+                          </span>
+                        </Link>
                       </li>
                     ))}
                   </ul>
                 </div>
-                
-                <div className="p-8 rounded-2xl bg-text-primary text-bg-primary relative overflow-hidden group shadow-2xl">
+
+                <div className="p-6 sm:p-8 rounded-2xl bg-text-primary text-bg-primary relative overflow-hidden group shadow-2xl">
                   <div className="relative z-10">
-                    <h3 className="text-xl font-bold mb-4">{lang === "FR" ? "Besoin d'expertise ?" : "Need Expertise?"}</h3>
+                    <h3 className="text-xl font-bold mb-4">{t("catpage.need_expertise")}</h3>
                     <p className="text-sm text-bg-primary/50 mb-8 leading-relaxed">
-                      {lang === "FR" 
-                        ? "Design d'architecture, troubleshooting complexe et audit de production."
-                        : "Architecture design, complex troubleshooting and production audit."}
+                      {t("catpage.expertise_desc")}
                     </p>
-                    {/* FIXED LINK TO ABOUT PAGE */}
                     <Link href="/about">
                       <button className="w-full py-4 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
-                        Contact NOC
+                        {t("catpage.contact_noc")}
                       </button>
                     </Link>
                   </div>
-                  <category.icon className="absolute -right-8 -bottom-8 h-40 w-40 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
+                  <CategoryIcon className="absolute -right-8 -bottom-8 h-40 w-40 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
               </aside>
             </div>

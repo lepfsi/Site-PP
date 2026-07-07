@@ -39,7 +39,7 @@ function HeroDashboard({
           <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]"></div>
         </div>
         <div className="text-[9px] font-mono text-text-secondary/50 uppercase tracking-widest font-bold">
-          {dashboardMode === "mesh" ? "topology_viz.sh" : "ops_logs_live.tail"}
+          {dashboardMode === "mesh" ? t("hero.monitor_mesh") : t("hero.monitor_terminal")}
         </div>
         <div className="w-10"></div>
       </div>
@@ -104,7 +104,7 @@ function HeroDashboard({
             </div>
             <div className="flex items-center space-x-2 bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
               <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse"></span>
-              <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">LIVE</span>
+              <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">{t("hero.monitor_live_badge")}</span>
             </div>
           </div>
 
@@ -222,7 +222,7 @@ export default function Hero() {
               <motion.h1 
                 initial={{ opacity: 0, y: 10 }} 
                 animate={{ opacity: 1, y: 0 }} 
-                className="text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font mb-4 whitespace-nowrap"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font mb-4"
               >
                 {t("hero.title_main")}
               </motion.h1>
@@ -232,11 +232,11 @@ export default function Hero() {
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="flex items-center space-x-3 text-xl md:text-2xl lg:text-3xl font-black code-font text-text-primary mt-6 lg:mt-8"
+                className="flex flex-wrap items-center gap-x-3 gap-y-1 text-lg sm:text-xl md:text-2xl lg:text-3xl font-black code-font text-text-primary mt-6 lg:mt-8"
               >
-                <motion.span variants={staggeredItem}>Operate.</motion.span>
-                <motion.span variants={staggeredItem} className="text-turquoise italic">Optimize.</motion.span>
-                <motion.span variants={staggeredItem}>Secure.</motion.span>
+                <motion.span variants={staggeredItem}>{t("hero.sub_operate")}</motion.span>
+                <motion.span variants={staggeredItem} className="text-turquoise italic">{t("hero.sub_optimize")}</motion.span>
+                <motion.span variants={staggeredItem}>{t("hero.sub_secure")}</motion.span>
               </motion.div>
             </div>
 
@@ -262,6 +262,33 @@ export default function Hero() {
                 {t("hero.cta_news")}
               </a>
             </div>
+
+            {/* Mobile stats */}
+            <div className="lg:hidden mt-8 grid grid-cols-3 gap-3">
+              <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
+                <Users size={14} className="mx-auto mb-1.5 text-turquoise" />
+                <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{t("hero.stat_engineers")}</div>
+              </div>
+              <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
+                <FileText size={14} className="mx-auto mb-1.5 text-turquoise" />
+                <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{t("hero.stat_articles")}</div>
+              </div>
+              <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
+                <RefreshCw size={14} className="mx-auto mb-1.5 text-turquoise" />
+                <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{t("hero.stat_updated")}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Mobile dashboard */}
+          <div className="lg:col-span-5 relative lg:hidden mt-6">
+            <HeroDashboard 
+              dashboardMode={dashboardMode}
+              visibleLogs={visibleLogs}
+              networkValue={networkValue}
+              securityValue={securityValue}
+              t={t}
+            />
           </div>
 
           <div className="lg:col-span-5 relative hidden lg:block">
@@ -272,9 +299,9 @@ export default function Hero() {
               className="absolute -top-14 -left-36 z-0 opacity-15 pointer-events-none bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
             >
               <div className="space-y-4 font-mono text-[9px] text-turquoise uppercase tracking-[0.2em]">
-                <div className="flex items-center space-x-2"><Users size={12} /> <span>7K+ Active Ops</span></div>
-                <div className="flex items-center space-x-2"><FileText size={12} /> <span>340+ Technical Nodes</span></div>
-                <div className="flex items-center space-x-2"><RefreshCw size={12} /> <span>Verified Baselines</span></div>
+                <div className="flex items-center space-x-2"><Users size={12} /> <span>{t("hero.stat_engineers")}</span></div>
+                <div className="flex items-center space-x-2"><FileText size={12} /> <span>{t("hero.stat_articles")}</span></div>
+                <div className="flex items-center space-x-2"><RefreshCw size={12} /> <span>{t("hero.stat_updated")}</span></div>
               </div>
             </motion.div>
 

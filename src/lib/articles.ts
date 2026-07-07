@@ -1,0 +1,107 @@
+import type { CategorySlug } from "./categories";
+
+export interface Article {
+  slug: string;
+  category: CategorySlug;
+  titleKey: string;
+  excerptKey: string;
+  bodyKey: string;
+  categoryLabelKey: string;
+  readTime: string;
+  date: string;
+  color: string;
+  bg: string;
+  featured?: boolean;
+}
+
+export const ARTICLES: Article[] = [
+  {
+    slug: "bgp-communities-policy-routing",
+    category: "networking",
+    titleKey: "articles.featured.title",
+    excerptKey: "articles.featured.excerpt",
+    bodyKey: "articles.featured.body",
+    categoryLabelKey: "articles.featured.category",
+    readTime: "15 min",
+    date: "2025-01-15",
+    color: "text-blue-500",
+    bg: "bg-blue-500/20",
+    featured: true,
+  },
+  {
+    slug: "zero-trust-freeipa-vault",
+    category: "cybersecurity",
+    titleKey: "articles.1.title",
+    excerptKey: "articles.1.excerpt",
+    bodyKey: "articles.1.body",
+    categoryLabelKey: "articles.1.category",
+    readTime: "12 min",
+    date: "2025-01-12",
+    color: "text-purple-500",
+    bg: "bg-purple-500/10",
+  },
+  {
+    slug: "terraform-multicloud-patterns",
+    category: "cloud",
+    titleKey: "articles.4.title",
+    excerptKey: "articles.4.excerpt",
+    bodyKey: "articles.4.body",
+    categoryLabelKey: "articles.4.category",
+    readTime: "18 min",
+    date: "2025-01-10",
+    color: "text-blue-400",
+    bg: "bg-blue-400/10",
+  },
+  {
+    slug: "ospf-neighbor-init-diagnosis",
+    category: "troubleshooting",
+    titleKey: "articles.5.title",
+    excerptKey: "articles.5.excerpt",
+    bodyKey: "articles.5.body",
+    categoryLabelKey: "articles.5.category",
+    readTime: "8 min",
+    date: "2025-01-08",
+    color: "text-orange-500",
+    bg: "bg-orange-500/10",
+  },
+  {
+    slug: "kubernetes-network-policies",
+    category: "cloud",
+    titleKey: "articles.2.title",
+    excerptKey: "articles.2.excerpt",
+    bodyKey: "articles.2.body",
+    categoryLabelKey: "articles.2.category",
+    readTime: "14 min",
+    date: "2024-12-20",
+    color: "text-blue-400",
+    bg: "bg-blue-400/10",
+  },
+  {
+    slug: "bgp-route-reflection-confederation",
+    category: "networking",
+    titleKey: "articles.3.title",
+    excerptKey: "articles.3.excerpt",
+    bodyKey: "articles.3.body",
+    categoryLabelKey: "articles.3.category",
+    readTime: "20 min",
+    date: "2024-12-15",
+    color: "text-blue-500",
+    bg: "bg-blue-500/10",
+  },
+];
+
+export function getArticleBySlug(slug: string): Article | undefined {
+  return ARTICLES.find((a) => a.slug === slug);
+}
+
+export function getArticlesByCategory(category: CategorySlug): Article[] {
+  return ARTICLES.filter((a) => a.category === category);
+}
+
+export function getFeaturedArticle(): Article {
+  return ARTICLES.find((a) => a.featured) ?? ARTICLES[0];
+}
+
+export function getRecentArticles(limit = 3): Article[] {
+  return ARTICLES.filter((a) => !a.featured).slice(0, limit);
+}

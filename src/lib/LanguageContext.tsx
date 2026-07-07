@@ -14,6 +14,9 @@ interface TranslationKeys {
   "hero.badge": string;
   "hero.title_main": string;
   "hero.title_sub": string;
+  "hero.sub_operate": string;
+  "hero.sub_optimize": string;
+  "hero.sub_secure": string;
   "hero.desc": string;
   "hero.cta_explore": string;
   "hero.cta_browse": string;
@@ -32,6 +35,16 @@ interface TranslationKeys {
   "hero.tag_cloud": string;
   "hero.tag_networking": string;
   "hero.tag_troubleshooting": string;
+  "hero.term.1.cmd": string;
+  "hero.term.1.log": string;
+  "hero.term.2.cmd": string;
+  "hero.term.2.log": string;
+  "hero.term.3.cmd": string;
+  "hero.term.3.log": string;
+  "hero.term.4.cmd": string;
+  "hero.term.4.log": string;
+  "hero.term.5.cmd": string;
+  "hero.term.5.log": string;
   "cat.title": string;
   "cat.subtitle": string;
   "cat.networking_name": string;
@@ -62,15 +75,60 @@ interface TranslationKeys {
   "articles.title": string;
   "articles.subtitle": string;
   "articles.view_all": string;
+  "articles.featured_title": string;
+  "articles.featured_subtitle": string;
+  "articles.featured.title": string;
+  "articles.featured.excerpt": string;
+  "articles.featured.category": string;
+  "articles.featured.body": string;
   "articles.1.title": string;
   "articles.1.excerpt": string;
   "articles.1.category": string;
+  "articles.1.body": string;
   "articles.2.title": string;
   "articles.2.excerpt": string;
   "articles.2.category": string;
+  "articles.2.body": string;
   "articles.3.title": string;
   "articles.3.excerpt": string;
   "articles.3.category": string;
+  "articles.3.body": string;
+  "articles.4.title": string;
+  "articles.4.excerpt": string;
+  "articles.4.category": string;
+  "articles.4.body": string;
+  "articles.5.title": string;
+  "articles.5.excerpt": string;
+  "articles.5.category": string;
+  "articles.5.body": string;
+  "articles.read_time": string;
+  "articles.author": string;
+  "article.back": string;
+  "article.published": string;
+  "article.related": string;
+  "article.share": string;
+  "catpage.breadcrumb": string;
+  "catpage.stable": string;
+  "catpage.read_node": string;
+  "catpage.index_nodes": string;
+  "catpage.need_expertise": string;
+  "catpage.expertise_desc": string;
+  "catpage.contact_noc": string;
+  "catpage.verified": string;
+  "res.title": string;
+  "res.subtitle": string;
+  "res.1.title": string;
+  "res.1.desc": string;
+  "res.1.link": string;
+  "res.2.title": string;
+  "res.2.desc": string;
+  "res.2.link": string;
+  "res.3.title": string;
+  "res.3.desc": string;
+  "res.3.link": string;
+  "res.4.title": string;
+  "res.4.desc": string;
+  "res.4.link": string;
   "exp.title": string;
   "exp.subtitle": string;
   "exp.read_case": string;
@@ -143,6 +201,9 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.badge": "v2.0 // PRODUCTION KNOWLEDGE HUB",
     "hero.title_main": "Real-World IT Operations",
     "hero.title_sub": "Operate. Optimize. Secure.",
+    "hero.sub_operate": "Operate.",
+    "hero.sub_optimize": "Optimize.",
+    "hero.sub_secure": "Secure.",
     "hero.desc": "Learn from production-ready guides, troubleshooting playbooks and real-world experience across networking, cybersecurity and infrastructure.",
     "hero.cta_explore": "Explore Categories",
     "hero.cta_browse": "Browse Articles",
@@ -161,6 +222,16 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.tag_cloud": "Cloud Native",
     "hero.tag_networking": "Networking",
     "hero.tag_troubleshooting": "Troubleshooting",
+    "hero.term.1.cmd": "$ terraform apply",
+    "hero.term.1.log": "plan: 4 to add, 0 change",
+    "hero.term.2.cmd": "$ nmap -sV target.io",
+    "hero.term.2.log": "port 443/tcp open (https)",
+    "hero.term.3.cmd": "$ kubectl get pods",
+    "hero.term.3.log": "api-v2-7x9z Running 1/1",
+    "hero.term.4.cmd": "$ show ip bgp summ",
+    "hero.term.4.log": "neighbor 1.1.1.1 Establ.",
+    "hero.term.5.cmd": "$ tcpdump -i eth0",
+    "hero.term.5.log": "12:04:15.82 IP: ICMP echo",
     "cat.title": "Expertise Domains",
     "cat.subtitle": "Technical content verified and updated by experienced field engineers.",
     "cat.networking_name": "Networking",
@@ -191,15 +262,60 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.title": "Recent Articles",
     "articles.subtitle": "Latest publications from the knowledge base.",
     "articles.view_all": "View all articles",
+    "articles.featured_title": "Featured Articles",
+    "articles.featured_subtitle": "Latest technical insights from our knowledge base",
+    "articles.featured.title": "Mastering BGP Communities for Policy Routing",
+    "articles.featured.excerpt": "Comprehensive guide on advanced BGP communities usage to control traffic flow, implement routing policies, and optimize peering with your upstreams.",
+    "articles.featured.category": "Networking",
+    "articles.featured.body": "BGP communities are one of the most powerful tools for traffic engineering in production networks. This guide covers well-known communities, custom tagging strategies, and how to implement policy routing without destabilizing your upstream relationships.\n\nWe walk through real configurations on Cisco and Juniper platforms, explain when to use additive vs non-additive communities, and share field-tested patterns for multi-homed environments.\n\nFinally, we cover monitoring and validation: how to verify that your communities are being honored by peers, and what to do when they're silently dropped.",
     "articles.1.title": "Implementing Zero Trust with FreeIPA and HashiCorp Vault",
     "articles.1.excerpt": "Complete guide to migrating to a Zero Trust architecture: principles, tools, and field experience.",
     "articles.1.category": "Cybersecurity",
+    "articles.1.body": "Zero Trust is not a product — it's an operational model. This article documents our migration from perimeter-based security to identity-centric access using FreeIPA for centralized authentication and HashiCorp Vault for secrets management.\n\nWe cover the phased rollout: inventory of service accounts, certificate rotation, network segmentation boundaries, and the SIEM rules that validate every access attempt.\n\nKey takeaway: start with your most exposed services, not your most critical ones. Early wins build organizational trust in the model.",
     "articles.2.title": "Kubernetes Network Policies: Best Practices",
     "articles.2.excerpt": "Secure your K8s workloads with effective network policies: practical examples and anti-patterns to avoid.",
     "articles.2.category": "Cloud",
+    "articles.2.body": "Network policies are often misconfigured or ignored entirely. This guide provides production-ready examples for namespace isolation, egress control, and DNS-aware policies.\n\nWe document common anti-patterns: overly permissive default-deny rules, policies that break health checks, and CNI-specific gotchas with Calico and Cilium.\n\nIncludes a validation checklist and tcpdump-based troubleshooting workflow for when policies don't behave as expected.",
     "articles.3.title": "BGP Route Reflection vs Confederation",
     "articles.3.excerpt": "In-depth comparison of both BGP scaling approaches in large enterprise networks.",
     "articles.3.category": "Networking",
+    "articles.3.body": "When your iBGP mesh grows beyond a handful of routers, you need a scaling strategy. Route reflectors and confederations are the two primary options — but they solve different problems.\n\nThis article compares topology complexity, convergence behavior, troubleshooting difficulty, and vendor interoperability for both approaches.\n\nWe include decision matrices based on network size, team expertise, and multi-vendor requirements from real enterprise deployments.",
+    "articles.4.title": "Terraform Multi-Cloud: Advanced Deployment Patterns",
+    "articles.4.excerpt": "Structuring Terraform modules for seamless deployment across AWS and Azure.",
+    "articles.4.category": "Cloud",
+    "articles.4.body": "Multi-cloud Terraform requires discipline in module design. This guide covers provider abstraction layers, state management across accounts, and drift detection strategies.\n\nWe share our module hierarchy: root modules for environment composition, child modules for reusable infrastructure patterns, and data modules for cross-cloud networking.\n\nIncludes CI/CD integration patterns with Atlantis and policy-as-code validation using OPA.",
+    "articles.5.title": "OSPF Neighbor Stuck in INIT: Complete Diagnosis",
+    "articles.5.excerpt": "Detailed runbook for resolving stuck OSPF adjacencies, with Wireshark captures.",
+    "articles.5.category": "Troubleshooting",
+    "articles.5.body": "An OSPF neighbor stuck in INIT state is one of the most common production issues — and one of the most misdiagnosed. This runbook walks through the complete diagnostic chain.\n\nWe cover MTU mismatches, ACL filtering, authentication key mismatches, and broadcast network type errors with packet captures for each scenario.\n\nIncludes a decision tree and the exact show commands to run on Cisco, Juniper, and Arista platforms.",
+    "articles.read_time": "read",
+    "articles.author": "DailyOps",
+    "article.back": "Back to articles",
+    "article.published": "Published",
+    "article.related": "Related articles",
+    "article.share": "Share",
+    "catpage.breadcrumb": "Nodes",
+    "catpage.stable": "STABLE",
+    "catpage.read_node": "Read Node",
+    "catpage.index_nodes": "Index Nodes",
+    "catpage.need_expertise": "Need Expertise?",
+    "catpage.expertise_desc": "Architecture design, complex troubleshooting and production audit.",
+    "catpage.contact_noc": "Contact NOC",
+    "catpage.verified": "Verified Baselines",
+    "res.title": "Tools & Resources",
+    "res.subtitle": "Toolbox for infrastructure professionals",
+    "res.1.title": "Cheatsheets",
+    "res.1.desc": "Essential commands and syntax references",
+    "res.1.link": "35 cheatsheets",
+    "res.2.title": "Scripts",
+    "res.2.desc": "Automation and monitoring utilities",
+    "res.2.link": "GitHub Repo",
+    "res.3.title": "Templates",
+    "res.3.desc": "Documentation and runbook templates",
+    "res.3.link": "20 templates",
+    "res.4.title": "Training",
+    "res.4.desc": "Practical guides and hands-on labs",
+    "res.4.link": "12 courses",
     "exp.title": "Field experience feedback",
     "exp.subtitle": "From the field, validated in production. No empty theory — content forged in NOCs and SOCs.",
     "exp.read_case": "Read case study",
@@ -270,6 +386,9 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.badge": "V2.0 // PRODUCTION KNOWLEDGE HUB",
     "hero.title_main": "Real-World IT Operations",
     "hero.title_sub": "Operate. Optimize. Secure.",
+    "hero.sub_operate": "Operate.",
+    "hero.sub_optimize": "Optimize.",
+    "hero.sub_secure": "Secure.",
     "hero.desc": "Apprenez grâce à des guides prêts pour la production, des playbooks de dépannage et des retours d'expérience réels en réseau, cybersécurité et infrastructure.",
     "hero.cta_explore": "Explorer les Catégories",
     "hero.cta_browse": "Parcourir les Articles",
@@ -288,6 +407,16 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.tag_cloud": "Cloud Native",
     "hero.tag_networking": "Networking",
     "hero.tag_troubleshooting": "Troubleshooting",
+    "hero.term.1.cmd": "$ terraform apply",
+    "hero.term.1.log": "plan: 4 to add, 0 change",
+    "hero.term.2.cmd": "$ nmap -sV target.io",
+    "hero.term.2.log": "port 443/tcp open (https)",
+    "hero.term.3.cmd": "$ kubectl get pods",
+    "hero.term.3.log": "api-v2-7x9z Running 1/1",
+    "hero.term.4.cmd": "$ show ip bgp summ",
+    "hero.term.4.log": "neighbor 1.1.1.1 Establ.",
+    "hero.term.5.cmd": "$ tcpdump -i eth0",
+    "hero.term.5.log": "12:04:15.82 IP: ICMP echo",
     "cat.title": "Domaines d'expertise",
     "cat.subtitle": "Contenu technique vérifié et maintenu à jour par des ingénieurs expérimentés sur le terrain.",
     "cat.networking_name": "Networking",
@@ -318,15 +447,60 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.title": "Articles Récents",
     "articles.subtitle": "Les dernières publications de la base de connaissances.",
     "articles.view_all": "Voir tous les articles",
-    "articles.1.title": "Implémenter Zero Trust Network Access en 2024",
+    "articles.featured_title": "Articles à la une",
+    "articles.featured_subtitle": "Les dernières analyses techniques de notre base de connaissances",
+    "articles.featured.title": "Maîtriser les BGP Communities pour le Policy Routing",
+    "articles.featured.excerpt": "Guide complet sur l'utilisation avancée des BGP communities pour contrôler les flux, implémenter des politiques de routage et optimiser le peering avec vos upstreams.",
+    "articles.featured.category": "Networking",
+    "articles.featured.body": "Les BGP communities sont l'un des outils les plus puissants du traffic engineering en production. Ce guide couvre les communities well-known, les stratégies de tagging personnalisées et l'implémentation du policy routing sans déstabiliser vos relations avec les peers.\n\nNous détaillons des configurations réelles sur Cisco et Juniper, expliquons quand utiliser des communities additives vs non-additives, et partageons des patterns éprouvés pour les environnements multi-homed.\n\nEnfin, nous couvrons le monitoring et la validation : comment vérifier que vos communities sont honorées par les peers, et quoi faire quand elles sont silencieusement ignorées.",
+    "articles.1.title": "Implémenter Zero Trust avec FreeIPA et HashiCorp Vault",
     "articles.1.excerpt": "Guide complet pour migrer vers une architecture Zero Trust : principes, outils et retour d'expérience terrain.",
     "articles.1.category": "Cybersécurité",
+    "articles.1.body": "Zero Trust n'est pas un produit — c'est un modèle opérationnel. Cet article documente notre migration d'une sécurité périmétrique vers un accès centré sur l'identité avec FreeIPA pour l'authentification et HashiCorp Vault pour la gestion des secrets.\n\nNous couvrons le déploiement par phases : inventaire des comptes de service, rotation des certificats, segmentation réseau et règles SIEM validant chaque tentative d'accès.\n\nPoint clé : commencez par vos services les plus exposés, pas les plus critiques. Les premières victoires construisent la confiance organisationnelle dans le modèle.",
     "articles.2.title": "Kubernetes Network Policies : Best Practices",
     "articles.2.excerpt": "Sécuriser vos workloads K8s avec des network policies efficaces : exemples pratiques et anti-patterns à éviter.",
     "articles.2.category": "Cloud",
+    "articles.2.body": "Les network policies sont souvent mal configurées ou ignorées. Ce guide fournit des exemples prêts pour la production : isolation de namespace, contrôle egress et policies compatibles DNS.\n\nNous documentons les anti-patterns courants : règles default-deny trop permissives, policies qui cassent les health checks, et pièges spécifiques aux CNI Calico et Cilium.\n\nInclut une checklist de validation et un workflow de troubleshooting basé sur tcpdump.",
     "articles.3.title": "BGP Route Reflection vs Confederation",
     "articles.3.excerpt": "Comparaison approfondie des deux approches de scaling BGP dans les grands réseaux d'entreprise.",
     "articles.3.category": "Networking",
+    "articles.3.body": "Quand votre mesh iBGP dépasse quelques routeurs, il faut une stratégie de scaling. Les route reflectors et les confederations sont les deux options principales — mais elles résolvent des problèmes différents.\n\nCet article compare la complexité topologique, le comportement de convergence, la difficulté de troubleshooting et l'interopérabilité multi-vendor.\n\nInclut des matrices de décision basées sur la taille du réseau, l'expertise de l'équipe et les exigences multi-vendor.",
+    "articles.4.title": "Terraform Multi-Cloud : Patterns de déploiement avancés",
+    "articles.4.excerpt": "Structurer vos modules Terraform pour un déploiement fluide sur AWS et Azure.",
+    "articles.4.category": "Cloud",
+    "articles.4.body": "Le Terraform multi-cloud exige une discipline dans le design des modules. Ce guide couvre les couches d'abstraction provider, la gestion du state multi-comptes et les stratégies de détection de drift.\n\nNous partageons notre hiérarchie : modules racine pour la composition d'environnements, modules enfants pour les patterns réutilisables, et modules data pour le networking cross-cloud.\n\nInclut l'intégration CI/CD avec Atlantis et la validation policy-as-code via OPA.",
+    "articles.5.title": "OSPF Neighbor bloqué en INIT : diagnostic complet",
+    "articles.5.excerpt": "Runbook détaillé pour résoudre les adjacences OSPF bloquées, avec captures Wireshark.",
+    "articles.5.category": "Troubleshooting",
+    "articles.5.body": "Un voisin OSPF bloqué en état INIT est l'un des problèmes les plus courants en production — et l'un des plus mal diagnostiqués. Ce runbook parcourt la chaîne de diagnostic complète.\n\nNous couvrons les mismatches MTU, le filtrage ACL, les erreurs de clés d'authentification et les types de réseau broadcast avec captures pour chaque scénario.\n\nInclut un arbre de décision et les commandes show exactes sur Cisco, Juniper et Arista.",
+    "articles.read_time": "de lecture",
+    "articles.author": "DailyOps",
+    "article.back": "Retour aux articles",
+    "article.published": "Publié le",
+    "article.related": "Articles connexes",
+    "article.share": "Partager",
+    "catpage.breadcrumb": "Nodes",
+    "catpage.stable": "STABLE",
+    "catpage.read_node": "Lire le node",
+    "catpage.index_nodes": "Index Nodes",
+    "catpage.need_expertise": "Besoin d'expertise ?",
+    "catpage.expertise_desc": "Design d'architecture, troubleshooting complexe et audit de production.",
+    "catpage.contact_noc": "Contacter le NOC",
+    "catpage.verified": "Baselines Vérifiées",
+    "res.title": "Outils & Ressources",
+    "res.subtitle": "Toolbox pour professionnels infrastructure",
+    "res.1.title": "Cheatsheets",
+    "res.1.desc": "Commandes et syntaxes essentielles",
+    "res.1.link": "35 cheatsheets",
+    "res.2.title": "Scripts",
+    "res.2.desc": "Automatisation et monitoring",
+    "res.2.link": "GitHub Repo",
+    "res.3.title": "Templates",
+    "res.3.desc": "Documentation et runbooks",
+    "res.3.link": "20 templates",
+    "res.4.title": "Formations",
+    "res.4.desc": "Guides et labs pratiques",
+    "res.4.link": "12 cours",
     "exp.title": "Retours d'expérience terrain",
     "exp.subtitle": "Du terrain, validé en production. Pas de théorie vide — contenu forgé dans les NOC et SOC.",
     "exp.read_case": "Lire le cas",

@@ -45,7 +45,7 @@ const experiences = [
     id: "01",
     titleKey: "exp.1.title" as const,
     descKey: "exp.1.desc" as const,
-    tags: ["INCIDENT", "PRODUCTION", "NETWORKING"],
+    tagKeys: ["exp.1.tag1", "exp.1.tag2", "exp.1.tag3"] as const,
     icon: Network,
     iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
     iconColor: "text-turquoise",
@@ -57,7 +57,7 @@ const experiences = [
     id: "02",
     titleKey: "exp.2.title" as const,
     descKey: "exp.2.desc" as const,
-    tags: ["MIGRATION", "CLOUD", "SUCCESS STORY"],
+    tagKeys: ["exp.2.tag1", "exp.2.tag2", "exp.2.tag3"] as const,
     icon: Move,
     iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
     iconColor: "text-turquoise",
@@ -69,7 +69,7 @@ const experiences = [
     id: "03",
     titleKey: "exp.3.title" as const,
     descKey: "exp.3.desc" as const,
-    tags: ["PERFORMANCE", "OPTIMIZATION", "K8S"],
+    tagKeys: ["exp.3.tag1", "exp.3.tag2", "exp.3.tag3"] as const,
     icon: Gauge,
     iconContainerColor: "bg-bg-secondary border border-white/5", // Neutral background
     iconColor: "text-turquoise",
@@ -149,9 +149,9 @@ export default function ExperienceSection() {
               
               <div className="flex-grow text-center md:text-left">
                 <div className="flex flex-wrap justify-center md:justify-start gap-2 mb-3">
-                  {exp.tags?.map(tag => (
-                    <span key={tag} className="px-2 py-0.5 rounded bg-turquoise/5 text-turquoise text-[9px] font-black uppercase tracking-wider border border-turquoise/10">
-                      {tag}
+                  {exp.tagKeys?.map(tagKey => (
+                    <span key={tagKey} className="px-2 py-0.5 rounded bg-turquoise/5 text-turquoise text-[9px] font-black uppercase tracking-wider border border-turquoise/10">
+                      {t(tagKey)}
                     </span>
                   ))}
                 </div>
@@ -164,7 +164,7 @@ export default function ExperienceSection() {
                 
                 <div className="flex items-center justify-center md:justify-start space-x-6 text-[10px] font-mono text-slate-500 font-bold uppercase tracking-widest">
                   <span className="flex items-center"><Clock size={12} className="mr-1.5 text-turquoise" /> {exp.readTime}</span>
-                  <span className="flex items-center"><Eye size={12} className="mr-1.5 text-turquoise" /> {exp.views} views</span>
+                  <span className="flex items-center"><Eye size={12} className="mr-1.5 text-turquoise" /> {exp.views} {t("exp.views")}</span>
                   <Link href="#" className="hidden md:flex ml-auto items-center text-turquoise hover:underline group-hover:translate-x-1 transition-transform">
                     {t("exp.read_case")} <ArrowRight size={14} className="ml-1.5" />
                   </Link>
