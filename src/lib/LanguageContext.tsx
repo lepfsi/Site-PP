@@ -18,7 +18,6 @@ interface TranslationKeys {
   "hero.cta_explore": string;
   "hero.cta_browse": string;
   "hero.cta_news": string;
-  "hero.cta_premium": string;
   "hero.stat_engineers": string;
   "hero.stat_articles": string;
   "hero.stat_updated": string;
@@ -76,6 +75,9 @@ interface TranslationKeys {
   "exp.subtitle": string;
   "exp.read_case": string;
   "exp.views": string;
+  "exp.badge_incident": string;
+  "exp.badge_optimization": string;
+  "exp.badge_security": string;
   "exp.1.title": string;
   "exp.1.desc": string;
   "exp.1.tag1": string;
@@ -91,6 +93,15 @@ interface TranslationKeys {
   "exp.3.tag1": string;
   "exp.3.tag2": string;
   "exp.3.tag3": string;
+  "exp.4.title": string;
+  "exp.4.desc": string;
+  "exp.4.footer": string;
+  "exp.5.title": string;
+  "exp.5.desc": string;
+  "exp.5.footer": string;
+  "exp.6.title": string;
+  "exp.6.desc": string;
+  "exp.6.footer": string;
   "news.title": string;
   "news.desc": string;
   "news.input": string;
@@ -135,11 +146,10 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.desc": "Learn from production-ready guides, troubleshooting playbooks and real-world experience across networking, cybersecurity and infrastructure.",
     "hero.cta_explore": "Explore Categories",
     "hero.cta_browse": "Browse Articles",
-    "hero.cta_news": "Weekly Newsletter",
-    "hero.cta_premium": "Premium Labs",
-    "hero.stat_engineers": "12K+ Engineers",
-    "hero.stat_articles": "450+ Articles",
-    "hero.stat_updated": "24/7 Updated",
+    "hero.cta_news": "Newsletter",
+    "hero.stat_engineers": "7K+ Active Ops",
+    "hero.stat_articles": "340+ Technical Nodes",
+    "hero.stat_updated": "Verified Baselines",
     "hero.monitor_live": "LIVE MONITORING",
     "hero.monitor_network": "Network Throughput",
     "hero.monitor_security": "Security Events",
@@ -181,7 +191,7 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.title": "Recent Articles",
     "articles.subtitle": "Latest publications from the knowledge base.",
     "articles.view_all": "View all articles",
-    "articles.1.title": "Implementing Zero Trust Network Access in 2024",
+    "articles.1.title": "Implementing Zero Trust with FreeIPA and HashiCorp Vault",
     "articles.1.excerpt": "Complete guide to migrating to a Zero Trust architecture: principles, tools, and field experience.",
     "articles.1.category": "Cybersecurity",
     "articles.2.title": "Kubernetes Network Policies: Best Practices",
@@ -190,10 +200,13 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.3.title": "BGP Route Reflection vs Confederation",
     "articles.3.excerpt": "In-depth comparison of both BGP scaling approaches in large enterprise networks.",
     "articles.3.category": "Networking",
-    "exp.title": "Field Experience",
-    "exp.subtitle": "Real situations, practical solutions, lessons learned.",
+    "exp.title": "Field experience feedback",
+    "exp.subtitle": "From the field, validated in production. No empty theory — content forged in NOCs and SOCs.",
     "exp.read_case": "Read case study",
     "exp.views": "views",
+    "exp.badge_incident": "INCIDENT RESOLVED",
+    "exp.badge_optimization": "OPTIMIZATION",
+    "exp.badge_security": "SECURITY",
     "exp.1.title": "Major network outage: BGP hijacking detected in 15 minutes",
     "exp.1.desc": "How we identified and resolved a BGP hijacking incident affecting 40% of traffic through proactive monitoring.",
     "exp.1.tag1": "Incident",
@@ -209,6 +222,15 @@ const translations: Record<Language, TranslationKeys> = {
     "exp.3.tag1": "Performance",
     "exp.3.tag2": "Optimization",
     "exp.3.tag3": "K8s",
+    "exp.4.title": "BGP Route Leak at a Provider",
+    "exp.4.desc": "A route leak absorbed 40% of our outbound traffic. Diagnosis via RPKI and AS-PATH filter implementation in 45 minutes.",
+    "exp.4.footer": "45 min MTTR | P1",
+    "exp.5.title": "Live Proxmox -> Ceph Migration",
+    "exp.5.desc": "NFS to Ceph storage migration on a production Proxmox cluster, zero downtime. Lessons learned.",
+    "exp.5.footer": "3 weeks | 0 downtime",
+    "exp.6.title": "Detecting Lateral Movement via SIEM",
+    "exp.6.desc": "How a custom SIEM rule detected lateral movement following a successful phishing attack on a service account.",
+    "exp.6.footer": "Detection < 5min | Containment",
     "news.title": "Production Ready News",
     "news.desc": "Weekly infrastructure essentials.",
     "news.input": "your.email@ops.tech",
@@ -252,10 +274,9 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.cta_explore": "Explorer les Catégories",
     "hero.cta_browse": "Parcourir les Articles",
     "hero.cta_news": "Newsletter",
-    "hero.cta_premium": "Labs Premium",
-    "hero.stat_engineers": "12K+ Ingénieurs",
-    "hero.stat_articles": "450+ Articles",
-    "hero.stat_updated": "Mis à jour 24/7",
+    "hero.stat_engineers": "7K+ Ops Actifs",
+    "hero.stat_articles": "340+ Noeuds Techniques",
+    "hero.stat_updated": "Baselines Vérifiées",
     "hero.monitor_live": "SURVEILLANCE LIVE",
     "hero.monitor_network": "Débit réseau",
     "hero.monitor_security": "Événements sécurité",
@@ -265,7 +286,7 @@ const translations: Record<Language, TranslationKeys> = {
     "hero.tag_infrastructure": "Infrastructure IT",
     "hero.tag_cybersecurity": "Cybersécurité",
     "hero.tag_cloud": "Cloud Native",
-    "hero.tag_networking": "Réseau",
+    "hero.tag_networking": "Networking",
     "hero.tag_troubleshooting": "Troubleshooting",
     "cat.title": "Domaines d'expertise",
     "cat.subtitle": "Contenu technique vérifié et maintenu à jour par des ingénieurs expérimentés sur le terrain.",
@@ -305,11 +326,14 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.2.category": "Cloud",
     "articles.3.title": "BGP Route Reflection vs Confederation",
     "articles.3.excerpt": "Comparaison approfondie des deux approches de scaling BGP dans les grands réseaux d'entreprise.",
-    "articles.3.category": "Réseau",
-    "exp.title": "Retour d'Expérience Terrain",
-    "exp.subtitle": "Situations réelles, solutions pratiques, leçons apprises.",
+    "articles.3.category": "Networking",
+    "exp.title": "Retours d'expérience terrain",
+    "exp.subtitle": "Du terrain, validé en production. Pas de théorie vide — contenu forgé dans les NOC et SOC.",
     "exp.read_case": "Lire le cas",
     "exp.views": "vues",
+    "exp.badge_incident": "INCIDENT RÉSOLU",
+    "exp.badge_optimization": "OPTIMISATION",
+    "exp.badge_security": "SÉCURITÉ",
     "exp.1.title": "Panne réseau majeure : BGP Hijacking détecté en 15 minutes",
     "exp.1.desc": "Comment nous avons identifié et résolu un incident de détournement BGP affectant 40% du trafic, grâce à une surveillance proactive.",
     "exp.1.tag1": "Incident",
@@ -325,6 +349,15 @@ const translations: Record<Language, TranslationKeys> = {
     "exp.3.tag1": "Performance",
     "exp.3.tag2": "Optimisation",
     "exp.3.tag3": "K8s",
+    "exp.4.title": "Fuite de route BGP chez un fournisseur",
+    "exp.4.desc": "Une fuite de route a absorbé 40% de notre trafic sortant. Diagnostic via RPKI et filtrage AS-PATH en 45 minutes.",
+    "exp.4.footer": "45 min MTTR | P1",
+    "exp.5.title": "Migration Live Proxmox -> Ceph",
+    "exp.5.desc": "Migration du stockage NFS vers Ceph sur un cluster Proxmox de production, zéro interruption. Leçons apprises.",
+    "exp.5.footer": "3 semaines | 0 downtime",
+    "exp.6.title": "Détection de mouvement latéral via SIEM",
+    "exp.6.desc": "Comment une règle SIEM personnalisée a détecté un mouvement latéral suite à un phishing réussi sur un compte de service.",
+    "exp.6.footer": "Détection < 5min | Confinement",
     "news.title": "Production Ready News",
     "news.desc": "L'essentiel de l'infrastructure hebdomadaire.",
     "news.input": "votre.email@ops.tech",
