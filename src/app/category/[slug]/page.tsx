@@ -2,185 +2,116 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { motion } from "framer-motion";
-import { Mail, Send, User, MessageSquare, ShieldCheck, Globe, Zap, RefreshCw } from "lucide-react";
-import { useState } from "react";
+import { Network, Shield, Server, Cloud, Wrench, ChevronRight, FileText, ArrowRight, Zap, Globe, Bug } from "lucide-react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext";
 
-export default function AboutPage() {
-  const { t } = useLanguage();
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    subject: "",
-    message: ""
-  });
-  const [submitted, setSubmitted] = useState(false);
+const categoriesInfo = {
+  networking: { icon: Globe, color: "text-blue-500" },
+  cybersecurity: { icon: Shield, color: "text-purple-500" },
+  infrastructure: { icon: Server, color: "text-emerald-500" },
+  cloud: { icon: Cloud, color: "text-blue-400" },
+  automation: { icon: Zap, color: "text-pink-500" },
+  troubleshooting: { icon: Bug, color: "text-orange-500" },
+};
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setSubmitted(true);
-    // Simulate API call
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({ name: "", email: "", subject: "", message: "" });
-      alert("Message envoyé avec succès ! Nous vous recontacterons bientôt.");
-    }, 2000);
-  };
+export default function CategoryPage() {
+  const params = useParams();
+  const { lang } = useLanguage();
+  const slug = params.slug as string;
+  const category = categoriesInfo[slug as keyof typeof categoriesInfo] || categoriesInfo.networking;
+
+  const title = slug.charAt(0).toUpperCase() + slug.slice(1);
 
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
-      
-      <div className="flex-grow pt-32 pb-24">
-        <div className="container-custom">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16">
-            
-            {/* Left side: Information */}
-            <div className="lg:col-span-5">
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.5 }}
-              >
-                <h1 className="text-4xl md:text-5xl font-black text-text-primary mb-8 tracking-tighter code-font">
-                  À propos de <span className="text-turquoise">DailyOps.Tech</span>
-                </h1>
-                
-                <p className="text-text-secondary text-lg mb-8 leading-relaxed font-medium">
-                  DailyOps est né de la volonté de partager une expertise terrain concrète dans le domaine de l'infrastructure IT. 
-                  Notre mission est de fournir des baselines de configuration, des playbooks et des analyses d'incidents (RCA) 
-                  prêts pour la production.
+      <div className="flex-grow">
+        <header className="py-24 border-b border-border-main bg-bg-secondary/30 relative overflow-hidden">
+          <div className="scanline"></div>
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+            <nav className="flex mb-12 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
+              <Link href="/" className="hover:text-turquoise transition-colors">Nodes</Link>
+              <ChevronRight className="mx-2 h-3 w-3" />
+              <span className="text-text-primary">{title}</span>
+            </nav>
+            <div className="flex items-center space-x-8">
+              <div className={`p-6 rounded-2xl bg-bg-secondary border border-border-main shadow-xl ${category.color}`}>
+                <category.icon size={48} />
+              </div>
+              <div>
+                <h1 className="text-5xl md:text-7xl font-black text-text-primary tracking-tighter code-font">{title}</h1>
+                <p className="mt-4 text-text-secondary text-xl font-medium max-w-2xl">
+                  {lang === "FR" 
+                    ? `Base de connaissances technique dédiée au ${title}. Guides, checklists et baselines de production.`
+                    : `Technical knowledge base dedicated to ${title}. Guides, checklists and production baselines.`}
                 </p>
-
-                <div className="space-y-6 mb-12">
-                  <div className="flex items-start space-x-4 p-4 bg-bg-secondary border border-border-main rounded-2xl">
-                    <div className="p-2 bg-turquoise/10 text-turquoise rounded-lg">
-                      <ShieldCheck size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-text-primary">Sécurité & Hardening</h4>
-                      <p className="text-sm text-text-secondary">Des guides axés sur la défense en profondeur.</p>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-start space-x-4 p-4 bg-bg-secondary border border-border-main rounded-2xl">
-                    <div className="p-2 bg-blue-500/10 text-blue-500 rounded-lg">
-                      <Globe size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-text-primary">Infrastructures Réseaux</h4>
-                      <p className="text-sm text-text-secondary">Design de protocoles de routage et segmentation.</p>
-                    </div>
-                  </div>
-
-                  <div className="flex items-start space-x-4 p-4 bg-bg-secondary border border-border-main rounded-2xl">
-                    <div className="p-2 bg-yellow-500/10 text-yellow-500 rounded-lg">
-                      <Zap size={24} />
-                    </div>
-                    <div>
-                      <h4 className="font-bold text-text-primary">Automatisation Ops</h4>
-                      <p className="text-sm text-text-secondary">Accélérer la production par l'automatisation fiable.</p>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            </div>
-
-            {/* Right side: Contact Form */}
-            <div className="lg:col-span-7">
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.2 }}
-                className="bg-bg-secondary border border-border-main rounded-[2.5rem] p-8 md:p-12 shadow-2xl relative overflow-hidden"
-              >
-                <div className="absolute top-0 right-0 p-8 opacity-5">
-                   <Mail size={120} className="text-turquoise" />
-                </div>
-                
-                <h2 className="text-3xl font-black text-text-primary mb-2 tracking-tight">Contactez-nous</h2>
-                <p className="text-text-secondary mb-10 font-medium">Une question technique ou un besoin d'expertise ?</p>
-
-                <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary ml-1">Nom complet</label>
-                      <div className="relative">
-                        <User className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary/50" size={18} />
-                        <input 
-                          type="text" 
-                          required
-                          value={formData.name}
-                          onChange={(e) => setFormData({...formData, name: e.target.value})}
-                          className="w-full bg-bg-primary/50 border border-border-main rounded-2xl px-12 py-4 text-text-primary focus:ring-2 focus:ring-turquoise focus:border-transparent outline-none transition-all"
-                          placeholder="John Doe"
-                        />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary ml-1">Email professionnel</label>
-                      <div className="relative">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary/50" size={18} />
-                        <input 
-                          type="email" 
-                          required
-                          value={formData.email}
-                          onChange={(e) => setFormData({...formData, email: e.target.value})}
-                          className="w-full bg-bg-primary/50 border border-border-main rounded-2xl px-12 py-4 text-text-primary focus:ring-2 focus:ring-turquoise focus:border-transparent outline-none transition-all"
-                          placeholder="john@company.com"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary ml-1">Sujet</label>
-                    <input 
-                      type="text" 
-                      required
-                      value={formData.subject}
-                      onChange={(e) => setFormData({...formData, subject: e.target.value})}
-                      className="w-full bg-bg-primary/50 border border-border-main rounded-2xl px-6 py-4 text-text-primary focus:ring-2 focus:ring-turquoise focus:border-transparent outline-none transition-all"
-                      placeholder="Consulting, feedback, suggestion d'article..."
-                    />
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary ml-1">Message</label>
-                    <div className="relative">
-                      <MessageSquare className="absolute left-4 top-5 text-text-secondary/50" size={18} />
-                      <textarea 
-                        required
-                        value={formData.message}
-                        onChange={(e) => setFormData({...formData, message: e.target.value})}
-                        rows={5}
-                        className="w-full bg-bg-primary/50 border border-border-main rounded-2xl px-12 py-4 text-text-primary focus:ring-2 focus:ring-turquoise focus:border-transparent outline-none transition-all resize-none"
-                        placeholder="Détaillez votre demande ici..."
-                      ></textarea>
-                    </div>
-                  </div>
-
-                  <button 
-                    disabled={submitted}
-                    className="w-full bg-turquoise text-navy font-black py-5 rounded-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-turquoise/10 flex items-center justify-center space-x-2"
-                  >
-                    {submitted ? (
-                      <span className="flex items-center"><RefreshCw className="animate-spin mr-2" size={20} /> Envoi en cours...</span>
-                    ) : (
-                      <>
-                        <span>Envoyer le message</span>
-                        <Send size={18} />
-                      </>
-                    )}
-                  </button>
-                </form>
-              </motion.div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+        </header>
 
+        <section className="py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
+              <div className="lg:col-span-2 space-y-4">
+                {[1, 2, 3].map((i) => (
+                  <article key={i} className="p-8 rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise transition-all group">
+                    <div className="flex items-center text-[10px] font-black text-text-secondary/30 mb-4 uppercase tracking-[0.2em]">
+                      <FileText className="mr-2 h-3 w-3" />
+                      JUN 2026 // STABLE
+                    </div>
+                    <h2 className="text-3xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors">
+                      {lang === "FR" ? "Baseline de configuration Production" : "Production Configuration Baseline"} #{i}
+                    </h2>
+                    <p className="text-text-secondary mb-8 leading-relaxed font-medium">
+                      {lang === "FR" 
+                        ? "Détails techniques sur l'implémentation des standards de sécurité et de performance en environnement critique."
+                        : "Technical details on implementing security and performance standards in critical environments."}
+                    </p>
+                    <Link href="#" className="inline-flex items-center text-xs font-black uppercase tracking-widest text-turquoise group-hover:underline">
+                      Read Node <ArrowRight className="ml-2 h-4 w-4" />
+                    </Link>
+                  </article>
+                ))}
+              </div>
+              
+              <aside className="space-y-8">
+                <div className="p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-sm">
+                  <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-8 border-b border-border-main pb-4">Index Nodes</h3>
+                  <ul className="space-y-6">
+                    {["Routing", "Switching", "Security", "SD-WAN"].map(item => (
+                      <li key={item} className="flex justify-between items-center group cursor-pointer">
+                        <span className="text-sm font-bold text-text-primary group-hover:text-turquoise transition-colors">{item}</span>
+                        <span className="text-[10px] font-black bg-bg-primary px-2 py-1 rounded border border-border-main text-text-secondary/50 group-hover:border-turquoise group-hover:text-turquoise transition-all">0{item.length}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                
+                <div className="p-8 rounded-2xl bg-text-primary text-bg-primary relative overflow-hidden group shadow-2xl">
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-bold mb-4">{lang === "FR" ? "Besoin d'expertise ?" : "Need Expertise?"}</h3>
+                    <p className="text-sm text-bg-primary/50 mb-8 leading-relaxed">
+                      {lang === "FR" 
+                        ? "Design d'architecture, troubleshooting complexe et audit de production."
+                        : "Architecture design, complex troubleshooting and production audit."}
+                    </p>
+                    {/* FIXED LINK TO ABOUT PAGE */}
+                    <Link href="/about">
+                      <button className="w-full py-4 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
+                        Contact NOC
+                      </button>
+                    </Link>
+                  </div>
+                  <category.icon className="absolute -right-8 -bottom-8 h-40 w-40 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
+                </div>
+              </aside>
+            </div>
+          </div>
+        </section>
+      </div>
       <Footer />
     </main>
   );
