@@ -38,16 +38,11 @@ const recentArticles = [
 function RoutingTopology() {
   return (
     <div className="relative w-full h-full flex items-center justify-center overflow-hidden bg-[#0a1628]">
-      <div className="absolute inset-0 noc-grid opacity-5"></div>
+      <div className="absolute inset-0 tech-grid opacity-10"></div>
       
-      <svg className="w-[80%] h-[80%] text-turquoise/20" viewBox="0 0 100 100">
-        {/* Network Nodes Positions */}
-        {/* Source: (15, 50), Router: (40, 50), Path1: (65, 30), Path2: (65, 70), Dest: (90, 50) */}
-        
-        {/* Background Potential Paths (Inactive) */}
+      <svg className="w-[85%] h-[85%] text-turquoise/20" viewBox="0 0 100 100">
         <path d="M 40 50 L 65 70 L 90 50" fill="none" stroke="currentColor" strokeWidth="0.5" strokeDasharray="2 2" className="opacity-30" />
         
-        {/* Selected Optimal Path (Active) */}
         <motion.path
           d="M 15 50 L 40 50 L 65 30 L 90 50"
           fill="none"
@@ -60,7 +55,6 @@ function RoutingTopology() {
           className="opacity-40"
         />
 
-        {/* Data Packet (The decision maker) */}
         <motion.circle r="2" className="fill-turquoise shadow-[0_0_10px_#2dd4bf]">
           <animateMotion 
             dur="3s" 
@@ -69,10 +63,8 @@ function RoutingTopology() {
           />
         </motion.circle>
 
-        {/* Node Points */}
         <circle cx="15" cy="50" r="2" className="fill-text-secondary/40" />
         
-        {/* Router Node with Icon */}
         <foreignObject x="32" y="42" width="16" height="16">
           <div className="w-full h-full flex items-center justify-center bg-bg-secondary rounded-md border border-turquoise/40 shadow-lg">
             <Network size={10} className="text-turquoise" />
@@ -82,10 +74,6 @@ function RoutingTopology() {
         <circle cx="65" cy="30" r="2" className="fill-turquoise shadow-[0_0_8px_#2dd4bf]" />
         <circle cx="65" cy="70" r="2" className="fill-text-secondary/20" />
         <circle cx="90" cy="50" r="2.5" className="fill-turquoise shadow-[0_0_12px_#2dd4bf]" />
-        
-        <text x="40" y="68" textAnchor="middle" className="text-[3px] font-mono fill-turquoise opacity-40 uppercase tracking-[0.3em] font-bold">
-          PATH SELECTION ACTIVE
-        </text>
       </svg>
     </div>
   );
@@ -95,60 +83,58 @@ export default function FeaturedArticles() {
   const { t } = useLanguage();
 
   return (
-    <section id="articles" className="py-20 bg-bg-primary relative overflow-hidden">
-      <div className="absolute inset-0 noc-grid opacity-5 pointer-events-none"></div>
-
+    <section id="articles" className="py-24 bg-bg-primary relative overflow-hidden tech-grid border-t border-border-main">
       <div className="container-custom relative z-10">
-        <div className="flex justify-between items-end mb-10 max-w-5xl mx-auto">
-          <h2 className="text-3xl font-black tracking-tight text-text-primary uppercase">Featured articles</h2>
-          <Link href="#" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
-            All articles <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
+        <div className="flex justify-between items-end mb-12">
+          <h2 className="text-4xl font-black tracking-tight text-text-primary uppercase leading-none">Featured articles</h2>
+          <Link href="#" className="flex items-center text-xs font-black uppercase tracking-widest text-turquoise hover:underline group">
+            All articles <ArrowRight size={14} className="ml-2 group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        {/* REDUCED WIDTH CARD - Added max-w-5xl */}
+        {/* REDUCED HEIGHT Featured Article Card */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative max-w-5xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-16 group hover:border-turquoise/30 transition-all shadow-2xl"
+          className="relative max-w-6xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-12 group hover:border-turquoise/30 transition-all shadow-2xl"
         >
-          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px]">
+          <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[260px] md:min-h-[280px]">
             {/* Left: Graphic Area - Path Selection Animation */}
-            <div className="lg:col-span-5 h-56 lg:h-auto border-r border-border-main/50 relative">
+            <div className="lg:col-span-4 h-44 lg:h-auto border-r border-border-main/50 relative overflow-hidden bg-[#0a1628]">
               <RoutingTopology />
             </div>
             
             {/* Right: Content Area */}
-            <div className="lg:col-span-7 p-8 md:p-10 flex flex-col justify-center">
-              <div className="flex items-center space-x-3 mb-5">
-                <span className="px-2 py-0.5 rounded bg-blue-500/10 text-blue-500 text-[9px] font-bold uppercase tracking-widest">NETWORKING</span>
-                <span className="text-[9px] font-mono text-text-secondary/40 uppercase font-bold">15 min read</span>
+            <div className="lg:col-span-8 p-6 md:p-8 flex flex-col justify-center">
+              <div className="flex items-center space-x-4 mb-3">
+                <span className="px-2.5 py-0.5 rounded bg-blue-500/20 text-blue-500 text-[10px] font-black uppercase tracking-[0.2em] border border-blue-500/10">NETWORKING</span>
+                <span className="text-[9px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">15 min read</span>
               </div>
               
-              <h3 className="text-2xl md:text-3xl font-black text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
+              <h3 className="text-xl md:text-2xl font-black text-text-primary mb-3 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
                 Mastering BGP Communities for Policy Routing
               </h3>
               
-              <p className="text-text-secondary text-sm md:text-base mb-8 leading-relaxed font-medium opacity-80">
+              <p className="text-text-secondary text-xs md:text-sm mb-6 leading-relaxed font-medium opacity-80 line-clamp-2 md:line-clamp-3">
                 Comprehensive guide on advanced BGP communities usage to control traffic flow, implement routing policies, and optimize peering with your upstreams.
               </p>
               
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center space-x-3 mt-2">
                 <div className="w-8 h-8 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20 font-black text-[10px] text-turquoise">
                   D
                 </div>
                 <div>
-                  <div className="text-[11px] font-bold text-text-primary uppercase tracking-widest leading-none">DailyOps</div>
-                  <div className="text-[9px] font-mono text-text-secondary/40 mt-1">2025-01-15</div>
+                  <div className="text-[10px] font-bold text-text-primary uppercase tracking-widest leading-none">DailyOps</div>
+                  <div className="text-[8px] font-mono text-text-secondary/40 font-bold mt-1">2025-01-15</div>
                 </div>
               </div>
             </div>
           </div>
         </motion.div>
 
-        {/* Recent Articles Grid - Also balanced in width */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        {/* Recent Articles Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {recentArticles.map((article, index) => (
             <motion.article 
               key={article.title}
@@ -156,23 +142,25 @@ export default function FeaturedArticles() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
-              className="p-8 bg-bg-secondary/40 border border-border-main rounded-2xl flex flex-col hover:border-turquoise/30 transition-all group backdrop-blur-sm"
+              className="p-6 md:p-8 bg-bg-secondary border border-border-main rounded-2xl flex flex-col hover:border-turquoise/30 transition-all group backdrop-blur-sm relative"
             >
-              <div className="mb-5">
+              <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-2xl"></div>
+              
+              <div className="mb-4 relative z-10">
                 <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} text-[9px] font-bold uppercase tracking-widest border border-white/5`}>
                   {article.category}
                 </span>
               </div>
               
-              <h4 className="text-lg font-bold text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors">
+              <h4 className="text-lg font-bold text-text-primary mb-3 leading-tight group-hover:text-turquoise transition-colors relative z-10">
                 {article.title}
               </h4>
               
-              <p className="text-text-secondary text-xs mb-8 flex-grow font-medium leading-relaxed opacity-70">
+              <p className="text-text-secondary text-xs mb-6 flex-grow font-medium leading-relaxed opacity-70 relative z-10">
                 {article.excerpt}
               </p>
               
-              <div className="flex justify-between items-center pt-6 border-t border-border-main/50 text-[9px] font-mono text-text-secondary/40 font-bold uppercase tracking-widest">
+              <div className="flex justify-between items-center pt-5 border-t border-border-main/50 text-[9px] font-mono text-text-secondary/40 font-bold uppercase tracking-widest relative z-10">
                 <span className="flex items-center"><Clock size={12} className="mr-1.5" /> {article.readTime}</span>
                 <span>{article.date}</span>
               </div>
@@ -183,5 +171,6 @@ export default function FeaturedArticles() {
     </section>
   );
 }
+
 
 

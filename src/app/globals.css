@@ -51,30 +51,35 @@
   }
 }
 
-/* Liquid Glass Effect */
-.liquid-glass {
-  backdrop-filter: blur(24px) saturate(180%);
-  background-color: var(--liquid-bg);
-  border: 1px solid var(--liquid-border);
+/* Square Technical Grid */
+.tech-grid {
+  background-image: 
+    linear-gradient(to right, var(--border-main) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--border-main) 1px, transparent 1px);
+  background-size: 40px 40px;
 }
 
-/* Technical Dashboard Grid */
+/* Dots Grid */
 .noc-grid {
   background-image: 
     radial-gradient(circle at 1px 1px, var(--border-main) 1px, transparent 0);
   background-size: 32px 32px;
 }
 
+.liquid-glass {
+  backdrop-filter: blur(24px) saturate(180%);
+  background-color: var(--liquid-bg);
+  border: 1px solid var(--liquid-border);
+}
+
 .code-font {
   font-family: var(--font-jetbrains-mono), monospace;
 }
 
-/* Gradient text */
 .text-gradient {
   @apply bg-clip-text text-transparent bg-gradient-to-r from-text-primary via-turquoise to-accent;
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -92,3 +97,4 @@
 .container-custom {
   @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
 }
+
