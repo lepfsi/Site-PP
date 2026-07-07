@@ -8,5 +8,5 @@ export const SITE = {
 export const SOCIAL_LINKS = [
   { id: "github", href: SITE.github, label: "GitHub" },
   { id: "contact", href: `/about`, label: "Contact" },
-  { id: "rss", href: "/articles", label: "RSS" },
+  { id: "rss", href: "/feed.xml", label: "RSS" },
 ] as const;

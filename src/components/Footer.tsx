@@ -21,7 +21,7 @@ const FOOTER_ABOUT = [
   { key: "footer.contact", href: "/about" },
   { key: "footer.privacy", href: "/privacy" },
   { key: "footer.legal", href: "/legal" },
-  { key: "footer.rss", href: "/articles" },
+  { key: "footer.rss", href: "/feed.xml" },
 ] as const;
 
 const SOCIAL_ICONS = {

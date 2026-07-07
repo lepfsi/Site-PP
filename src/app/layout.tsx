@@ -1,9 +1,9 @@
-import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { cn } from "@/lib/utils";
+import { siteMetadata } from "@/lib/seo";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -15,10 +15,7 @@ const jetbrainsMono = JetBrains_Mono({
   variable: "--font-jetbrains-mono",
 });
 
-export const metadata: Metadata = {
-  title: "DailyOps.Tech | IT Infrastructure Knowledge Hub",
-  description: "Premium technical knowledge base for IT infrastructure professionals — networking, security, cloud and operations.",
-};
+export const metadata = siteMetadata;
 
 export default function RootLayout({
   children,
