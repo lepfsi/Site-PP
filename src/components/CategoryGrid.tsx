@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect } from "react";
 import { CATEGORIES } from "@/lib/categories";
+import CategoryVisual from "@/components/category-visuals/CategoryVisual";
 
 const TYPING_TAGS = [
   { textKey: "hero.tag_infrastructure" as const, icon: Code2, cmdKey: "hero.term.1.cmd" as const, logKey: "hero.term.1.log" as const },
@@ -112,38 +113,42 @@ export default function CategoryGrid() {
             >
               <Link 
                 href={`/category/${category.slug}`}
-                className={`group flex flex-col h-full p-6 sm:p-8 bg-bg-primary/40 border border-border-main rounded-2xl transition-all duration-300 ${category.border} backdrop-blur-sm hover:border-turquoise/30 relative`}
+                className={`group flex flex-col h-full overflow-hidden bg-bg-primary/40 border border-border-main rounded-2xl transition-all duration-300 ${category.border} backdrop-blur-sm hover:border-turquoise/30 relative`}
               >
-                <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-2xl"></div>
-
-                <div className="flex justify-between items-start mb-4 relative z-10">
-                  <div className={`w-9 h-9 rounded-lg ${category.bg} ${category.color} flex items-center justify-center transition-transform duration-500 group-hover:scale-105`}>
-                    <category.icon size={18} />
+                <div className="relative h-28 sm:h-32 border-b border-border-main/40 overflow-hidden">
+                  <CategoryVisual slug={category.slug} variant="card" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent pointer-events-none" />
+                  <div className={`absolute top-3 left-3 p-1.5 rounded-lg ${category.bg} ${category.color} border border-white/5 shadow-lg`}>
+                    <category.icon size={14} />
                   </div>
-                  <span className="text-[9px] font-mono text-text-secondary/40 uppercase tracking-widest pt-1">
+                  <span className="absolute top-3 right-3 text-[8px] font-mono text-text-secondary/50 uppercase tracking-widest bg-bg-primary/60 px-2 py-0.5 rounded border border-border-main/50">
                     {category.count} {t("cat.articles")}
                   </span>
                 </div>
-                
-                <h3 className="text-lg font-bold text-text-primary mb-3 leading-tight group-hover:text-turquoise transition-colors relative z-10">
-                  {t(category.nameKey)}
-                </h3>
-                
-                <p className="text-text-secondary text-xs leading-relaxed mb-6 flex-grow font-medium opacity-70 relative z-10">
-                  {t(category.descKey)}
-                </p>
-                
-                <div className="flex flex-wrap items-center gap-1.5 pt-5 border-t border-border-main/50 relative z-10">
-                  {category.tags.map((tag) => (
-                    <span 
-                      key={tag} 
-                      className={`px-2 py-0.5 rounded bg-bg-secondary border border-border-main text-[9px] font-bold uppercase tracking-wider ${category.color} opacity-70 group-hover:opacity-100 transition-opacity`}
-                    >
-                      {tag}
-                    </span>
-                  ))}
-                  <div className="ml-auto w-6 h-6 rounded-full bg-bg-primary border border-border-main flex items-center justify-center text-text-secondary group-hover:text-turquoise group-hover:border-turquoise transition-all">
-                    <ArrowRight size={11} />
+
+                <div className="p-6 sm:p-7 flex flex-col flex-grow relative">
+                  <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-b-2xl" />
+
+                  <h3 className="text-lg font-bold text-text-primary mb-2 leading-tight group-hover:text-turquoise transition-colors relative z-10">
+                    {t(category.nameKey)}
+                  </h3>
+                  
+                  <p className="text-text-secondary text-xs leading-relaxed mb-5 flex-grow font-medium opacity-70 relative z-10">
+                    {t(category.descKey)}
+                  </p>
+                  
+                  <div className="flex flex-wrap items-center gap-1.5 pt-4 border-t border-border-main/50 relative z-10">
+                    {category.tags.map((tag) => (
+                      <span 
+                        key={tag} 
+                        className={`px-2 py-0.5 rounded bg-bg-secondary border border-border-main text-[9px] font-bold uppercase tracking-wider ${category.color} opacity-70 group-hover:opacity-100 transition-opacity`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                    <div className="ml-auto w-6 h-6 rounded-full bg-bg-primary border border-border-main flex items-center justify-center text-text-secondary group-hover:text-turquoise group-hover:border-turquoise transition-all">
+                      <ArrowRight size={11} />
+                    </div>
                   </div>
                 </div>
               </Link>

@@ -2,13 +2,15 @@
 
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { ChevronRight, FileText, ArrowRight, Clock, RefreshCw } from "lucide-react";
+import { ChevronRight, FileText, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getCategoryBySlug, CATEGORIES } from "@/lib/categories";
 import { getArticlesByCategory } from "@/lib/articles";
 import CategoryVisual from "@/components/category-visuals/CategoryVisual";
+import CategoryFeaturedArticle from "@/components/CategoryFeaturedArticle";
+import ArticleCategoryCard from "@/components/ArticleCategoryCard";
 import { motion } from "framer-motion";
 
 export default function CategoryPage() {
@@ -17,6 +19,10 @@ export default function CategoryPage() {
   const slug = params.slug as string;
   const category = getCategoryBySlug(slug);
   const articles = getArticlesByCategory(category.slug);
+  const sortedArticles = [...articles].sort(
+    (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
+  const [featuredArticle, ...otherArticles] = sortedArticles;
   const CategoryIcon = category.icon;
 
   return (
@@ -155,37 +161,24 @@ export default function CategoryPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
               <div className="lg:col-span-2 space-y-6">
                 {articles.length > 0 ? (
-                  articles.map((article, i) => (
-                    <motion.article
-                      key={article.slug}
-                      initial={{ opacity: 0, y: 20 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.05 }}
-                    >
-                      <Link
-                        href={`/articles/${article.slug}`}
-                        className="block p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise transition-all group"
-                      >
-                        <div className="flex flex-wrap items-center gap-3 text-[10px] font-black text-text-secondary/30 mb-4 uppercase tracking-[0.2em]">
-                          <FileText className="h-3 w-3" />
-                          {article.date} // {t("catpage.stable")}
-                          <span className="flex items-center ml-auto sm:ml-0">
-                            <Clock size={10} className="mr-1" /> {article.readTime}
-                          </span>
-                        </div>
-                        <h2 className="text-2xl sm:text-3xl font-bold text-text-primary mb-4 group-hover:text-turquoise transition-colors leading-tight">
-                          {t(article.titleKey)}
-                        </h2>
-                        <p className="text-text-secondary mb-6 leading-relaxed font-medium">
-                          {t(article.excerptKey)}
-                        </p>
-                        <span className="inline-flex items-center text-xs font-black uppercase tracking-widest text-turquoise group-hover:underline">
-                          {t("catpage.read_node")} <ArrowRight className="ml-2 h-4 w-4" />
-                        </span>
-                      </Link>
-                    </motion.article>
-                  ))
+                  <>
+                    {featuredArticle && (
+                      <CategoryFeaturedArticle article={featuredArticle} category={category} />
+                    )}
+                    {otherArticles.length > 0 && (
+                      <p className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/40 mb-4">
+                        {t("catpage.more_articles")}
+                      </p>
+                    )}
+                    {otherArticles.map((article, i) => (
+                      <ArticleCategoryCard
+                        key={article.slug}
+                        article={article}
+                        category={category}
+                        index={i}
+                      />
+                    ))}
+                  </>
                 ) : (
                   <div className="p-8 rounded-2xl border border-border-main bg-bg-secondary text-center">
                     <p className="text-text-secondary font-medium">{t("cat.subtitle")}</p>

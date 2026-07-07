@@ -1,8 +1,19 @@
 "use client";
 
+import { createContext, useContext } from "react";
 import { motion } from "framer-motion";
 import { Network, Shield, Server, Cloud, Workflow, Wrench } from "lucide-react";
 import type { CategorySlug } from "@/lib/categories";
+
+export type VisualVariant = "hero" | "card" | "article";
+
+const VariantContext = createContext<VisualVariant>("hero");
+
+const SHELL_HEIGHT: Record<VisualVariant, string> = {
+  hero: "min-h-[220px] sm:min-h-[280px]",
+  article: "min-h-[180px] sm:min-h-[220px]",
+  card: "min-h-[112px] sm:min-h-[128px]",
+};
 
 const ACCENTS: Record<CategorySlug, string> = {
   networking: "#3b82f6",
@@ -14,17 +25,28 @@ const ACCENTS: Record<CategorySlug, string> = {
 };
 
 function VisualShell({ children, slug }: { children: React.ReactNode; slug: CategorySlug }) {
+  const variant = useContext(VariantContext);
+  const compact = variant === "card";
+
   return (
-    <div className="relative w-full h-full min-h-[220px] sm:min-h-[280px] flex items-center justify-center overflow-hidden bg-[#0a1628]">
+    <div className={`relative w-full h-full flex items-center justify-center overflow-hidden bg-[#0a1628] ${SHELL_HEIGHT[variant]}`}>
       <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/40 pointer-events-none" />
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px opacity-40"
-        style={{ background: `linear-gradient(90deg, transparent, ${ACCENTS[slug]}, transparent)` }}
-      />
-      {children}
+      {!compact && (
+        <div
+          className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px opacity-40"
+          style={{ background: `linear-gradient(90deg, transparent, ${ACCENTS[slug]}, transparent)` }}
+        />
+      )}
+      <div className={compact ? "scale-[0.85] w-full h-full flex items-center justify-center" : "w-full h-full flex items-center justify-center"}>
+        {children}
+      </div>
     </div>
   );
+}
+
+function useCompact() {
+  return useContext(VariantContext) === "card";
 }
 
 function NetworkingVisual() {
@@ -84,6 +106,7 @@ function NetworkingVisual() {
 
 function CybersecurityVisual() {
   const accent = ACCENTS.cybersecurity;
+  const compact = useCompact();
   return (
     <VisualShell slug="cybersecurity">
       <div className="relative w-[75%] aspect-square flex items-center justify-center">
@@ -118,14 +141,16 @@ function CybersecurityVisual() {
             transition={{ duration: 2, repeat: Infinity, delay: t.delay }}
           />
         ))}
-        <motion.span
-          className="absolute bottom-4 text-[8px] font-mono font-bold uppercase tracking-widest"
-          style={{ color: accent }}
-          animate={{ opacity: [0.4, 1, 0.4] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          THREAT BLOCKED
-        </motion.span>
+        {!compact && (
+          <motion.span
+            className="absolute bottom-4 text-[8px] font-mono font-bold uppercase tracking-widest"
+            style={{ color: accent }}
+            animate={{ opacity: [0.4, 1, 0.4] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            THREAT BLOCKED
+          </motion.span>
+        )}
       </div>
     </VisualShell>
   );
@@ -133,6 +158,7 @@ function CybersecurityVisual() {
 
 function InfrastructureVisual() {
   const accent = ACCENTS.infrastructure;
+  const compact = useCompact();
   return (
     <VisualShell slug="infrastructure">
       <div className="flex items-end justify-center gap-3 sm:gap-4 h-[70%]">
@@ -165,15 +191,17 @@ function InfrastructureVisual() {
           </motion.div>
         ))}
       </div>
-      <motion.div
-        className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2"
-        animate={{ opacity: [0.5, 1, 0.5] }}
-        transition={{ duration: 1.2, repeat: Infinity }}
-      >
-        <div className="h-px w-8 bg-emerald-500/40" />
-        <span className="text-[8px] font-mono font-bold text-emerald-400 uppercase tracking-widest">HA Quorum OK</span>
-        <div className="h-px w-8 bg-emerald-500/40" />
-      </motion.div>
+      {!compact && (
+        <motion.div
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2"
+          animate={{ opacity: [0.5, 1, 0.5] }}
+          transition={{ duration: 1.2, repeat: Infinity }}
+        >
+          <div className="h-px w-8 bg-emerald-500/40" />
+          <span className="text-[8px] font-mono font-bold text-emerald-400 uppercase tracking-widest">HA Quorum OK</span>
+          <div className="h-px w-8 bg-emerald-500/40" />
+        </motion.div>
+      )}
     </VisualShell>
   );
 }
@@ -221,6 +249,7 @@ function CloudVisual() {
 
 function AutomationVisual() {
   const accent = ACCENTS.automation;
+  const compact = useCompact();
   const stages = ["LINT", "TEST", "STAGE", "PROD"];
   return (
     <VisualShell slug="automation">
@@ -252,14 +281,16 @@ function AutomationVisual() {
             </motion.div>
           ))}
         </div>
-        <motion.div
-          className="text-[8px] font-mono font-bold uppercase tracking-[0.2em] px-3 py-1 rounded border"
-          style={{ color: accent, borderColor: `${accent}40` }}
-          animate={{ opacity: [0.5, 1, 0.5] }}
-          transition={{ duration: 2, repeat: Infinity }}
-        >
-          pipeline running · idempotent
-        </motion.div>
+        {!compact && (
+          <motion.div
+            className="text-[8px] font-mono font-bold uppercase tracking-[0.2em] px-3 py-1 rounded border"
+            style={{ color: accent, borderColor: `${accent}40` }}
+            animate={{ opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity }}
+          >
+            pipeline running · idempotent
+          </motion.div>
+        )}
       </div>
     </VisualShell>
   );
@@ -267,6 +298,7 @@ function AutomationVisual() {
 
 function TroubleshootingVisual() {
   const accent = ACCENTS.troubleshooting;
+  const compact = useCompact();
   return (
     <VisualShell slug="troubleshooting">
       <svg className="w-[88%] h-[70%]" viewBox="0 0 100 60" preserveAspectRatio="none">
@@ -296,10 +328,12 @@ function TroubleshootingVisual() {
           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
         />
       </svg>
-      <div className="absolute bottom-6 flex items-center gap-2">
-        <Wrench size={12} className="text-orange-400" />
-        <span className="text-[8px] font-mono font-bold text-orange-400 uppercase tracking-widest">RCA · packet anomaly</span>
-      </div>
+      {!compact && (
+        <div className="absolute bottom-6 flex items-center gap-2">
+          <Wrench size={12} className="text-orange-400" />
+          <span className="text-[8px] font-mono font-bold text-orange-400 uppercase tracking-widest">RCA · packet anomaly</span>
+        </div>
+      )}
     </VisualShell>
   );
 }
@@ -313,7 +347,17 @@ const VISUALS: Record<CategorySlug, () => React.JSX.Element> = {
   troubleshooting: TroubleshootingVisual,
 };
 
-export default function CategoryVisual({ slug }: { slug: CategorySlug }) {
+export default function CategoryVisual({
+  slug,
+  variant = "hero",
+}: {
+  slug: CategorySlug;
+  variant?: VisualVariant;
+}) {
   const Visual = VISUALS[slug] ?? VISUALS.networking;
-  return <Visual />;
+  return (
+    <VariantContext.Provider value={variant}>
+      <Visual />
+    </VariantContext.Provider>
+  );
 }

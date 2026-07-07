@@ -143,6 +143,8 @@ export interface TranslationKeys {
   "catpage.overview_title": string;
   "catpage.topics_title": string;
   "catpage.articles_section": string;
+  "catpage.spotlight": string;
+  "catpage.more_articles": string;
   "cat.networking_overview": string;
   "cat.cybersecurity_overview": string;
   "cat.infrastructure_overview": string;
@@ -443,6 +445,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "catpage.overview_title": "What this domain covers",
     "catpage.topics_title": "Key topics",
     "catpage.articles_section": "Articles in this category",
+    "catpage.spotlight": "Spotlight",
+    "catpage.more_articles": "More articles",
     "cat.networking_overview": "This domain covers everything that moves packets across your infrastructure — from campus switching to internet BGP peering. We document production configurations, design patterns, and troubleshooting workflows validated in live NOC environments.\n\nYou'll find deep dives on routing protocols, VPN architectures, SD-WAN deployments, and network automation. Every guide is written for engineers who need to implement, operate, and fix — not just understand theory.",
     "cat.cybersecurity_overview": "Security operations in production require more than compliance checklists. This category covers SOC workflows, threat detection, hardening baselines, incident response playbooks, and Zero Trust architectures deployed in real environments.\n\nContent spans identity management, SIEM rule engineering, penetration testing methodologies, and post-incident analysis. We focus on what works under pressure when the alert fires at 3 AM.",
     "cat.infrastructure_overview": "The foundation layer: servers, storage, virtualization, and high-availability clustering. This category documents how to design, deploy, and maintain on-premise and hybrid infrastructure that survives production workloads.\n\nTopics include Windows/Linux server administration, Proxmox and VMware clusters, Ceph and SAN storage, backup strategies, and monitoring baselines. Field-tested configurations, not lab-only demos.",
@@ -741,6 +745,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "catpage.overview_title": "Ce que couvre ce domaine",
     "catpage.topics_title": "Sujets clés",
     "catpage.articles_section": "Articles de cette catégorie",
+    "catpage.spotlight": "À la une",
+    "catpage.more_articles": "Autres articles",
     "cat.networking_overview": "Ce domaine couvre tout ce qui fait circuler les paquets dans votre infrastructure — du switching campus au peering BGP internet. Nous documentons des configurations de production, des patterns de design et des workflows de troubleshooting validés en NOC.\n\nVous y trouverez des analyses approfondies sur les protocoles de routage, les architectures VPN, les déploiements SD-WAN et l'automatisation réseau. Chaque guide est écrit pour les ingénieurs qui doivent implémenter, opérer et réparer — pas seulement comprendre la théorie.",
     "cat.cybersecurity_overview": "Les opérations de sécurité en production exigent plus que des checklists de conformité. Cette catégorie couvre les workflows SOC, la détection de menaces, les baselines de hardening, les playbooks de réponse incident et les architectures Zero Trust déployées en conditions réelles.\n\nLe contenu couvre la gestion d'identité, l'ingénierie de règles SIEM, les méthodologies de pentest et l'analyse post-incident. Nous nous concentrons sur ce qui fonctionne sous pression quand l'alerte tombe à 3h du matin.",
     "cat.infrastructure_overview": "La couche fondation : serveurs, stockage, virtualisation et clustering haute disponibilité. Cette catégorie documente comment concevoir, déployer et maintenir une infrastructure on-premise et hybride qui survit aux charges de production.\n\nLes sujets incluent l'administration Windows/Linux, les clusters Proxmox et VMware, le stockage Ceph et SAN, les stratégies de backup et les baselines de monitoring. Des configurations éprouvées sur le terrain, pas des démos de lab uniquement.",
