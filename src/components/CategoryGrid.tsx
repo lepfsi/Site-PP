@@ -87,16 +87,16 @@ export default function CategoryGrid() {
   const { t } = useLanguage();
 
   return (
-    <section id="categories" className="py-24 bg-bg-secondary relative overflow-hidden">
+    <section id="categories" className="py-16 md:py-20 bg-bg-secondary relative overflow-hidden">
       <div className="absolute inset-0 noc-grid opacity-20 pointer-events-none"></div>
       
       <div className="container-custom relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-16 gap-8">
+        <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
           <div className="text-center md:text-left">
-            <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              <span className="text-turquoise">// </span>{t("cat.title")}
+            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-text-primary code-font mb-2">
+              <span className="text-turquoise">//</span> {t("cat.title")}
             </h2>
-            <p className="text-text-secondary text-lg font-medium">{t("cat.subtitle")}</p>
+            <p className="text-text-secondary text-base font-medium">{t("cat.subtitle")}</p>
           </div>
           
           <TypewriterTerminal />

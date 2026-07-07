@@ -4,6 +4,7 @@ import { Mail, Send, Lock, Users, Newspaper, Bell, Gift } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { motion } from "framer-motion";
+import SectionHeading from "@/components/SectionHeading";
 
 export default function NewsletterSection() {
   const { t, lang } = useLanguage();
@@ -50,32 +51,35 @@ export default function NewsletterSection() {
   ];
 
   return (
-    <section id="newsletter" className="py-12 bg-bg-primary overflow-hidden border-t border-border-main">
+    <section id="newsletter" className="py-16 md:py-20 bg-bg-primary overflow-hidden border-t border-border-main">
       <div className="container-custom">
         <div className="max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative bg-bg-primary border border-border-main rounded-[2.5rem] p-8 md:p-10 shadow-xl text-center overflow-hidden"
+            className="relative bg-bg-secondary border-2 border-turquoise/30 rounded-[2rem] p-7 md:p-9 shadow-xl shadow-turquoise/10 text-center overflow-hidden"
           >
+            <div className="absolute inset-0 bg-gradient-to-br from-turquoise/5 via-transparent to-transparent pointer-events-none" />
             <div className="relative z-10">
-              <Mail className="text-text-secondary mx-auto mb-4 h-6 w-6" />
+              <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-turquoise/15 border border-turquoise/30 text-turquoise mb-4">
+                <Mail className="h-5 w-5" />
+              </div>
 
-              <h2 className="text-2xl md:text-3xl font-black text-text-primary mb-2 tracking-tight">
+              <SectionHeading className="mb-2">
                 {t("news.title")}
-              </h2>
+              </SectionHeading>
 
-              <p className="text-text-secondary text-sm mb-6 max-w-lg mx-auto">
+              <p className="text-text-secondary text-sm mb-5 max-w-lg mx-auto font-medium">
                 {t("news.desc")}
               </p>
 
-              <div className="flex items-center justify-center space-x-2 text-turquoise font-bold text-xs mb-8">
+              <div className="flex items-center justify-center space-x-2 text-turquoise font-bold text-xs mb-6">
                 <Users size={14} />
                 <span className="uppercase tracking-widest text-[9px]">{t("news.subscribers")}</span>
               </div>
 
-              <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto mb-4">
+              <form onSubmit={handleSubmit} className="w-full max-w-lg mx-auto mb-3">
                 <input
                   type="text"
                   name="website"
@@ -94,16 +98,16 @@ export default function NewsletterSection() {
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder={t("news.input")}
                     disabled={loading || subscribed}
-                    className="flex-grow bg-bg-secondary border border-border-main rounded-xl px-5 py-3 text-sm text-text-primary placeholder:text-text-secondary/40 focus:ring-1 focus:ring-turquoise outline-none transition-all disabled:opacity-60"
+                    className="flex-grow bg-bg-primary border border-border-main rounded-xl px-5 py-3 text-sm text-text-primary placeholder:text-text-secondary/40 focus:ring-2 focus:ring-turquoise/40 outline-none transition-all disabled:opacity-60"
                     required
                   />
                   <button
                     type="submit"
                     disabled={loading || subscribed}
-                    className={`px-6 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center transition-all disabled:cursor-not-allowed ${
+                    className={`px-7 py-3 rounded-xl font-black uppercase tracking-widest text-[10px] flex items-center justify-center transition-all disabled:cursor-not-allowed shrink-0 ${
                       subscribed
                         ? "bg-green-500 text-white"
-                        : "bg-turquoise text-navy hover:scale-105 active:scale-95 disabled:opacity-60"
+                        : "bg-turquoise text-navy hover:bg-turquoise-dark hover:scale-[1.03] active:scale-95 shadow-lg shadow-turquoise/25 disabled:opacity-60"
                     }`}
                   >
                     <Send size={14} className="mr-2" />
@@ -116,24 +120,22 @@ export default function NewsletterSection() {
                 </div>
               </form>
 
-              <div className="flex items-center justify-center space-x-2 text-[8px] text-text-secondary/60 font-bold uppercase tracking-widest mb-10">
+              <div className="flex items-center justify-center space-x-2 text-[8px] text-text-secondary/60 font-bold uppercase tracking-widest mb-8">
                 <Lock size={10} />
                 <span>{t("news.privacy")}</span>
               </div>
 
-              <div className="grid grid-cols-3 gap-6 w-full pt-8 border-t border-border-main">
+              <div className="grid grid-cols-3 gap-4 w-full pt-6 border-t border-border-main/60">
                 {features.map(({ icon: Icon, key }) => (
                   <div key={key} className="flex flex-col items-center">
-                    <Icon className="text-turquoise/70 mb-2 h-4 w-4" />
-                    <h4 className="font-bold text-text-primary text-[10px] uppercase tracking-wider">
+                    <Icon className="text-turquoise mb-1.5 h-4 w-4" />
+                    <h4 className="font-bold text-text-primary text-[10px] uppercase tracking-wider leading-tight">
                       {t(key)}
                     </h4>
                   </div>
                 ))}
               </div>
             </div>
-
-            <div className="absolute inset-0 tech-grid opacity-[0.04] pointer-events-none"></div>
           </motion.div>
         </div>
       </div>

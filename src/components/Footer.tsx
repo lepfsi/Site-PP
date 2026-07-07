@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { Github, Linkedin, Rss, Heart, Facebook } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import { CATEGORIES } from "@/lib/categories";
 import { SOCIAL_LINKS, type SocialId } from "@/lib/site";
 import Logo from "./Logo";
 
-const XIcon = ({ size = 18 }: { size?: number }) => (
+const XIcon = ({ size = 16 }: { size?: number }) => (
   <svg
     width={size}
     height={size}
@@ -30,39 +31,43 @@ const SOCIAL_ICONS: Record<SocialId, React.ComponentType<{ size?: number }>> = {
   rss: Rss,
 };
 
-const FOOTER_EXPLORE = [
-  { key: "footer.articles", href: "/articles" },
-  { key: "footer.experience", href: "/experience" },
-  { key: "footer.resources", href: "/resources" },
-  { key: "footer.categories_all", href: "/#categories" },
+const FOOTER_RESOURCES = [
+  { key: "footer.cheatsheets", href: "/resources#cheatsheets" },
+  { key: "footer.templates", href: "/resources#templates" },
+  { key: "footer.scripts", href: "/resources#scripts" },
+  { key: "footer.training", href: "/resources#training" },
 ] as const;
 
 const FOOTER_ABOUT = [
+  { key: "footer.articles", href: "/articles" },
+  { key: "footer.experience", href: "/experience" },
   { key: "footer.about_author", href: "/about#author" },
   { key: "footer.methodology", href: "/about#methodology" },
   { key: "footer.contact", href: "/about#contact" },
   { key: "footer.newsletter", href: "/#newsletter" },
 ] as const;
 
-const FOOTER_LEGAL = [
+const FOOTER_INFORMATION = [
   { key: "footer.privacy", href: "/privacy" },
   { key: "footer.legal", href: "/legal" },
 ] as const;
 
-function FooterColumn({ title, links, t }: { title: string; links: readonly { key: string; href: string }[]; t: (key: string) => string }) {
+function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="text-[11px] font-black uppercase tracking-[0.2em] text-text-primary/80 mb-3">{title}</h4>
-      <ul className="space-y-2">
-        {links.map((item) => (
-          <li key={item.key}>
-            <Link href={item.href} className="text-xs font-medium text-text-secondary hover:text-turquoise transition-colors">
-              {t(item.key)}
-            </Link>
-          </li>
-        ))}
-      </ul>
+      <h4 className="text-xs font-black uppercase tracking-[0.18em] text-text-primary mb-3">{title}</h4>
+      <ul className="space-y-2">{children}</ul>
     </div>
+  );
+}
+
+function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
+  return (
+    <li>
+      <Link href={href} className="text-xs font-medium text-text-secondary hover:text-turquoise transition-colors leading-snug">
+        {children}
+      </Link>
+    </li>
   );
 }
 
@@ -73,15 +78,46 @@ export default function Footer() {
     <footer className="relative bg-bg-secondary border-t-2 border-turquoise/15 shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.45)] pt-8 pb-5">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/35 to-transparent pointer-events-none" aria-hidden />
       <div className="container-custom">
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-8 lg:gap-10 items-start mb-6">
-          <div className="col-span-2 sm:col-span-1">
-            <Link href="/" className="inline-block mb-3">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 items-start">
+          <FooterColumn title={t("footer.categories")}>
+            {CATEGORIES.map((cat) => (
+              <FooterLink key={cat.slug} href={`/category/${cat.slug}`}>
+                {t(cat.nameKey)}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title={t("footer.resources")}>
+            {FOOTER_RESOURCES.map((item) => (
+              <FooterLink key={item.key} href={item.href}>
+                {t(item.key)}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title={t("footer.about")}>
+            {FOOTER_ABOUT.map((item) => (
+              <FooterLink key={item.key} href={item.href}>
+                {t(item.key)}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+
+          <FooterColumn title={t("footer.information")}>
+            {FOOTER_INFORMATION.map((item) => (
+              <FooterLink key={item.key} href={item.href}>
+                {t(item.key)}
+              </FooterLink>
+            ))}
+          </FooterColumn>
+        </div>
+
+        <div className="mt-6 pt-4 border-t border-border-main/60 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <div className="flex items-center gap-4">
+            <Link href="/" className="shrink-0">
               <Logo iconOnly />
             </Link>
-            <p className="text-text-secondary text-xs max-w-[200px] mb-4 leading-relaxed font-medium line-clamp-2">
-              {t("footer.desc")}
-            </p>
-            <div className="flex gap-4">
+            <div className="flex gap-3">
               {SOCIAL_LINKS.map(({ id, href, label, external }) => {
                 const Icon = SOCIAL_ICONS[id];
                 return (
@@ -92,25 +128,19 @@ export default function Footer() {
                     title={label}
                     {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                   >
-                    <Icon size={18} />
+                    <Icon size={16} />
                   </Link>
                 );
               })}
             </div>
           </div>
-
-          <FooterColumn title={t("footer.explore")} links={FOOTER_EXPLORE} t={t} />
-          <FooterColumn title={t("footer.about")} links={FOOTER_ABOUT} t={t} />
-          <FooterColumn title={t("footer.information")} links={FOOTER_LEGAL} t={t} />
-        </div>
-
-        <div className="pt-4 border-t border-border-main/60 flex flex-col sm:flex-row justify-between items-center gap-3">
-          <p className="text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest">
-            {t("footer.copyright")} {t("footer.rights")}
-          </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
+            <p className="text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest">
+              {t("footer.copyright")} {t("footer.rights")}
+            </p>
+            <span className="hidden sm:block text-border-main">|</span>
             <span className="flex items-center text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest">
-              <Heart size={12} className="text-red-500 mr-1.5 fill-red-500" /> {t("footer.made")}
+              <Heart size={11} className="text-red-500 mr-1.5 fill-red-500" /> {t("footer.made")}
             </span>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse" />

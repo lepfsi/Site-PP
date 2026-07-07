@@ -5,6 +5,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 import { RESOURCE_SECTIONS } from "@/lib/resources";
+import SectionHeading from "@/components/SectionHeading";
 import type { LucideIcon } from "lucide-react";
 
 const ACTION_ICONS: Record<string, LucideIcon> = {
@@ -18,15 +19,15 @@ export default function ResourcesSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-24 bg-bg-secondary relative overflow-hidden border-t border-border-main">
+    <section className="py-16 md:py-20 bg-bg-secondary relative overflow-hidden border-t border-border-main">
       <div className="absolute inset-0 tech-grid opacity-[0.04] pointer-events-none"></div>
       <div className="container-custom relative z-10">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-black text-text-primary mb-4">
-            <span className="text-turquoise">//</span> {t("res.title")}
-          </h2>
-          <p className="text-text-secondary text-lg font-medium">{t("res.subtitle")}</p>
-        </div>
+        <SectionHeading
+          className="mb-10"
+          subtitle={<p className="text-text-secondary text-base font-medium">{t("res.subtitle")}</p>}
+        >
+          {t("res.title")}
+        </SectionHeading>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {RESOURCE_SECTIONS.map((section, index) => {

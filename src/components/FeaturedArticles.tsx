@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getFeaturedArticle, getRecentArticles } from "@/lib/articles";
 import ArticleVisual from "@/components/article-visuals/ArticleVisual";
+import SectionHeading from "@/components/SectionHeading";
 
 export default function FeaturedArticles() {
   const { t } = useLanguage();
@@ -13,26 +14,29 @@ export default function FeaturedArticles() {
   const recentArticles = getRecentArticles(6);
 
   return (
-    <section id="articles" className="py-24 bg-bg-primary relative overflow-hidden">
+    <section id="articles" className="py-16 md:py-20 bg-bg-primary relative overflow-hidden">
       <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none"></div>
 
       <div className="container-custom relative z-10">
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-black tracking-tight text-text-primary mb-4"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-10"
+        >
+          <SectionHeading
+            subtitle={
+              <>
+                <p className="text-text-secondary text-base font-medium">{t("articles.featured_subtitle")}</p>
+                <Link href="/articles" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group mt-3">
+                  {t("articles.view_all")} <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </>
+            }
           >
-            <span className="text-turquoise">//</span> {t("articles.featured_title")}
-          </motion.h2>
-          <div className="flex flex-col items-center">
-            <p className="text-text-secondary text-lg font-medium mb-4">{t("articles.featured_subtitle")}</p>
-            <Link href="/articles" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group">
-              {t("articles.view_all")} <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
+            {t("articles.featured_title")}
+          </SectionHeading>
+        </motion.div>
 
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

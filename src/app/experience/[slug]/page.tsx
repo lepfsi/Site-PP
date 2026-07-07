@@ -47,11 +47,11 @@ export default function ExperiencePage() {
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
       <div className="flex-grow pt-28">
-        <header className="relative py-16 sm:py-20 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
+        <header className="relative py-10 sm:py-12 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
           <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none"></div>
           <div className="scanline"></div>
           <div className="container-custom relative z-10">
-            <nav className="flex flex-wrap items-center mb-8 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
+            <nav className="flex flex-wrap items-center mb-5 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
               <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
               <Link href="/experience" className="hover:text-turquoise transition-colors">{t("exp.title")}</Link>
@@ -60,7 +60,7 @@ export default function ExperiencePage() {
             </nav>
 
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="max-w-4xl">
-              <div className="flex flex-wrap items-center gap-3 mb-6">
+              <div className="flex flex-wrap items-center gap-3 mb-4">
                 {experience.badgeKey && (
                   <span className="px-3 py-1 rounded-lg bg-turquoise/10 text-turquoise text-[10px] font-black uppercase tracking-[0.2em] border border-turquoise/20">
                     {t(experience.badgeKey)}
@@ -86,11 +86,11 @@ export default function ExperiencePage() {
                 )}
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-text-primary tracking-tight code-font leading-tight mb-6">
+              <h1 className="text-2xl sm:text-3xl md:text-[2rem] font-black text-text-primary tracking-tight code-font leading-snug mb-4">
                 {t(experience.titleKey)}
               </h1>
 
-              <p className="text-text-secondary text-lg font-medium leading-relaxed mb-8 max-w-3xl">
+              <p className="text-text-secondary text-sm sm:text-base font-medium leading-relaxed mb-6 max-w-3xl">
                 {t(experience.descKey)}
               </p>
 

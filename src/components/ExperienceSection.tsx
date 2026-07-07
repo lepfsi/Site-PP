@@ -5,6 +5,7 @@ import { ArrowRight, Clock, AlertTriangle, Settings, Shield } from "lucide-react
 import Link from "next/link";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getExperiencesForHome } from "@/lib/experiences";
+import SectionHeading from "@/components/SectionHeading";
 import type { ExperienceCase } from "@/lib/experiences";
 import type { LucideIcon } from "lucide-react";
 
@@ -66,36 +67,32 @@ export default function ExperienceSection() {
   const experiences = getExperiencesForHome(3);
 
   return (
-    <section id="experience" className="py-24 bg-bg-secondary relative overflow-hidden">
+    <section id="experience" className="py-16 md:py-20 bg-bg-secondary relative overflow-hidden">
       <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none"></div>
 
       <div className="container-custom relative z-10">
-        <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-black tracking-tight text-text-primary mb-6"
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="mb-10"
+        >
+          <SectionHeading
+            subtitle={
+              <>
+                <p className="text-text-secondary text-base max-w-3xl mx-auto font-medium">{t("exp.subtitle")}</p>
+                <Link
+                  href="/experience"
+                  className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group mt-3"
+                >
+                  {t("exp.view_all")} <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
+                </Link>
+              </>
+            }
           >
             {t("exp.title")}
-          </motion.h2>
-          <div className="flex flex-col items-center">
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-text-secondary text-lg max-w-3xl mx-auto font-medium mb-4"
-            >
-              {t("exp.subtitle")}
-            </motion.p>
-            <Link
-              href="/experience"
-              className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group"
-            >
-              {t("exp.view_all")} <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-        </div>
+          </SectionHeading>
+        </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {experiences.map((exp, index) => (
