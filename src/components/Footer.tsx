@@ -9,21 +9,20 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="bg-bg-primary border-t border-border-main pt-24 pb-12">
+    <footer className="bg-bg-primary border-t border-border-main pt-12 pb-8">
       <div className="container-custom">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 mb-24">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 mb-16">
           
           {/* Logo and Social Section (Left) */}
-          <div className="md:col-span-4 lg:col-span-5">
-            <Link href="/" className="inline-block mb-6">
+          <div className="md:col-span-5 lg:col-span-6">
+            <Link href="/" className="inline-block mb-4">
               <Logo />
             </Link>
             
-            <p className="text-text-secondary text-base max-w-sm mb-8 font-medium leading-relaxed">
-              A premium knowledge base for IT infrastructure professionals — networking, security, cloud and operations.
+            <p className="text-text-secondary text-sm max-w-sm mb-6 font-medium leading-relaxed">
+              Base de connaissances premium pour les professionnels de l'infrastructure IT — réseau, sécurité, cloud et opérations.
             </p>
             
-            {/* Social Icons Aligned - Circular Style from Image */}
             <div className="flex space-x-3">
               {[
                 { Icon: Linkedin, href: "#" },
@@ -34,59 +33,49 @@ export default function Footer() {
                 <Link 
                   key={i}
                   href={item.href} 
-                  className="w-10 h-10 flex items-center justify-center rounded-full border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise transition-all bg-transparent shadow-sm"
+                  className="w-9 h-9 flex items-center justify-center rounded-full border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise transition-all bg-transparent shadow-sm"
                 >
-                  <item.Icon size={18} />
+                  <item.Icon size={16} />
                 </Link>
               ))}
             </div>
           </div>
           
-          {/* Categories Column */}
-          <div className="md:col-span-2 lg:col-span-2">
-            <h4 className="text-sm font-bold text-text-primary mb-6">Categories</h4>
-            <ul className="space-y-4">
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Networking</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Cybersecurity</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Infrastructure</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Cloud & Virt.</Link></li>
-              <li><Link href="#categories" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Troubleshooting</Link></li>
+          {/* Categories Column - UPDATED TO 6 CATEGORIES */}
+          <div className="md:col-span-3 lg:col-span-3">
+            <h4 className="text-xs font-black text-text-primary uppercase tracking-[0.2em] mb-6">Categories</h4>
+            <ul className="space-y-3">
+              <li><Link href="/category/networking" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Networking</Link></li>
+              <li><Link href="/category/cybersecurity" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Cybersecurity</Link></li>
+              <li><Link href="/category/infrastructure" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Infrastructure</Link></li>
+              <li><Link href="/category/cloud" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Cloud & Virt.</Link></li>
+              <li><Link href="/category/automation" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Automation & AI</Link></li>
+              <li><Link href="/category/troubleshooting" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Troubleshooting</Link></li>
             </ul>
           </div>
           
-          {/* Resources Column */}
-          <div className="md:col-span-3 lg:col-span-2">
-            <h4 className="text-sm font-bold text-text-primary mb-6">Resources</h4>
-            <ul className="space-y-4">
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Technical glossary</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Operational checklists</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Field feedback</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">About the author</Link></li>
-            </ul>
-          </div>
-
-          {/* Information Column */}
-          <div className="md:col-span-3 lg:col-span-2">
-            <h4 className="text-sm font-bold text-text-primary mb-6">Information</h4>
-            <ul className="space-y-4">
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Legal notice</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Privacy policy</Link></li>
-              <li><Link href="#" className="text-sm font-medium text-text-secondary hover:text-turquoise transition-colors">Contact</Link></li>
+          {/* Resources & Info Column - Combined for compactness */}
+          <div className="md:col-span-4 lg:col-span-3">
+            <h4 className="text-xs font-black text-text-primary uppercase tracking-[0.2em] mb-6">Resources</h4>
+            <ul className="space-y-3">
+              <li><Link href="#" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Glossary</Link></li>
+              <li><Link href="#" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Checklists</Link></li>
+              <li><Link href="#" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Contact</Link></li>
+              <li><Link href="#" className="text-xs font-bold text-text-secondary hover:text-turquoise transition-colors uppercase tracking-widest">Legal Notice</Link></li>
             </ul>
           </div>
         </div>
         
         {/* Bottom Bar */}
-        <div className="pt-12 border-t border-border-main flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] font-black text-text-secondary/50 uppercase tracking-widest">
-            © 2026 DailyOps.Tech — {t("footer.rights")}
+        <div className="pt-8 border-t border-border-main flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-[9px] font-black text-text-secondary/40 uppercase tracking-widest">
+            © 2026 DailyOps.Tech — Tous droits réservés
           </p>
           <div className="flex items-center space-x-4">
-            <span className="flex items-center text-[10px] font-black text-text-secondary/50 uppercase tracking-widest">
-              <Heart size={14} className="text-red-500 mr-2 fill-red-500" /> {t("footer.made")}
+            <span className="flex items-center text-[9px] font-black text-text-secondary/40 uppercase tracking-widest">
+              <Heart size={12} className="text-red-500 mr-1.5 fill-red-500" /> Crafted for Ops
             </span>
-            <div className="h-1 w-1 rounded-full bg-border-main"></div>
-            <span className="text-[10px] font-black text-turquoise uppercase tracking-widest bg-turquoise/10 px-3 py-1.5 rounded-xl border border-turquoise/20">V2.4.0-STABLE</span>
+            <span className="text-[9px] font-black text-turquoise uppercase tracking-widest bg-turquoise/10 px-2 py-1 rounded-lg border border-turquoise/20">V2.4.0-STABLE</span>
           </div>
         </div>
       </div>
