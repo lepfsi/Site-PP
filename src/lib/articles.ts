@@ -1,20 +1,35 @@
 import type { CategorySlug } from "./categories";
 
+export type ArticleFormat = "i18n" | "markdown";
+
 export interface Article {
   slug: string;
   category: CategorySlug;
   titleKey: string;
   excerptKey: string;
-  bodyKey: string;
+  bodyKey?: string;
   categoryLabelKey: string;
   readTime: string;
   date: string;
   color: string;
   bg: string;
   featured?: boolean;
+  format?: ArticleFormat;
 }
 
 export const ARTICLES: Article[] = [
+  {
+    slug: "ansible-cicd-pipeline",
+    category: "automation",
+    titleKey: "articles.8.title",
+    excerptKey: "articles.8.excerpt",
+    categoryLabelKey: "articles.8.category",
+    readTime: "16 min",
+    date: "2026-01-20",
+    color: "text-pink-500",
+    bg: "bg-pink-500/10",
+    format: "markdown",
+  },
   {
     slug: "bgp-communities-policy-routing",
     category: "networking",

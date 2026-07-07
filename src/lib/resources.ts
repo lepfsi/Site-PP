@@ -27,7 +27,7 @@ export const RESOURCE_SECTIONS: ResourceSection[] = [
     titleKey: "res.2.title",
     descKey: "res.page.scripts_desc",
     linkKey: "res.2.link",
-    articleSlugs: ["terraform-multicloud-patterns"],
+    articleSlugs: ["ansible-cicd-pipeline", "terraform-multicloud-patterns"],
     categorySlug: "automation",
   },
   {

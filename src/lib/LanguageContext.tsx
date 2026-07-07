@@ -109,6 +109,9 @@ interface TranslationKeys {
   "articles.7.excerpt": string;
   "articles.7.category": string;
   "articles.7.body": string;
+  "articles.8.title": string;
+  "articles.8.excerpt": string;
+  "articles.8.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -388,6 +391,9 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.7.excerpt": "Technical comparison, advanced configuration, and integration into existing IT systems.",
     "articles.7.category": "Networking",
     "articles.7.body": "WireGuard has replaced IPsec and OpenVPN in many production environments — but enterprise deployment requires careful planning. This article compares WireGuard against legacy VPN solutions on performance, key management, and auditability.\n\nWe cover hub-and-spoke vs full-mesh topologies, integration with FreeIPA/LDAP for key distribution, and iptables/nftables rules for split-tunnel vs full-tunnel policies.\n\nIncludes configuration templates for Linux gateways, Windows clients, and monitoring via Prometheus exporters.",
+    "articles.8.title": "Ansible CI/CD Pipeline for Production Infrastructure",
+    "articles.8.excerpt": "Design a gated Ansible pipeline with lint, Molecule tests, staging deploy, and production approval — field-tested on 200+ hosts.",
+    "articles.8.category": "Automation",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -665,6 +671,9 @@ const translations: Record<Language, TranslationKeys> = {
     "articles.7.excerpt": "Comparaison technique, configuration avancée et intégration dans un SI existant.",
     "articles.7.category": "Networking",
     "articles.7.body": "WireGuard a remplacé IPsec et OpenVPN dans de nombreux environnements de production — mais le déploiement entreprise demande une planification rigoureuse. Cet article compare WireGuard aux VPN legacy sur la performance, la gestion des clés et l'auditabilité.\n\nNous couvrons les topologies hub-and-spoke vs full-mesh, l'intégration FreeIPA/LDAP pour la distribution des clés, et les règles iptables/nftables pour split-tunnel vs full-tunnel.\n\nInclut des templates de configuration pour gateways Linux, clients Windows et monitoring via exporters Prometheus.",
+    "articles.8.title": "Pipeline CI/CD Ansible pour l'infrastructure de production",
+    "articles.8.excerpt": "Concevoir un pipeline Ansible avec lint, tests Molecule, déploiement staging et validation production — éprouvé sur 200+ hôtes.",
+    "articles.8.category": "Automation",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",
