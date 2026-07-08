@@ -157,6 +157,8 @@ export interface TranslationKeys {
   "articles.all_count": string;
   "about.title": string;
   "about.subtitle": string;
+  "about.dailyops_title": string;
+  "about.dailyops_desc": string;
   "about.author_title": string;
   "about.author_name": string;
   "about.author_role": string;
@@ -304,6 +306,7 @@ export interface TranslationKeys {
   "footer.glossary": string;
   "footer.checklists": string;
   "footer.field_feedback": string;
+  "footer.about_dailyops": string;
   "footer.about_author": string;
   "footer.legal": string;
   "footer.privacy": string;
@@ -486,10 +489,12 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.all_count": "articles published",
     "about.title": "About DailyOps",
     "about.subtitle": "Production knowledge forged in NOCs and SOCs.",
+    "about.dailyops_title": "What is DailyOps?",
+    "about.dailyops_desc": "DailyOps.Tech is a production-first knowledge base for infrastructure professionals — network engineers, security analysts, cloud architects, and operations teams working where downtime is not an option.\n\nWe publish playbooks, baselines, field experience reports, and technical guides across six domains: networking, cybersecurity, infrastructure, cloud, automation, and troubleshooting. Content is structured to be deployed in real environments, not just read.\n\nOur editorial line is simple: document what runs in production. No marketing fluff, no empty theory — only material validated against the constraints of NOCs, SOCs, and critical infrastructure.",
     "about.author_title": "About the author",
     "about.author_name": "Steve BA-NDOUWE",
     "about.author_role": "Cybersecurity Engineer",
-    "about.author_bio": "Steve BA-NDOUWE is a cybersecurity engineer by training who rapidly expanded into full-spectrum IT operations. From the start of his career, he has worked in high-stakes environments — banking, airports, and critical infrastructure where high availability, regulatory rigor, and round-the-clock monitoring leave no margin for error.\n\nThose production constraints shaped how he designs secure architectures, hardens systems, and troubleshoots under pressure. DailyOps.Tech is where he shares the playbooks, baselines, and field lessons learned alongside NOC and SOC teams.",
+    "about.author_bio": "Steve BA-NDOUWE is a cybersecurity engineer by training who rapidly expanded into full-spectrum IT operations. From the start of his career, he has worked in high-stakes environments — banking, airports, and critical infrastructure where high availability, regulatory rigor, and round-the-clock monitoring leave no margin for error.\n\nThose production constraints shaped how he designs secure architectures, hardens systems, and troubleshoots under pressure. He founded DailyOps.Tech to share the playbooks and field lessons acquired alongside NOC and SOC teams.",
     "about.mission": "Every article on DailyOps is validated against real production constraints — no empty theory, no marketing fluff.",
     "about.methodology_title": "Our methodology",
     "about.methodology_desc": "We document what we deploy, break, and fix. Each guide follows a production-ready structure: context, architecture, step-by-step implementation, validation checks, and rollback procedures. Content is reviewed and updated as technologies evolve.",
@@ -631,6 +636,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.glossary": "Technical glossary",
     "footer.checklists": "Operational checklists",
     "footer.field_feedback": "Field feedback",
+    "footer.about_dailyops": "About DailyOps",
     "footer.about_author": "About the author",
     "footer.legal": "Legal notice",
     "footer.privacy": "Privacy policy",
@@ -811,10 +817,12 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.all_count": "articles publiés",
     "about.title": "À propos de DailyOps",
     "about.subtitle": "Savoir de production forgé dans les NOC et SOC.",
+    "about.dailyops_title": "Qu'est-ce que DailyOps ?",
+    "about.dailyops_desc": "DailyOps.Tech est une base de connaissances orientée production pour les professionnels de l'infrastructure — ingénieurs réseau, analystes sécurité, architectes cloud et équipes d'exploitation qui évoluent là où l'indisponibilité n'est pas une option.\n\nNous publions des playbooks, baselines, retours terrain et guides techniques sur six domaines : réseau, cybersécurité, infrastructure, cloud, automatisation et troubleshooting. Le contenu est structuré pour être déployé en environnement réel, pas seulement lu.\n\nNotre ligne éditoriale est simple : documenter ce qui tourne en production. Pas de marketing, pas de théorie vide — uniquement du matériel validé face aux contraintes des NOC, SOC et infrastructures critiques.",
     "about.author_title": "À propos de l'auteur",
     "about.author_name": "Steve BA-NDOUWE",
     "about.author_role": "Ingénieur en cybersécurité",
-    "about.author_bio": "Steve BA-NDOUWE est ingénieur en cybersécurité de formation, qui s'est très rapidement orienté vers les opérations IT dans leur ensemble. Dès le début de son parcours, il a évolué dans des environnements à forte exigence — banque, aéroports et infrastructures critiques où la haute disponibilité, la conformité réglementaire et la surveillance continue ne laissent aucune place à l'approximation.\n\nCes contraintes de production ont façonné sa façon de concevoir des architectures sécurisées, durcir les systèmes et diagnostiquer sous pression. DailyOps.Tech est l'endroit où il partage les playbooks, baselines et retours terrain acquis aux côtés des équipes NOC et SOC.",
+    "about.author_bio": "Steve BA-NDOUWE est ingénieur en cybersécurité de formation, qui s'est très rapidement orienté vers les opérations IT dans leur ensemble. Dès le début de son parcours, il a évolué dans des environnements à forte exigence — banque, aéroports et infrastructures critiques où la haute disponibilité, la conformité réglementaire et la surveillance continue ne laissent aucune place à l'approximation.\n\nCes contraintes de production ont façonné sa façon de concevoir des architectures sécurisées, durcir les systèmes et diagnostiquer sous pression. Il a fondé DailyOps.Tech pour partager les playbooks et retours terrain acquis aux côtés des équipes NOC et SOC.",
     "about.mission": "Chaque article sur DailyOps est validé face aux contraintes de production réelles — pas de théorie vide, pas de marketing.",
     "about.methodology_title": "Notre méthodologie",
     "about.methodology_desc": "Nous documentons ce que nous déployons, cassons et réparons. Chaque guide suit une structure production-ready : contexte, architecture, implémentation pas à pas, checks de validation et procédures de rollback. Le contenu est revu et mis à jour au fil de l'évolution des technologies.",
@@ -956,6 +964,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.glossary": "Glossaire technique",
     "footer.checklists": "Checklists opérationnelles",
     "footer.field_feedback": "Retours terrain",
+    "footer.about_dailyops": "À propos de DailyOps",
     "footer.about_author": "À propos de l'auteur",
     "footer.legal": "Mentions légales",
     "footer.privacy": "Politique de confidentialité",

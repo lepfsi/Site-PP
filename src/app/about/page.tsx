@@ -6,7 +6,7 @@ import PageHeader, { PAGE_TOP_OFFSET } from "@/components/PageHeader";
 import ContactAuthorPanel from "@/components/ContactAuthorPanel";
 import { useLanguage } from "@/lib/LanguageContext";
 import { motion } from "framer-motion";
-import { Send, Mail, User, MessageSquare, FileText, CheckCircle } from "lucide-react";
+import { Send, Mail, User, MessageSquare, FileText, CheckCircle, Radio } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function AboutPage() {
@@ -80,7 +80,32 @@ export default function AboutPage() {
         />
 
         <section className="py-8 sm:py-10 bg-bg-primary border-b border-border-main">
-          <div className="container-custom max-w-6xl mx-auto">
+          <div className="container-custom max-w-6xl mx-auto space-y-8 lg:space-y-10">
+            <motion.div
+              id="dailyops"
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="scroll-mt-24 p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary border-l-4 border-l-turquoise"
+            >
+              <div className="flex items-center gap-3 mb-5">
+                <div className="w-10 h-10 rounded-xl bg-turquoise/10 border border-turquoise/30 flex items-center justify-center">
+                  <Radio size={18} className="text-turquoise" />
+                </div>
+                <h2 className="text-xl font-bold text-text-primary">{t("about.dailyops_title")}</h2>
+              </div>
+              <div className="space-y-4">
+                {t("about.dailyops_desc").split("\n\n").map((paragraph, i) => (
+                  <p key={i} className="text-text-secondary text-sm sm:text-base leading-relaxed font-medium">
+                    {paragraph}
+                  </p>
+                ))}
+              </div>
+              <p className="mt-6 pt-5 border-t border-border-main/60 text-text-primary text-sm font-bold leading-relaxed">
+                {t("about.mission")}
+              </p>
+            </motion.div>
+
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
               <motion.div
                 id="author"
@@ -101,9 +126,6 @@ export default function AboutPage() {
                 </div>
                 <p className="text-text-secondary text-sm sm:text-base leading-relaxed font-medium whitespace-pre-line">
                   {t("about.author_bio")}
-                </p>
-                <p className="text-text-secondary/70 text-sm leading-relaxed font-medium border-t border-border-main/60 pt-5 mt-5">
-                  {t("about.mission")}
                 </p>
               </motion.div>
 
