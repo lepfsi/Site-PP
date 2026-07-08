@@ -4,6 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/lib/LanguageContext";
 import { cn } from "@/lib/utils";
 import { siteMetadata } from "@/lib/seo";
+import CookieNotice from "@/components/CookieNotice";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -37,6 +38,7 @@ export default function RootLayout({
         >
           <LanguageProvider>
             {children}
+            <CookieNotice />
           </LanguageProvider>
         </ThemeProvider>
       </body>

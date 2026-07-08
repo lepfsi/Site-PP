@@ -10,6 +10,7 @@ import { motion } from "framer-motion";
 interface LegalSection {
   titleKey: string;
   bodyKey: string;
+  id?: string;
 }
 
 interface LegalDocumentProps {
@@ -52,10 +53,12 @@ export default function LegalDocument({ titleKey, updatedKey, introKey, sections
               {sections.map((section, i) => (
                 <motion.div
                   key={section.titleKey}
+                  id={section.id}
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.05 }}
+                  className={section.id ? "scroll-mt-28" : undefined}
                 >
                   <h2 className="text-lg font-bold text-text-primary mb-3">{t(section.titleKey)}</h2>
                   <div className="space-y-3">
