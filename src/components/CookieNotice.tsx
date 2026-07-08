@@ -28,8 +28,12 @@ export default function CookieNotice() {
       role="dialog"
       aria-live="polite"
       aria-label={t("cookies.banner_title")}
-      className="fixed bottom-4 left-4 right-4 z-[90] mx-auto max-w-2xl rounded-2xl border border-border-main bg-bg-secondary/95 backdrop-blur-md shadow-2xl p-4 sm:p-5"
+      className="fixed bottom-4 left-4 right-4 z-[90] mx-auto max-w-2xl rounded-2xl liquid-glass shadow-2xl p-4 sm:p-5"
     >
+      <div
+        className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/35 to-transparent pointer-events-none rounded-t-2xl"
+        aria-hidden
+      />
       <div className="flex flex-col sm:flex-row sm:items-center gap-4">
         <p className="text-text-secondary text-xs sm:text-sm font-medium leading-relaxed flex-grow">
           {t("cookies.banner")}
