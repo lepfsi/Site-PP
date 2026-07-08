@@ -283,11 +283,17 @@ export default function Hero() {
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="flex flex-wrap items-center gap-x-2.5 gap-y-1 text-lg sm:text-xl md:text-2xl lg:text-[1.65rem] font-black code-font text-text-primary"
+                className="flex flex-wrap items-center gap-x-1 gap-y-1 text-base sm:text-lg md:text-xl lg:text-2xl font-black code-font text-text-primary"
               >
-                <motion.span variants={staggeredItem}>{t("hero.sub_operate")}</motion.span>
-                <motion.span variants={staggeredItem} className="text-turquoise italic">{t("hero.sub_optimize")}</motion.span>
-                <motion.span variants={staggeredItem}>{t("hero.sub_secure")}</motion.span>
+                <motion.span variants={staggeredItem}>
+                  {t("hero.sub_operate")}<span className="text-green-500">.</span>
+                </motion.span>
+                <motion.span variants={staggeredItem} className="text-turquoise">
+                  {t("hero.sub_optimize")}<span className="text-green-500">.</span>
+                </motion.span>
+                <motion.span variants={staggeredItem}>
+                  {t("hero.sub_secure")}<span className="text-green-500">.</span>
+                </motion.span>
               </motion.div>
             </div>
 
