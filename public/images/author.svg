@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 520" role="img" aria-label="DailyOps author">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a1628"/>
+      <stop offset="100%" stop-color="#0f2847"/>
+    </linearGradient>
+    <linearGradient id="glow" x1="50%" y1="0%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#2dd4bf" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#2dd4bf" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="#2dd4bf" stroke-opacity="0.08" stroke-width="1"/>
+    </pattern>
+  </defs>
+  <rect width="400" height="520" fill="url(#bg)"/>
+  <rect width="400" height="520" fill="url(#grid)"/>
+  <ellipse cx="200" cy="430" rx="120" ry="28" fill="#000" fill-opacity="0.25"/>
+  <circle cx="200" cy="210" r="78" fill="#132a4a" stroke="#2dd4bf" stroke-opacity="0.35" stroke-width="2"/>
+  <ellipse cx="200" cy="360" rx="108" ry="130" fill="#132a4a" stroke="#2dd4bf" stroke-opacity="0.2" stroke-width="1.5"/>
+  <rect x="118" y="318" width="164" height="18" rx="9" fill="#2dd4bf" fill-opacity="0.12"/>
+  <text x="200" y="332" text-anchor="middle" font-family="system-ui, sans-serif" font-size="13" font-weight="700" fill="#2dd4bf" letter-spacing="3">NOC · SOC</text>
+  <ellipse cx="200" cy="120" rx="160" ry="100" fill="url(#glow)"/>
+</svg>

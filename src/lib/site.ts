@@ -8,12 +8,11 @@ export const SITE = {
   kofi: process.env.NEXT_PUBLIC_KOFI_URL ?? "https://ko-fi.com/dailyops",
 } as const;
 
-export type SocialId = "linkedin" | "x" | "github" | "kofi" | "rss";
+export type SocialId = "linkedin" | "x" | "github" | "rss";
 
 export const SOCIAL_LINKS: { id: SocialId; href: string; label: string; external?: boolean }[] = [
   { id: "linkedin", href: SITE.linkedin, label: "LinkedIn", external: true },
   { id: "x", href: SITE.x, label: "X", external: true },
   { id: "github", href: SITE.github, label: "GitHub", external: true },
-  { id: "kofi", href: SITE.kofi, label: "Ko-fi", external: true },
   { id: "rss", href: "/feed.xml", label: "RSS" },
 ];

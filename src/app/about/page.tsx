@@ -3,6 +3,7 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader, { PAGE_TOP_OFFSET } from "@/components/PageHeader";
+import ContactAuthorPanel from "@/components/ContactAuthorPanel";
 import { useLanguage } from "@/lib/LanguageContext";
 import { motion } from "framer-motion";
 import { Send, Mail, User, MessageSquare, FileText, CheckCircle } from "lucide-react";
@@ -126,13 +127,23 @@ export default function AboutPage() {
           id="contact"
           className="py-10 sm:py-14 bg-bg-secondary border-b border-border-main scroll-mt-24"
         >
-          <div className="container-custom max-w-lg mx-auto">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-primary shadow-xl"
-            >
+          <div className="container-custom max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 lg:gap-10 items-stretch">
+              <motion.div
+                initial={{ opacity: 0, x: -16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="lg:col-span-2 order-2 lg:order-1"
+              >
+                <ContactAuthorPanel />
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0, x: 16 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="lg:col-span-3 order-1 lg:order-2 p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-primary shadow-xl flex flex-col"
+              >
               <div className="flex items-center space-x-3 mb-2">
                 <Mail className="text-turquoise" size={20} />
                 <h2 className="text-xl font-bold text-text-primary">{t("about.contact_title")}</h2>
@@ -215,7 +226,8 @@ export default function AboutPage() {
                   </button>
                 </form>
               )}
-            </motion.div>
+              </motion.div>
+            </div>
           </div>
         </section>
       </div>

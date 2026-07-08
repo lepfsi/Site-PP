@@ -174,6 +174,10 @@ export interface TranslationKeys {
   "about.form_sent": string;
   "about.form_sending": string;
   "about.form_error": string;
+  "about.contact_panel_label": string;
+  "about.contact_panel_desc": string;
+  "about.contact_response": string;
+  "about.contact_secure": string;
   "cookies.banner_title": string;
   "cookies.banner": string;
   "cookies.accept": string;
@@ -307,6 +311,8 @@ export interface TranslationKeys {
   "footer.cloud_short": string;
   "footer.rights": string;
   "footer.made": string;
+  "footer.support_us": string;
+  "footer.buy_me_coffee": string;
   "footer.about": string;
   "footer.articles": string;
   "footer.experience": string;
@@ -497,6 +503,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.form_sent": "Message sent — we'll get back to you soon.",
     "about.form_sending": "Sending...",
     "about.form_error": "Failed to send. Please try again or email contact@dailyops.tech directly.",
+    "about.contact_panel_label": "Direct line",
+    "about.contact_panel_desc": "Questions about an article, a production scenario, or a collaboration? Drop a message — no sales pitch, just ops talk.",
+    "about.contact_response": "Reply within 48h",
+    "about.contact_secure": "No spam, ever",
     "cookies.banner_title": "Cookie notice",
     "cookies.banner": "We only use local storage for your language and theme preferences. No advertising or third-party tracking cookies.",
     "cookies.accept": "Got it",
@@ -628,6 +638,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.cloud_short": "Cloud & Virt.",
     "footer.rights": "All rights reserved",
     "footer.made": "Made with passion for IT pros",
+    "footer.support_us": "Support us",
+    "footer.buy_me_coffee": "Buy me a coffee",
     "footer.about": "About",
     "footer.articles": "Articles",
     "footer.experience": "Field Experience",
@@ -816,6 +828,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.form_sent": "Message envoyé — nous vous répondrons rapidement.",
     "about.form_sending": "Envoi en cours...",
     "about.form_error": "Échec de l'envoi. Réessayez ou écrivez à contact@dailyops.tech directement.",
+    "about.contact_panel_label": "Ligne directe",
+    "about.contact_panel_desc": "Une question sur un article, un scénario de production ou une collaboration ? Écrivez-nous — pas de commercial, juste du terrain.",
+    "about.contact_response": "Réponse sous 48h",
+    "about.contact_secure": "Zéro spam",
     "cookies.banner_title": "Information cookies",
     "cookies.banner": "Nous utilisons uniquement le stockage local pour vos préférences de langue et de thème. Aucun cookie publicitaire ni de tracking tiers.",
     "cookies.accept": "Compris",
@@ -947,6 +963,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.cloud_short": "Cloud & Virt.",
     "footer.rights": "Tous droits réservés",
     "footer.made": "Conçu avec passion pour les Ops",
+    "footer.support_us": "Nous soutenir",
+    "footer.buy_me_coffee": "Buy me a coffee",
     "footer.about": "À propos",
     "footer.articles": "Articles",
     "footer.experience": "Retours d'expérience",

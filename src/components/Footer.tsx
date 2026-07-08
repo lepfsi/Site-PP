@@ -27,7 +27,6 @@ const SOCIAL_ICONS: Record<SocialId, React.ComponentType<{ size?: number }>> = {
   linkedin: Linkedin,
   github: Github,
   x: XIcon,
-  kofi: Coffee,
   rss: Rss,
 };
 
@@ -68,6 +67,30 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
         {children}
       </Link>
     </li>
+  );
+}
+
+function SupportButton() {
+  const { t } = useLanguage();
+
+  return (
+    <Link
+      href={SITE.kofi}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-border-main bg-bg-primary hover:border-turquoise/40 hover:bg-turquoise/5 transition-all group shadow-sm"
+      title={t("footer.buy_me_coffee")}
+    >
+      <Heart size={14} className="text-red-500 fill-red-500 shrink-0 group-hover:scale-110 transition-transform" />
+      <span className="text-[10px] font-black uppercase tracking-[0.18em] text-text-primary">
+        {t("footer.support_us")}
+      </span>
+      <span className="hidden sm:block w-px h-3.5 bg-border-main" aria-hidden />
+      <Coffee size={14} className="text-turquoise shrink-0" />
+      <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary group-hover:text-turquoise transition-colors">
+        {t("footer.buy_me_coffee")}
+      </span>
+    </Link>
   );
 }
 
@@ -112,47 +135,46 @@ export default function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-6 pt-4 border-t border-border-main/60 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <div className="flex items-center gap-4">
-            <Link href="/" className="shrink-0">
-              <Logo iconOnly />
-            </Link>
-            <div className="flex gap-3">
-              {SOCIAL_LINKS.map(({ id, href, label, external }) => {
-                const Icon = SOCIAL_ICONS[id];
-                return (
-                  <Link
-                    key={id}
-                    href={href}
-                    className="text-text-secondary hover:text-turquoise transition-colors"
-                    title={label}
-                    {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  >
-                    <Icon size={16} />
-                  </Link>
-                );
-              })}
+        <div className="mt-6 pt-4 border-t border-border-main/60 flex flex-col gap-4">
+          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <Link href="/" className="shrink-0">
+                <Logo iconOnly />
+              </Link>
+              <div className="flex gap-3">
+                {SOCIAL_LINKS.map(({ id, href, label, external }) => {
+                  const Icon = SOCIAL_ICONS[id];
+                  return (
+                    <Link
+                      key={id}
+                      href={href}
+                      className="text-text-secondary hover:text-turquoise transition-colors"
+                      title={label}
+                      {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    >
+                      <Icon size={16} />
+                    </Link>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
-            <p className="text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest">
-              {t("footer.copyright")} {t("footer.rights")}
-            </p>
-            <span className="hidden sm:block text-border-main">|</span>
-            <Link
-              href={SITE.kofi}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest hover:text-turquoise transition-colors"
-              title="Ko-fi"
-            >
-              <Heart size={11} className="text-red-500 mr-1.5 fill-red-500" /> {t("footer.made")}
-            </Link>
-            <div className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse" />
-              <span className="text-[10px] font-black text-turquoise uppercase tracking-widest">
-                {t("footer.production_ready")}
+
+            <SupportButton />
+
+            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
+              <p className="text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest text-center sm:text-right">
+                {t("footer.copyright")} {t("footer.rights")}
+              </p>
+              <span className="hidden sm:block text-border-main">|</span>
+              <span className="flex items-center text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest">
+                <Heart size={11} className="text-red-500 mr-1.5 fill-red-500" /> {t("footer.made")}
               </span>
+              <div className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse" />
+                <span className="text-[10px] font-black text-turquoise uppercase tracking-widest">
+                  {t("footer.production_ready")}
+                </span>
+              </div>
             </div>
           </div>
         </div>
