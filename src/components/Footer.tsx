@@ -137,8 +137,8 @@ export default function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-6 pt-4 border-t border-border-main/60 flex flex-col gap-4">
-          <div className="flex flex-col lg:flex-row items-center justify-between gap-4">
+        <div className="mt-6 pt-4 border-t border-border-main/60 space-y-4">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-4">
               <Link href="/" className="shrink-0">
                 <Logo iconOnly />
@@ -162,22 +162,21 @@ export default function Footer() {
             </div>
 
             <SupportButton />
+          </div>
 
-            <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-5">
-              <p className="text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest text-center sm:text-right">
-                {t("footer.copyright")} {t("footer.rights")}
-              </p>
-              <span className="hidden sm:block text-border-main">|</span>
-              <span className="flex items-center text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest">
-                <Heart size={11} className="text-red-500 mr-1.5 fill-red-500" /> {t("footer.made")}
-              </span>
-              <div className="flex items-center gap-1.5">
-                <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse" />
-                <span className="text-[10px] font-black text-turquoise uppercase tracking-widest">
-                  {t("footer.production_ready")}
-                </span>
-              </div>
-            </div>
+          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center max-w-full">
+            <p className="text-[9px] sm:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-snug">
+              {t("footer.copyright")} {t("footer.rights")}
+            </p>
+            <span className="hidden sm:inline text-border-main/80" aria-hidden>|</span>
+            <span className="inline-flex items-center text-[9px] sm:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-snug">
+              <Heart size={11} className="text-red-500 mr-1.5 fill-red-500 shrink-0" /> {t("footer.made")}
+            </span>
+            <span className="hidden sm:inline text-border-main/80" aria-hidden>|</span>
+            <span className="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] font-black text-turquoise uppercase tracking-wide leading-snug">
+              <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse shrink-0" />
+              {t("footer.production_ready")}
+            </span>
           </div>
         </div>
       </div>
