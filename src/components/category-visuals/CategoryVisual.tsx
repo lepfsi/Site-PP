@@ -10,10 +10,13 @@ export type VisualVariant = "hero" | "card" | "article";
 const VariantContext = createContext<VisualVariant>("hero");
 
 const SHELL_HEIGHT: Record<VisualVariant, string> = {
-  hero: "min-h-[220px] sm:min-h-[280px]",
+  hero: "min-h-[160px] sm:min-h-[180px]",
   article: "min-h-[180px] sm:min-h-[220px]",
   card: "min-h-[112px] sm:min-h-[128px]",
 };
+
+/** Networking & cloud SVGs are taller — cap hero shell further */
+const SLIM_HERO_SLUGS: CategorySlug[] = ["networking", "cloud"];
 
 const ACCENTS: Record<CategorySlug, string> = {
   networking: "#3b82f6",
@@ -27,9 +30,13 @@ const ACCENTS: Record<CategorySlug, string> = {
 function VisualShell({ children, slug }: { children: React.ReactNode; slug: CategorySlug }) {
   const variant = useContext(VariantContext);
   const compact = variant === "card";
+  const heightClass =
+    variant === "hero" && SLIM_HERO_SLUGS.includes(slug)
+      ? "min-h-[140px] sm:min-h-[155px]"
+      : SHELL_HEIGHT[variant];
 
   return (
-    <div className={`relative w-full h-full flex items-center justify-center overflow-hidden bg-[#0a1628] ${SHELL_HEIGHT[variant]}`}>
+    <div className={`relative w-full h-full flex items-center justify-center overflow-hidden bg-[#0a1628] ${heightClass}`}>
       <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none" />
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/40 pointer-events-none" />
       {!compact && (
@@ -53,7 +60,7 @@ function NetworkingVisual() {
   const accent = ACCENTS.networking;
   return (
     <VisualShell slug="networking">
-      <svg className="w-[88%] h-[88%]" viewBox="0 0 100 100">
+      <svg className="w-[78%] h-[78%]" viewBox="0 0 100 100">
         <path d="M20 50 L40 50 L55 28 L75 28 L90 50" fill="none" stroke={accent} strokeWidth="0.4" strokeDasharray="2 2" opacity="0.25" />
         <path d="M20 50 L40 50 L55 72 L75 72 L90 50" fill="none" stroke={accent} strokeWidth="0.4" strokeDasharray="2 2" opacity="0.25" />
         <motion.path
@@ -218,7 +225,7 @@ function CloudVisual() {
   ];
   return (
     <VisualShell slug="cloud">
-      <svg className="w-[85%] h-[85%]" viewBox="0 0 100 100">
+      <svg className="w-[76%] h-[76%]" viewBox="0 0 100 100">
         <motion.circle cx="50" cy="18" r="6" fill="none" stroke={accent} strokeWidth="0.6" opacity="0.5"
           animate={{ r: [5, 7, 5] }} transition={{ duration: 2, repeat: Infinity }}
         />

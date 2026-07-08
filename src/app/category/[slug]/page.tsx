@@ -42,8 +42,8 @@ export default function CategoryPage() {
             animate={{ opacity: 1, y: 0 }}
             className={`relative max-w-6xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden shadow-2xl ${category.border}`}
           >
-            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[260px] lg:min-h-[300px]">
-              <div className="lg:col-span-5 h-48 sm:h-52 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative">
+            <div className="grid grid-cols-1 lg:grid-cols-12 lg:h-[220px]">
+              <div className="lg:col-span-5 h-40 sm:h-44 lg:h-full border-b lg:border-b-0 lg:border-r border-border-main/50 relative overflow-hidden">
                   <CategoryVisual slug={category.slug} />
                   <div className={`absolute top-4 left-4 flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#0a1628]/80 border border-border-main/50 ${category.color}`}>
                     <CategoryIcon size={14} />
@@ -51,12 +51,12 @@ export default function CategoryPage() {
                   </div>
                 </div>
 
-                <div className="lg:col-span-7 p-5 sm:p-6 md:p-8 flex flex-col justify-center">
+                <div className="lg:col-span-7 p-4 sm:p-5 md:p-6 flex flex-col justify-center overflow-hidden">
                   <motion.h1
                     initial={{ opacity: 0, y: 12 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.08 }}
-                    className="text-2xl sm:text-3xl md:text-4xl font-black text-text-primary tracking-tighter code-font leading-tight"
+                    className="text-xl sm:text-2xl md:text-3xl font-black text-text-primary tracking-tighter code-font leading-tight line-clamp-2"
                   >
                     {t(category.nameKey)}
                   </motion.h1>
@@ -64,7 +64,7 @@ export default function CategoryPage() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.15 }}
-                    className="mt-4 text-text-secondary text-sm sm:text-base font-medium max-w-xl leading-relaxed opacity-80"
+                    className="mt-2 text-text-secondary text-xs sm:text-sm font-medium max-w-xl leading-snug opacity-80 line-clamp-2"
                   >
                     {t(category.descKey)}
                   </motion.p>
@@ -73,28 +73,28 @@ export default function CategoryPage() {
                     initial={{ opacity: 0, y: 16 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.2 }}
-                    className="flex flex-wrap gap-3 mt-6"
+                    className="flex flex-wrap gap-2 mt-3"
                   >
-                    <div className="flex items-center px-3 py-1.5 rounded-xl bg-bg-primary/60 border border-border-main">
-                      <FileText size={12} className={`mr-2 ${category.color}`} />
+                    <div className="flex items-center px-2.5 py-1 rounded-lg bg-bg-primary/60 border border-border-main">
+                      <FileText size={11} className={`mr-1.5 ${category.color}`} />
                       <span className="text-[9px] font-black uppercase tracking-widest text-text-primary">
                         {articles.length} {t("cat.articles")}
                       </span>
                     </div>
-                    <div className="flex items-center px-3 py-1.5 rounded-xl bg-bg-primary/60 border border-border-main">
-                      <RefreshCw size={12} className={`mr-2 ${category.color}`} />
+                    <div className="flex items-center px-2.5 py-1 rounded-lg bg-bg-primary/60 border border-border-main">
+                      <RefreshCw size={11} className={`mr-1.5 ${category.color}`} />
                       <span className="text-[9px] font-black uppercase tracking-widest text-text-primary">
                         {t("catpage.verified")}
                       </span>
                     </div>
-                    <div className="flex items-center px-3 py-1.5 rounded-xl bg-bg-primary/60 border border-border-main">
-                      <span className={`text-[9px] font-black uppercase tracking-widest ${category.color}`}>
+                    <div className="flex items-center px-2.5 py-1 rounded-lg bg-bg-primary/60 border border-border-main">
+                      <span className={`text-[8px] font-black uppercase tracking-widest ${category.color}`}>
                         {t(category.certKey)}
                       </span>
                     </div>
                   </motion.div>
 
-                  <div className="flex flex-wrap gap-2 mt-5">
+                  <div className="flex flex-wrap gap-1.5 mt-2.5">
                     {category.tags.map((tag) => (
                       <span
                         key={tag}
