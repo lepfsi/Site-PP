@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight, Clock, ArrowLeft, Eye, FileText } from "lucide-react";
 import StickySidebar from "@/components/StickySidebar";
+import ContactExpertCta from "@/components/ContactExpertCta";
 
 export default function ExperiencePage() {
   const params = useParams();
@@ -132,7 +133,7 @@ export default function ExperiencePage() {
                 </Link>
               </article>
 
-              <StickySidebar className="lg:col-span-4 space-y-8">
+              <StickySidebar className="lg:col-span-4" cta={<ContactExpertCta icon={relatedCategory?.icon} />}>
                 {relatedArticle && relatedCategory && (
                   <div className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary">
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-6 border-b border-border-main pb-4">
@@ -154,21 +155,6 @@ export default function ExperiencePage() {
                     </Link>
                   </div>
                 )}
-
-                <div className="p-6 sm:p-8 rounded-2xl bg-text-primary text-bg-primary relative overflow-hidden group shadow-2xl">
-                  <div className="relative z-10">
-                    <h3 className="text-lg font-bold mb-3">{t("catpage.need_expertise")}</h3>
-                    <p className="text-sm text-bg-primary/50 mb-6 leading-relaxed">
-                      {t("catpage.expertise_desc")}
-                    </p>
-                    <Link href="/about">
-                      <button className="w-full py-3 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
-                        {t("catpage.contact_noc")}
-                      </button>
-                    </Link>
-                  </div>
-                  <FileText className="absolute -right-6 -bottom-6 h-32 w-32 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
-                </div>
               </StickySidebar>
             </div>
           </div>

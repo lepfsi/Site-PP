@@ -12,6 +12,7 @@ import { motion } from "framer-motion";
 import { ChevronRight, Clock, Calendar, ArrowLeft, FileText } from "lucide-react";
 import ArticleShareButton from "@/components/ArticleShareButton";
 import StickySidebar from "@/components/StickySidebar";
+import ContactExpertCta from "@/components/ContactExpertCta";
 
 interface ArticlePageClientProps {
   markdownBodies?: { EN: string | null; FR: string | null } | null;
@@ -143,7 +144,7 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
                 </Link>
               </article>
 
-              <StickySidebar className="lg:col-span-4 space-y-8">
+              <StickySidebar className="lg:col-span-4" cta={<ContactExpertCta icon={category.icon} />}>
                 <div className={`p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary ${category.color}`}>
                   <category.icon size={32} className="mb-4" />
                   <h3 className="text-xl font-bold text-text-primary mb-2">{t(category.nameKey)}</h3>
@@ -179,21 +180,6 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
                     </ul>
                   </div>
                 )}
-
-                <div className="p-6 sm:p-8 rounded-2xl bg-text-primary text-bg-primary relative overflow-hidden group shadow-2xl">
-                  <div className="relative z-10">
-                    <h3 className="text-lg font-bold mb-3">{t("catpage.need_expertise")}</h3>
-                    <p className="text-sm text-bg-primary/50 mb-6 leading-relaxed">
-                      {t("catpage.expertise_desc")}
-                    </p>
-                    <Link href="/about">
-                      <button className="w-full py-3 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
-                        {t("catpage.contact_noc")}
-                      </button>
-                    </Link>
-                  </div>
-                  <category.icon className="absolute -right-6 -bottom-6 h-32 w-32 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
-                </div>
               </StickySidebar>
             </div>
           </div>
