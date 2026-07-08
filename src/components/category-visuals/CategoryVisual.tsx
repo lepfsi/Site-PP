@@ -10,7 +10,7 @@ export type VisualVariant = "hero" | "card" | "article";
 const VariantContext = createContext<VisualVariant>("hero");
 
 const SHELL_HEIGHT: Record<VisualVariant, string> = {
-  hero: "min-h-[160px] sm:min-h-[180px]",
+  hero: "min-h-[180px] sm:min-h-[200px]",
   article: "min-h-[180px] sm:min-h-[220px]",
   card: "min-h-[112px] sm:min-h-[128px]",
 };
@@ -32,7 +32,7 @@ function VisualShell({ children, slug }: { children: React.ReactNode; slug: Cate
   const compact = variant === "card";
   const heightClass =
     variant === "hero" && SLIM_HERO_SLUGS.includes(slug)
-      ? "min-h-[140px] sm:min-h-[155px]"
+      ? "min-h-[170px] sm:min-h-[185px]"
       : SHELL_HEIGHT[variant];
 
   return (
@@ -60,7 +60,7 @@ function NetworkingVisual() {
   const accent = ACCENTS.networking;
   return (
     <VisualShell slug="networking">
-      <svg className="w-[78%] h-[78%]" viewBox="0 0 100 100">
+      <svg className="w-[82%] h-[82%]" viewBox="0 0 100 100">
         <path d="M20 50 L40 50 L55 28 L75 28 L90 50" fill="none" stroke={accent} strokeWidth="0.4" strokeDasharray="2 2" opacity="0.25" />
         <path d="M20 50 L40 50 L55 72 L75 72 L90 50" fill="none" stroke={accent} strokeWidth="0.4" strokeDasharray="2 2" opacity="0.25" />
         <motion.path
@@ -225,7 +225,7 @@ function CloudVisual() {
   ];
   return (
     <VisualShell slug="cloud">
-      <svg className="w-[76%] h-[76%]" viewBox="0 0 100 100">
+      <svg className="w-[80%] h-[80%]" viewBox="0 0 100 100">
         <motion.circle cx="50" cy="18" r="6" fill="none" stroke={accent} strokeWidth="0.6" opacity="0.5"
           animate={{ r: [5, 7, 5] }} transition={{ duration: 2, repeat: Infinity }}
         />
