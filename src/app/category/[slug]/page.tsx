@@ -214,7 +214,7 @@ export default function CategoryPage() {
                     <p className="text-sm text-bg-primary/50 mb-8 leading-relaxed">
                       {t("catpage.expertise_desc")}
                     </p>
-                    <Link href="/about">
+                    <Link href="/about#contact">
                       <button className="w-full py-4 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
                         {t("catpage.contact_noc")}
                       </button>
