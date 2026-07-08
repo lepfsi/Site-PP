@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Rss, Heart, Coffee } from "lucide-react";
+import { Github, Linkedin, Rss, Heart, Coffee, Facebook } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { CATEGORIES } from "@/lib/categories";
 import { SITE, SOCIAL_LINKS, type SocialId } from "@/lib/site";
@@ -27,6 +27,7 @@ const SOCIAL_ICONS: Record<SocialId, React.ComponentType<{ size?: number }>> = {
   linkedin: Linkedin,
   github: Github,
   x: XIcon,
+  facebook: Facebook,
   rss: Rss,
 };
 
