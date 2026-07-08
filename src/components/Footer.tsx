@@ -137,13 +137,13 @@ export default function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-6 pt-4 border-t border-border-main/60 space-y-4">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
+        <div className="mt-6 pt-4 border-t border-border-main/60">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4">
+            <div className="flex flex-wrap lg:flex-nowrap items-center justify-start gap-x-2.5 lg:gap-x-3 gap-y-2 min-w-0 lg:flex-1 lg:pr-3">
               <Link href="/" className="shrink-0">
                 <Logo iconOnly />
               </Link>
-              <div className="flex gap-3">
+              <div className="flex gap-2.5 shrink-0">
                 {SOCIAL_LINKS.map(({ id, href, label, external }) => {
                   const Icon = SOCIAL_ICONS[id];
                   return (
@@ -159,24 +159,22 @@ export default function Footer() {
                   );
                 })}
               </div>
+              <span className="hidden lg:inline text-border-main/70 shrink-0" aria-hidden>|</span>
+              <p className="text-[9px] lg:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-none whitespace-nowrap shrink-0">
+                {t("footer.copyright")} {t("footer.rights")}
+              </p>
+              <span className="hidden lg:inline text-border-main/70 shrink-0" aria-hidden>|</span>
+              <span className="inline-flex items-center text-[9px] lg:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-none whitespace-nowrap shrink-0">
+                <Heart size={11} className="text-red-500 mr-1.5 fill-red-500 shrink-0" /> {t("footer.made")}
+              </span>
+              <span className="hidden lg:inline text-border-main/70 shrink-0" aria-hidden>|</span>
+              <span className="inline-flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black text-turquoise uppercase tracking-wide leading-none whitespace-nowrap shrink-0">
+                <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse shrink-0" />
+                {t("footer.production_ready")}
+              </span>
             </div>
 
             <SupportButton />
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-x-3 gap-y-2 text-center max-w-full">
-            <p className="text-[9px] sm:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-snug">
-              {t("footer.copyright")} {t("footer.rights")}
-            </p>
-            <span className="hidden sm:inline text-border-main/80" aria-hidden>|</span>
-            <span className="inline-flex items-center text-[9px] sm:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-snug">
-              <Heart size={11} className="text-red-500 mr-1.5 fill-red-500 shrink-0" /> {t("footer.made")}
-            </span>
-            <span className="hidden sm:inline text-border-main/80" aria-hidden>|</span>
-            <span className="inline-flex items-center gap-1.5 text-[9px] sm:text-[10px] font-black text-turquoise uppercase tracking-wide leading-snug">
-              <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse shrink-0" />
-              {t("footer.production_ready")}
-            </span>
           </div>
         </div>
       </div>
