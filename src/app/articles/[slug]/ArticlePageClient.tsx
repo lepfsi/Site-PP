@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight, Clock, Calendar, ArrowLeft, FileText } from "lucide-react";
 import ArticleShareButton from "@/components/ArticleShareButton";
+import StickySidebar from "@/components/StickySidebar";
 
 interface ArticlePageClientProps {
   markdownBodies?: { EN: string | null; FR: string | null } | null;
@@ -112,7 +113,7 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
 
         <section className="py-16 sm:py-20 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 lg:items-start">
               <article className="lg:col-span-8">
                 {markdownBody ? (
                   <ArticleMarkdown content={markdownBody} />
@@ -142,7 +143,7 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
                 </Link>
               </article>
 
-              <aside className="lg:col-span-4 space-y-8">
+              <StickySidebar className="lg:col-span-4 space-y-8">
                 <div className={`p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary ${category.color}`}>
                   <category.icon size={32} className="mb-4" />
                   <h3 className="text-xl font-bold text-text-primary mb-2">{t(category.nameKey)}</h3>
@@ -193,7 +194,7 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
                   </div>
                   <category.icon className="absolute -right-6 -bottom-6 h-32 w-32 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
-              </aside>
+              </StickySidebar>
             </div>
           </div>
         </section>

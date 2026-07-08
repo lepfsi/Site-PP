@@ -10,6 +10,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ChevronRight, Clock, ArrowLeft, Eye, FileText } from "lucide-react";
+import StickySidebar from "@/components/StickySidebar";
 
 export default function ExperiencePage() {
   const params = useParams();
@@ -105,7 +106,7 @@ export default function ExperiencePage() {
 
         <section className="py-16 sm:py-20 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 lg:items-start">
               <article className="lg:col-span-8">
                 <div className="prose-custom space-y-6">
                   {bodyParagraphs.map((paragraph, i) => (
@@ -131,7 +132,7 @@ export default function ExperiencePage() {
                 </Link>
               </article>
 
-              <aside className="lg:col-span-4 space-y-8">
+              <StickySidebar className="lg:col-span-4 space-y-8">
                 {relatedArticle && relatedCategory && (
                   <div className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary">
                     <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-6 border-b border-border-main pb-4">
@@ -168,7 +169,7 @@ export default function ExperiencePage() {
                   </div>
                   <FileText className="absolute -right-6 -bottom-6 h-32 w-32 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
-              </aside>
+              </StickySidebar>
             </div>
           </div>
         </section>

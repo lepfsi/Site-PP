@@ -13,6 +13,7 @@ import CategoryVisual from "@/components/category-visuals/CategoryVisual";
 import CategoryFeaturedArticle from "@/components/CategoryFeaturedArticle";
 import ArticleCategoryCard from "@/components/ArticleCategoryCard";
 import { motion } from "framer-motion";
+import StickySidebar from "@/components/StickySidebar";
 
 export default function CategoryPage() {
   const params = useParams();
@@ -154,7 +155,7 @@ export default function CategoryPage() {
               {t("catpage.articles_section")}
               <span className="ml-3 text-sm font-mono text-text-secondary/50">({articles.length})</span>
             </h2>
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-16 lg:items-start">
               <div className="lg:col-span-2 space-y-6">
                 {articles.length > 0 ? (
                   <>
@@ -182,7 +183,7 @@ export default function CategoryPage() {
                 )}
               </div>
 
-              <aside className="space-y-8">
+              <StickySidebar className="space-y-8">
                 <div className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-sm">
                   <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-6 border-b border-border-main pb-4">
                     {t("catpage.index_nodes")}
@@ -221,7 +222,7 @@ export default function CategoryPage() {
                   </div>
                   <CategoryIcon className="absolute -right-8 -bottom-8 h-40 w-40 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
-              </aside>
+              </StickySidebar>
             </div>
           </div>
         </section>
