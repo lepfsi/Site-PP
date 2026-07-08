@@ -5,7 +5,7 @@ export const SITE = {
   github: "https://github.com/lepfsi/Site-PP",
   linkedin: "https://www.linkedin.com/company/dailyops-tech/",
   x: "https://x.com/DailyOpsTech",
-  facebook: "https://www.facebook.com/share/1DWHkEdQH/",
+  facebook: "https://www.facebook.com/profile.php?id=61591695244538",
   kofi: process.env.NEXT_PUBLIC_KOFI_URL ?? "https://ko-fi.com/dailyops",
 } as const;
 
