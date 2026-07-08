@@ -14,7 +14,6 @@ import CategoryFeaturedArticle from "@/components/CategoryFeaturedArticle";
 import ArticleCategoryCard from "@/components/ArticleCategoryCard";
 import { motion } from "framer-motion";
 import StickySidebar from "@/components/StickySidebar";
-import ContactExpertCta from "@/components/ContactExpertCta";
 
 export default function CategoryPage() {
   const params = useParams();
@@ -184,7 +183,7 @@ export default function CategoryPage() {
                 )}
               </div>
 
-              <StickySidebar cta={<ContactExpertCta icon={CategoryIcon} />}>
+              <StickySidebar className="space-y-8">
                 <div className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary shadow-sm">
                   <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-6 border-b border-border-main pb-4">
                     {t("catpage.index_nodes")}
@@ -207,6 +206,21 @@ export default function CategoryPage() {
                       </li>
                     ))}
                   </ul>
+                </div>
+
+                <div className="p-6 sm:p-8 rounded-2xl bg-text-primary text-bg-primary relative overflow-hidden group shadow-2xl">
+                  <div className="relative z-10">
+                    <h3 className="text-xl font-bold mb-4">{t("catpage.need_expertise")}</h3>
+                    <p className="text-sm text-bg-primary/50 mb-8 leading-relaxed">
+                      {t("catpage.expertise_desc")}
+                    </p>
+                    <Link href="/about">
+                      <button className="w-full py-4 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
+                        {t("catpage.contact_noc")}
+                      </button>
+                    </Link>
+                  </div>
+                  <CategoryIcon className="absolute -right-8 -bottom-8 h-40 w-40 text-bg-primary/5 rotate-12 group-hover:rotate-0 transition-transform duration-500" />
                 </div>
               </StickySidebar>
             </div>

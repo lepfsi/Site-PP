@@ -140,7 +140,6 @@ export interface TranslationKeys {
   "catpage.need_expertise": string;
   "catpage.expertise_desc": string;
   "catpage.contact_noc": string;
-  "catpage.contact_expert": string;
   "catpage.verified": string;
   "catpage.overview_title": string;
   "catpage.topics_title": string;
@@ -470,7 +469,6 @@ export const translations: Record<Language, TranslationKeys> = {
     "catpage.need_expertise": "Need Expertise?",
     "catpage.expertise_desc": "Architecture design, complex troubleshooting and production audit.",
     "catpage.contact_noc": "Contact NOC",
-    "catpage.contact_expert": "Contact Expert · NOC/SOC",
     "catpage.verified": "Verified Baselines",
     "catpage.overview_title": "What this domain covers",
     "catpage.topics_title": "Key topics",
@@ -796,7 +794,6 @@ export const translations: Record<Language, TranslationKeys> = {
     "catpage.need_expertise": "Besoin d'expertise ?",
     "catpage.expertise_desc": "Design d'architecture, troubleshooting complexe et audit de production.",
     "catpage.contact_noc": "Contacter le NOC",
-    "catpage.contact_expert": "Contacter un expert · NOC/SOC",
     "catpage.verified": "Baselines Vérifiées",
     "catpage.overview_title": "Ce que couvre ce domaine",
     "catpage.topics_title": "Sujets clés",
