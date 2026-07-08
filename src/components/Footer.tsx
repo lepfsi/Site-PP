@@ -62,6 +62,13 @@ function FooterColumn({ title, children }: { title: string; children: React.Reac
   );
 }
 
+function sortFooterLinksByLength<T extends { key: string }>(
+  items: readonly T[],
+  label: (key: string) => string,
+): T[] {
+  return [...items].sort((a, b) => label(b.key).length - label(a.key).length);
+}
+
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <li>
@@ -98,6 +105,8 @@ function SupportButton() {
 
 export default function Footer() {
   const { t } = useLanguage();
+  const resourcesLinks = sortFooterLinksByLength(FOOTER_RESOURCES, t);
+  const aboutLinks = sortFooterLinksByLength(FOOTER_ABOUT, t);
 
   return (
     <footer className="relative bg-bg-secondary border-t-2 border-turquoise/15 shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.45)] pt-8 pb-5">
@@ -113,7 +122,7 @@ export default function Footer() {
           </FooterColumn>
 
           <FooterColumn title={t("footer.resources")}>
-            {FOOTER_RESOURCES.map((item) => (
+            {resourcesLinks.map((item) => (
               <FooterLink key={item.key} href={item.href}>
                 {t(item.key)}
               </FooterLink>
@@ -121,7 +130,7 @@ export default function Footer() {
           </FooterColumn>
 
           <FooterColumn title={t("footer.about")}>
-            {FOOTER_ABOUT.map((item) => (
+            {aboutLinks.map((item) => (
               <FooterLink key={item.key} href={item.href}>
                 {t(item.key)}
               </FooterLink>
