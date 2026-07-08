@@ -90,7 +90,7 @@ export default function ArticleShareButton({ slug, title }: ArticleShareButtonPr
       id: "x",
       label: "X",
       icon: XIcon,
-      href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+      href: `https://x.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
     },
     {
       id: "email",

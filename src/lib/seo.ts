@@ -48,6 +48,8 @@ export const siteMetadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
+    site: "@DailyOpsTech",
+    creator: "@DailyOpsTech",
     title: `${SITE.name} | IT Infrastructure Knowledge Hub`,
     description: DEFAULT_DESCRIPTION,
   },

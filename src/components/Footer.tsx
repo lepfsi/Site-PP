@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Rss, Heart, Facebook } from "lucide-react";
+import { Github, Linkedin, Rss, Heart, Coffee } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { CATEGORIES } from "@/lib/categories";
-import { SOCIAL_LINKS, type SocialId } from "@/lib/site";
+import { SITE, SOCIAL_LINKS, type SocialId } from "@/lib/site";
 import Logo from "./Logo";
 
 const XIcon = ({ size = 16 }: { size?: number }) => (
@@ -27,7 +27,7 @@ const SOCIAL_ICONS: Record<SocialId, React.ComponentType<{ size?: number }>> = {
   linkedin: Linkedin,
   github: Github,
   x: XIcon,
-  facebook: Facebook,
+  kofi: Coffee,
   rss: Rss,
 };
 
@@ -139,9 +139,15 @@ export default function Footer() {
               {t("footer.copyright")} {t("footer.rights")}
             </p>
             <span className="hidden sm:block text-border-main">|</span>
-            <span className="flex items-center text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest">
+            <Link
+              href={SITE.kofi}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center text-[10px] font-medium text-text-secondary/50 uppercase tracking-widest hover:text-turquoise transition-colors"
+              title="Ko-fi"
+            >
               <Heart size={11} className="text-red-500 mr-1.5 fill-red-500" /> {t("footer.made")}
-            </span>
+            </Link>
             <div className="flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse" />
               <span className="text-[10px] font-black text-turquoise uppercase tracking-widest">
