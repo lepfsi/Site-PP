@@ -45,12 +45,12 @@ const FOOTER_ABOUT = [
   { key: "footer.about_author", href: "/about#author" },
   { key: "footer.methodology", href: "/about#methodology" },
   { key: "footer.contact", href: "/about#contact" },
-  { key: "footer.newsletter", href: "/#newsletter" },
 ] as const;
 
 const FOOTER_INFORMATION = [
   { key: "footer.privacy", href: "/privacy" },
   { key: "footer.legal", href: "/legal" },
+  { key: "footer.newsletter", href: "/#newsletter" },
 ] as const;
 
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
