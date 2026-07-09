@@ -1,5 +1,7 @@
 import { buildChatSiteContext } from "./chat-context";
+import { callChatCompletions, getLLMConfig } from "./chat-llm";
 import { classifyQuery, buildRouteContext, type QuestionType, type RoutePlan } from "./chat-router";
+import { synthesizeConversationalReply } from "./chat-synth";
 import { detectVendors, gatherSourceContext, sourcesForReply, type ChatSource, type SourceTier } from "./chat-sources";
 import type { Language } from "./translations";
 
@@ -56,99 +58,82 @@ function sourcesToLinks(sources: ChatSource[]): ChatLink[] {
 
 function buildPersonaPrompt(
   lang: Language,
-  siteContext: string,
-  sourceContext: string,
+  knowledge: string,
+  retrievalContext: string,
   route: RoutePlan,
 ): string {
   const language = lang === "FR" ? "French" : "English";
 
-  return `You are the official DailyOps.Tech assistant — a member of the DailyOps team, not a generic chatbot.
+  return `You are the DailyOps.Tech in-house assistant — you WORK for DailyOps, you are not a generic bot.
 
-## Who you are
-- You represent DailyOps.Tech (${language}), a production-first knowledge platform for infrastructure professionals.
-- You know the platform intimately: its mission, founder, editorial line, six domains, every article and field experience report listed below.
-- Tone: senior NOC/SOC colleague — direct, warm, competent. Zero corporate fluff, zero FAQ-bot stiffness.
+PERSONALITY
+- Senior NOC/SOC colleague: warm, direct, competent, proud of the platform.
+- You REASON and SYNTHESIZE — never paste knowledge blocks, never sound like a FAQ.
+- You KEEP CONVERSATION THREAD: follow-ups ("et concrètement ?", "c'est quoi ?", "pour qui ?") continue the same topic — never restart with "what do you need?".
 
-## How you think and speak
-- REASON and SYNTHESIZE. Never dump or quote knowledge-base blocks. Explain in your own words.
-- MAINTAIN CONVERSATION THREAD. "Parle-moi de DailyOps", "c'est quoi ?", "et concrètement ?", "dis-moi en plus" are ONE ongoing topic — build on prior messages, don't restart or ask "what do you need?" again.
-- When asked about DailyOps: explain what it is, who it's for, what makes it different (production-validated content, field experience, no marketing), and offer to dive into a domain — naturally, like you're proud of the project.
-- Weave internal links into prose when relevant (e.g. "on a un runbook VLAN ici : /articles/vlan-trunking-runbook") — max 2–3 per reply.
-- For technical questions: lead with DailyOps content when it exists, supplement with vendor/web context provided below, reason through the answer.
-- Admit gaps honestly ("on n'a pas encore d'article là-dessus") then still help with general ops reasoning.
-- Keep replies focused: 2–6 short paragraphs or a tight bullet list. Match the visitor's energy.
-- Reply ONLY in ${language}.
+ABOUT DAILYOPS (internalize — explain naturally when asked)
+${knowledge}
 
-## Source priority (background — don't lecture the visitor about tiers)
-1. DailyOps articles & field experience
-2. Vendor docs (when provided in context)
-3. Your ops expertise
-4. Web results (CVE/news — when provided)
+THIS TURN (${route.type}): ${route.instruction}
 
-## Routing hint for this turn
-${route.instruction}
+RETRIEVED CONTEXT (articles, vendor docs, web — use when relevant)
+${retrievalContext || "(none — rely on your DailyOps knowledge and ops expertise)"}
 
-## Your knowledge base (internal reference — synthesize, do NOT copy-paste)
-${siteContext}
-
-## Retrieved context for this conversation turn
-${sourceContext}
-
-## Output
-Write ONLY your natural conversational reply. No JSON. No metadata block. No "As an AI".`;
+RULES
+- Reply in ${language} only.
+- 2–5 short paragraphs max, or a tight bullet list when listing content types.
+- Weave 0–2 internal links naturally when relevant (/articles/..., /experience/..., /category/...).
+- For technical topics: reason through the answer, cite DailyOps content first when it exists.
+- Never say "I don't have information about DailyOps" — you work here.
+- Never output JSON or metadata — plain conversational text only.`;
 }
 
-async function callLLM(
+function buildHistory(messages: ChatMessage[]): { role: "user" | "assistant"; content: string }[] {
+  return messages
+    .filter((m) => m.content.trim())
+    .slice(-16)
+    .map((m) => ({ role: m.role, content: m.content }));
+}
+
+async function generateReplyText(
   messages: ChatMessage[],
   lang: Language,
-  siteContext: string,
-  sourceContext: string,
+  knowledge: string,
+  retrievalContext: string,
   route: RoutePlan,
 ): Promise<string | null> {
-  const apiKey = process.env.OPENAI_API_KEY ?? process.env.XAI_API_KEY;
-  if (!apiKey) return null;
+  const system = buildPersonaPrompt(lang, knowledge, retrievalContext, route);
+  const history = buildHistory(messages);
 
-  const baseUrl = (process.env.OPENAI_BASE_URL ?? "https://api.openai.com/v1").replace(/\/$/, "");
-  const model = process.env.CHAT_MODEL ?? "gpt-4o-mini";
-  const system = buildPersonaPrompt(lang, siteContext, sourceContext, route);
-
-  const history = messages
-    .filter((m) => m.content.trim())
-    .slice(-14)
-    .map((m) => ({ role: m.role, content: m.content }));
-
-  const body = {
-    model,
-    temperature: 0.72,
-    max_tokens: 1100,
-    messages: [{ role: "system", content: system }, ...history],
-  };
-
-  const res = await fetch(`${baseUrl}/chat/completions`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${apiKey}`,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(body),
+  const primary = await callChatCompletions(system, history, {
+    temperature: 0.75,
+    maxTokens: 1000,
+    timeoutMs: 50_000,
   });
 
-  if (!res.ok) {
-    console.error("Chat LLM error:", res.status, (await res.text()).slice(0, 500));
-    return null;
-  }
+  if (primary.text) return primary.text;
 
-  const data = await res.json();
-  const raw = data.choices?.[0]?.message?.content?.trim();
-  return raw && raw.length > 10 ? raw : null;
+  console.error("Chat LLM primary failed:", primary.error, primary.status);
+
+  const minimalKnowledge = knowledge.slice(0, 4000);
+  const retry = await callChatCompletions(
+    buildPersonaPrompt(lang, minimalKnowledge, "", route),
+    history.slice(-6),
+    { temperature: 0.75, maxTokens: 800, timeoutMs: 40_000 },
+  );
+
+  if (retry.text) return retry.text;
+
+  console.error("Chat LLM retry failed:", retry.error, retry.status);
+  return null;
 }
 
-function buildFailureReply(lang: Language): ChatReply {
+function buildConfigErrorReply(lang: Language): ChatReply {
   return {
     reply:
       lang === "FR"
-        ? "Je n'ai pas réussi à formuler une réponse — réessayez dans un instant. Vous pouvez aussi nous écrire à contact@dailyops.tech."
-        : "I couldn't formulate a response — try again in a moment. You can also email us at contact@dailyops.tech.",
+        ? "L'assistant IA n'est pas joignable sur ce déploiement — la clé serveur (OPENAI_API_KEY) est absente. Vérifiez les variables d'environnement Vercel puis redéployez."
+        : "The AI assistant is unreachable on this deployment — server key (OPENAI_API_KEY) is missing. Check Vercel environment variables and redeploy.",
     escalate: false,
     links: [{ label: lang === "FR" ? "Contact" : "Contact", href: "/about#contact" }],
     sources: [],
@@ -158,7 +143,33 @@ function buildFailureReply(lang: Language): ChatReply {
   };
 }
 
+function buildSynthReply(
+  messages: ChatMessage[],
+  lang: Language,
+  route: RoutePlan,
+  sources: ChatSource[],
+  primaryTier: SourceTier,
+): ChatReply | null {
+  const text = synthesizeConversationalReply(messages, lang, route);
+  if (!text) return null;
+
+  return {
+    reply: text,
+    escalate: wantsHumanEscalation(messages, route),
+    links: sourcesToLinks(sources),
+    sources: sources.slice(0, 4),
+    primaryTier,
+    queryType: route.type,
+    queryTypeLabel: "",
+  };
+}
+
 export async function generateChatReply(messages: ChatMessage[], lang: Language): Promise<ChatReply> {
+  if (!getLLMConfig()) {
+    const synth = buildSynthReply(messages, lang, classifyQuery(getConversationQuery(messages), lang, false), [], "dailyops");
+    return synth ?? buildConfigErrorReply(lang);
+  }
+
   const conversationQuery = getConversationQuery(messages);
   const route = classifyQuery(conversationQuery, lang, detectVendors(conversationQuery).length > 0);
   const routeContext = buildRouteContext(route, lang);
@@ -170,17 +181,33 @@ export async function generateChatReply(messages: ChatMessage[], lang: Language)
     sourceCtx.webSources.length,
   );
 
-  const siteContext = buildChatSiteContext(lang);
-  const replyText = await callLLM(messages, lang, siteContext, sourceCtx.contextBlock, route);
+  const knowledge = buildChatSiteContext(lang, true);
+  const replyText = await generateReplyText(messages, lang, knowledge, sourceCtx.contextBlock, route);
 
-  if (!replyText) return buildFailureReply(lang);
+  if (replyText) {
+    return {
+      reply: replyText,
+      escalate: wantsHumanEscalation(messages, route),
+      links: sourcesToLinks(sources),
+      sources: sources.slice(0, 4),
+      primaryTier,
+      queryType: route.type,
+      queryTypeLabel: "",
+    };
+  }
+
+  const synth = buildSynthReply(messages, lang, route, sources, primaryTier);
+  if (synth) return synth;
 
   return {
-    reply: replyText,
-    escalate: wantsHumanEscalation(messages, route),
-    links: sourcesToLinks(sources),
-    sources: sources.slice(0, 4),
-    primaryTier,
+    reply:
+      lang === "FR"
+        ? "Le modèle IA n'a pas répondu à temps. Réessayez — si le problème persiste, vérifiez CHAT_MODEL et OPENAI_BASE_URL dans Vercel."
+        : "The AI model didn't respond in time. Try again — if it persists, check CHAT_MODEL and OPENAI_BASE_URL in Vercel.",
+    escalate: false,
+    links: [{ label: lang === "FR" ? "Contact" : "Contact", href: "/about#contact" }],
+    sources: [],
+    primaryTier: "model",
     queryType: route.type,
     queryTypeLabel: "",
   };

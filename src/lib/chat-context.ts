@@ -19,7 +19,35 @@ Domains covered: ${domains}
 `.trim();
 }
 
-export function buildChatSiteContext(lang: Language): string {
+export function buildCompactKnowledge(lang: Language): string {
+  const t = translations[lang];
+  const domains = CATEGORIES.map((c) => {
+    const name = t[c.nameKey as keyof typeof t] as string;
+    return `${name} (/category/${c.slug})`;
+  }).join(", ");
+
+  const articleTitles = getAllArticles()
+    .map((a) => `${t[a.titleKey as keyof typeof t]} (/articles/${a.slug})`)
+    .join("; ");
+
+  const expTitles = getAllExperiences()
+    .map((e) => `${t[e.titleKey as keyof typeof t]} (/experience/${e.slug})`)
+    .join("; ");
+
+  return `
+Identity: DailyOps.Tech — production-first ops knowledge platform. ${t["hero.desc"]}
+Founder: ${t["about.author_name"]}, ${t["about.author_role"]}. ${t["about.mission"]}
+Domains: ${domains}
+Articles: ${articleTitles}
+Field experience: ${expTitles}
+Pages: /about /articles /experience /resources /about#contact
+Contact: ${SITE.contactEmail}
+`.trim();
+}
+
+export function buildChatSiteContext(lang: Language, compact = true): string {
+  if (compact) return buildCompactKnowledge(lang);
+
   const t = translations[lang];
   const articles = getAllArticles();
   const experiences = getAllExperiences();
@@ -28,8 +56,7 @@ export function buildChatSiteContext(lang: Language): string {
   const categories = CATEGORIES.map((c) => {
     const name = t[c.nameKey as keyof typeof t] as string;
     const desc = t[c.shortDescKey as keyof typeof t] as string;
-    const overview = t[c.overviewKey as keyof typeof t] as string;
-    return `• ${name} (/category/${c.slug}): ${desc} — ${overview}`;
+    return `• ${name} (/category/${c.slug}): ${desc}`;
   }).join("\n");
 
   const articleList = articles
@@ -48,26 +75,5 @@ export function buildChatSiteContext(lang: Language): string {
     })
     .join("\n");
 
-  return `
-=== DAILYOPS IDENTITY (you work here — internalize this, never paste verbatim) ===
-${brand}
-
-=== SITE MAP ===
-Home: /
-About: /about (#dailyops = platform story, #author = founder, #contact = contact form)
-Articles index: /articles
-Field experience index: /experience
-Resources: /resources
-Newsletter: /#newsletter
-Contact email: ${SITE.contactEmail}
-
-=== CATEGORIES ===
-${categories}
-
-=== ARTICLES ===
-${articleList}
-
-=== FIELD EXPERIENCE REPORTS ===
-${experienceList}
-`.trim();
+  return `${brand}\n\nCategories:\n${categories}\n\nArticles:\n${articleList}\n\nExperience:\n${experienceList}`;
 }

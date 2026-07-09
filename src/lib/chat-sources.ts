@@ -391,7 +391,9 @@ export async function gatherSourceContext(
   let vendorSources: ChatSource[] = [];
   let webSources: ChatSource[] = [];
 
-  if (hasSearchApi && route.tiers.vendor) {
+  const skipExternalSearch = route.type === "about_brand" || route.type === "concept" || route.type === "site_navigation";
+
+  if (hasSearchApi && route.tiers.vendor && !skipExternalSearch) {
     const vendorNeeded =
       detectedVendors.length > 0 &&
       (route.type === "vendor_howto" ||
@@ -405,7 +407,7 @@ export async function gatherSourceContext(
     }
   }
 
-  if (hasSearchApi && route.tiers.web) {
+  if (hasSearchApi && route.tiers.web && !skipExternalSearch) {
     const webSearchNeeded =
       webNeeded || route.type === "cve_security" || route.type === "validation";
 
