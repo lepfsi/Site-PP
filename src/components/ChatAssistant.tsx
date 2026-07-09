@@ -149,14 +149,24 @@ export default function ChatAssistant() {
       <AnimatePresence>
         {open && (
           <motion.div
-            initial={{ opacity: 0, y: 16, scale: 0.96 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 16, scale: 0.96 }}
-            className="fixed bottom-20 right-4 z-[85] w-[min(100vw-2rem,380px)] h-[min(70vh,520px)] flex flex-col rounded-2xl liquid-glass shadow-2xl border border-border-main overflow-hidden"
-            role="dialog"
-            aria-label={t("chat.title")}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[84] bg-black/10 backdrop-blur-[1px]"
+            onClick={() => setOpen(false)}
+            aria-hidden
           >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border-main/60 bg-bg-secondary/50">
+            <motion.div
+              initial={{ opacity: 0, y: 16, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 16, scale: 0.96 }}
+              transition={{ type: "spring", damping: 26, stiffness: 320 }}
+              onClick={(e) => e.stopPropagation()}
+              className="fixed bottom-20 right-4 z-[85] w-[min(100vw-2rem,380px)] h-[min(70vh,520px)] flex flex-col rounded-2xl bg-bg-primary/30 backdrop-blur-2xl shadow-xl border border-border-main/30 overflow-hidden"
+              role="dialog"
+              aria-label={t("chat.title")}
+            >
+            <div className="flex items-center justify-between px-4 py-3 border-b border-border-main/30 bg-bg-secondary/25">
               <div className="flex items-center gap-2">
                 <div className="w-8 h-8 rounded-xl bg-turquoise/10 border border-turquoise/30 flex items-center justify-center">
                   <Bot size={16} className="text-turquoise" />
@@ -176,7 +186,7 @@ export default function ChatAssistant() {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto sidebar-scroll px-4 py-3 space-y-3 bg-bg-primary/40">
+            <div className="flex-1 overflow-y-auto sidebar-scroll px-4 py-3 space-y-3 bg-transparent">
               {messages.map((msg, i) => (
                 <div
                   key={i}
@@ -198,8 +208,8 @@ export default function ChatAssistant() {
                   <div
                     className={`max-w-[85%] rounded-xl px-3 py-2 text-xs leading-relaxed font-medium ${
                       msg.role === "user"
-                        ? "bg-turquoise/15 text-text-primary border border-turquoise/20"
-                        : "bg-bg-secondary text-text-secondary border border-border-main"
+                        ? "bg-turquoise/12 text-text-primary border border-turquoise/15"
+                        : "bg-bg-secondary/40 text-text-secondary border border-border-main/40"
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{msg.content}</p>
@@ -274,7 +284,7 @@ export default function ChatAssistant() {
               <div ref={bottomRef} />
             </div>
 
-            <div className="p-3 border-t border-border-main/60 bg-bg-secondary/50 space-y-2">
+            <div className="p-3 border-t border-border-main/30 bg-bg-secondary/25 space-y-2">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -309,6 +319,7 @@ export default function ChatAssistant() {
                 </button>
               )}
             </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>

@@ -1,7 +1,6 @@
 import { buildChatSiteContext } from "./chat-context";
 import { callChatCompletions, getLLMConfig } from "./chat-llm";
 import { classifyQuery, buildRouteContext, type QuestionType, type RoutePlan } from "./chat-router";
-import { synthesizeConversationalReply } from "./chat-synth";
 import { detectVendors, gatherSourceContext, sourcesForReply, type ChatSource, type SourceTier } from "./chat-sources";
 import type { Language } from "./translations";
 
@@ -28,7 +27,7 @@ export interface ChatReply {
 function getConversationQuery(messages: ChatMessage[]): string {
   return messages
     .filter((m) => m.role === "user")
-    .slice(-4)
+    .slice(-3)
     .map((m) => m.content)
     .join("\n");
 }
@@ -64,34 +63,30 @@ function buildPersonaPrompt(
 ): string {
   const language = lang === "FR" ? "French" : "English";
 
-  return `You are the DailyOps.Tech in-house assistant — you WORK for DailyOps, you are not a generic bot.
+  return `You are the DailyOps.Tech in-house assistant — you work for DailyOps. You are NOT a FAQ bot.
 
-PERSONALITY
-- Senior NOC/SOC colleague: warm, direct, competent, proud of the platform.
-- You REASON and SYNTHESIZE — never paste knowledge blocks, never sound like a FAQ.
-- You KEEP CONVERSATION THREAD: follow-ups ("et concrètement ?", "c'est quoi ?", "pour qui ?") continue the same topic — never restart with "what do you need?".
+Personality: senior NOC/SOC engineer — warm, direct, you reason through problems step by step.
 
-ABOUT DAILYOPS (internalize — explain naturally when asked)
+Conversation rules:
+- Answer the user's LATEST message first. Follow the thread naturally.
+- Never repeat a previous answer verbatim. Never re-introduce DailyOps if already discussed.
+- Synthesize — do not paste knowledge blocks. No markdown bold (**).
+- Use vendor/web context below for technical questions (Fortinet, Cisco, etc.).
+- Plain text only, ${language}.
+
+DailyOps knowledge (internal reference):
 ${knowledge}
 
-THIS TURN (${route.type}): ${route.instruction}
+Routing hint (${route.type}): ${route.instruction}
 
-RETRIEVED CONTEXT (articles, vendor docs, web — use when relevant)
-${retrievalContext || "(none — rely on your DailyOps knowledge and ops expertise)"}
-
-RULES
-- Reply in ${language} only.
-- 2–5 short paragraphs max, or a tight bullet list when listing content types.
-- Weave 0–2 internal links naturally when relevant (/articles/..., /experience/..., /category/...).
-- For technical topics: reason through the answer, cite DailyOps content first when it exists.
-- Never say "I don't have information about DailyOps" — you work here.
-- Never output JSON or metadata — plain conversational text only.`;
+Retrieved sources for this message:
+${retrievalContext || "(none)"}`;
 }
 
 function buildHistory(messages: ChatMessage[]): { role: "user" | "assistant"; content: string }[] {
   return messages
     .filter((m) => m.content.trim())
-    .slice(-16)
+    .slice(-14)
     .map((m) => ({ role: m.role, content: m.content }));
 }
 
@@ -101,79 +96,46 @@ async function generateReplyText(
   knowledge: string,
   retrievalContext: string,
   route: RoutePlan,
-): Promise<string | null> {
+): Promise<{ text: string | null; error?: string }> {
   const system = buildPersonaPrompt(lang, knowledge, retrievalContext, route);
   const history = buildHistory(messages);
 
-  const primary = await callChatCompletions(system, history, {
-    temperature: 0.75,
-    maxTokens: 1000,
-    timeoutMs: 50_000,
+  const result = await callChatCompletions(system, history, {
+    temperature: 0.7,
+    maxTokens: 1200,
+    timeoutMs: 55_000,
   });
 
-  if (primary.text) return primary.text;
-
-  console.error("Chat LLM primary failed:", primary.error, primary.status);
-
-  const minimalKnowledge = knowledge.slice(0, 4000);
-  const retry = await callChatCompletions(
-    buildPersonaPrompt(lang, minimalKnowledge, "", route),
-    history.slice(-6),
-    { temperature: 0.75, maxTokens: 800, timeoutMs: 40_000 },
-  );
-
-  if (retry.text) return retry.text;
-
-  console.error("Chat LLM retry failed:", retry.error, retry.status);
-  return null;
+  return { text: result.text, error: result.error };
 }
 
-function buildConfigErrorReply(lang: Language): ChatReply {
+function buildErrorReply(lang: Language, route: RoutePlan, error?: string): ChatReply {
+  const hint =
+    lang === "FR"
+      ? "L'assistant IA n'a pas pu répondre. Réessayez dans un instant."
+      : "The AI assistant could not respond. Please try again shortly.";
+
+  console.error("Chat reply failed:", error);
+
   return {
-    reply:
-      lang === "FR"
-        ? "L'assistant IA n'est pas joignable sur ce déploiement — la clé serveur (OPENAI_API_KEY) est absente. Vérifiez les variables d'environnement Vercel puis redéployez."
-        : "The AI assistant is unreachable on this deployment — server key (OPENAI_API_KEY) is missing. Check Vercel environment variables and redeploy.",
+    reply: hint,
     escalate: false,
     links: [{ label: lang === "FR" ? "Contact" : "Contact", href: "/about#contact" }],
     sources: [],
     primaryTier: "model",
-    queryType: "general",
-    queryTypeLabel: "",
-  };
-}
-
-function buildSynthReply(
-  messages: ChatMessage[],
-  lang: Language,
-  route: RoutePlan,
-  sources: ChatSource[],
-  primaryTier: SourceTier,
-): ChatReply | null {
-  const text = synthesizeConversationalReply(messages, lang, route);
-  if (!text) return null;
-
-  return {
-    reply: text,
-    escalate: wantsHumanEscalation(messages, route),
-    links: sourcesToLinks(sources),
-    sources: sources.slice(0, 4),
-    primaryTier,
     queryType: route.type,
     queryTypeLabel: "",
   };
 }
 
 export async function generateChatReply(messages: ChatMessage[], lang: Language): Promise<ChatReply> {
-  if (!getLLMConfig()) {
-    const synth = buildSynthReply(messages, lang, classifyQuery(getConversationQuery(messages), lang, false), [], "dailyops");
-    return synth ?? buildConfigErrorReply(lang);
-  }
-
+  const lastUser = getLastUserMessage(messages);
   const conversationQuery = getConversationQuery(messages);
-  const route = classifyQuery(conversationQuery, lang, detectVendors(conversationQuery).length > 0);
+
+  const route = classifyQuery(lastUser, lang, detectVendors(lastUser).length > 0);
   const routeContext = buildRouteContext(route, lang);
-  const sourceCtx = await gatherSourceContext(conversationQuery, lang, route, routeContext);
+
+  const sourceCtx = await gatherSourceContext(lastUser, conversationQuery, lang, route, routeContext);
   const sources = sourcesForReply(sourceCtx);
   const primaryTier = primaryTierFromContext(
     sourceCtx.dailyOpsCovered,
@@ -181,12 +143,16 @@ export async function generateChatReply(messages: ChatMessage[], lang: Language)
     sourceCtx.webSources.length,
   );
 
-  const knowledge = buildChatSiteContext(lang, true);
-  const replyText = await generateReplyText(messages, lang, knowledge, sourceCtx.contextBlock, route);
+  if (!getLLMConfig()) {
+    return buildErrorReply(lang, route, "missing_api_key");
+  }
 
-  if (replyText) {
+  const knowledge = buildChatSiteContext(lang, true);
+  const { text, error } = await generateReplyText(messages, lang, knowledge, sourceCtx.contextBlock, route);
+
+  if (text) {
     return {
-      reply: replyText,
+      reply: text,
       escalate: wantsHumanEscalation(messages, route),
       links: sourcesToLinks(sources),
       sources: sources.slice(0, 4),
@@ -196,19 +162,5 @@ export async function generateChatReply(messages: ChatMessage[], lang: Language)
     };
   }
 
-  const synth = buildSynthReply(messages, lang, route, sources, primaryTier);
-  if (synth) return synth;
-
-  return {
-    reply:
-      lang === "FR"
-        ? "Le modèle IA n'a pas répondu à temps. Réessayez — si le problème persiste, vérifiez CHAT_MODEL et OPENAI_BASE_URL dans Vercel."
-        : "The AI model didn't respond in time. Try again — if it persists, check CHAT_MODEL and OPENAI_BASE_URL in Vercel.",
-    escalate: false,
-    links: [{ label: lang === "FR" ? "Contact" : "Contact", href: "/about#contact" }],
-    sources: [],
-    primaryTier: "model",
-    queryType: route.type,
-    queryTypeLabel: "",
-  };
+  return buildErrorReply(lang, route, error);
 }

@@ -371,16 +371,18 @@ function buildContextBlock(
 }
 
 export async function gatherSourceContext(
-  query: string,
+  lastQuery: string,
+  conversationQuery: string,
   lang: Language,
   route: RoutePlan,
   routeContext: string,
 ): Promise<SourceContext> {
-  const detectedVendors = detectVendors(query);
-  const webNeeded = needsWebSearch(query);
+  const detectedVendors = detectVendors(lastQuery);
+  const webNeeded = needsWebSearch(lastQuery);
+  const articleQuery = conversationQuery || lastQuery;
 
-  const dailyOpsMatches = route.tiers.dailyops ? matchDailyOpsArticles(query, lang) : [];
-  const experienceMatches = route.tiers.experience ? matchDailyOpsExperiences(query, lang) : [];
+  const dailyOpsMatches = route.tiers.dailyops ? matchDailyOpsArticles(articleQuery, lang) : [];
+  const experienceMatches = route.tiers.experience ? matchDailyOpsExperiences(articleQuery, lang) : [];
   const dailyOpsCovered =
     route.type === "about_brand" ||
     (dailyOpsMatches.length > 0 && dailyOpsMatches[0].score >= 3) ||
@@ -391,7 +393,8 @@ export async function gatherSourceContext(
   let vendorSources: ChatSource[] = [];
   let webSources: ChatSource[] = [];
 
-  const skipExternalSearch = route.type === "about_brand" || route.type === "concept" || route.type === "site_navigation";
+  const skipExternalSearch =
+    (route.type === "about_brand" || route.type === "site_navigation") && detectedVendors.length === 0;
 
   if (hasSearchApi && route.tiers.vendor && !skipExternalSearch) {
     const vendorNeeded =
@@ -403,7 +406,7 @@ export async function gatherSourceContext(
         dailyOpsMatches.length < 2);
 
     if (vendorNeeded) {
-      vendorSources = await searchVendorDocs(query, detectedVendors);
+      vendorSources = await searchVendorDocs(lastQuery, detectedVendors);
     }
   }
 
@@ -412,7 +415,7 @@ export async function gatherSourceContext(
       webNeeded || route.type === "cve_security" || route.type === "validation";
 
     if (webSearchNeeded) {
-      webSources = await searchWebNews(query);
+      webSources = await searchWebNews(lastQuery);
     }
   }
 
