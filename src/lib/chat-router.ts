@@ -108,8 +108,8 @@ const ROUTE_PLANS: Record<QuestionType, Omit<RoutePlan, "type" | "label" | "inst
     forceEscalate: false,
     labelEn: "About DailyOps",
     labelFr: "À propos de DailyOps",
-    instructionEn: "Visitor asks about DailyOps itself (mission, identity, what the site offers). Answer from the BRAND KNOWLEDGE section in site knowledge — summarize clearly in 2–4 sentences, then offer relevant links (/about, /articles, /experience). Do NOT say you lack information.",
-    instructionFr: "Le visiteur demande ce qu'est DailyOps (mission, identité, contenu du site). Répondre depuis la section BRAND KNOWLEDGE — résumer clairement en 2–4 phrases, puis proposer des liens (/about, /articles, /experience). Ne PAS dire que vous manquez d'informations.",
+    instructionEn: "Visitor wants to understand DailyOps — same intent whether they say 'tell me about DailyOps', 'what is it', or follow-up questions. Explain naturally who we are, what we publish, who we serve. Continue the thread if they already asked.",
+    instructionFr: "Le visiteur veut comprendre DailyOps — même intention que ce soit « parle-moi de DailyOps », « c'est quoi », ou des relances. Expliquer naturellement qui on est, ce qu'on publie, pour qui. Enchaîner si la question a déjà été posée.",
   },
   site_navigation: {
     tiers: { dailyops: true, experience: false, vendor: false, web: false, model: true },
@@ -169,7 +169,7 @@ const ROUTE_PLANS: Record<QuestionType, Omit<RoutePlan, "type" | "label" | "inst
   },
   contact: {
     tiers: { dailyops: false, experience: false, vendor: false, web: false, model: true },
-    forceEscalate: true,
+    forceEscalate: false,
     labelEn: "Contact / expert request",
     labelFr: "Contact / demande expert",
     instructionEn: "Visitor wants human contact. Set escalate=true. Point to /about#contact. Keep reply brief and helpful.",

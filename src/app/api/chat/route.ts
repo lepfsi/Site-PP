@@ -17,7 +17,7 @@ export async function POST(request: Request) {
     const validLang = lang === "FR" ? "FR" : "EN";
     const sanitized: ChatMessage[] = messages
       .filter((m: { role?: string; content?: string }) => m.role === "user" || m.role === "assistant")
-      .slice(-12)
+      .slice(-16)
       .map((m: { role: string; content: string }) => ({
         role: m.role as "user" | "assistant",
         content: String(m.content).slice(0, 2000),

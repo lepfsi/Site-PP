@@ -3,17 +3,15 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, User, Bot, ArrowUpRight, Loader2, ExternalLink } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot, ArrowUpRight, Loader2, ExternalLink, CheckCircle2 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
-import type { ChatSource, SourceTier } from "@/lib/chat-sources";
+import type { ChatSource } from "@/lib/chat-sources";
 
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
   links?: { label: string; href: string }[];
   sources?: ChatSource[];
-  primaryTier?: SourceTier;
-  queryTypeLabel?: string;
 }
 
 export default function ChatAssistant() {
@@ -33,6 +31,8 @@ export default function ChatAssistant() {
     setMessages([]);
     setShowEscalate(false);
     setEscalateDone(false);
+    setEscalateEmail("");
+    setEscalateName("");
   }, [lang]);
 
   useEffect(() => {
@@ -44,6 +44,9 @@ export default function ChatAssistant() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, showEscalate, loading]);
+
+  const apiMessages = (msgs: ChatMessage[]) =>
+    msgs.map((m) => ({ role: m.role, content: m.content }));
 
   const sendMessage = async () => {
     const text = input.trim();
@@ -60,7 +63,7 @@ export default function ChatAssistant() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          messages: nextMessages,
+          messages: apiMessages(nextMessages),
           lang,
           website: "",
         }),
@@ -74,14 +77,12 @@ export default function ChatAssistant() {
         {
           role: "assistant",
           content: data.reply,
-          links: data.links,
-          sources: data.sources,
-          primaryTier: data.primaryTier,
-          queryTypeLabel: data.queryTypeLabel,
+          links: data.links?.length ? data.links : undefined,
+          sources: data.sources?.length ? data.sources : undefined,
         },
       ]);
 
-      if (data.escalate) setShowEscalate(true);
+      if (data.escalate && !escalateDone) setShowEscalate(true);
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -97,7 +98,7 @@ export default function ChatAssistant() {
   };
 
   const submitEscalation = async () => {
-    if (!escalateEmail.trim() || escalateSending) return;
+    if (!escalateEmail.trim() || escalateSending || escalateDone) return;
 
     setEscalateSending(true);
     const transcript = messages
@@ -119,12 +120,15 @@ export default function ChatAssistant() {
       });
 
       if (!res.ok) throw new Error("Failed");
+
       setEscalateDone(true);
+      setShowEscalate(false);
+      setEscalateEmail("");
+      setEscalateName("");
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: t("chat.escalate_sent") },
       ]);
-      setShowEscalate(false);
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -133,6 +137,11 @@ export default function ChatAssistant() {
     } finally {
       setEscalateSending(false);
     }
+  };
+
+  const openEscalateForm = () => {
+    if (escalateDone) return;
+    setShowEscalate(true);
   };
 
   return (
@@ -194,13 +203,6 @@ export default function ChatAssistant() {
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{msg.content}</p>
-                    {msg.role === "assistant" && (msg.queryTypeLabel || msg.primaryTier) && (
-                      <p className="mt-1.5 text-[8px] font-black uppercase tracking-widest text-text-secondary/50">
-                        {msg.queryTypeLabel}
-                        {msg.queryTypeLabel && msg.primaryTier && " · "}
-                        {msg.primaryTier && t(`chat.tier.${msg.primaryTier}` as "chat.tier.dailyops")}
-                      </p>
-                    )}
                     {msg.links && msg.links.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-border-main/50">
                         {msg.links.map((link) =>
@@ -223,37 +225,6 @@ export default function ChatAssistant() {
                             >
                               {link.label} <ArrowUpRight size={10} className="ml-0.5" />
                             </Link>
-                          ),
-                        )}
-                      </div>
-                    )}
-                    {msg.sources && msg.sources.length > 0 && (
-                      <div className="mt-2 pt-2 border-t border-border-main/50 space-y-1">
-                        <p className="text-[8px] font-black uppercase tracking-widest text-text-secondary/50">
-                          {t("chat.sources_label")}
-                        </p>
-                        {msg.sources.map((source) =>
-                          source.url.startsWith("/") ? (
-                            <Link
-                              key={source.url}
-                              href={source.url}
-                              className="block text-[9px] font-medium text-text-secondary hover:text-turquoise transition-colors truncate"
-                              onClick={() => setOpen(false)}
-                            >
-                              <span className="text-text-secondary/40">{t(`chat.tier.${source.tier}` as "chat.tier.dailyops")} · </span>
-                              {source.label}
-                            </Link>
-                          ) : (
-                            <a
-                              key={source.url}
-                              href={source.url}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="block text-[9px] font-medium text-text-secondary hover:text-turquoise transition-colors truncate"
-                            >
-                              <span className="text-text-secondary/40">{t(`chat.tier.${source.tier}` as "chat.tier.dailyops")} · </span>
-                              {source.label}
-                            </a>
                           ),
                         )}
                       </div>
@@ -323,13 +294,20 @@ export default function ChatAssistant() {
                   <Send size={16} />
                 </button>
               </div>
-              <button
-                type="button"
-                onClick={() => setShowEscalate(true)}
-                className="w-full text-[9px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-turquoise transition-colors"
-              >
-                {t("chat.escalate_cta")}
-              </button>
+              {escalateDone ? (
+                <p className="w-full flex items-center justify-center gap-1.5 text-[9px] font-bold text-turquoise/80">
+                  <CheckCircle2 size={12} />
+                  {t("chat.escalate_already")}
+                </p>
+              ) : (
+                <button
+                  type="button"
+                  onClick={openEscalateForm}
+                  className="w-full text-[9px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-turquoise transition-colors"
+                >
+                  {t("chat.escalate_cta")}
+                </button>
+              )}
             </div>
           </motion.div>
         )}

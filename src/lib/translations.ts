@@ -202,6 +202,7 @@ export interface TranslationKeys {
   "chat.escalate_sending": string;
   "chat.escalate_sent": string;
   "chat.escalate_error": string;
+  "chat.escalate_already": string;
   "chat.sources_label": string;
   "chat.tier.dailyops": string;
   "chat.tier.vendor": string;
@@ -540,8 +541,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "cookies.accept": "Got it",
     "cookies.more": "Privacy policy",
     "chat.title": "DailyOps Assistant",
-    "chat.subtitle": "Guides, resources & expert routing",
-    "chat.welcome": "Hi — need something specific? I can point you to articles, categories, or field experience. If your case needs hands-on help, I'll notify our team.",
+    "chat.subtitle": "DailyOps team · ops & infra",
+    "chat.welcome": "Hey — I'm on the DailyOps team. Ask me anything about the platform, our guides, or a technical topic. I'll reason with you, not just drop links.",
     "chat.placeholder": "Ask about a topic, article, or need…",
     "chat.send": "Send",
     "chat.open": "Open assistant",
@@ -557,6 +558,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_sending": "Sending…",
     "chat.escalate_sent": "Done — our team will get back to you within 48 hours.",
     "chat.escalate_error": "Couldn't send the notification. Email contact@dailyops.tech directly.",
+    "chat.escalate_already": "Message sent — our team will reply within 48h.",
     "chat.sources_label": "Sources",
     "chat.tier.dailyops": "DailyOps",
     "chat.tier.vendor": "Vendor docs",
@@ -891,8 +893,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "cookies.accept": "Compris",
     "cookies.more": "Politique de confidentialité",
     "chat.title": "Assistant DailyOps",
-    "chat.subtitle": "Guides, ressources & mise en relation",
-    "chat.welcome": "Bonjour — vous cherchez quelque chose de précis ? Je peux vous orienter vers les articles, catégories ou retours terrain. Si votre cas nécessite une aide sur mesure, j'alerte notre équipe.",
+    "chat.subtitle": "Équipe DailyOps · ops & infra",
+    "chat.welcome": "Salut — je fais partie de l'équipe DailyOps. Posez-moi une question sur la plateforme, nos guides ou un sujet technique. Je raisonne avec vous, je ne balance pas juste des liens.",
     "chat.placeholder": "Posez une question, un sujet, un besoin…",
     "chat.send": "Envoyer",
     "chat.open": "Ouvrir l'assistant",
@@ -908,6 +910,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_sending": "Envoi…",
     "chat.escalate_sent": "C'est envoyé — notre équipe vous répondra sous 48 h.",
     "chat.escalate_error": "Échec de l'envoi. Écrivez à contact@dailyops.tech directement.",
+    "chat.escalate_already": "Message envoyé — l'équipe répond sous 48 h.",
     "chat.sources_label": "Sources",
     "chat.tier.dailyops": "DailyOps",
     "chat.tier.vendor": "Doc éditeur",
