@@ -4,8 +4,7 @@ import { getEmailStatus, isEmailConfigured } from "@/lib/email";
 export async function GET() {
   const status = getEmailStatus();
 
-  const usingTestSender =
-    status.usingDefaultFrom || status.from.includes("resend.dev");
+  const usingTestSender = status.from.includes("resend.dev");
 
   return NextResponse.json({
     ...status,
