@@ -97,6 +97,13 @@ export default function ChatAssistant() {
     }
   };
 
+  const closeEscalateForm = () => {
+    if (escalateSending) return;
+    setShowEscalate(false);
+    setEscalateEmail("");
+    setEscalateName("");
+  };
+
   const submitEscalation = async () => {
     if (!escalateEmail.trim() || escalateSending || escalateDone) return;
 
@@ -119,20 +126,22 @@ export default function ChatAssistant() {
         }),
       });
 
-      if (!res.ok) throw new Error("Failed");
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.error || t("chat.escalate_error"));
 
       setEscalateDone(true);
-      setShowEscalate(false);
-      setEscalateEmail("");
-      setEscalateName("");
+      closeEscalateForm();
       setMessages((prev) => [
         ...prev,
         { role: "assistant", content: t("chat.escalate_sent") },
       ]);
-    } catch {
+    } catch (err) {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: t("chat.escalate_error") },
+        {
+          role: "assistant",
+          content: err instanceof Error ? err.message : t("chat.escalate_error"),
+        },
       ]);
     } finally {
       setEscalateSending(false);
@@ -252,9 +261,20 @@ export default function ChatAssistant() {
 
               {showEscalate && !escalateDone && (
                 <div className="p-3 rounded-xl border border-turquoise/30 bg-turquoise/5 space-y-2">
-                  <p className="text-[10px] font-black uppercase tracking-widest text-turquoise">
-                    {t("chat.escalate_title")}
-                  </p>
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-turquoise">
+                      {t("chat.escalate_title")}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={closeEscalateForm}
+                      disabled={escalateSending}
+                      className="p-1 rounded-md text-text-secondary hover:text-text-primary hover:bg-bg-primary/60 transition-colors disabled:opacity-50"
+                      aria-label={t("chat.escalate_close")}
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
                   <input
                     type="text"
                     value={escalateName}
@@ -309,6 +329,15 @@ export default function ChatAssistant() {
                   <CheckCircle2 size={12} />
                   {t("chat.escalate_already")}
                 </p>
+              ) : showEscalate ? (
+                <button
+                  type="button"
+                  onClick={closeEscalateForm}
+                  disabled={escalateSending}
+                  className="w-full text-[9px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-turquoise transition-colors disabled:opacity-50"
+                >
+                  {t("chat.escalate_cancel")}
+                </button>
               ) : (
                 <button
                   type="button"

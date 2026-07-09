@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import { subscribeToNewsletter, isEmailConfigured } from "@/lib/email";
+import { subscribeToNewsletter, isEmailConfigured, mapEmailError } from "@/lib/email";
 
 export async function POST(request: Request) {
+  let validLang: "EN" | "FR" = "EN";
+
   try {
     if (!isEmailConfigured()) {
       return NextResponse.json(
@@ -12,6 +14,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { email, website, lang } = body;
+    validLang = lang === "FR" ? "FR" : "EN";
 
     if (website) {
       return NextResponse.json({ success: true });
@@ -26,16 +29,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
     }
 
-    await subscribeToNewsletter(
-      email.trim().toLowerCase(),
-      lang === "FR" ? "FR" : "EN"
-    );
+    await subscribeToNewsletter(email.trim().toLowerCase(), validLang);
 
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Newsletter error:", err);
+    const raw = err instanceof Error ? err.message : "Failed to subscribe";
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Failed to subscribe" },
+      { error: mapEmailError(raw, validLang), code: raw },
       { status: 500 }
     );
   }

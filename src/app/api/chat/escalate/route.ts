@@ -1,7 +1,9 @@
 import { NextResponse } from "next/server";
-import { isEmailConfigured, sendChatEscalationEmail } from "@/lib/email";
+import { isEmailConfigured, sendChatEscalationEmail, mapEmailError } from "@/lib/email";
 
 export async function POST(request: Request) {
+  let validLang: "EN" | "FR" = "EN";
+
   try {
     if (!isEmailConfigured()) {
       return NextResponse.json({ error: "Email service not configured" }, { status: 503 });
@@ -9,6 +11,7 @@ export async function POST(request: Request) {
 
     const body = await request.json();
     const { visitorEmail, visitorName, summary, transcript, lang, website } = body;
+    validLang = lang === "FR" ? "FR" : "EN";
 
     if (website) {
       return NextResponse.json({ success: true });
@@ -28,14 +31,15 @@ export async function POST(request: Request) {
       visitorName: visitorName?.trim(),
       summary: summary.trim().slice(0, 2000),
       transcript: String(transcript ?? "").slice(0, 8000),
-      lang: lang === "FR" ? "FR" : "EN",
+      lang: validLang,
     });
 
     return NextResponse.json({ success: true });
   } catch (err) {
     console.error("Chat escalate error:", err);
+    const raw = err instanceof Error ? err.message : "Escalation failed";
     return NextResponse.json(
-      { error: err instanceof Error ? err.message : "Escalation failed" },
+      { error: mapEmailError(raw, validLang), code: raw },
       { status: 500 },
     );
   }

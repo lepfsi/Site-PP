@@ -32,13 +32,13 @@ export default function NewsletterSection() {
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed");
+      if (!res.ok) throw new Error(data.error || t("news.error"));
 
       setSubscribed(true);
       setEmail("");
       setTimeout(() => setSubscribed(false), 5000);
-    } catch {
-      setError(t("news.error"));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("news.error"));
     } finally {
       setLoading(false);
     }

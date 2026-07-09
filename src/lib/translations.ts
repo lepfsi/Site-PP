@@ -202,6 +202,8 @@ export interface TranslationKeys {
   "chat.escalate_sending": string;
   "chat.escalate_sent": string;
   "chat.escalate_error": string;
+  "chat.escalate_close": string;
+  "chat.escalate_cancel": string;
   "chat.escalate_already": string;
   "chat.sources_label": string;
   "chat.tier.dailyops": string;
@@ -558,6 +560,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_sending": "Sending…",
     "chat.escalate_sent": "Done — our team will get back to you within 48 hours.",
     "chat.escalate_error": "Couldn't send the notification. Email contact@dailyops.tech directly.",
+    "chat.escalate_close": "Close expert form",
+    "chat.escalate_cancel": "Cancel",
     "chat.escalate_already": "Message sent — our team will reply within 48h.",
     "chat.sources_label": "Sources",
     "chat.tier.dailyops": "DailyOps",
@@ -910,6 +914,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_sending": "Envoi…",
     "chat.escalate_sent": "C'est envoyé — notre équipe vous répondra sous 48 h.",
     "chat.escalate_error": "Échec de l'envoi. Écrivez à contact@dailyops.tech directement.",
+    "chat.escalate_close": "Fermer le formulaire expert",
+    "chat.escalate_cancel": "Annuler",
     "chat.escalate_already": "Message envoyé — l'équipe répond sous 48 h.",
     "chat.sources_label": "Sources",
     "chat.tier.dailyops": "DailyOps",

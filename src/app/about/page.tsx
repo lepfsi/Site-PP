@@ -10,7 +10,7 @@ import { Send, Mail, User, MessageSquare, FileText, CheckCircle, Radio } from "l
 import { useState, useEffect } from "react";
 
 export default function AboutPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [subject, setSubject] = useState("");
@@ -44,12 +44,13 @@ export default function AboutPage() {
           email,
           subject,
           message,
+          lang,
           website: formData.get("website"),
         }),
       });
 
       const data = await res.json();
-      if (!res.ok) throw new Error(data.error || "Failed");
+      if (!res.ok) throw new Error(data.error || t("about.form_error"));
 
       setSent(true);
       setName("");
@@ -57,8 +58,8 @@ export default function AboutPage() {
       setSubject("");
       setMessage("");
       setTimeout(() => setSent(false), 5000);
-    } catch {
-      setError(t("about.form_error"));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : t("about.form_error"));
     } finally {
       setLoading(false);
     }
