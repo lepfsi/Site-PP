@@ -184,6 +184,24 @@ export interface TranslationKeys {
   "cookies.banner": string;
   "cookies.accept": string;
   "cookies.more": string;
+  "chat.title": string;
+  "chat.subtitle": string;
+  "chat.welcome": string;
+  "chat.placeholder": string;
+  "chat.send": string;
+  "chat.open": string;
+  "chat.close": string;
+  "chat.thinking": string;
+  "chat.error": string;
+  "chat.contact_link": string;
+  "chat.escalate_cta": string;
+  "chat.escalate_title": string;
+  "chat.escalate_name": string;
+  "chat.escalate_email": string;
+  "chat.escalate_send": string;
+  "chat.escalate_sending": string;
+  "chat.escalate_sent": string;
+  "chat.escalate_error": string;
   "news.sending": string;
   "news.error": string;
   "res.title": string;
@@ -516,6 +534,24 @@ export const translations: Record<Language, TranslationKeys> = {
     "cookies.banner": "We only use local storage for your language and theme preferences. No advertising or third-party tracking cookies.",
     "cookies.accept": "Got it",
     "cookies.more": "Privacy policy",
+    "chat.title": "DailyOps Assistant",
+    "chat.subtitle": "Guides, resources & expert routing",
+    "chat.welcome": "Hi — need something specific? I can point you to articles, categories, or field experience. If your case needs hands-on help, I'll notify our team.",
+    "chat.placeholder": "Ask about a topic, article, or need…",
+    "chat.send": "Send",
+    "chat.open": "Open assistant",
+    "chat.close": "Close assistant",
+    "chat.thinking": "Thinking…",
+    "chat.error": "Sorry, I couldn't process that. Try again or use the contact form.",
+    "chat.contact_link": "Contact form",
+    "chat.escalate_cta": "Need an expert? Notify the team",
+    "chat.escalate_title": "Forward to an expert",
+    "chat.escalate_name": "Your name (optional)",
+    "chat.escalate_email": "Your email",
+    "chat.escalate_send": "Send to team",
+    "chat.escalate_sending": "Sending…",
+    "chat.escalate_sent": "Done — our team will get back to you within 48 hours.",
+    "chat.escalate_error": "Couldn't send the notification. Email contact@dailyops.tech directly.",
     "news.sending": "Subscribing...",
     "news.error": "Subscription failed. Please try again later.",
     "res.title": "Tools & Resources",
@@ -844,6 +880,24 @@ export const translations: Record<Language, TranslationKeys> = {
     "cookies.banner": "Nous utilisons uniquement le stockage local pour vos préférences de langue et de thème. Aucun cookie publicitaire ni de tracking tiers.",
     "cookies.accept": "Compris",
     "cookies.more": "Politique de confidentialité",
+    "chat.title": "Assistant DailyOps",
+    "chat.subtitle": "Guides, ressources & mise en relation",
+    "chat.welcome": "Bonjour — vous cherchez quelque chose de précis ? Je peux vous orienter vers les articles, catégories ou retours terrain. Si votre cas nécessite une aide sur mesure, j'alerte notre équipe.",
+    "chat.placeholder": "Posez une question, un sujet, un besoin…",
+    "chat.send": "Envoyer",
+    "chat.open": "Ouvrir l'assistant",
+    "chat.close": "Fermer l'assistant",
+    "chat.thinking": "Réflexion…",
+    "chat.error": "Désolé, je n'ai pas pu traiter votre message. Réessayez ou utilisez le formulaire de contact.",
+    "chat.contact_link": "Formulaire contact",
+    "chat.escalate_cta": "Besoin d'un expert ? Alerter l'équipe",
+    "chat.escalate_title": "Transmettre à un expert",
+    "chat.escalate_name": "Votre nom (optionnel)",
+    "chat.escalate_email": "Votre email",
+    "chat.escalate_send": "Envoyer à l'équipe",
+    "chat.escalate_sending": "Envoi…",
+    "chat.escalate_sent": "C'est envoyé — notre équipe vous répondra sous 48 h.",
+    "chat.escalate_error": "Échec de l'envoi. Écrivez à contact@dailyops.tech directement.",
     "news.sending": "Inscription...",
     "news.error": "Échec de l'inscription. Veuillez réessayer plus tard.",
     "res.title": "Outils & Ressources",

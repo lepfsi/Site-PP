@@ -105,3 +105,36 @@ export async function subscribeToNewsletter(email: string, lang: "EN" | "FR" = "
 
   if (welcomeError) throw new Error(welcomeError.message);
 }
+
+export async function sendChatEscalationEmail(data: {
+  visitorEmail: string;
+  visitorName?: string;
+  summary: string;
+  transcript: string;
+  lang: string;
+}) {
+  if (!resend) {
+    throw new Error("RESEND_API_KEY is not configured");
+  }
+
+  const { visitorEmail, visitorName, summary, transcript, lang } = data;
+
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: CONTACT_EMAIL,
+    replyTo: visitorEmail,
+    subject: `[DailyOps Chat] Expert assistance requested`,
+    html: `
+      <h2>Chat escalation — expert assistance</h2>
+      <p><strong>Language:</strong> ${escapeHtml(lang)}</p>
+      <p><strong>From:</strong> ${escapeHtml(visitorName || "Visitor")} &lt;${escapeHtml(visitorEmail)}&gt;</p>
+      <p><strong>Summary:</strong></p>
+      <p style="white-space: pre-wrap;">${escapeHtml(summary)}</p>
+      <hr />
+      <p><strong>Conversation transcript:</strong></p>
+      <pre style="white-space: pre-wrap;font-size:12px;background:#f1f5f9;padding:12px;border-radius:8px;">${escapeHtml(transcript)}</pre>
+    `,
+  });
+
+  if (error) throw new Error(error.message);
+}

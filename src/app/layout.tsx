@@ -5,6 +5,7 @@ import { LanguageProvider } from "@/lib/LanguageContext";
 import { cn } from "@/lib/utils";
 import { siteMetadata } from "@/lib/seo";
 import CookieNotice from "@/components/CookieNotice";
+import ChatAssistant from "@/components/ChatAssistant";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -38,6 +39,7 @@ export default function RootLayout({
         >
           <LanguageProvider>
             {children}
+            <ChatAssistant />
             <CookieNotice />
           </LanguageProvider>
         </ThemeProvider>
