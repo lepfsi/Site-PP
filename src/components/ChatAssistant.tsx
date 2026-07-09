@@ -3,13 +3,16 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, User, Bot, ArrowUpRight, Loader2 } from "lucide-react";
+import { MessageCircle, X, Send, User, Bot, ArrowUpRight, Loader2, ExternalLink } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
+import type { ChatSource, SourceTier } from "@/lib/chat-sources";
 
 interface ChatMessage {
   role: "user" | "assistant";
   content: string;
   links?: { label: string; href: string }[];
+  sources?: ChatSource[];
+  primaryTier?: SourceTier;
 }
 
 export default function ChatAssistant() {
@@ -71,6 +74,8 @@ export default function ChatAssistant() {
           role: "assistant",
           content: data.reply,
           links: data.links,
+          sources: data.sources,
+          primaryTier: data.primaryTier,
         },
       ]);
 
@@ -187,18 +192,66 @@ export default function ChatAssistant() {
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{msg.content}</p>
+                    {msg.role === "assistant" && msg.primaryTier && (
+                      <p className="mt-1.5 text-[8px] font-black uppercase tracking-widest text-text-secondary/50">
+                        {t(`chat.tier.${msg.primaryTier}` as "chat.tier.dailyops")}
+                      </p>
+                    )}
                     {msg.links && msg.links.length > 0 && (
                       <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-border-main/50">
-                        {msg.links.map((link) => (
-                          <Link
-                            key={link.href}
-                            href={link.href}
-                            className="inline-flex items-center text-[9px] font-black uppercase tracking-wider text-turquoise hover:underline"
-                            onClick={() => setOpen(false)}
-                          >
-                            {link.label} <ArrowUpRight size={10} className="ml-0.5" />
-                          </Link>
-                        ))}
+                        {msg.links.map((link) =>
+                          link.href.startsWith("http") ? (
+                            <a
+                              key={link.href}
+                              href={link.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center text-[9px] font-black uppercase tracking-wider text-turquoise hover:underline"
+                            >
+                              {link.label} <ExternalLink size={10} className="ml-0.5" />
+                            </a>
+                          ) : (
+                            <Link
+                              key={link.href}
+                              href={link.href}
+                              className="inline-flex items-center text-[9px] font-black uppercase tracking-wider text-turquoise hover:underline"
+                              onClick={() => setOpen(false)}
+                            >
+                              {link.label} <ArrowUpRight size={10} className="ml-0.5" />
+                            </Link>
+                          ),
+                        )}
+                      </div>
+                    )}
+                    {msg.sources && msg.sources.length > 0 && (
+                      <div className="mt-2 pt-2 border-t border-border-main/50 space-y-1">
+                        <p className="text-[8px] font-black uppercase tracking-widest text-text-secondary/50">
+                          {t("chat.sources_label")}
+                        </p>
+                        {msg.sources.map((source) =>
+                          source.url.startsWith("/") ? (
+                            <Link
+                              key={source.url}
+                              href={source.url}
+                              className="block text-[9px] font-medium text-text-secondary hover:text-turquoise transition-colors truncate"
+                              onClick={() => setOpen(false)}
+                            >
+                              <span className="text-text-secondary/40">{t(`chat.tier.${source.tier}` as "chat.tier.dailyops")} · </span>
+                              {source.label}
+                            </Link>
+                          ) : (
+                            <a
+                              key={source.url}
+                              href={source.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block text-[9px] font-medium text-text-secondary hover:text-turquoise transition-colors truncate"
+                            >
+                              <span className="text-text-secondary/40">{t(`chat.tier.${source.tier}` as "chat.tier.dailyops")} · </span>
+                              {source.label}
+                            </a>
+                          ),
+                        )}
                       </div>
                     )}
                   </div>

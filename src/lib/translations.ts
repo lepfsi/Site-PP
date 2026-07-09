@@ -202,6 +202,11 @@ export interface TranslationKeys {
   "chat.escalate_sending": string;
   "chat.escalate_sent": string;
   "chat.escalate_error": string;
+  "chat.sources_label": string;
+  "chat.tier.dailyops": string;
+  "chat.tier.vendor": string;
+  "chat.tier.model": string;
+  "chat.tier.web": string;
   "news.sending": string;
   "news.error": string;
   "res.title": string;
@@ -552,6 +557,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_sending": "Sending…",
     "chat.escalate_sent": "Done — our team will get back to you within 48 hours.",
     "chat.escalate_error": "Couldn't send the notification. Email contact@dailyops.tech directly.",
+    "chat.sources_label": "Sources",
+    "chat.tier.dailyops": "DailyOps",
+    "chat.tier.vendor": "Vendor docs",
+    "chat.tier.model": "General knowledge",
+    "chat.tier.web": "Web",
     "news.sending": "Subscribing...",
     "news.error": "Subscription failed. Please try again later.",
     "res.title": "Tools & Resources",
@@ -898,6 +908,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_sending": "Envoi…",
     "chat.escalate_sent": "C'est envoyé — notre équipe vous répondra sous 48 h.",
     "chat.escalate_error": "Échec de l'envoi. Écrivez à contact@dailyops.tech directement.",
+    "chat.sources_label": "Sources",
+    "chat.tier.dailyops": "DailyOps",
+    "chat.tier.vendor": "Doc éditeur",
+    "chat.tier.model": "Connaissances générales",
+    "chat.tier.web": "Web",
     "news.sending": "Inscription...",
     "news.error": "Échec de l'inscription. Veuillez réessayer plus tard.",
     "res.title": "Outils & Ressources",
