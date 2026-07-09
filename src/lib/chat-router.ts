@@ -1,6 +1,7 @@
 import type { Language } from "./translations";
 
 export type QuestionType =
+  | "about_brand"
   | "site_navigation"
   | "concept"
   | "vendor_howto"
@@ -49,6 +50,14 @@ const TYPE_RULES: TypeRule[] = [
     ],
   },
   {
+    type: "about_brand",
+    weight: 92,
+    patterns: [
+      /\b(parle[- ]moi (de |d[''])?daily\s*ops|tell me about daily\s*ops|what is daily\s*ops|what'?s daily\s*ops|qu['']est[- ]ce que daily\s*ops|c['']est quoi daily\s*ops|who are you|qui êtes[- ]vous|présent(e|ez)[- ]?(moi )?daily\s*ops|present daily\s*ops|about daily\s*ops|à propos de daily\s*ops|dailyops\.tech|what do you do|que faites[- ]vous|your mission|votre mission|connais[- ]tu daily\s*ops|know daily\s*ops)\b/i,
+      /\b(c['']est quoi ce site|what is this site|what is this platform|c['']est quoi cette plateforme|présente[- ]?moi (le site|la plateforme)|present (the site|the platform))\b/i,
+    ],
+  },
+  {
     type: "cve_security",
     weight: 90,
     patterns: [
@@ -94,6 +103,14 @@ const TYPE_RULES: TypeRule[] = [
 ];
 
 const ROUTE_PLANS: Record<QuestionType, Omit<RoutePlan, "type" | "label" | "instruction"> & { labelEn: string; labelFr: string; instructionEn: string; instructionFr: string }> = {
+  about_brand: {
+    tiers: { dailyops: true, experience: false, vendor: false, web: false, model: true },
+    forceEscalate: false,
+    labelEn: "About DailyOps",
+    labelFr: "À propos de DailyOps",
+    instructionEn: "Visitor asks about DailyOps itself (mission, identity, what the site offers). Answer from the BRAND KNOWLEDGE section in site knowledge — summarize clearly in 2–4 sentences, then offer relevant links (/about, /articles, /experience). Do NOT say you lack information.",
+    instructionFr: "Le visiteur demande ce qu'est DailyOps (mission, identité, contenu du site). Répondre depuis la section BRAND KNOWLEDGE — résumer clairement en 2–4 phrases, puis proposer des liens (/about, /articles, /experience). Ne PAS dire que vous manquez d'informations.",
+  },
   site_navigation: {
     tiers: { dailyops: true, experience: false, vendor: false, web: false, model: true },
     forceEscalate: false,
@@ -199,6 +216,12 @@ function resolveType(scores: Map<QuestionType, number>, hasVendor: boolean): Que
   }
 
   return top;
+}
+
+export function isAboutBrandQuery(query: string): boolean {
+  return TYPE_RULES.some(
+    (rule) => rule.type === "about_brand" && rule.patterns.some((p) => p.test(query)),
+  );
 }
 
 export function classifyQuery(query: string, lang: Language, hasVendor = false): RoutePlan {

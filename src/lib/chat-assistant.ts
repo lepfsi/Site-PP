@@ -1,5 +1,5 @@
-import { buildChatSiteContext } from "./chat-context";
-import { classifyQuery, buildRouteContext, type QuestionType, type RoutePlan } from "./chat-router";
+import { buildAboutBrandReply, buildChatSiteContext } from "./chat-context";
+import { classifyQuery, buildRouteContext, isAboutBrandQuery, type QuestionType, type RoutePlan } from "./chat-router";
 import { detectVendors, gatherSourceContext, sourcesForReply, type ChatSource, type SourceTier } from "./chat-sources";
 import type { Language } from "./translations";
 
@@ -69,6 +69,19 @@ function fallbackReply(
     if (/contact|email|message|écrire|contacter/i.test(lower)) {
       links.push({ label: lang === "FR" ? "Formulaire contact" : "Contact form", href: "/about#contact" });
     }
+  }
+
+  if (route.type === "about_brand" || isAboutBrandQuery(lastUser)) {
+    const brand = buildAboutBrandReply(lang);
+    return {
+      escalate: false,
+      links: brand.links,
+      sources: brand.sources,
+      primaryTier: "dailyops",
+      queryType: "about_brand",
+      queryTypeLabel: lang === "FR" ? "À propos de DailyOps" : "About DailyOps",
+      reply: brand.reply,
+    };
   }
 
   if (escalate) {
@@ -193,6 +206,7 @@ ${sourceContext}
 
 ## Rules
 - Follow the routing plan first, then the hierarchy for active tiers only.
+- Questions about DailyOps itself (mission, identity, what the site is) MUST be answered from BRAND KNOWLEDGE — never say you don't know or ask the visitor to clarify.
 - When using Tier 2–4, mention which tier you relied on briefly.
 - Suggest relevant internal links (href must start with /) in the links array.
 - Include external vendor/web URLs in the sources array when you cite them.

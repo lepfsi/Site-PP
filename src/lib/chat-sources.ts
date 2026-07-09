@@ -1,7 +1,8 @@
 import { getAllArticles } from "./articles";
 import { CATEGORIES } from "./categories";
 import { EXPERIENCES } from "./experiences";
-import type { RoutePlan } from "./chat-router";
+import { getDailyOpsBrandKnowledge } from "./chat-context";
+import type { QuestionType, RoutePlan } from "./chat-router";
 import { getMarkdownBody } from "./markdown";
 import { translations, type Language } from "./translations";
 
@@ -295,8 +296,17 @@ function buildContextBlock(
   webSources: ChatSource[],
   dailyOpsCovered: boolean,
   routeContext: string,
+  routeType: QuestionType,
 ): string {
   const sections: string[] = [routeContext];
+
+  if (routeType === "about_brand") {
+    sections.push(
+      lang === "FR"
+        ? `## Tier 1 — Identité DailyOps (PRIORITAIRE pour cette requête)\n${getDailyOpsBrandKnowledge(lang)}`
+        : `## Tier 1 — DailyOps brand identity (PRIORITY for this query)\n${getDailyOpsBrandKnowledge(lang)}`,
+    );
+  }
 
   if (dailyOpsMatches.length > 0) {
     const articles = dailyOpsMatches
@@ -306,7 +316,7 @@ function buildContextBlock(
       })
       .join("\n\n");
     sections.push(`## Tier 1 — DailyOps documentation (PRIORITY)\n${articles}`);
-  } else {
+  } else if (routeType !== "about_brand") {
     sections.push(
       lang === "FR"
         ? "## Tier 1 — DailyOps: aucun article correspondant trouvé pour cette requête."
@@ -339,15 +349,23 @@ function buildContextBlock(
     sections.push(`## Tier 4 — Web search (CVE, news, versions)\n${web}`);
   }
 
-  sections.push(
-    dailyOpsCovered
-      ? lang === "FR"
-        ? "## Couverture: DailyOps couvre partiellement ce sujet — privilégier Tier 1, compléter avec Tier 2 si utile."
-        : "## Coverage: DailyOps partially covers this topic — prioritize Tier 1, supplement with Tier 2 if useful."
-      : lang === "FR"
-        ? "## Couverture: DailyOps ne couvre pas ce sujet — utiliser Tier 2 (vendor) puis Tier 3 (connaissances générales), Tier 4 si actualité/CVE."
-        : "## Coverage: DailyOps does not cover this topic — use Tier 2 (vendor), then Tier 3 (general knowledge), Tier 4 for news/CVE.",
-  );
+  if (routeType === "about_brand") {
+    sections.push(
+      lang === "FR"
+        ? "## Couverture: question sur DailyOps — répondre depuis l'identité de marque ci-dessus."
+        : "## Coverage: question about DailyOps — answer from brand identity above.",
+    );
+  } else {
+    sections.push(
+      dailyOpsCovered
+        ? lang === "FR"
+          ? "## Couverture: DailyOps couvre partiellement ce sujet — privilégier Tier 1, compléter avec Tier 2 si utile."
+          : "## Coverage: DailyOps partially covers this topic — prioritize Tier 1, supplement with Tier 2 if useful."
+        : lang === "FR"
+          ? "## Couverture: DailyOps ne couvre pas ce sujet — utiliser Tier 2 (vendor) puis Tier 3 (connaissances générales), Tier 4 si actualité/CVE."
+          : "## Coverage: DailyOps does not cover this topic — use Tier 2 (vendor), then Tier 3 (general knowledge), Tier 4 for news/CVE.",
+    );
+  }
 
   return sections.join("\n\n");
 }
@@ -364,6 +382,7 @@ export async function gatherSourceContext(
   const dailyOpsMatches = route.tiers.dailyops ? matchDailyOpsArticles(query, lang) : [];
   const experienceMatches = route.tiers.experience ? matchDailyOpsExperiences(query, lang) : [];
   const dailyOpsCovered =
+    route.type === "about_brand" ||
     (dailyOpsMatches.length > 0 && dailyOpsMatches[0].score >= 3) ||
     (experienceMatches.length > 0 && experienceMatches[0].score >= 3);
 
@@ -403,6 +422,7 @@ export async function gatherSourceContext(
     webSources,
     dailyOpsCovered,
     routeContext,
+    route.type,
   );
 
   return {
