@@ -13,6 +13,7 @@ interface ChatMessage {
   links?: { label: string; href: string }[];
   sources?: ChatSource[];
   primaryTier?: SourceTier;
+  queryTypeLabel?: string;
 }
 
 export default function ChatAssistant() {
@@ -76,6 +77,7 @@ export default function ChatAssistant() {
           links: data.links,
           sources: data.sources,
           primaryTier: data.primaryTier,
+          queryTypeLabel: data.queryTypeLabel,
         },
       ]);
 
@@ -192,9 +194,11 @@ export default function ChatAssistant() {
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{msg.content}</p>
-                    {msg.role === "assistant" && msg.primaryTier && (
+                    {msg.role === "assistant" && (msg.queryTypeLabel || msg.primaryTier) && (
                       <p className="mt-1.5 text-[8px] font-black uppercase tracking-widest text-text-secondary/50">
-                        {t(`chat.tier.${msg.primaryTier}` as "chat.tier.dailyops")}
+                        {msg.queryTypeLabel}
+                        {msg.queryTypeLabel && msg.primaryTier && " · "}
+                        {msg.primaryTier && t(`chat.tier.${msg.primaryTier}` as "chat.tier.dailyops")}
                       </p>
                     )}
                     {msg.links && msg.links.length > 0 && (

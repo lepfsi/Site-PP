@@ -1,5 +1,6 @@
 import { buildChatSiteContext } from "./chat-context";
-import { gatherSourceContext, sourcesForReply, type ChatSource, type SourceTier } from "./chat-sources";
+import { classifyQuery, buildRouteContext, type QuestionType, type RoutePlan } from "./chat-router";
+import { detectVendors, gatherSourceContext, sourcesForReply, type ChatSource, type SourceTier } from "./chat-sources";
 import type { Language } from "./translations";
 
 export interface ChatMessage {
@@ -18,6 +19,8 @@ export interface ChatReply {
   links: ChatLink[];
   sources: ChatSource[];
   primaryTier: SourceTier;
+  queryType: QuestionType;
+  queryTypeLabel: string;
 }
 
 const ESCALATION_PATTERNS = [
@@ -35,10 +38,16 @@ function primaryTierFromContext(dailyOpsCovered: boolean, vendorCount: number, w
   return "model";
 }
 
-function fallbackReply(messages: ChatMessage[], lang: Language, sources: ChatSource[], primaryTier: SourceTier): ChatReply {
+function fallbackReply(
+  messages: ChatMessage[],
+  lang: Language,
+  sources: ChatSource[],
+  primaryTier: SourceTier,
+  route: RoutePlan,
+): ChatReply {
   const lastUser = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
   const lower = lastUser.toLowerCase();
-  const escalate = wantsEscalation(lastUser);
+  const escalate = route.forceEscalate || wantsEscalation(lastUser);
 
   const links: ChatLink[] = sources
     .filter((s) => s.url.startsWith("/"))
@@ -63,15 +72,38 @@ function fallbackReply(messages: ChatMessage[], lang: Language, sources: ChatSou
   }
 
   if (escalate) {
+    const incidentReply =
+      route.type === "incident"
+        ? lang === "FR"
+          ? "Incident production détecté — je ne peux pas diagnostiquer à distance. Transmettez votre message à notre équipe NOC/SOC via le formulaire ci-dessous ou votre email."
+          : "Production incident detected — I can't diagnose remotely. Forward your message to our NOC/SOC team via the form below or your email."
+        : lang === "FR"
+          ? "Votre demande semble nécessiter l'intervention directe de notre équipe. Je peux transmettre votre message à un expert — indiquez votre email ci-dessous, ou utilisez le formulaire de contact."
+          : "Your request looks like it needs direct input from our team. I can forward this to an expert — share your email below, or use the contact form.";
+
     return {
       escalate: true,
       links,
       sources,
       primaryTier,
+      queryType: route.type,
+      queryTypeLabel: route.label,
+      reply: incidentReply,
+    };
+  }
+
+  if (route.type === "experience" && sources.some((s) => s.url.startsWith("/experience"))) {
+    return {
+      escalate: false,
+      links,
+      sources,
+      primaryTier: "dailyops",
+      queryType: route.type,
+      queryTypeLabel: route.label,
       reply:
         lang === "FR"
-          ? "Votre demande semble nécessiter l'intervention directe de notre équipe. Je peux transmettre votre message à un expert — indiquez votre email ci-dessous, ou utilisez le formulaire de contact."
-          : "Your request looks like it needs direct input from our team. I can forward this to an expert — share your email below, or use the contact form.",
+          ? "Voici des retours d'expérience DailyOps correspondant à votre sujet. Consultez les liens ci-dessous."
+          : "Here are DailyOps field experience reports matching your topic. Check the links below.",
     };
   }
 
@@ -81,6 +113,8 @@ function fallbackReply(messages: ChatMessage[], lang: Language, sources: ChatSou
       links,
       sources,
       primaryTier: "dailyops",
+      queryType: route.type,
+      queryTypeLabel: route.label,
       reply:
         lang === "FR"
           ? "J'ai trouvé des ressources DailyOps qui correspondent à votre recherche (source prioritaire). Consultez les liens ci-dessous — dites-moi si vous voulez creuser un sujet ou parler à un expert."
@@ -103,6 +137,8 @@ function fallbackReply(messages: ChatMessage[], lang: Language, sources: ChatSou
       links,
       sources,
       primaryTier,
+      queryType: route.type,
+      queryTypeLabel: route.label,
       reply:
         lang === "FR"
           ? `DailyOps ne couvre pas encore ce sujet en détail. J'ai consulté la ${tierLabel} — voir les sources ci-dessous. Pour une aide personnalisée, contactez notre équipe.`
@@ -118,6 +154,8 @@ function fallbackReply(messages: ChatMessage[], lang: Language, sources: ChatSou
     ],
     sources: [],
     primaryTier: "model",
+    queryType: route.type,
+    queryTypeLabel: route.label,
     reply:
       lang === "FR"
         ? "Je suis l'assistant DailyOps. Cherchez-vous un guide (réseau, cloud, sécurité…), un retour terrain, ou une aide personnalisée ? Décrivez votre besoin."
@@ -125,18 +163,27 @@ function fallbackReply(messages: ChatMessage[], lang: Language, sources: ChatSou
   };
 }
 
-function buildSystemPrompt(lang: Language, siteContext: string, sourceContext: string): string {
+function buildSystemPrompt(lang: Language, siteContext: string, sourceContext: string, route: RoutePlan): string {
   const language = lang === "FR" ? "French" : "English";
+  const inactiveTiers = (Object.entries(route.tiers) as [keyof RoutePlan["tiers"], boolean][])
+    .filter(([, on]) => !on)
+    .map(([tier]) => tier)
+    .join(", ");
 
   return `You are the DailyOps.Tech website assistant — helpful, concise, production-focused.
 Reply in ${language}.
 
-## Source hierarchy (STRICT — follow this order)
+## Question routing (ACTIVE — overrides default tier activation)
+${route.instruction}
+${inactiveTiers ? `Inactive tiers for this query: ${inactiveTiers}. Do NOT cite or rely on inactive tiers.` : ""}
+${route.forceEscalate ? "MANDATORY: set escalate=true in your JSON response." : ""}
 
-1. **DailyOps documentation** — ALWAYS prioritize. Cite internal article links (/articles/...) when available.
-2. **Official vendor documentation** (Fortinet, Cisco, Microsoft, VMware, AWS, etc.) — Use when DailyOps doesn't cover the topic or to validate/complete DailyOps content. Cite vendor URLs from context.
-3. **Model general knowledge** — For conceptual explanations only when Tiers 1–2 are insufficient. Clearly state this is general guidance, not site content.
-4. **Web search** — For CVEs, security advisories, version releases, news, and current events. Cite web URLs from context.
+## Source hierarchy (when tiers are active)
+
+1. **DailyOps documentation** — Articles (/articles/...) and field experience (/experience/...). ALWAYS prioritize when active.
+2. **Official vendor documentation** — Fortinet, Cisco, Microsoft, VMware, AWS, etc.
+3. **Model general knowledge** — Conceptual explanations only when Tiers 1–2 are insufficient.
+4. **Web search** — CVEs, advisories, version releases, news.
 
 ## Site knowledge (DailyOps catalog)
 ${siteContext}
@@ -145,13 +192,12 @@ ${siteContext}
 ${sourceContext}
 
 ## Rules
-- Follow the source hierarchy strictly. Lead with DailyOps when relevant articles exist.
-- When using Tier 2–4, mention which tier you relied on briefly (e.g. "According to Fortinet docs…" or "Per recent advisory…").
+- Follow the routing plan first, then the hierarchy for active tiers only.
+- When using Tier 2–4, mention which tier you relied on briefly.
 - Suggest relevant internal links (href must start with /) in the links array.
 - Include external vendor/web URLs in the sources array when you cite them.
-- Set escalate=true when the visitor needs: custom consulting, hands-on production help, partnership, hiring, urgent incident support, or anything you cannot answer from available sources.
+- Set escalate=true when routing requires it, or for custom consulting, production incidents, partnership, hiring.
 - Never invent DailyOps articles or internal URLs not in site knowledge.
-- Be honest when DailyOps doesn't cover a topic — don't pretend site articles exist.
 - Respond ONLY with valid JSON:
 {"reply":"...","escalate":false,"links":[{"label":"...","href":"/..."}],"sources":[{"tier":"dailyops|vendor|model|web","label":"...","url":"..."}],"primaryTier":"dailyops|vendor|model|web"}`;
 }
@@ -163,6 +209,7 @@ async function callLLM(
   sourceContext: string,
   fallbackSources: ChatSource[],
   fallbackTier: SourceTier,
+  route: RoutePlan,
 ): Promise<ChatReply | null> {
   const apiKey = process.env.OPENAI_API_KEY ?? process.env.XAI_API_KEY;
   if (!apiKey) return null;
@@ -182,7 +229,7 @@ async function callLLM(
       max_tokens: 900,
       response_format: { type: "json_object" },
       messages: [
-        { role: "system", content: buildSystemPrompt(lang, siteContext, sourceContext) },
+        { role: "system", content: buildSystemPrompt(lang, siteContext, sourceContext, route) },
         ...messages.map((m) => ({ role: m.role, content: m.content })),
       ],
     }),
@@ -221,10 +268,12 @@ async function callLLM(
 
     return {
       reply: parsed.reply ?? "",
-      escalate: Boolean(parsed.escalate),
+      escalate: route.forceEscalate || Boolean(parsed.escalate),
       links: [...internalLinks, ...externalFromSources],
       sources: mergedSources.slice(0, 6),
       primaryTier: parsed.primaryTier ?? fallbackTier,
+      queryType: route.type,
+      queryTypeLabel: route.label,
     };
   } catch {
     return null;
@@ -233,7 +282,9 @@ async function callLLM(
 
 export async function generateChatReply(messages: ChatMessage[], lang: Language): Promise<ChatReply> {
   const lastUser = [...messages].reverse().find((m) => m.role === "user")?.content ?? "";
-  const sourceCtx = await gatherSourceContext(lastUser, lang);
+  const route = classifyQuery(lastUser, lang, detectVendors(lastUser).length > 0);
+  const routeContext = buildRouteContext(route, lang);
+  const sourceCtx = await gatherSourceContext(lastUser, lang, route, routeContext);
   const sources = sourcesForReply(sourceCtx);
   const primaryTier = primaryTierFromContext(
     sourceCtx.dailyOpsCovered,
@@ -242,8 +293,8 @@ export async function generateChatReply(messages: ChatMessage[], lang: Language)
   );
 
   const siteContext = buildChatSiteContext(lang);
-  const llm = await callLLM(messages, lang, siteContext, sourceCtx.contextBlock, sources, primaryTier);
+  const llm = await callLLM(messages, lang, siteContext, sourceCtx.contextBlock, sources, primaryTier, route);
   if (llm?.reply) return llm;
 
-  return fallbackReply(messages, lang, sources, primaryTier);
+  return fallbackReply(messages, lang, sources, primaryTier, route);
 }

@@ -1,5 +1,7 @@
 import { getAllArticles } from "./articles";
 import { CATEGORIES } from "./categories";
+import { EXPERIENCES } from "./experiences";
+import type { RoutePlan } from "./chat-router";
 import { getMarkdownBody } from "./markdown";
 import { translations, type Language } from "./translations";
 
@@ -20,8 +22,17 @@ export interface DailyOpsMatch {
   excerpt?: string;
 }
 
+export interface ExperienceMatch {
+  slug: string;
+  title: string;
+  href: string;
+  score: number;
+  excerpt: string;
+}
+
 export interface SourceContext {
   dailyOpsMatches: DailyOpsMatch[];
+  experienceMatches: ExperienceMatch[];
   dailyOpsCovered: boolean;
   vendorSources: ChatSource[];
   webSources: ChatSource[];
@@ -75,7 +86,7 @@ function tokenize(text: string): string[] {
     .filter((w) => w.length > 2 && !STOP_WORDS.has(w));
 }
 
-function detectVendors(text: string): string[] {
+export function detectVendors(text: string): string[] {
   const lower = text.toLowerCase();
   const found: string[] = [];
 
@@ -132,6 +143,33 @@ export function matchDailyOpsArticles(query: string, lang: Language): DailyOpsMa
         href: `/articles/${article.slug}`,
         score,
         excerpt: body ? body.slice(0, 1200) : excerpt,
+      });
+    }
+  }
+
+  return scored.sort((a, b) => b.score - a.score).slice(0, 3);
+}
+
+export function matchDailyOpsExperiences(query: string, lang: Language): ExperienceMatch[] {
+  const t = translations[lang];
+  const queryTokens = tokenize(query);
+  if (queryTokens.length === 0) return [];
+
+  const scored: ExperienceMatch[] = [];
+
+  for (const exp of EXPERIENCES) {
+    const title = t[exp.titleKey as keyof typeof t] as string;
+    const desc = t[exp.descKey as keyof typeof t] as string;
+    const tags = (exp.tagKeys ?? []).map((k) => t[k as keyof typeof t] as string);
+    const score = scoreArticle(queryTokens, title, desc, exp.slug.replace(/-/g, " "), tags);
+
+    if (score >= 2) {
+      scored.push({
+        slug: exp.slug,
+        title,
+        href: `/experience/${exp.slug}`,
+        score,
+        excerpt: desc,
       });
     }
   }
@@ -252,11 +290,13 @@ async function searchWebNews(query: string): Promise<ChatSource[]> {
 function buildContextBlock(
   lang: Language,
   dailyOpsMatches: DailyOpsMatch[],
+  experienceMatches: ExperienceMatch[],
   vendorSources: ChatSource[],
   webSources: ChatSource[],
   dailyOpsCovered: boolean,
+  routeContext: string,
 ): string {
-  const sections: string[] = [];
+  const sections: string[] = [routeContext];
 
   if (dailyOpsMatches.length > 0) {
     const articles = dailyOpsMatches
@@ -271,6 +311,17 @@ function buildContextBlock(
       lang === "FR"
         ? "## Tier 1 — DailyOps: aucun article correspondant trouvé pour cette requête."
         : "## Tier 1 — DailyOps: no matching article found for this query.",
+    );
+  }
+
+  if (experienceMatches.length > 0) {
+    const experiences = experienceMatches
+      .map((m) => `- [Tier 1 — DailyOps Experience] ${m.title} (${m.href})\n  Summary: ${m.excerpt}`)
+      .join("\n");
+    sections.push(
+      lang === "FR"
+        ? `## Tier 1 — Retours d'expérience DailyOps\n${experiences}`
+        : `## Tier 1 — DailyOps field experience\n${experiences}`,
     );
   }
 
@@ -301,31 +352,62 @@ function buildContextBlock(
   return sections.join("\n\n");
 }
 
-export async function gatherSourceContext(query: string, lang: Language): Promise<SourceContext> {
-  const dailyOpsMatches = matchDailyOpsArticles(query, lang);
-  const dailyOpsCovered = dailyOpsMatches.length > 0 && dailyOpsMatches[0].score >= 3;
+export async function gatherSourceContext(
+  query: string,
+  lang: Language,
+  route: RoutePlan,
+  routeContext: string,
+): Promise<SourceContext> {
   const detectedVendors = detectVendors(query);
   const webNeeded = needsWebSearch(query);
+
+  const dailyOpsMatches = route.tiers.dailyops ? matchDailyOpsArticles(query, lang) : [];
+  const experienceMatches = route.tiers.experience ? matchDailyOpsExperiences(query, lang) : [];
+  const dailyOpsCovered =
+    (dailyOpsMatches.length > 0 && dailyOpsMatches[0].score >= 3) ||
+    (experienceMatches.length > 0 && experienceMatches[0].score >= 3);
 
   const hasSearchApi = Boolean(process.env.TAVILY_API_KEY || process.env.SERPER_API_KEY);
 
   let vendorSources: ChatSource[] = [];
   let webSources: ChatSource[] = [];
 
-  if (hasSearchApi) {
-    const vendorNeeded = detectedVendors.length > 0 && (!dailyOpsCovered || dailyOpsMatches.length < 2);
+  if (hasSearchApi && route.tiers.vendor) {
+    const vendorNeeded =
+      detectedVendors.length > 0 &&
+      (route.type === "vendor_howto" ||
+        route.type === "cve_security" ||
+        route.type === "validation" ||
+        !dailyOpsCovered ||
+        dailyOpsMatches.length < 2);
+
     if (vendorNeeded) {
       vendorSources = await searchVendorDocs(query, detectedVendors);
     }
-    if (webNeeded) {
+  }
+
+  if (hasSearchApi && route.tiers.web) {
+    const webSearchNeeded =
+      webNeeded || route.type === "cve_security" || route.type === "validation";
+
+    if (webSearchNeeded) {
       webSources = await searchWebNews(query);
     }
   }
 
-  const contextBlock = buildContextBlock(lang, dailyOpsMatches, vendorSources, webSources, dailyOpsCovered);
+  const contextBlock = buildContextBlock(
+    lang,
+    dailyOpsMatches,
+    experienceMatches,
+    vendorSources,
+    webSources,
+    dailyOpsCovered,
+    routeContext,
+  );
 
   return {
     dailyOpsMatches,
+    experienceMatches,
     dailyOpsCovered,
     vendorSources,
     webSources,
@@ -336,11 +418,17 @@ export async function gatherSourceContext(query: string, lang: Language): Promis
 }
 
 export function sourcesForReply(ctx: SourceContext): ChatSource[] {
-  const internal: ChatSource[] = ctx.dailyOpsMatches.map((m) => ({
+  const articles: ChatSource[] = ctx.dailyOpsMatches.map((m) => ({
     tier: "dailyops",
     label: m.title,
     url: m.href,
   }));
 
-  return [...internal, ...ctx.vendorSources, ...ctx.webSources].slice(0, 6);
+  const experiences: ChatSource[] = ctx.experienceMatches.map((m) => ({
+    tier: "dailyops",
+    label: m.title,
+    url: m.href,
+  }));
+
+  return [...articles, ...experiences, ...ctx.vendorSources, ...ctx.webSources].slice(0, 6);
 }
