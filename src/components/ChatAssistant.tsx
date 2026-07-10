@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import {
-  MessageCircle,
   X,
   Send,
   User,
@@ -17,6 +16,50 @@ import {
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import type { ChatSource } from "@/lib/chat-sources";
+
+const NUDGE_STORAGE_KEY = "dailyops-chat-nudge-dismissed";
+const NUDGE_DELAY_MIN_MS = 22_000;
+const NUDGE_DELAY_JITTER_MS = 18_000;
+const NUDGE_AUTOHIDE_MS = 16_000;
+
+const NUDGE_KEYS = ["chat.nudge_1", "chat.nudge_2", "chat.nudge_3"] as const;
+
+function RobotAvatar({ active }: { active?: boolean }) {
+  return (
+    <div className="relative flex items-center justify-center w-7 h-7">
+      <motion.span
+        className="absolute -top-2 left-1/2 -translate-x-1/2 w-1 h-2 rounded-full bg-slate-400/70"
+        animate={active ? { opacity: [0.35, 1, 0.35], scaleY: [0.85, 1.1, 0.85] } : { opacity: 0.5 }}
+        transition={{ duration: active ? 1.2 : 0, repeat: active ? Infinity : 0, ease: "easeInOut" }}
+        aria-hidden
+      />
+      <motion.span
+        className="absolute -top-0.5 left-1/2 -translate-x-1/2 w-2 h-2 rounded-full bg-slate-500/20 border border-slate-400/30"
+        animate={active ? { scale: [1, 1.15, 1] } : undefined}
+        transition={{ duration: 1.2, repeat: Infinity, ease: "easeInOut" }}
+        aria-hidden
+      />
+      <motion.div
+        animate={active ? { rotate: [0, -4, 4, 0] } : undefined}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <Bot size={26} strokeWidth={1.75} className="text-text-primary" />
+      </motion.div>
+      <motion.span
+        className="absolute bottom-0.5 left-1.5 w-1 h-1 rounded-full bg-turquoise/80"
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.2 }}
+        aria-hidden
+      />
+      <motion.span
+        className="absolute bottom-0.5 right-1.5 w-1 h-1 rounded-full bg-turquoise/80"
+        animate={{ opacity: [0.3, 1, 0.3] }}
+        transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", delay: 0.6 }}
+        aria-hidden
+      />
+    </div>
+  );
+}
 
 interface ChatMessage {
   role: "user" | "assistant";
@@ -36,9 +79,47 @@ export default function ChatAssistant() {
   const [escalateName, setEscalateName] = useState("");
   const [escalateSending, setEscalateSending] = useState(false);
   const [escalateDone, setEscalateDone] = useState(false);
+  const [showNudge, setShowNudge] = useState(false);
+  const [nudgeMessageKey] = useState(
+    () => NUDGE_KEYS[Math.floor(Math.random() * NUDGE_KEYS.length)],
+  );
   const bottomRef = useRef<HTMLDivElement>(null);
   const dragBoundsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
+
+  const dismissNudge = (persist = true) => {
+    setShowNudge(false);
+    if (persist && typeof window !== "undefined") {
+      sessionStorage.setItem(NUDGE_STORAGE_KEY, "1");
+    }
+  };
+
+  const openChat = () => {
+    dismissNudge();
+    setOpen(true);
+  };
+
+  useEffect(() => {
+    if (open) {
+      setShowNudge(false);
+      return;
+    }
+    if (typeof window === "undefined") return;
+    if (sessionStorage.getItem(NUDGE_STORAGE_KEY)) return;
+
+    const delay = NUDGE_DELAY_MIN_MS + Math.random() * NUDGE_DELAY_JITTER_MS;
+    const showTimer = window.setTimeout(() => {
+      if (!sessionStorage.getItem(NUDGE_STORAGE_KEY)) setShowNudge(true);
+    }, delay);
+
+    return () => window.clearTimeout(showTimer);
+  }, [open]);
+
+  useEffect(() => {
+    if (!showNudge) return;
+    const hideTimer = window.setTimeout(() => setShowNudge(false), NUDGE_AUTOHIDE_MS);
+    return () => window.clearTimeout(hideTimer);
+  }, [showNudge]);
 
   useEffect(() => {
     setMessages([]);
@@ -373,14 +454,69 @@ export default function ChatAssistant() {
       </div>
 
       {!open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          className="fixed bottom-20 right-4 z-[85] w-12 h-12 rounded-2xl chat-glass text-text-primary shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
-          aria-label={t("chat.open")}
-        >
-          <MessageCircle size={22} className="text-text-secondary" />
-        </button>
+        <div className="fixed bottom-20 right-4 z-[85] flex flex-col items-end gap-2">
+          <AnimatePresence>
+            {showNudge && (
+              <motion.div
+                initial={{ opacity: 0, y: 10, scale: 0.92 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 8, scale: 0.94 }}
+                transition={{ type: "spring", damping: 22, stiffness: 340 }}
+                className="relative max-w-[min(100vw-6rem,240px)] rounded-2xl chat-glass px-3.5 py-3 shadow-lg border border-slate-400/20"
+                role="status"
+                aria-live="polite"
+              >
+                <div
+                  className="absolute -bottom-1.5 right-6 w-3 h-3 rotate-45 bg-slate-500/10 border-r border-b border-slate-400/20 dark:bg-slate-800/80"
+                  aria-hidden
+                />
+                <p className="text-[11px] font-medium text-text-primary leading-snug pr-5">
+                  {t(nudgeMessageKey)}
+                </p>
+                <div className="flex items-center gap-2 mt-2.5">
+                  <button
+                    type="button"
+                    onClick={openChat}
+                    className="text-[9px] font-black uppercase tracking-widest text-turquoise hover:underline"
+                  >
+                    {t("chat.open")}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => dismissNudge(true)}
+                    className="text-[9px] font-bold uppercase tracking-wider text-text-secondary/50 hover:text-text-secondary"
+                  >
+                    {t("chat.nudge_dismiss")}
+                  </button>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => dismissNudge(true)}
+                  className="absolute top-2 right-2 p-0.5 rounded-md text-text-secondary/40 hover:text-text-secondary"
+                  aria-label={t("chat.nudge_dismiss")}
+                >
+                  <X size={12} />
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <motion.button
+            type="button"
+            onClick={openChat}
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 3.2, repeat: Infinity, ease: "easeInOut" }}
+            className={`relative w-14 h-14 rounded-2xl chat-glass shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-transform ${
+              showNudge ? "ring-2 ring-slate-400/25 ring-offset-2 ring-offset-transparent" : ""
+            }`}
+            aria-label={t("chat.open")}
+          >
+            {showNudge && (
+              <span className="absolute inset-0 rounded-2xl bg-slate-400/10 animate-pulse pointer-events-none" aria-hidden />
+            )}
+            <RobotAvatar active={showNudge} />
+          </motion.button>
+        </div>
       )}
     </>
   );

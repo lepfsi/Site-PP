@@ -212,6 +212,10 @@ export interface TranslationKeys {
   "chat.placeholder": string;
   "chat.send": string;
   "chat.open": string;
+  "chat.nudge_1": string;
+  "chat.nudge_2": string;
+  "chat.nudge_3": string;
+  "chat.nudge_dismiss": string;
   "chat.close": string;
   "chat.thinking": string;
   "chat.error": string;
@@ -592,6 +596,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.placeholder": "Ask about a topic, article, or need…",
     "chat.send": "Send",
     "chat.open": "Open assistant",
+    "chat.nudge_1": "Need a hand? I can help with guides and tech topics.",
+    "chat.nudge_2": "Looking for something? Ask me about our articles or ops topics.",
+    "chat.nudge_3": "Stuck on a topic? I'm here if you need help.",
+    "chat.nudge_dismiss": "Not now",
     "chat.close": "Close assistant",
     "chat.thinking": "Thinking…",
     "chat.error": "Sorry, I couldn't process that. Try again or use the contact form.",
@@ -968,6 +976,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.placeholder": "Posez une question, un sujet, un besoin…",
     "chat.send": "Envoyer",
     "chat.open": "Ouvrir l'assistant",
+    "chat.nudge_1": "Besoin d'un coup de main ? Guides et sujets techniques.",
+    "chat.nudge_2": "Vous cherchez quelque chose ? Articles, ops, infra — demandez.",
+    "chat.nudge_3": "Bloqué sur un sujet ? Je suis là si vous avez besoin d'aide.",
+    "chat.nudge_dismiss": "Pas maintenant",
     "chat.close": "Fermer l'assistant",
     "chat.thinking": "Réflexion…",
     "chat.error": "Désolé, je n'ai pas pu traiter votre message. Réessayez ou utilisez le formulaire de contact.",
