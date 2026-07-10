@@ -8,8 +8,15 @@ export const RESEND_DOMAIN = process.env.RESEND_DOMAIN ?? "news.dailyops.tech";
 
 export const CONTACT_EMAIL = process.env.CONTACT_EMAIL ?? "contact@dailyops.tech";
 
+/** Inbox that receives contact, chat, and newsletter admin notifications */
+export const NOTIFY_EMAIL = process.env.NOTIFY_EMAIL ?? CONTACT_EMAIL;
+
 export const FROM_EMAIL =
   process.env.RESEND_FROM_EMAIL ?? `DailyOps <noreply@${RESEND_DOMAIN}>`;
+
+/** Resend Segment (or legacy Audience) for newsletter subscribers */
+export const NEWSLETTER_SEGMENT_ID =
+  process.env.RESEND_SEGMENT_ID ?? process.env.RESEND_AUDIENCE_ID ?? null;
 
 function escapeHtml(text: string): string {
   return text
@@ -29,8 +36,13 @@ export function getEmailStatus() {
     from: FROM_EMAIL,
     domain: RESEND_DOMAIN,
     contactEmail: CONTACT_EMAIL,
+    notifyEmail: NOTIFY_EMAIL,
+    newsletterSegmentId: NEWSLETTER_SEGMENT_ID,
     audienceId: process.env.RESEND_AUDIENCE_ID ?? null,
+    segmentId: process.env.RESEND_SEGMENT_ID ?? null,
+    contactsStoredIn: "resend",
     usingDefaultFrom: !process.env.RESEND_FROM_EMAIL,
+    notifyUsesPublicContact: NOTIFY_EMAIL === CONTACT_EMAIL,
   };
 }
 
@@ -89,7 +101,7 @@ export async function sendContactEmail(data: {
   const { name, email, subject, message } = data;
 
   await sendEmail({
-    to: CONTACT_EMAIL,
+    to: NOTIFY_EMAIL,
     replyTo: email,
     subject: `[DailyOps Contact] ${subject}`,
     html: `
@@ -105,22 +117,18 @@ export async function sendContactEmail(data: {
 export async function subscribeToNewsletter(email: string, lang: "EN" | "FR" = "EN") {
   if (!resend) throw new Error("RESEND_API_KEY is not configured");
 
-  const audienceId = process.env.RESEND_AUDIENCE_ID;
+  const { error: contactError } = await resend.contacts.create({
+    email,
+    unsubscribed: false,
+    ...(NEWSLETTER_SEGMENT_ID ? { segments: [{ id: NEWSLETTER_SEGMENT_ID }] } : {}),
+  });
 
-  if (audienceId) {
-    const { error: contactError } = await resend.contacts.create({
-      email,
-      audienceId,
-      unsubscribed: false,
-    });
-
-    if (contactError && !contactError.message.toLowerCase().includes("already")) {
-      throw new Error(contactError.message);
-    }
+  if (contactError && !contactError.message.toLowerCase().includes("already")) {
+    throw new Error(contactError.message);
   }
 
   await sendEmail({
-    to: CONTACT_EMAIL,
+    to: NOTIFY_EMAIL,
     subject: "[DailyOps Newsletter] Nouvel abonné",
     html: `<p>Nouvel abonné newsletter :</p><p><strong>${escapeHtml(email)}</strong></p>`,
   });
@@ -163,7 +171,7 @@ export async function sendChatEscalationEmail(data: {
   const { visitorEmail, visitorName, summary, transcript, lang } = data;
 
   await sendEmail({
-    to: CONTACT_EMAIL,
+    to: NOTIFY_EMAIL,
     replyTo: visitorEmail,
     subject: `[DailyOps Chat] Demande d'assistance expert`,
     html: `
