@@ -11,11 +11,21 @@ export function getLastLLMError(): string | undefined {
 }
 
 export function getLLMConfig(): LLMConfig | null {
-  const apiKey = (process.env.OPENAI_API_KEY ?? process.env.XAI_API_KEY ?? "").trim();
+  const openaiKey = (process.env.OPENAI_API_KEY ?? "").trim();
+  const xaiKey = (process.env.XAI_API_KEY ?? "").trim();
+  const provider = process.env.CHAT_PROVIDER?.toLowerCase();
+
+  let usingXai = false;
+  if (provider === "xai") usingXai = Boolean(xaiKey);
+  else if (provider === "openai") usingXai = false;
+  else usingXai = Boolean(xaiKey && !openaiKey);
+
+  const apiKey = (usingXai ? xaiKey : openaiKey || xaiKey).trim();
   if (!apiKey) return null;
 
-  const baseUrl = (process.env.OPENAI_BASE_URL ?? "https://api.openai.com/v1").replace(/\/$/, "");
-  const model = (process.env.CHAT_MODEL ?? "gpt-4o-mini").trim();
+  const envBase = (process.env.OPENAI_BASE_URL ?? "").trim().replace(/\/$/, "");
+  const baseUrl = envBase || (usingXai ? "https://api.x.ai/v1" : "https://api.openai.com/v1");
+  const model = (process.env.CHAT_MODEL ?? (usingXai ? "grok-3-mini" : "gpt-4o-mini")).trim();
 
   return { apiKey, baseUrl, model };
 }
@@ -100,7 +110,10 @@ export async function callChatCompletions(
     return { text: null, error: "missing_api_key" };
   }
 
-  const fallbacks = [...new Set([config.model, "gpt-4o-mini", "gpt-4o"])];
+  const isXai = config.baseUrl.includes("api.x.ai");
+  const fallbacks = isXai
+    ? [...new Set([config.model, "grok-3-mini", "grok-4-1-fast-non-reasoning", "grok-4.5"])]
+    : [...new Set([config.model, "gpt-4o-mini", "gpt-4o"])];
 
   for (const model of fallbacks) {
     const result = await requestCompletion(config, model, system, messages, options);

@@ -14,6 +14,7 @@ import {
   ExternalLink,
   CheckCircle2,
   GripHorizontal,
+  Minimize2,
 } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import type { ChatSource } from "@/lib/chat-sources";
@@ -108,6 +109,24 @@ export default function ChatAssistant() {
     setOpen(true);
   };
 
+  const resetChat = () => {
+    setMessages([]);
+    setInput("");
+    setShowEscalate(false);
+    setEscalateDone(false);
+    setEscalateEmail("");
+    setEscalateName("");
+  };
+
+  const hideChat = () => {
+    setOpen(false);
+  };
+
+  const closeChat = () => {
+    resetChat();
+    setOpen(false);
+  };
+
   useEffect(() => {
     if (open) {
       setShowNudge(false);
@@ -141,6 +160,15 @@ export default function ChatAssistant() {
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, showEscalate, loading]);
+
+  useEffect(() => {
+    if (!open) return;
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") hideChat();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [open]);
 
   const apiMessages = (msgs: ChatMessage[]) =>
     msgs.map((m) => ({ role: m.role, content: m.content }));
@@ -259,7 +287,20 @@ export default function ChatAssistant() {
       >
         <AnimatePresence>
           {open && (
+            <>
+            <motion.button
+              type="button"
+              key="chat-backdrop"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              className="absolute inset-0 pointer-events-auto cursor-default bg-transparent"
+              onClick={hideChat}
+              aria-label={t("chat.hide")}
+            />
             <motion.div
+              key="chat-panel"
               drag
               dragControls={dragControls}
               dragListener={false}
@@ -288,14 +329,26 @@ export default function ChatAssistant() {
                   <p className="text-[9px] text-text-secondary/60 font-medium truncate">{t("chat.subtitle")}</p>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={() => setOpen(false)}
-                className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-slate-500/10 transition-colors shrink-0"
-                aria-label={t("chat.close")}
-              >
-                <X size={16} />
-              </button>
+              <div className="flex items-center gap-0.5 shrink-0">
+                <button
+                  type="button"
+                  onClick={hideChat}
+                  className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-slate-500/10 transition-colors"
+                  aria-label={t("chat.hide")}
+                  title={t("chat.hide")}
+                >
+                  <Minimize2 size={16} />
+                </button>
+                <button
+                  type="button"
+                  onClick={closeChat}
+                  className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-slate-500/10 transition-colors"
+                  aria-label={t("chat.close")}
+                  title={t("chat.close")}
+                >
+                  <X size={16} />
+                </button>
+              </div>
             </div>
 
             <div className="flex-1 overflow-y-auto sidebar-scroll px-4 py-3 space-y-3">
@@ -343,7 +396,7 @@ export default function ChatAssistant() {
                               key={link.href}
                               href={link.href}
                               className="inline-flex items-center text-[9px] font-black uppercase tracking-wider text-turquoise hover:underline"
-                              onClick={() => setOpen(false)}
+                              onClick={hideChat}
                             >
                               {link.label} <ArrowUpRight size={10} className="ml-0.5" />
                             </Link>
@@ -452,6 +505,7 @@ export default function ChatAssistant() {
               )}
             </div>
             </motion.div>
+            </>
           )}
         </AnimatePresence>
       </div>

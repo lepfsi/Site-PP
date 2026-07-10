@@ -216,6 +216,7 @@ export interface TranslationKeys {
   "chat.nudge_2": string;
   "chat.nudge_3": string;
   "chat.nudge_dismiss": string;
+  "chat.hide": string;
   "chat.close": string;
   "chat.thinking": string;
   "chat.error": string;
@@ -600,7 +601,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.nudge_2": "Looking for something? Ask me about our articles or ops topics.",
     "chat.nudge_3": "Stuck on a topic? I'm here if you need help.",
     "chat.nudge_dismiss": "Not now",
-    "chat.close": "Close assistant",
+    "chat.hide": "Minimize (keep history)",
+    "chat.close": "End conversation",
     "chat.thinking": "Thinking…",
     "chat.error": "Sorry, I couldn't process that. Try again or use the contact form.",
     "chat.contact_link": "Contact form",
@@ -980,7 +982,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.nudge_2": "Vous cherchez quelque chose ? Articles, ops, infra — demandez.",
     "chat.nudge_3": "Bloqué sur un sujet ? Je suis là si vous avez besoin d'aide.",
     "chat.nudge_dismiss": "Pas maintenant",
-    "chat.close": "Fermer l'assistant",
+    "chat.hide": "Réduire (garder l'historique)",
+    "chat.close": "Terminer la conversation",
     "chat.thinking": "Réflexion…",
     "chat.error": "Désolé, je n'ai pas pu traiter votre message. Réessayez ou utilisez le formulaire de contact.",
     "chat.contact_link": "Formulaire contact",

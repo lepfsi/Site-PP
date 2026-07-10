@@ -8,7 +8,12 @@ export async function GET(request: Request) {
 
   const base = {
     llm: config
-      ? { configured: true, model: config.model, baseUrl: config.baseUrl }
+      ? {
+          configured: true,
+          model: config.model,
+          baseUrl: config.baseUrl,
+          provider: config.baseUrl.includes("api.x.ai") ? "xai" : "openai",
+        }
       : { configured: false },
     tavily,
     lastError: getLastLLMError() ?? null,
