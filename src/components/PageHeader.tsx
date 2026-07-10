@@ -76,17 +76,25 @@ export default function PageHeader({
               <motion.h1
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl md:text-4xl font-black text-text-primary tracking-tight code-font"
+                className="flex flex-wrap items-center gap-x-3 gap-y-2 text-3xl md:text-4xl font-black text-text-primary tracking-tight code-font"
               >
-                {showPrefix && <span className="text-turquoise">//</span>} {title}
+                {showPrefix && (
+                  <span className="heading-prefix" aria-hidden>
+                    //
+                  </span>
+                )}
+                <span>{title}</span>
               </motion.h1>
+            )}
+            {title && showPrefix && (
+              <div className="heading-accent" aria-hidden />
             )}
             {subtitle && (
               <motion.p
                 initial={{ opacity: 0, y: 16 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.08 }}
-                className="mt-3 text-text-secondary text-base sm:text-lg font-medium max-w-2xl leading-relaxed"
+                className="mt-4 text-text-secondary text-base sm:text-lg font-medium max-w-2xl leading-relaxed"
               >
                 {subtitle}
               </motion.p>

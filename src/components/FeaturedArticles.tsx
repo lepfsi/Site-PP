@@ -14,8 +14,8 @@ export default function FeaturedArticles() {
   const recentArticles = getRecentArticles(6);
 
   return (
-    <section id="articles" className="py-16 md:py-20 bg-bg-primary relative overflow-hidden">
-      <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none"></div>
+    <section id="articles" className="py-16 md:py-20 bg-bg-primary section-band relative overflow-hidden">
+      <div className="absolute inset-0 tech-grid section-grid pointer-events-none" />
 
       <div className="container-custom relative z-10">
         <motion.div

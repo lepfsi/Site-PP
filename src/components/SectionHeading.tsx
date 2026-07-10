@@ -21,14 +21,19 @@ export default function SectionHeading({
     <div className={cn(centered ? "text-center" : "text-left", className)}>
       <h2
         className={cn(
-          "text-3xl md:text-4xl font-black tracking-tight text-text-primary code-font",
+          "flex flex-wrap items-center gap-x-3 gap-y-2 text-3xl md:text-4xl font-black tracking-tight text-text-primary code-font",
+          centered && "justify-center",
           titleClassName,
         )}
       >
-        <span className="text-turquoise">//</span> {children}
+        <span className="heading-prefix" aria-hidden>
+          //
+        </span>
+        <span>{children}</span>
       </h2>
+      <div className={cn("heading-accent", centered && "mx-auto")} aria-hidden />
       {subtitle && (
-        <div className={cn("mt-3", centered && "flex flex-col items-center")}>
+        <div className={cn("mt-4", centered && "flex flex-col items-center")}>
           {subtitle}
         </div>
       )}

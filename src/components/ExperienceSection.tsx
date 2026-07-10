@@ -131,8 +131,8 @@ export default function ExperienceSection() {
   const horizontalCards = experiences.slice(3, 5);
 
   return (
-    <section id="experience" className="py-16 md:py-20 bg-bg-secondary relative overflow-hidden">
-      <div className="absolute inset-0 tech-grid opacity-5 pointer-events-none" aria-hidden />
+    <section id="experience" className="py-16 md:py-20 bg-bg-secondary section-band relative overflow-hidden">
+      <div className="absolute inset-0 tech-grid section-grid pointer-events-none" aria-hidden />
 
       <div className="container-custom relative z-10">
         <motion.div

@@ -19,8 +19,8 @@ export default function ResourcesSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-16 md:py-20 bg-bg-secondary relative overflow-hidden border-t border-border-main">
-      <div className="absolute inset-0 tech-grid opacity-[0.04] pointer-events-none"></div>
+    <section className="py-16 md:py-20 bg-bg-primary section-band relative overflow-hidden">
+      <div className="absolute inset-0 tech-grid section-grid pointer-events-none" />
       <div className="container-custom relative z-10">
         <SectionHeading
           className="mb-10"
