@@ -257,7 +257,8 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-28 pb-4 md:pt-32 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-center overflow-hidden noc-grid section-grid border-b border-border-main/60">
+    <section className="relative pt-28 pb-4 md:pt-32 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-center overflow-hidden border-b border-border-main/60">
+      <div className="absolute inset-0 noc-grid hero-grid pointer-events-none" aria-hidden />
       <div className="container-custom relative z-10 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           <div className="lg:col-span-7 flex flex-col justify-center gap-5 md:gap-6">

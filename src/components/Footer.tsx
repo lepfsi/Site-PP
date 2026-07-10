@@ -59,7 +59,9 @@ const FOOTER_INFORMATION = [
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="text-xs font-black uppercase tracking-[0.18em] text-text-primary mb-3">{title}</h4>
+      <h4 className="text-[10px] font-black uppercase tracking-[0.18em] text-text-secondary mb-3 pl-2.5 border-l-2 border-turquoise/50">
+        {title}
+      </h4>
       <ul className="space-y-2">{children}</ul>
     </div>
   );
@@ -113,8 +115,8 @@ export default function Footer() {
   const aboutLinks = sortFooterLinksByLength(FOOTER_ABOUT, t);
 
   return (
-    <footer className="relative bg-bg-secondary border-t-2 border-turquoise/15 shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.15)] dark:shadow-[0_-10px_40px_-12px_rgba(0,0,0,0.45)] pt-8 pb-5">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/35 to-transparent pointer-events-none" aria-hidden />
+    <footer className="relative bg-bg-primary border-t border-border-main/70 pt-8 pb-5">
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/25 to-transparent pointer-events-none" aria-hidden />
       <div className="container-custom">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 items-start">
           <FooterColumn title={t("footer.explore")}>

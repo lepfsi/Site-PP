@@ -96,11 +96,19 @@
 }
 
 .section-grid {
-  opacity: 0.14;
+  opacity: 0.1;
 }
 
 .dark .section-grid {
-  opacity: 0.2;
+  opacity: 0.18;
+}
+
+.hero-grid {
+  opacity: 0.055;
+}
+
+.dark .hero-grid {
+  opacity: 0.16;
 }
 
 .heading-prefix {
