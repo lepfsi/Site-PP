@@ -1,6 +1,6 @@
 ---
-title: Perte de paquets réseau — runbook de diagnostic terrain
-excerpt: Workflow couche par couche pour isoler la perte : erreurs interface, drops QoS, ACLs et problèmes MTU.
+title: "Perte de paquets réseau — runbook de diagnostic terrain"
+excerpt: "Workflow couche par couche pour isoler la perte : erreurs interface, drops QoS, ACLs et problèmes MTU."
 ---
 
 ## Contexte

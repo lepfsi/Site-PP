@@ -15,8 +15,13 @@ export function getMarkdownBody(slug: string, lang: "EN" | "FR"): string | null 
   if (!fs.existsSync(filePath)) return null;
 
   const raw = fs.readFileSync(filePath, "utf-8");
-  const { content } = matter(raw);
-  return content.trim();
+  try {
+    const { content } = matter(raw);
+    return content.trim();
+  } catch (err) {
+    console.error(`Failed to parse frontmatter for ${slug} (${lang}):`, err);
+    return raw.replace(/^---[\s\S]*?---\s*/, "").trim();
+  }
 }
 
 export function getMarkdownBodies(slug: string): { EN: string | null; FR: string | null } | null {

@@ -1,6 +1,6 @@
 ---
-title: Prometheus & Grafana — Production Observability Stack
-excerpt: Minimum viable metrics pipeline: scrape architecture, RED/USE signals, SLO alerting, and on-call routing without alert fatigue.
+title: "Prometheus & Grafana — Production Observability Stack"
+excerpt: "Minimum viable metrics pipeline: scrape architecture, RED/USE signals, SLO alerting, and on-call routing without alert fatigue."
 ---
 
 ## Context

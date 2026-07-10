@@ -1,6 +1,6 @@
 ---
-title: Linux Server Hardening Baseline — Production Checklist
-excerpt: CIS-aligned hardening steps for RHEL/Debian servers: SSH, firewall, auditing, and automated compliance checks.
+title: "Linux Server Hardening Baseline — Production Checklist"
+excerpt: "CIS-aligned hardening steps for RHEL/Debian servers: SSH, firewall, auditing, and automated compliance checks."
 ---
 
 ## Context

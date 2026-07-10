@@ -1,6 +1,6 @@
 ---
-title: Baseline durcissement Linux — checklist production
-excerpt: Étapes de durcissement alignées CIS pour serveurs RHEL/Debian : SSH, firewall, audit et contrôles automatisés.
+title: "Baseline durcissement Linux — checklist production"
+excerpt: "Étapes de durcissement alignées CIS pour serveurs RHEL/Debian : SSH, firewall, audit et contrôles automatisés."
 ---
 
 ## Contexte

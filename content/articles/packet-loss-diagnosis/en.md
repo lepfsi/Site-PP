@@ -1,6 +1,6 @@
 ---
-title: Network Packet Loss — Field Diagnosis Runbook
-excerpt: Layer-by-layer workflow to isolate packet loss: interface errors, QoS drops, ACLs, and path MTU issues.
+title: "Network Packet Loss — Field Diagnosis Runbook"
+excerpt: "Layer-by-layer workflow to isolate packet loss: interface errors, QoS drops, ACLs, and path MTU issues."
 ---
 
 ## Context
