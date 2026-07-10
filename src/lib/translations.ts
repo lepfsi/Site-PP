@@ -225,6 +225,7 @@ export interface TranslationKeys {
   "chat.escalate_title": string;
   "chat.escalate_name": string;
   "chat.escalate_email": string;
+  "chat.escalate_message": string;
   "chat.escalate_send": string;
   "chat.escalate_sending": string;
   "chat.escalate_sent": string;
@@ -610,6 +611,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_title": "Forward to an expert",
     "chat.escalate_name": "Your name (optional)",
     "chat.escalate_email": "Your email",
+    "chat.escalate_message": "Your message for the team…",
     "chat.escalate_send": "Send to team",
     "chat.escalate_sending": "Sending…",
     "chat.escalate_sent": "Done — our team will get back to you within 48 hours.",
@@ -991,6 +993,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "chat.escalate_title": "Transmettre à un expert",
     "chat.escalate_name": "Votre nom (optionnel)",
     "chat.escalate_email": "Votre email",
+    "chat.escalate_message": "Votre message pour l'équipe…",
     "chat.escalate_send": "Envoyer à l'équipe",
     "chat.escalate_sending": "Envoi…",
     "chat.escalate_sent": "C'est envoyé — notre équipe vous répondra sous 48 h.",

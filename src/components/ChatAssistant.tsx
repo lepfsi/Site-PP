@@ -89,6 +89,7 @@ export default function ChatAssistant() {
   const [showEscalate, setShowEscalate] = useState(false);
   const [escalateEmail, setEscalateEmail] = useState("");
   const [escalateName, setEscalateName] = useState("");
+  const [escalateMessage, setEscalateMessage] = useState("");
   const [escalateSending, setEscalateSending] = useState(false);
   const [escalateDone, setEscalateDone] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
@@ -116,6 +117,7 @@ export default function ChatAssistant() {
     setEscalateDone(false);
     setEscalateEmail("");
     setEscalateName("");
+    setEscalateMessage("");
   };
 
   const hideChat = () => {
@@ -149,6 +151,7 @@ export default function ChatAssistant() {
     setEscalateDone(false);
     setEscalateEmail("");
     setEscalateName("");
+    setEscalateMessage("");
   }, [lang]);
 
   useEffect(() => {
@@ -207,7 +210,10 @@ export default function ChatAssistant() {
         },
       ]);
 
-      if (data.escalate && !escalateDone) setShowEscalate(true);
+      if (data.escalate && !escalateDone) {
+        setEscalateMessage(text);
+        setShowEscalate(true);
+      }
     } catch {
       setMessages((prev) => [
         ...prev,
@@ -227,10 +233,11 @@ export default function ChatAssistant() {
     setShowEscalate(false);
     setEscalateEmail("");
     setEscalateName("");
+    setEscalateMessage("");
   };
 
   const submitEscalation = async () => {
-    if (!escalateEmail.trim() || escalateSending || escalateDone) return;
+    if (!escalateEmail.trim() || !escalateMessage.trim() || escalateSending || escalateDone) return;
 
     setEscalateSending(true);
     const transcript = messages
@@ -244,7 +251,7 @@ export default function ChatAssistant() {
         body: JSON.stringify({
           visitorEmail: escalateEmail,
           visitorName: escalateName,
-          summary: messages.filter((m) => m.role === "user").at(-1)?.content ?? "Expert assistance",
+          summary: escalateMessage.trim(),
           transcript,
           lang,
           website: "",
@@ -275,6 +282,8 @@ export default function ChatAssistant() {
 
   const openEscalateForm = () => {
     if (escalateDone) return;
+    const lastUser = messages.filter((m) => m.role === "user").at(-1)?.content ?? "";
+    setEscalateMessage(lastUser);
     setShowEscalate(true);
   };
 
@@ -446,10 +455,18 @@ export default function ChatAssistant() {
                     required
                     className="w-full bg-bg-primary/80 border border-slate-400/20 rounded-lg px-3 py-2 text-xs text-text-primary outline-none focus:ring-1 focus:ring-slate-400/40"
                   />
+                  <textarea
+                    value={escalateMessage}
+                    onChange={(e) => setEscalateMessage(e.target.value)}
+                    placeholder={t("chat.escalate_message")}
+                    required
+                    rows={3}
+                    className="w-full bg-bg-primary/80 border border-slate-400/20 rounded-lg px-3 py-2 text-xs text-text-primary outline-none focus:ring-1 focus:ring-slate-400/40 resize-none"
+                  />
                   <button
                     type="button"
                     onClick={submitEscalation}
-                    disabled={escalateSending || !escalateEmail.trim()}
+                    disabled={escalateSending || !escalateEmail.trim() || !escalateMessage.trim()}
                     className="w-full py-2.5 bg-slate-600 text-white dark:bg-slate-500 text-[10px] font-black uppercase tracking-widest rounded-lg disabled:opacity-50 hover:bg-slate-500 dark:hover:bg-slate-400 transition-colors"
                   >
                     {escalateSending ? t("chat.escalate_sending") : t("chat.escalate_send")}

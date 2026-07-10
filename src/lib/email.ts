@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { buildNewsletterWelcomeEmail } from "./email-templates";
 import type { Language } from "./translations";
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -133,26 +134,7 @@ export async function subscribeToNewsletter(email: string, lang: "EN" | "FR" = "
     html: `<p>Nouvel abonné newsletter :</p><p><strong>${escapeHtml(email)}</strong></p>`,
   });
 
-  const welcome =
-    lang === "FR"
-      ? {
-          subject: "Bienvenue à la newsletter DailyOps",
-          html: `
-            <h2>Bienvenue chez DailyOps</h2>
-            <p>Merci pour votre inscription à notre newsletter infrastructure.</p>
-            <p>Guides production-ready, alertes CVE et retours terrain — sans spam.</p>
-            <p><a href="https://dailyops.tech">dailyops.tech</a></p>
-          `,
-        }
-      : {
-          subject: "Welcome to DailyOps Newsletter",
-          html: `
-            <h2>Welcome to DailyOps</h2>
-            <p>Thanks for subscribing to our infrastructure newsletter.</p>
-            <p>Production-ready guides, CVE alerts, and field-tested ops insights.</p>
-            <p><a href="https://dailyops.tech">dailyops.tech</a></p>
-          `,
-        };
+  const welcome = buildNewsletterWelcomeEmail(lang, email);
 
   await sendEmail({
     to: email,
@@ -178,8 +160,8 @@ export async function sendChatEscalationEmail(data: {
       <h2>Escalade chat — assistance expert</h2>
       <p><strong>Langue :</strong> ${escapeHtml(lang)}</p>
       <p><strong>De :</strong> ${escapeHtml(visitorName || "Visiteur")} &lt;${escapeHtml(visitorEmail)}&gt;</p>
-      <p><strong>Résumé :</strong></p>
-      <p style="white-space: pre-wrap;">${escapeHtml(summary)}</p>
+      <p><strong>Message du visiteur :</strong></p>
+      <p style="white-space: pre-wrap;background:#fff;padding:12px;border-left:4px solid #22af9d;border-radius:4px;">${escapeHtml(summary)}</p>
       <hr />
       <p><strong>Transcript :</strong></p>
       <pre style="white-space: pre-wrap;font-size:12px;background:#f1f5f9;padding:12px;border-radius:8px;">${escapeHtml(transcript)}</pre>
