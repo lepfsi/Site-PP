@@ -314,6 +314,8 @@ export interface TranslationKeys {
   "news.subscribed": string;
   "news.success_title": string;
   "news.success_desc": string;
+  "news.already_title": string;
+  "news.already_desc": string;
   "news.feature1": string;
   "news.feature2": string;
   "news.feature3": string;
@@ -700,6 +702,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "news.subscribed": "Subscribed!",
     "news.success_title": "You're on the list!",
     "news.success_desc": "Check your inbox — your welcome email is on its way. (Peek at spam if you don't see it.)",
+    "news.already_title": "Already subscribed",
+    "news.already_desc": "This email is already on our newsletter list — no need to sign up again.",
     "news.feature1": "Premium articles",
     "news.feature2": "CVE alerts",
     "news.feature3": "Resources",
@@ -1084,6 +1088,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "news.subscribed": "Inscrit !",
     "news.success_title": "C'est bon, vous êtes inscrit !",
     "news.success_desc": "Consultez votre boîte mail — l'email de bienvenue arrive dans un instant. (Pensez aux spams.)",
+    "news.already_title": "Déjà inscrit",
+    "news.already_desc": "Cette adresse est déjà abonnée à notre newsletter — pas besoin de vous réinscrire.",
     "news.feature1": "Articles premium",
     "news.feature2": "Alertes CVE",
     "news.feature3": "Ressources",

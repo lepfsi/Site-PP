@@ -29,9 +29,13 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Invalid email address" }, { status: 400 });
     }
 
-    await subscribeToNewsletter(email.trim().toLowerCase(), validLang);
+    const result = await subscribeToNewsletter(email.trim().toLowerCase(), validLang);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      alreadySubscribed: result.status === "already_subscribed",
+      resubscribed: result.status === "resubscribed",
+    });
   } catch (err) {
     console.error("Newsletter error:", err);
     const raw = err instanceof Error ? err.message : "Failed to subscribe";

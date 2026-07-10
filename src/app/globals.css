@@ -90,6 +90,14 @@
   box-shadow: var(--surface-shadow);
 }
 
+.surface-header {
+  background-color: color-mix(in srgb, var(--bg-secondary) 60%, transparent);
+}
+
+.dark .surface-header {
+  background-color: color-mix(in srgb, var(--bg-secondary) 30%, transparent);
+}
+
 .section-band {
   border-top: 1px solid color-mix(in srgb, var(--border-main) 80%, transparent);
   border-bottom: 1px solid color-mix(in srgb, var(--border-main) 80%, transparent);

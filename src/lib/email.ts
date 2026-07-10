@@ -115,8 +115,69 @@ export async function sendContactEmail(data: {
   });
 }
 
-export async function subscribeToNewsletter(email: string, lang: "EN" | "FR" = "EN") {
+export type NewsletterSubscribeResult =
+  | { status: "created" }
+  | { status: "already_subscribed" }
+  | { status: "resubscribed" };
+
+function isContactNotFoundError(message: string): boolean {
+  const lower = message.toLowerCase();
+  return (
+    lower.includes("not found") ||
+    lower.includes("does not exist") ||
+    lower.includes("could not be found") ||
+    lower.includes("404")
+  );
+}
+
+async function sendNewsletterWelcomeFlow(email: string, lang: "EN" | "FR", adminSubject: string) {
+  await sendEmail({
+    to: NOTIFY_EMAIL,
+    subject: adminSubject,
+    html: `<p>Abonné newsletter :</p><p><strong>${escapeHtml(email)}</strong></p>`,
+  });
+
+  const welcome = buildNewsletterWelcomeEmail(lang, email);
+
+  await sendEmail({
+    to: email,
+    subject: welcome.subject,
+    html: welcome.html,
+  });
+}
+
+export async function subscribeToNewsletter(
+  email: string,
+  lang: "EN" | "FR" = "EN"
+): Promise<NewsletterSubscribeResult> {
   if (!resend) throw new Error("RESEND_API_KEY is not configured");
+
+  const { data: existing, error: getError } = await resend.contacts.get({ email });
+
+  if (getError && !isContactNotFoundError(getError.message)) {
+    throw new Error(getError.message);
+  }
+
+  if (existing?.email && !existing.unsubscribed) {
+    return { status: "already_subscribed" };
+  }
+
+  if (existing?.email && existing.unsubscribed) {
+    const { error: updateError } = await resend.contacts.update({
+      email,
+      unsubscribed: false,
+    });
+
+    if (updateError) throw new Error(updateError.message);
+
+    await sendNewsletterWelcomeFlow(
+      email,
+      lang,
+      "[DailyOps Newsletter] Réabonnement"
+    );
+
+    return { status: "resubscribed" };
+  }
 
   const { error: contactError } = await resend.contacts.create({
     email,
@@ -128,19 +189,13 @@ export async function subscribeToNewsletter(email: string, lang: "EN" | "FR" = "
     throw new Error(contactError.message);
   }
 
-  await sendEmail({
-    to: NOTIFY_EMAIL,
-    subject: "[DailyOps Newsletter] Nouvel abonné",
-    html: `<p>Nouvel abonné newsletter :</p><p><strong>${escapeHtml(email)}</strong></p>`,
-  });
+  await sendNewsletterWelcomeFlow(
+    email,
+    lang,
+    "[DailyOps Newsletter] Nouvel abonné"
+  );
 
-  const welcome = buildNewsletterWelcomeEmail(lang, email);
-
-  await sendEmail({
-    to: email,
-    subject: welcome.subject,
-    html: welcome.html,
-  });
+  return { status: "created" };
 }
 
 export async function sendChatEscalationEmail(data: {

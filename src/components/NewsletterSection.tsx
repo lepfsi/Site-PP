@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Send, Lock, Users, Newspaper, Bell, Gift, CheckCircle2, Sparkles } from "lucide-react";
+import { Mail, Send, Lock, Users, Newspaper, Bell, Gift, CheckCircle2, Sparkles, Info } from "lucide-react";
 import { useState } from "react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { motion, AnimatePresence } from "framer-motion";
@@ -9,7 +9,7 @@ import SectionHeading from "@/components/SectionHeading";
 export default function NewsletterSection() {
   const { t, lang } = useLanguage();
   const [email, setEmail] = useState("");
-  const [subscribed, setSubscribed] = useState(false);
+  const [feedback, setFeedback] = useState<"success" | "already" | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -34,9 +34,9 @@ export default function NewsletterSection() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || t("news.error"));
 
-      setSubscribed(true);
+      setFeedback(data.alreadySubscribed ? "already" : "success");
       setEmail("");
-      setTimeout(() => setSubscribed(false), 10000);
+      setTimeout(() => setFeedback(null), 10000);
     } catch (err) {
       setError(err instanceof Error ? err.message : t("news.error"));
     } finally {
@@ -80,27 +80,41 @@ export default function NewsletterSection() {
               </div>
 
               <AnimatePresence mode="wait">
-                {subscribed ? (
+                {feedback ? (
                   <motion.div
-                    key="success"
+                    key={feedback}
                     initial={{ opacity: 0, y: 12, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: -8 }}
                     transition={{ type: "spring", damping: 22, stiffness: 320 }}
-                    className="w-full max-w-lg mx-auto mb-3 rounded-2xl border border-green-500/30 bg-green-500/10 px-6 py-8"
+                    className={`w-full max-w-lg mx-auto mb-3 rounded-2xl border px-6 py-8 ${
+                      feedback === "already"
+                        ? "border-turquoise/30 bg-turquoise/10"
+                        : "border-green-500/30 bg-green-500/10"
+                    }`}
                   >
-                    <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-green-500/15 border border-green-500/30 text-green-500 mb-4">
-                      <CheckCircle2 size={28} strokeWidth={2.5} />
+                    <div
+                      className={`inline-flex items-center justify-center w-14 h-14 rounded-full mb-4 border ${
+                        feedback === "already"
+                          ? "bg-turquoise/15 border-turquoise/30 text-turquoise"
+                          : "bg-green-500/15 border-green-500/30 text-green-500"
+                      }`}
+                    >
+                      {feedback === "already" ? (
+                        <Info size={28} strokeWidth={2.5} />
+                      ) : (
+                        <CheckCircle2 size={28} strokeWidth={2.5} />
+                      )}
                     </div>
                     <div className="flex items-center justify-center gap-1.5 mb-2">
-                      <Sparkles size={14} className="text-turquoise" />
+                      {feedback === "success" && <Sparkles size={14} className="text-turquoise" />}
                       <h3 className="text-lg font-black text-text-primary code-font">
-                        {t("news.success_title")}
+                        {t(feedback === "already" ? "news.already_title" : "news.success_title")}
                       </h3>
-                      <Sparkles size={14} className="text-turquoise" />
+                      {feedback === "success" && <Sparkles size={14} className="text-turquoise" />}
                     </div>
                     <p className="text-sm text-text-secondary font-medium leading-relaxed max-w-sm mx-auto">
-                      {t("news.success_desc")}
+                      {t(feedback === "already" ? "news.already_desc" : "news.success_desc")}
                     </p>
                   </motion.div>
                 ) : (

@@ -53,7 +53,7 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
       <div className="flex-grow pt-28">
-        <header className="relative py-10 sm:py-12 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
+        <header className="relative py-10 sm:py-12 border-b border-border-main surface-header overflow-hidden">
           <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none"></div>
           <div className="scanline"></div>
           <div className="container-custom relative z-10">

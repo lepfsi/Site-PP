@@ -115,7 +115,7 @@ export default function Footer() {
   const aboutLinks = sortFooterLinksByLength(FOOTER_ABOUT, t);
 
   return (
-    <footer className="relative bg-bg-primary border-t border-border-main/70 pt-8 pb-5">
+    <footer className="relative surface-header border-t border-border-main/70 pt-8 pb-5">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/25 to-transparent pointer-events-none" aria-hidden />
       <div className="container-custom">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 items-start">
