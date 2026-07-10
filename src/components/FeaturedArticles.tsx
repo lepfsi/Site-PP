@@ -42,7 +42,7 @@ export default function FeaturedArticles() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="relative max-w-5xl mx-auto bg-bg-secondary border border-border-main rounded-2xl overflow-hidden mb-16 group hover:border-turquoise/30 transition-all shadow-2xl"
+          className="relative max-w-5xl mx-auto surface-card rounded-2xl overflow-hidden mb-16 group hover:border-turquoise/30 transition-all"
         >
           <Link href={`/articles/${featured.slug}`} className="block">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px]">
@@ -52,7 +52,7 @@ export default function FeaturedArticles() {
               
               <div className="lg:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
                 <div className="flex flex-wrap items-center gap-3 mb-5">
-                  <span className={`px-2.5 py-0.5 rounded ${featured.bg} ${featured.color} text-[10px] font-black uppercase tracking-[0.2em] border border-white/5`}>
+                  <span className={`px-2.5 py-0.5 rounded ${featured.bg} ${featured.color} text-[10px] font-black uppercase tracking-[0.2em] border border-border-main/40`}>
                     {t(featured.categoryLabelKey)}
                   </span>
                   <span className="text-[9px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">
@@ -93,12 +93,12 @@ export default function FeaturedArticles() {
             >
               <Link 
                 href={`/articles/${article.slug}`}
-                className="p-6 sm:p-8 bg-bg-secondary/40 border border-border-main rounded-2xl flex flex-col h-full hover:border-turquoise/30 transition-all group backdrop-blur-sm relative"
+                className="p-6 sm:p-8 surface-card rounded-2xl flex flex-col h-full hover:border-turquoise/30 transition-all group relative"
               >
                 <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-2xl"></div>
                 
                 <div className="mb-4 relative z-10">
-                  <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} text-[9px] font-bold uppercase tracking-widest border border-white/5`}>
+                  <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} text-[9px] font-bold uppercase tracking-widest border border-border-main/40`}>
                     {t(article.categoryLabelKey)}
                   </span>
                 </div>

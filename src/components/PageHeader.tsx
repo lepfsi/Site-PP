@@ -39,7 +39,7 @@ export default function PageHeader({
   return (
     <header
       className={cn(
-        "relative border-b border-border-main bg-bg-secondary/30 overflow-hidden",
+        "relative border-b border-border-main bg-bg-secondary/60 dark:bg-bg-secondary/30 overflow-hidden",
         compact ? "py-4 sm:py-5" : "py-6 sm:py-8",
         className,
       )}

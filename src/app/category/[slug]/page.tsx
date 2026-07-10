@@ -46,7 +46,7 @@ export default function CategoryPage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 lg:h-[260px]">
               <div className="lg:col-span-5 h-44 sm:h-48 lg:h-full border-b lg:border-b-0 lg:border-r border-border-main/50 relative overflow-hidden">
                   <CategoryVisual slug={category.slug} />
-                  <div className={`absolute top-4 left-4 flex items-center gap-2 px-2.5 py-1 rounded-lg bg-[#0a1628]/80 border border-border-main/50 ${category.color}`}>
+                  <div className={`absolute top-4 left-4 flex items-center gap-2 px-2.5 py-1 rounded-lg bg-bg-secondary/90 dark:bg-[#0a1628]/80 border border-border-main/50 shadow-sm ${category.color}`}>
                     <CategoryIcon size={14} />
                     <span className="text-[9px] font-black uppercase tracking-widest">{t(category.nameKey)}</span>
                   </div>

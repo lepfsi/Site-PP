@@ -27,14 +27,14 @@ export default function CategoryFeaturedArticle({ article, category }: CategoryF
         <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[280px]">
           <div className="lg:col-span-5 h-52 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative">
             <ArticleVisual slug={article.slug} category={category.slug} variant="article" />
-            <span className={`absolute top-4 left-4 px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-[0.2em] border border-white/5 ${article.bg} ${article.color}`}>
+            <span className={`absolute top-4 left-4 px-2.5 py-0.5 rounded text-[9px] font-black uppercase tracking-[0.2em] border border-border-main/40 ${article.bg} ${article.color}`}>
               {t("catpage.spotlight")}
             </span>
           </div>
 
           <div className="lg:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
             <div className="flex flex-wrap items-center gap-3 mb-4 text-[9px] font-mono text-text-secondary/50 font-bold uppercase tracking-widest">
-              <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} border border-white/5`}>
+              <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} border border-border-main/40`}>
                 {t(article.categoryLabelKey)}
               </span>
               <span className="flex items-center"><Clock size={10} className="mr-1" /> {article.readTime}</span>

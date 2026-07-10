@@ -72,7 +72,7 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 5, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 5, scale: 0.98 }}
-                  className="absolute top-full left-0 mt-2 w-64 bg-bg-secondary/95 border border-white/10 shadow-2xl rounded-xl overflow-hidden p-2 backdrop-blur-xl z-[110]"
+                  className="absolute top-full left-0 mt-2 w-64 bg-bg-secondary/95 border border-border-main shadow-2xl rounded-xl overflow-hidden p-2 backdrop-blur-xl z-[110]"
                 >
                   {CATEGORIES.map((cat) => (
                     <Link 

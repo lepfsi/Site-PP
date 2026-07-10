@@ -73,7 +73,7 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
               className="max-w-4xl"
             >
               <div className="flex flex-wrap items-center gap-3 mb-4">
-                <span className={`px-3 py-1 rounded-lg ${article.bg} ${article.color} text-[10px] font-black uppercase tracking-[0.2em] border border-white/5`}>
+                <span className={`px-3 py-1 rounded-lg ${article.bg} ${article.color} text-[10px] font-black uppercase tracking-[0.2em] border border-border-main/40`}>
                   {t(article.categoryLabelKey)}
                 </span>
                 <span className="flex items-center text-[10px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">

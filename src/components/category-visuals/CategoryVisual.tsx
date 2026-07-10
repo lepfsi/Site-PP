@@ -38,9 +38,9 @@ function VisualShell({ children, slug }: { children: React.ReactNode; slug: Cate
       : SHELL_HEIGHT[variant];
 
   return (
-    <div className={`relative w-full h-full flex items-center justify-center overflow-hidden bg-[#0a1628] ${heightClass}`}>
-      <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none" />
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent via-transparent to-black/40 pointer-events-none" />
+    <div className={`visual-shell relative w-full h-full flex items-center justify-center overflow-hidden ${heightClass}`}>
+      <div className="absolute inset-0 tech-grid opacity-[0.18] dark:opacity-10 pointer-events-none" />
+      <div className="visual-shell-overlay absolute inset-0 pointer-events-none" />
       {!compact && (
         <div
           className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-px opacity-40"

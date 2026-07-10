@@ -94,7 +94,7 @@ export default function ExperiencePage() {
                           <span className="text-[9px] font-mono font-bold text-text-secondary/40">#{exp.id}</span>
                         )}
                         {category && (
-                          <span className={`px-2 py-0.5 rounded ${category.bg} ${category.color} text-[8px] font-bold uppercase tracking-widest border border-white/5`}>
+                          <span className={`px-2 py-0.5 rounded ${category.bg} ${category.color} text-[8px] font-bold uppercase tracking-widest border border-border-main/40`}>
                             {t(category.nameKey)}
                           </span>
                         )}

@@ -16,7 +16,7 @@ const components: Components = {
     <p className="text-text-secondary text-base sm:text-lg leading-relaxed font-medium mb-4">{children}</p>
   ),
   ul: ({ children }) => (
-    <ul className="list-disc list-outside ml-5 mb-4 space-y-2 text-text-secondary font-medium">{children}</ul>
+    <ul className="mb-4 space-y-2 text-text-secondary font-medium">{children}</ul>
   ),
   ol: ({ children }) => (
     <ol className="list-decimal list-outside ml-5 mb-4 space-y-2 text-text-secondary font-medium">{children}</ol>

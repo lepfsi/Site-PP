@@ -89,7 +89,7 @@ function HeroDashboard({
                 <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/95 via-bg-primary/30 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 pointer-events-none">
-                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-white/5 ${featured.bg} ${featured.color} mb-1.5`}>
+                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-border-main/40 ${featured.bg} ${featured.color} mb-1.5`}>
                     {t(featured.categoryLabelKey)}
                   </span>
                   <p className="text-[11px] sm:text-xs font-bold text-text-primary leading-snug line-clamp-2 mb-1.5">
@@ -141,7 +141,7 @@ function HeroDashboard({
                 <span>{t("hero.monitor_guides")}</span>
                 <span className="text-turquoise code-font">{articleCount}/{articleCount}</span>
               </div>
-              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-border-main/50 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "100%" }}
@@ -159,7 +159,7 @@ function HeroDashboard({
                   <span className="code-font">{domainCount}/{domainCount}</span>
                 </div>
               </div>
-              <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
+              <div className="h-1 w-full bg-border-main/50 rounded-full overflow-hidden">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: "100%" }}
@@ -183,7 +183,7 @@ function HeroStatCard({
   label: string;
 }) {
   return (
-    <div className="p-3 rounded-xl bg-bg-secondary/60 border border-border-main text-center">
+    <div className="p-3 rounded-xl surface-card text-center">
       <Icon size={14} className="mx-auto mb-1.5 text-turquoise" />
       <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{label}</div>
     </div>

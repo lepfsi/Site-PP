@@ -115,12 +115,12 @@ export default function CategoryGrid() {
             >
               <Link 
                 href={`/category/${category.slug}`}
-                className={`group flex flex-col h-full overflow-hidden bg-bg-primary/40 border border-border-main rounded-2xl transition-all duration-300 ${category.border} backdrop-blur-sm hover:border-turquoise/30 relative`}
+                className={`group flex flex-col h-full overflow-hidden surface-card rounded-2xl transition-all duration-300 ${category.border} hover:border-turquoise/30 relative`}
               >
                 <div className="relative h-28 sm:h-32 border-b border-border-main/40 overflow-hidden">
                   <CategoryVisual slug={category.slug} variant="card" />
                   <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/80 via-transparent to-transparent pointer-events-none" />
-                  <div className={`absolute top-3 left-3 p-1.5 rounded-lg ${category.bg} ${category.color} border border-white/5 shadow-lg`}>
+                  <div className={`absolute top-3 left-3 p-1.5 rounded-lg ${category.bg} ${category.color} border border-border-main/40 shadow-sm`}>
                     <category.icon size={14} />
                   </div>
                   <span className="absolute top-3 right-3 text-[8px] font-mono text-text-secondary/50 uppercase tracking-widest bg-bg-primary/60 px-2 py-0.5 rounded border border-border-main/50">

@@ -9,7 +9,7 @@ export default function Logo({ className, iconOnly = false }: { className?: stri
       <div className="relative flex items-center justify-center">
         <svg 
           viewBox="0 0 100 100" 
-          className="w-9 h-9 md:w-10 md:h-10 fill-none transition-transform duration-300 group-hover:scale-105"
+          className="w-9 h-9 md:w-10 md:h-10 fill-none text-text-primary dark:text-white transition-transform duration-300 group-hover:scale-105"
         >
           <path 
             d="M50 5 L88.97 27.5 L88.97 72.5 L50 95 L11.03 72.5 L11.03 27.5 Z" 
@@ -22,7 +22,7 @@ export default function Logo({ className, iconOnly = false }: { className?: stri
             y="52%" 
             dominantBaseline="middle" 
             textAnchor="middle" 
-            fill="white" 
+            fill="currentColor" 
             fontSize="32" 
             fontWeight="900"
             className="code-font"
