@@ -2,8 +2,19 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { MessageCircle, X, Send, User, Bot, ArrowUpRight, Loader2, ExternalLink, CheckCircle2 } from "lucide-react";
+import { motion, AnimatePresence, useDragControls } from "framer-motion";
+import {
+  MessageCircle,
+  X,
+  Send,
+  User,
+  Bot,
+  ArrowUpRight,
+  Loader2,
+  ExternalLink,
+  CheckCircle2,
+  GripHorizontal,
+} from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import type { ChatSource } from "@/lib/chat-sources";
 
@@ -26,6 +37,8 @@ export default function ChatAssistant() {
   const [escalateSending, setEscalateSending] = useState(false);
   const [escalateDone, setEscalateDone] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const dragBoundsRef = useRef<HTMLDivElement>(null);
+  const dragControls = useDragControls();
 
   useEffect(() => {
     setMessages([]);
@@ -155,47 +168,53 @@ export default function ChatAssistant() {
 
   return (
     <>
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[84] bg-black/10 backdrop-blur-[1px]"
-            onClick={() => setOpen(false)}
-            aria-hidden
-          >
+      <div
+        ref={dragBoundsRef}
+        className="fixed inset-0 z-[85] pointer-events-none"
+        aria-hidden={!open}
+      >
+        <AnimatePresence>
+          {open && (
             <motion.div
+              drag
+              dragControls={dragControls}
+              dragListener={false}
+              dragMomentum={false}
+              dragElastic={0.06}
+              dragConstraints={dragBoundsRef}
               initial={{ opacity: 0, y: 16, scale: 0.96 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 16, scale: 0.96 }}
               transition={{ type: "spring", damping: 26, stiffness: 320 }}
-              onClick={(e) => e.stopPropagation()}
-              className="fixed bottom-20 right-4 z-[85] w-[min(100vw-2rem,380px)] h-[min(70vh,520px)] flex flex-col rounded-2xl bg-bg-primary/30 backdrop-blur-2xl shadow-xl border border-border-main/30 overflow-hidden"
+              className="absolute bottom-20 right-4 pointer-events-auto w-[min(calc(100vw-2rem),380px)] h-[min(70vh,520px)] flex flex-col rounded-2xl chat-glass overflow-hidden"
               role="dialog"
               aria-label={t("chat.title")}
             >
-            <div className="flex items-center justify-between px-4 py-3 border-b border-border-main/30 bg-bg-secondary/25">
-              <div className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded-xl bg-turquoise/10 border border-turquoise/30 flex items-center justify-center">
-                  <Bot size={16} className="text-turquoise" />
+            <div
+              onPointerDown={(e) => dragControls.start(e)}
+              className="flex items-center justify-between px-3 py-2.5 border-b border-slate-400/15 bg-slate-500/5 cursor-grab active:cursor-grabbing select-none touch-none"
+            >
+              <div className="flex items-center gap-2 min-w-0">
+                <GripHorizontal size={14} className="text-text-secondary/40 shrink-0" aria-hidden />
+                <div className="w-8 h-8 rounded-xl bg-slate-500/10 border border-slate-400/20 flex items-center justify-center shrink-0">
+                  <Bot size={16} className="text-text-secondary" />
                 </div>
-                <div>
-                  <p className="text-xs font-black text-text-primary">{t("chat.title")}</p>
-                  <p className="text-[9px] text-text-secondary/60 font-medium">{t("chat.subtitle")}</p>
+                <div className="min-w-0">
+                  <p className="text-xs font-black text-text-primary truncate">{t("chat.title")}</p>
+                  <p className="text-[9px] text-text-secondary/60 font-medium truncate">{t("chat.subtitle")}</p>
                 </div>
               </div>
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-bg-primary/60 transition-colors"
+                className="p-1.5 rounded-lg text-text-secondary hover:text-text-primary hover:bg-slate-500/10 transition-colors shrink-0"
                 aria-label={t("chat.close")}
               >
                 <X size={16} />
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto sidebar-scroll px-4 py-3 space-y-3 bg-transparent">
+            <div className="flex-1 overflow-y-auto sidebar-scroll px-4 py-3 space-y-3">
               {messages.map((msg, i) => (
                 <div
                   key={i}
@@ -204,26 +223,26 @@ export default function ChatAssistant() {
                   <div
                     className={`w-7 h-7 rounded-lg flex items-center justify-center shrink-0 ${
                       msg.role === "user"
-                        ? "bg-bg-secondary border border-border-main"
-                        : "bg-turquoise/10 border border-turquoise/20"
+                        ? "bg-slate-500/10 border border-slate-400/20"
+                        : "bg-slate-500/10 border border-slate-400/15"
                     }`}
                   >
                     {msg.role === "user" ? (
                       <User size={12} className="text-text-secondary" />
                     ) : (
-                      <Bot size={12} className="text-turquoise" />
+                      <Bot size={12} className="text-text-secondary" />
                     )}
                   </div>
                   <div
                     className={`max-w-[85%] rounded-xl px-3 py-2 text-xs leading-relaxed font-medium ${
                       msg.role === "user"
-                        ? "bg-turquoise/12 text-text-primary border border-turquoise/15"
-                        : "bg-bg-secondary/40 text-text-secondary border border-border-main/40"
+                        ? "bg-slate-500/12 text-text-primary border border-slate-400/20"
+                        : "bg-bg-secondary/50 text-text-secondary border border-slate-400/15"
                     }`}
                   >
                     <p className="whitespace-pre-wrap">{msg.content}</p>
                     {msg.links && msg.links.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-border-main/50">
+                      <div className="flex flex-wrap gap-1.5 mt-2 pt-2 border-t border-slate-400/15">
                         {msg.links.map((link) =>
                           link.href.startsWith("http") ? (
                             <a
@@ -254,22 +273,22 @@ export default function ChatAssistant() {
 
               {loading && (
                 <div className="flex items-center gap-2 text-text-secondary/60 text-xs">
-                  <Loader2 size={14} className="animate-spin text-turquoise" />
+                  <Loader2 size={14} className="animate-spin text-text-secondary" />
                   {t("chat.thinking")}
                 </div>
               )}
 
               {showEscalate && !escalateDone && (
-                <div className="p-3 rounded-xl border border-turquoise/30 bg-turquoise/5 space-y-2">
+                <div className="p-3 rounded-xl border border-slate-400/20 bg-slate-500/5 space-y-2">
                   <div className="flex items-center justify-between gap-2">
-                    <p className="text-[10px] font-black uppercase tracking-widest text-turquoise">
+                    <p className="text-[10px] font-black uppercase tracking-widest text-text-secondary">
                       {t("chat.escalate_title")}
                     </p>
                     <button
                       type="button"
                       onClick={closeEscalateForm}
                       disabled={escalateSending}
-                      className="p-1 rounded-md text-text-secondary hover:text-text-primary hover:bg-bg-primary/60 transition-colors disabled:opacity-50"
+                      className="p-1 rounded-md text-text-secondary hover:text-text-primary hover:bg-slate-500/10 transition-colors disabled:opacity-50"
                       aria-label={t("chat.escalate_close")}
                     >
                       <X size={14} />
@@ -280,7 +299,7 @@ export default function ChatAssistant() {
                     value={escalateName}
                     onChange={(e) => setEscalateName(e.target.value)}
                     placeholder={t("chat.escalate_name")}
-                    className="w-full bg-bg-primary border border-border-main rounded-lg px-3 py-2 text-xs text-text-primary outline-none focus:ring-1 focus:ring-turquoise"
+                    className="w-full bg-bg-primary/80 border border-slate-400/20 rounded-lg px-3 py-2 text-xs text-text-primary outline-none focus:ring-1 focus:ring-slate-400/40"
                   />
                   <input
                     type="email"
@@ -288,13 +307,13 @@ export default function ChatAssistant() {
                     onChange={(e) => setEscalateEmail(e.target.value)}
                     placeholder={t("chat.escalate_email")}
                     required
-                    className="w-full bg-bg-primary border border-border-main rounded-lg px-3 py-2 text-xs text-text-primary outline-none focus:ring-1 focus:ring-turquoise"
+                    className="w-full bg-bg-primary/80 border border-slate-400/20 rounded-lg px-3 py-2 text-xs text-text-primary outline-none focus:ring-1 focus:ring-slate-400/40"
                   />
                   <button
                     type="button"
                     onClick={submitEscalation}
                     disabled={escalateSending || !escalateEmail.trim()}
-                    className="w-full py-2.5 bg-turquoise text-navy text-[10px] font-black uppercase tracking-widest rounded-lg disabled:opacity-50"
+                    className="w-full py-2.5 bg-slate-600 text-white dark:bg-slate-500 text-[10px] font-black uppercase tracking-widest rounded-lg disabled:opacity-50 hover:bg-slate-500 dark:hover:bg-slate-400 transition-colors"
                   >
                     {escalateSending ? t("chat.escalate_sending") : t("chat.escalate_send")}
                   </button>
@@ -304,7 +323,7 @@ export default function ChatAssistant() {
               <div ref={bottomRef} />
             </div>
 
-            <div className="p-3 border-t border-border-main/30 bg-bg-secondary/25 space-y-2">
+            <div className="p-3 border-t border-slate-400/15 bg-slate-500/5 space-y-2">
               <div className="flex gap-2">
                 <input
                   type="text"
@@ -312,20 +331,20 @@ export default function ChatAssistant() {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && !e.shiftKey && (e.preventDefault(), sendMessage())}
                   placeholder={t("chat.placeholder")}
-                  className="flex-1 bg-bg-primary border border-border-main rounded-xl px-3 py-2.5 text-xs text-text-primary outline-none focus:ring-1 focus:ring-turquoise"
+                  className="flex-1 bg-bg-primary/80 border border-slate-400/20 rounded-xl px-3 py-2.5 text-xs text-text-primary outline-none focus:ring-1 focus:ring-slate-400/40"
                 />
                 <button
                   type="button"
                   onClick={sendMessage}
                   disabled={loading || !input.trim()}
-                  className="p-2.5 rounded-xl bg-turquoise text-navy disabled:opacity-50 hover:scale-105 active:scale-95 transition-all"
+                  className="p-2.5 rounded-xl bg-slate-600 text-white dark:bg-slate-500 disabled:opacity-50 hover:bg-slate-500 dark:hover:bg-slate-400 hover:scale-105 active:scale-95 transition-all"
                   aria-label={t("chat.send")}
                 >
                   <Send size={16} />
                 </button>
               </div>
               {escalateDone ? (
-                <p className="w-full flex items-center justify-center gap-1.5 text-[9px] font-bold text-turquoise/80">
+                <p className="w-full flex items-center justify-center gap-1.5 text-[9px] font-bold text-text-secondary/70">
                   <CheckCircle2 size={12} />
                   {t("chat.escalate_already")}
                 </p>
@@ -334,7 +353,7 @@ export default function ChatAssistant() {
                   type="button"
                   onClick={closeEscalateForm}
                   disabled={escalateSending}
-                  className="w-full text-[9px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-turquoise transition-colors disabled:opacity-50"
+                  className="w-full text-[9px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-text-primary transition-colors disabled:opacity-50"
                 >
                   {t("chat.escalate_cancel")}
                 </button>
@@ -342,25 +361,25 @@ export default function ChatAssistant() {
                 <button
                   type="button"
                   onClick={openEscalateForm}
-                  className="w-full text-[9px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-turquoise transition-colors"
+                  className="w-full text-[9px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-text-primary transition-colors"
                 >
                   {t("chat.escalate_cta")}
                 </button>
               )}
             </div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>
+      </div>
 
       {!open && (
         <button
           type="button"
           onClick={() => setOpen(true)}
-          className="fixed bottom-20 right-4 z-[85] w-12 h-12 rounded-2xl bg-turquoise text-navy shadow-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all border border-turquoise/50"
+          className="fixed bottom-20 right-4 z-[85] w-12 h-12 rounded-2xl chat-glass text-text-primary shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all"
           aria-label={t("chat.open")}
         >
-          <MessageCircle size={22} />
+          <MessageCircle size={22} className="text-text-secondary" />
         </button>
       )}
     </>

@@ -3,13 +3,14 @@
 import { useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageHeader, { PAGE_TOP_OFFSET } from "@/components/PageHeader";
 import { useLanguage } from "@/lib/LanguageContext";
 import { RESOURCE_SECTIONS } from "@/lib/resources";
 import { getArticleBySlug } from "@/lib/articles";
 import { getCategoryBySlug } from "@/lib/categories";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { ChevronRight, ArrowRight } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export default function ResourcesPage() {
   const { t } = useLanguage();
@@ -27,35 +28,18 @@ export default function ResourcesPage() {
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
-      <div className="flex-grow pt-28">
-        <header className="relative py-16 sm:py-24 border-b border-border-main bg-bg-secondary/30 overflow-hidden">
-          <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none"></div>
-          <div className="container-custom relative z-10">
-            <nav className="flex flex-wrap items-center mb-10 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
-              <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
-              <ChevronRight className="mx-2 h-3 w-3" />
-              <span className="text-text-primary">{t("res.page.title")}</span>
-            </nav>
+      <div className={`flex-grow ${PAGE_TOP_OFFSET}`}>
+        <PageHeader
+          grid="tech"
+          breadcrumbs={[
+            { label: t("catpage.breadcrumb"), href: "/" },
+            { label: t("res.page.title") },
+          ]}
+          title={t("res.page.title")}
+          subtitle={t("res.page.subtitle")}
+        />
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-4xl sm:text-5xl md:text-6xl font-black text-text-primary tracking-tighter code-font"
-            >
-              <span className="text-turquoise">//</span> {t("res.page.title")}
-            </motion.h1>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="mt-4 text-text-secondary text-lg sm:text-xl font-medium max-w-2xl leading-relaxed"
-            >
-              {t("res.page.subtitle")}
-            </motion.p>
-          </div>
-        </header>
-
-        <section className="py-16 sm:py-20 bg-bg-primary border-b border-border-main">
+        <section className="py-10 sm:py-14 bg-bg-primary border-b border-border-main">
           <div className="container-custom space-y-20">
             {RESOURCE_SECTIONS.map((section, index) => {
               const category = section.categorySlug ? getCategoryBySlug(section.categorySlug) : undefined;
