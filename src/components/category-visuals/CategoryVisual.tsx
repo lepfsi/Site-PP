@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 import { motion } from "framer-motion";
-import { Network, Shield, Server, Cloud, Workflow, Wrench } from "lucide-react";
+import { Network, Shield, Server, Cloud, Activity, Workflow, Brain, Wrench } from "lucide-react";
 import type { CategorySlug } from "@/lib/categories";
 
 export type VisualVariant = "hero" | "card" | "article";
@@ -23,7 +23,9 @@ const ACCENTS: Record<CategorySlug, string> = {
   cybersecurity: "#a855f7",
   infrastructure: "#10b981",
   cloud: "#60a5fa",
+  observability: "#06b6d4",
   automation: "#ec4899",
+  ai: "#8b5cf6",
   troubleshooting: "#f97316",
 };
 
@@ -254,6 +256,57 @@ function CloudVisual() {
   );
 }
 
+function ObservabilityVisual() {
+  const accent = ACCENTS.observability;
+  const compact = useCompact();
+  return (
+    <VisualShell slug="observability">
+      <svg className="w-[88%] h-[72%]" viewBox="0 0 100 60" preserveAspectRatio="none">
+        <line x1="0" y1="50" x2="100" y2="50" stroke="#334155" strokeWidth="0.3" />
+        <motion.path
+          d="M0 50 L10 48 L20 45 L30 42 L40 38 L50 30 L60 35 L70 28 L80 22 L90 18 L100 15"
+          fill="none"
+          stroke={accent}
+          strokeWidth="1.4"
+          initial={{ pathLength: 0 }}
+          animate={{ pathLength: 1 }}
+          transition={{ duration: 2.5, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
+        />
+        <motion.circle
+          cx="50"
+          cy="30"
+          r="3"
+          fill={accent}
+          animate={{ opacity: [0.4, 1, 0.4], r: [2.5, 3.5, 2.5] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+        />
+        {[20, 40, 60, 80].map((x, i) => (
+          <motion.rect
+            key={x}
+            x={x - 2}
+            y={50 - (i + 1) * 6}
+            width="4"
+            height={(i + 1) * 6}
+            fill={`${accent}30`}
+            stroke={accent}
+            strokeWidth="0.3"
+            animate={{ opacity: [0.3, 0.9, 0.3] }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.2 }}
+          />
+        ))}
+      </svg>
+      {!compact && (
+        <div className="absolute bottom-6 flex items-center gap-2">
+          <Activity size={12} style={{ color: accent }} />
+          <span className="text-[8px] font-mono font-bold uppercase tracking-widest" style={{ color: accent }}>
+            SLO · 99.9% · alerts armed
+          </span>
+        </div>
+      )}
+    </VisualShell>
+  );
+}
+
 function AutomationVisual() {
   const accent = ACCENTS.automation;
   const compact = useCompact();
@@ -299,6 +352,73 @@ function AutomationVisual() {
           </motion.div>
         )}
       </div>
+    </VisualShell>
+  );
+}
+
+function AIVisual() {
+  const accent = ACCENTS.ai;
+  const compact = useCompact();
+  const nodes = [
+    { cx: 50, cy: 28 },
+    { cx: 28, cy: 48 },
+    { cx: 72, cy: 48 },
+    { cx: 38, cy: 68 },
+    { cx: 62, cy: 68 },
+  ];
+  return (
+    <VisualShell slug="ai">
+      <svg className="w-[85%] h-[80%]" viewBox="0 0 100 80">
+        {[
+          [0, 1], [0, 2], [1, 3], [2, 4], [3, 4], [1, 2],
+        ].map(([a, b], i) => (
+          <motion.line
+            key={i}
+            x1={nodes[a].cx}
+            y1={nodes[a].cy}
+            x2={nodes[b].cx}
+            y2={nodes[b].cy}
+            stroke={accent}
+            strokeWidth="0.5"
+            opacity="0.35"
+            animate={{ opacity: [0.2, 0.6, 0.2] }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.15 }}
+          />
+        ))}
+        {nodes.map((n, i) => (
+          <motion.circle
+            key={i}
+            cx={n.cx}
+            cy={n.cy}
+            r={i === 0 ? 5 : 3.5}
+            fill={i === 0 ? `${accent}40` : `${accent}20`}
+            stroke={accent}
+            strokeWidth="0.6"
+            animate={{ scale: [1, 1.08, 1] }}
+            transition={{ duration: 2, repeat: Infinity, delay: i * 0.1 }}
+          />
+        ))}
+        <motion.circle
+          cx="50"
+          cy="28"
+          r="12"
+          fill="none"
+          stroke={accent}
+          strokeWidth="0.4"
+          strokeDasharray="3 3"
+          animate={{ rotate: 360 }}
+          transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+          style={{ transformOrigin: "50px 28px" }}
+        />
+      </svg>
+      {!compact && (
+        <div className="absolute bottom-6 flex items-center gap-2">
+          <Brain size={12} style={{ color: accent }} />
+          <span className="text-[8px] font-mono font-bold uppercase tracking-widest" style={{ color: accent }}>
+            LLM · runbook match
+          </span>
+        </div>
+      )}
     </VisualShell>
   );
 }
@@ -350,7 +470,9 @@ const VISUALS: Record<CategorySlug, () => React.JSX.Element> = {
   cybersecurity: CybersecurityVisual,
   infrastructure: InfrastructureVisual,
   cloud: CloudVisual,
+  observability: ObservabilityVisual,
   automation: AutomationVisual,
+  ai: AIVisual,
   troubleshooting: TroubleshootingVisual,
 };
 

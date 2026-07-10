@@ -42,6 +42,12 @@ export interface TranslationKeys {
   "hero.term.4.log": string;
   "hero.term.5.cmd": string;
   "hero.term.5.log": string;
+  "hero.term.6.cmd": string;
+  "hero.term.6.log": string;
+  "hero.term.7.cmd": string;
+  "hero.term.7.log": string;
+  "hero.tag_observability": string;
+  "hero.tag_ai": string;
   "cat.title": string;
   "cat.subtitle": string;
   "cat.networking_name": string;
@@ -50,18 +56,24 @@ export interface TranslationKeys {
   "cat.cloud_name": string;
   "cat.troubleshooting_name": string;
   "cat.automation_name": string;
+  "cat.observability_name": string;
+  "cat.ai_name": string;
   "cat.networking_desc": string;
   "cat.cybersecurity_desc": string;
   "cat.infrastructure_desc": string;
   "cat.cloud_desc": string;
   "cat.troubleshooting_desc": string;
   "cat.automation_desc": string;
+  "cat.observability_desc": string;
+  "cat.ai_desc": string;
   "cat.networking_full": string;
   "cat.cybersecurity_full": string;
   "cat.infrastructure_full": string;
   "cat.cloud_full": string;
   "cat.troubleshooting_full": string;
   "cat.automation_full": string;
+  "cat.observability_full": string;
+  "cat.ai_full": string;
   "cat.articles": string;
   "cat.cert_net": string;
   "cat.cert_cyber": string;
@@ -69,6 +81,8 @@ export interface TranslationKeys {
   "cat.cert_cloud": string;
   "cat.cert_trouble": string;
   "cat.cert_auto": string;
+  "cat.cert_obs": string;
+  "cat.cert_ai": string;
   "articles.title": string;
   "articles.subtitle": string;
   "articles.view_all": string;
@@ -152,6 +166,8 @@ export interface TranslationKeys {
   "cat.cloud_overview": string;
   "cat.automation_overview": string;
   "cat.troubleshooting_overview": string;
+  "cat.observability_overview": string;
+  "cat.ai_overview": string;
   "articles.all_title": string;
   "articles.all_subtitle": string;
   "articles.all_count": string;
@@ -390,6 +406,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "hero.tag_cloud": "Cloud Native",
     "hero.tag_networking": "Networking",
     "hero.tag_troubleshooting": "Troubleshooting",
+    "hero.tag_observability": "Observability",
+    "hero.tag_ai": "AI & Automation",
     "hero.term.1.cmd": "$ terraform apply",
     "hero.term.1.log": "plan: 4 to add, 0 change",
     "hero.term.2.cmd": "$ nmap -sV target.io",
@@ -400,6 +418,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "hero.term.4.log": "neighbor 1.1.1.1 Establ.",
     "hero.term.5.cmd": "$ tcpdump -i eth0",
     "hero.term.5.log": "12:04:15.82 IP: ICMP echo",
+    "hero.term.6.cmd": "$ promql 'up'",
+    "hero.term.6.log": "42 targets healthy · SLO OK",
+    "hero.term.7.cmd": "$ ops-assistant --ask",
+    "hero.term.7.log": "runbook matched · tier-2",
     "cat.title": "Expertise Domains",
     "cat.subtitle": "Technical content verified and updated by experienced field engineers.",
     "cat.networking_name": "Networking",
@@ -408,25 +430,33 @@ export const translations: Record<Language, TranslationKeys> = {
     "cat.cloud_name": "Cloud & Virtualisation",
     "cat.troubleshooting_name": "Troubleshooting",
     "cat.automation_name": "Automation",
+    "cat.observability_name": "Observability & Monitoring",
+    "cat.ai_name": "Artificial Intelligence",
     "cat.networking_desc": "Protocols, routing, switching...",
     "cat.cybersecurity_desc": "SOC, detection, incident response...",
-    "cat.infrastructure_desc": "Servers, storage, monitoring and...",
+    "cat.infrastructure_desc": "Servers, storage, DevOps baselines...",
     "cat.cloud_desc": "AWS, Azure, VMware, containers...",
     "cat.troubleshooting_desc": "Methodologies, post-mortems and...",
-    "cat.automation_desc": "Ansible, Terraform, AI-Ops...",
+    "cat.automation_desc": "Ansible, Terraform, CI/CD...",
+    "cat.observability_desc": "Metrics, logs, traces, alerting...",
+    "cat.ai_desc": "LLMs, AI-Ops, copilots for ops...",
     "cat.networking_full": "BGP, OSPF, SD-WAN, advanced switching, network design and automation.",
     "cat.cybersecurity_full": "SOC operations, threat hunting, hardening, SIEM and incident response.",
-    "cat.infrastructure_full": "Windows/Linux Server, storage, on-premise virtualization and clustering.",
+    "cat.infrastructure_full": "Windows/Linux Server, storage, on-premise virtualization, clustering and DevOps baselines.",
     "cat.cloud_full": "AWS, Azure, GCP, Kubernetes, Docker and hybrid architectures.",
     "cat.troubleshooting_full": "Diagnostic methodologies, war stories and complex failure resolution.",
     "cat.automation_full": "Python, Go, Ansible, Terraform and CI/CD pipelines for infrastructure.",
+    "cat.observability_full": "Prometheus, Grafana, Loki, alerting pipelines, SLO design and NOC dashboards.",
+    "cat.ai_full": "LLM assistants, AI-Ops workflows, runbook copilots and intelligent automation for platform teams.",
     "cat.articles": "articles",
     "cat.cert_net": "CCIE/JNCIE",
     "cat.cert_cyber": "CISSP/GCIH",
     "cat.cert_infra": "RHCE/VCP",
     "cat.cert_cloud": "CKA/SAA",
-    "cat.cert_trouble": "SRE/DevOps",
+    "cat.cert_trouble": "SRE/RCA",
     "cat.cert_auto": "IaC/GitOps",
+    "cat.cert_obs": "SRE/Observability",
+    "cat.cert_ai": "AI-Ops/LLM",
     "articles.title": "Recent Articles",
     "articles.subtitle": "Latest publications from the knowledge base.",
     "articles.view_all": "View all articles",
@@ -506,9 +536,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "catpage.more_articles": "More articles",
     "cat.networking_overview": "This domain covers everything that moves packets across your infrastructure — from campus switching to internet BGP peering. We document production configurations, design patterns, and troubleshooting workflows validated in live NOC environments.\n\nYou'll find deep dives on routing protocols, VPN architectures, SD-WAN deployments, and network automation. Every guide is written for engineers who need to implement, operate, and fix — not just understand theory.",
     "cat.cybersecurity_overview": "Security operations in production require more than compliance checklists. This category covers SOC workflows, threat detection, hardening baselines, incident response playbooks, and Zero Trust architectures deployed in real environments.\n\nContent spans identity management, SIEM rule engineering, penetration testing methodologies, and post-incident analysis. We focus on what works under pressure when the alert fires at 3 AM.",
-    "cat.infrastructure_overview": "The foundation layer: servers, storage, virtualization, and high-availability clustering. This category documents how to design, deploy, and maintain on-premise and hybrid infrastructure that survives production workloads.\n\nTopics include Windows/Linux server administration, Proxmox and VMware clusters, Ceph and SAN storage, backup strategies, and monitoring baselines. Field-tested configurations, not lab-only demos.",
+    "cat.infrastructure_overview": "The foundation layer: servers, storage, virtualization, and high-availability clustering. This category documents how to design, deploy, and maintain on-premise and hybrid infrastructure that survives production workloads.\n\nTopics include Windows/Linux server administration, Proxmox and VMware clusters, Ceph and SAN storage, backup strategies, and DevOps platform practices. Field-tested configurations, not lab-only demos.",
     "cat.cloud_overview": "Cloud-native and hybrid cloud operations — from the first Terraform module to production Kubernetes clusters. This category covers AWS, Azure, GCP, containers, and the networking layer that ties multi-cloud environments together.\n\nWe publish guides on IaC patterns, K8s security, cost optimization, migration strategies, and hybrid connectivity. Everything is structured for teams running real workloads at scale.",
-    "cat.automation_overview": "Infrastructure as code, CI/CD pipelines, and the tooling that eliminates manual toil. This category covers Ansible, Terraform, Python, Go, and GitOps workflows used by platform teams in production.\n\nFrom writing your first playbook to designing self-healing pipelines, we document patterns that reduce MTTR and deployment risk. AI-Ops and observability automation included.",
+    "cat.automation_overview": "Infrastructure as code, CI/CD pipelines, and the tooling that eliminates manual toil. This category covers Ansible, Terraform, Python, Go, and GitOps workflows used by platform teams in production.\n\nFrom writing your first playbook to designing self-healing pipelines, we document patterns that reduce MTTR and deployment risk. Pairs naturally with the AI domain for intelligent runbooks and assisted operations.",
+    "cat.observability_overview": "Production visibility — metrics, logs, traces, alerting and SLO governance. This category covers the stacks NOC and SRE teams rely on: Prometheus, Grafana, Loki, OpenTelemetry, PagerDuty routing and dashboard design.\n\nWe document what to monitor, how to alert without fatigue, and how to tie observability signals back to business SLOs. Distinct from SOC detection: this is platform and service health, not threat hunting.",
+    "cat.ai_overview": "Artificial intelligence applied to IT operations — not hype, but production patterns. This category covers LLM assistants, runbook copilots, AI-augmented troubleshooting, and automation that reasons over your infrastructure context.\n\nFrom integrating chat assistants with internal knowledge bases to designing safe AI-Ops workflows, we document what works alongside Automation and Observability. The DailyOps assistant itself lives in this domain.",
     "cat.troubleshooting_overview": "When production breaks, theory won't save you. This category provides systematic diagnostic methodologies, war stories, packet captures, and runbooks for resolving complex failures across network, systems, and applications.\n\nWe cover RCA frameworks, post-mortem templates, and step-by-step resolution paths for the incidents that keep NOC engineers awake. Learn from real outages, not hypothetical scenarios.",
     "articles.all_title": "All Articles",
     "articles.all_subtitle": "Complete knowledge base — networking, security, cloud, infrastructure and operations.",
@@ -516,7 +548,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.title": "About DailyOps",
     "about.subtitle": "Production knowledge forged in NOCs and SOCs.",
     "about.dailyops_title": "What is DailyOps?",
-    "about.dailyops_desc": "DailyOps.Tech is a production-first knowledge base for infrastructure professionals — network engineers, security analysts, cloud architects, and operations teams working where downtime is not an option.\n\nWe publish playbooks, baselines, field experience reports, and technical guides across six domains: networking, cybersecurity, infrastructure, cloud, automation, and troubleshooting. Content is structured to be deployed in real environments, not just read.\n\nOur editorial line is simple: document what runs in production. No marketing fluff, no empty theory — only material validated against the constraints of NOCs, SOCs, and critical infrastructure.",
+    "about.dailyops_desc": "DailyOps.Tech is a production-first knowledge base for infrastructure professionals — network engineers, security analysts, cloud architects, and operations teams working where downtime is not an option.\n\nWe publish playbooks, baselines, field experience reports, and technical guides across eight domains: networking, cybersecurity, infrastructure, cloud, observability, automation, AI, and troubleshooting. Content is structured to be deployed in real environments, not just read.\n\nOur editorial line is simple: document what runs in production. No marketing fluff, no empty theory — only material validated against the constraints of NOCs, SOCs, and critical infrastructure.",
     "about.author_title": "About the author",
     "about.author_name": "Steve BA-NDOUWE",
     "about.author_role": "Cybersecurity Engineer",
@@ -744,6 +776,8 @@ export const translations: Record<Language, TranslationKeys> = {
     "hero.tag_cloud": "Cloud Native",
     "hero.tag_networking": "Networking",
     "hero.tag_troubleshooting": "Troubleshooting",
+    "hero.tag_observability": "Supervision & Observabilité",
+    "hero.tag_ai": "IA & Automation",
     "hero.term.1.cmd": "$ terraform apply",
     "hero.term.1.log": "plan: 4 to add, 0 change",
     "hero.term.2.cmd": "$ nmap -sV target.io",
@@ -754,6 +788,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "hero.term.4.log": "neighbor 1.1.1.1 Establ.",
     "hero.term.5.cmd": "$ tcpdump -i eth0",
     "hero.term.5.log": "12:04:15.82 IP: ICMP echo",
+    "hero.term.6.cmd": "$ promql 'up'",
+    "hero.term.6.log": "42 cibles OK · SLO respecté",
+    "hero.term.7.cmd": "$ ops-assistant --ask",
+    "hero.term.7.log": "runbook trouvé · tier-2",
     "cat.title": "Domaines d'expertise",
     "cat.subtitle": "Contenu technique vérifié et maintenu à jour par des ingénieurs expérimentés sur le terrain.",
     "cat.networking_name": "Networking",
@@ -762,25 +800,33 @@ export const translations: Record<Language, TranslationKeys> = {
     "cat.cloud_name": "Cloud & Virtualisation",
     "cat.troubleshooting_name": "Troubleshooting",
     "cat.automation_name": "Automation",
+    "cat.observability_name": "Supervision, Observabilité & Monitoring",
+    "cat.ai_name": "Intelligence Artificielle",
     "cat.networking_desc": "Protocoles, routage, switching...",
     "cat.cybersecurity_desc": "SOC, détection, réponse incident...",
-    "cat.infrastructure_desc": "Serveurs, stockage, monitoring...",
+    "cat.infrastructure_desc": "Serveurs, stockage, pratiques DevOps...",
     "cat.cloud_desc": "AWS, Azure, VMware, conteneurs...",
     "cat.troubleshooting_desc": "Méthodologies, post-mortems...",
-    "cat.automation_desc": "Ansible, Terraform, AI-Ops...",
+    "cat.automation_desc": "Ansible, Terraform, CI/CD...",
+    "cat.observability_desc": "Métriques, logs, traces, alerting...",
+    "cat.ai_desc": "LLM, AI-Ops, copilotes ops...",
     "cat.networking_full": "BGP, OSPF, SD-WAN, switching avancé, design réseau et automatisation.",
     "cat.cybersecurity_full": "SOC operations, threat hunting, hardening, SIEM et réponse aux incidents.",
-    "cat.infrastructure_full": "Windows/Linux Server, stockage, virtualisation on-premise et clustering.",
+    "cat.infrastructure_full": "Windows/Linux Server, stockage, virtualisation on-premise, clustering et baselines DevOps.",
     "cat.cloud_full": "AWS, Azure, GCP, Kubernetes, Docker et architectures hybrides.",
     "cat.troubleshooting_full": "Méthodologies de diagnostic, war stories et résolution de pannes complexes.",
     "cat.automation_full": "Python, Go, Ansible, Terraform et CI/CD pipelines pour l'infrastructure.",
+    "cat.observability_full": "Prometheus, Grafana, Loki, alerting, SLO et dashboards NOC.",
+    "cat.ai_full": "Assistants LLM, workflows AI-Ops, copilotes runbook et automatisation intelligente.",
     "cat.articles": "articles",
     "cat.cert_net": "CCIE/JNCIE",
     "cat.cert_cyber": "CISSP/GCIH",
     "cat.cert_infra": "RHCE/VCP",
     "cat.cert_cloud": "CKA/SAA",
-    "cat.cert_trouble": "SRE/DevOps",
+    "cat.cert_trouble": "SRE/RCA",
     "cat.cert_auto": "IaC/GitOps",
+    "cat.cert_obs": "SRE/Observabilité",
+    "cat.cert_ai": "AI-Ops/LLM",
     "articles.title": "Articles Récents",
     "articles.subtitle": "Les dernières publications de la base de connaissances.",
     "articles.view_all": "Voir tous les articles",
@@ -860,9 +906,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "catpage.more_articles": "Autres articles",
     "cat.networking_overview": "Ce domaine couvre tout ce qui fait circuler les paquets dans votre infrastructure — du switching campus au peering BGP internet. Nous documentons des configurations de production, des patterns de design et des workflows de troubleshooting validés en NOC.\n\nVous y trouverez des analyses approfondies sur les protocoles de routage, les architectures VPN, les déploiements SD-WAN et l'automatisation réseau. Chaque guide est écrit pour les ingénieurs qui doivent implémenter, opérer et réparer — pas seulement comprendre la théorie.",
     "cat.cybersecurity_overview": "Les opérations de sécurité en production exigent plus que des checklists de conformité. Cette catégorie couvre les workflows SOC, la détection de menaces, les baselines de hardening, les playbooks de réponse incident et les architectures Zero Trust déployées en conditions réelles.\n\nLe contenu couvre la gestion d'identité, l'ingénierie de règles SIEM, les méthodologies de pentest et l'analyse post-incident. Nous nous concentrons sur ce qui fonctionne sous pression quand l'alerte tombe à 3h du matin.",
-    "cat.infrastructure_overview": "La couche fondation : serveurs, stockage, virtualisation et clustering haute disponibilité. Cette catégorie documente comment concevoir, déployer et maintenir une infrastructure on-premise et hybride qui survit aux charges de production.\n\nLes sujets incluent l'administration Windows/Linux, les clusters Proxmox et VMware, le stockage Ceph et SAN, les stratégies de backup et les baselines de monitoring. Des configurations éprouvées sur le terrain, pas des démos de lab uniquement.",
+    "cat.infrastructure_overview": "La couche fondation : serveurs, stockage, virtualisation et clustering haute disponibilité. Cette catégorie documente comment concevoir, déployer et maintenir une infrastructure on-premise et hybride qui survit aux charges de production.\n\nLes sujets incluent l'administration Windows/Linux, les clusters Proxmox et VMware, le stockage Ceph et SAN, les stratégies de backup et les pratiques DevOps plateforme. Des configurations éprouvées sur le terrain, pas des démos de lab uniquement.",
     "cat.cloud_overview": "Opérations cloud-native et cloud hybride — du premier module Terraform aux clusters Kubernetes de production. Cette catégorie couvre AWS, Azure, GCP, les conteneurs et la couche réseau qui relie les environnements multi-cloud.\n\nNous publions des guides sur les patterns IaC, la sécurité K8s, l'optimisation des coûts, les stratégies de migration et la connectivité hybride. Tout est structuré pour les équipes qui font tourner de vraies charges à l'échelle.",
-    "cat.automation_overview": "Infrastructure as code, pipelines CI/CD et outillage qui élimine le toil manuel. Cette catégorie couvre Ansible, Terraform, Python, Go et les workflows GitOps utilisés par les équipes plateforme en production.\n\nDe l'écriture de votre premier playbook à la conception de pipelines auto-réparants, nous documentons les patterns qui réduisent le MTTR et le risque de déploiement. AI-Ops et automatisation observabilité inclus.",
+    "cat.automation_overview": "Infrastructure as code, pipelines CI/CD et outillage qui élimine le toil manuel. Cette catégorie couvre Ansible, Terraform, Python, Go et les workflows GitOps utilisés par les équipes plateforme en production.\n\nDe l'écriture de votre premier playbook à la conception de pipelines auto-réparants, nous documentons les patterns qui réduisent le MTTR et le risque de déploiement. Se complète naturellement avec le volet IA pour les runbooks assistés.",
+    "cat.observability_overview": "Visibilité production — métriques, logs, traces, alerting et gouvernance SLO. Cette catégorie couvre les stacks sur lesquelles s'appuient les équipes NOC et SRE : Prometheus, Grafana, Loki, OpenTelemetry, routage PagerDuty et design de dashboards.\n\nNous documentons quoi superviser, comment alerter sans fatigue, et comment relier les signaux d'observabilité aux SLO métier. Distinct de la détection SOC : ici il s'agit de la santé plateforme et applicative, pas de la chasse aux menaces.",
+    "cat.ai_overview": "L'intelligence artificielle appliquée aux opérations IT — pas du hype, mais des patterns de production. Cette catégorie couvre les assistants LLM, copilotes runbook, troubleshooting augmenté et automatisation qui raisonne sur le contexte infra.\n\nDe l'intégration d'assistants chat à la base de connaissances interne jusqu'aux workflows AI-Ops sécurisés, nous documentons ce qui fonctionne aux côtés d'Automation et Observabilité. L'assistant DailyOps vit dans ce domaine.",
     "cat.troubleshooting_overview": "Quand la production casse, la théorie ne vous sauvera pas. Cette catégorie fournit des méthodologies de diagnostic systématiques, des war stories, des captures de paquets et des runbooks pour résoudre des pannes complexes sur le réseau, les systèmes et les applications.\n\nNous couvrons les frameworks RCA, les templates de post-mortem et les chemins de résolution pas à pas pour les incidents qui empêchent les ingénieurs NOC de dormir. Apprenez de vraies pannes, pas de scénarios hypothétiques.",
     "articles.all_title": "Tous les articles",
     "articles.all_subtitle": "Base de connaissances complète — réseau, sécurité, cloud, infrastructure et opérations.",
@@ -870,7 +918,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.title": "À propos de DailyOps",
     "about.subtitle": "Savoir de production forgé dans les NOC et SOC.",
     "about.dailyops_title": "Qu'est-ce que DailyOps ?",
-    "about.dailyops_desc": "DailyOps.Tech est une base de connaissances orientée production pour les professionnels de l'infrastructure — ingénieurs réseau, analystes sécurité, architectes cloud et équipes d'exploitation qui évoluent là où l'indisponibilité n'est pas une option.\n\nNous publions des playbooks, baselines, retours terrain et guides techniques sur six domaines : réseau, cybersécurité, infrastructure, cloud, automatisation et troubleshooting. Le contenu est structuré pour être déployé en environnement réel, pas seulement lu.\n\nNotre ligne éditoriale est simple : documenter ce qui tourne en production. Pas de marketing, pas de théorie vide — uniquement du matériel validé face aux contraintes des NOC, SOC et infrastructures critiques.",
+    "about.dailyops_desc": "DailyOps.Tech est une base de connaissances orientée production pour les professionnels de l'infrastructure — ingénieurs réseau, analystes sécurité, architectes cloud et équipes d'exploitation qui évoluent là où l'indisponibilité n'est pas une option.\n\nNous publions des playbooks, baselines, retours terrain et guides techniques sur huit domaines : réseau, cybersécurité, infrastructure, cloud, supervision & observabilité, automatisation, IA et troubleshooting. Le contenu est structuré pour être déployé en environnement réel, pas seulement lu.\n\nNotre ligne éditoriale est simple : documenter ce qui tourne en production. Pas de marketing, pas de théorie vide — uniquement du matériel validé face aux contraintes des NOC, SOC et infrastructures critiques.",
     "about.author_title": "À propos de l'auteur",
     "about.author_name": "Steve BA-NDOUWE",
     "about.author_role": "Ingénieur en cybersécurité",

@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Code2, Shield, Cloud, Globe, Wrench } from "lucide-react";
+import { ArrowRight, Code2, Shield, Cloud, Globe, Wrench, Activity, Brain } from "lucide-react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -12,7 +12,9 @@ const TYPING_TAGS = [
   { textKey: "hero.tag_infrastructure" as const, icon: Code2, cmdKey: "hero.term.1.cmd" as const, logKey: "hero.term.1.log" as const },
   { textKey: "hero.tag_cybersecurity" as const, icon: Shield, cmdKey: "hero.term.2.cmd" as const, logKey: "hero.term.2.log" as const },
   { textKey: "hero.tag_cloud" as const, icon: Cloud, cmdKey: "hero.term.3.cmd" as const, logKey: "hero.term.3.log" as const },
+  { textKey: "hero.tag_observability" as const, icon: Activity, cmdKey: "hero.term.6.cmd" as const, logKey: "hero.term.6.log" as const },
   { textKey: "hero.tag_networking" as const, icon: Globe, cmdKey: "hero.term.4.cmd" as const, logKey: "hero.term.4.log" as const },
+  { textKey: "hero.tag_ai" as const, icon: Brain, cmdKey: "hero.term.7.cmd" as const, logKey: "hero.term.7.log" as const },
   { textKey: "hero.tag_troubleshooting" as const, icon: Wrench, cmdKey: "hero.term.5.cmd" as const, logKey: "hero.term.5.log" as const },
 ];
 
@@ -102,7 +104,7 @@ export default function CategoryGrid() {
           <TypewriterTerminal />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
           {CATEGORIES.map((category, index) => (
             <motion.div
               key={category.slug}

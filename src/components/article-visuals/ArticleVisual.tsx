@@ -32,7 +32,9 @@ const ACCENTS: Record<CategorySlug, string> = {
   cybersecurity: "#a855f7",
   infrastructure: "#10b981",
   cloud: "#60a5fa",
+  observability: "#06b6d4",
   automation: "#ec4899",
+  ai: "#8b5cf6",
   troubleshooting: "#f97316",
 };
 

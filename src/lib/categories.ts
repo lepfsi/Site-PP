@@ -1,11 +1,23 @@
-import { Globe, Shield, Server, Cloud, Workflow, Wrench, type LucideIcon } from "lucide-react";
+import {
+  Globe,
+  Shield,
+  Server,
+  Cloud,
+  Activity,
+  Workflow,
+  Brain,
+  Wrench,
+  type LucideIcon,
+} from "lucide-react";
 
 export type CategorySlug =
   | "networking"
   | "cybersecurity"
   | "infrastructure"
   | "cloud"
+  | "observability"
   | "automation"
+  | "ai"
   | "troubleshooting";
 
 export interface CategoryConfig {
@@ -63,7 +75,7 @@ export const CATEGORIES: CategoryConfig[] = [
     color: "text-emerald-500",
     bg: "bg-emerald-500/10",
     border: "group-hover:border-emerald-500/50",
-    tags: ["HA", "Proxmox", "SAN"],
+    tags: ["HA", "Proxmox", "DevOps"],
     count: 156,
   },
   {
@@ -81,6 +93,20 @@ export const CATEGORIES: CategoryConfig[] = [
     count: 132,
   },
   {
+    slug: "observability",
+    nameKey: "cat.observability_name",
+    descKey: "cat.observability_full",
+    overviewKey: "cat.observability_overview",
+    shortDescKey: "cat.observability_desc",
+    certKey: "cat.cert_obs",
+    icon: Activity,
+    color: "text-cyan-500",
+    bg: "bg-cyan-500/10",
+    border: "group-hover:border-cyan-500/50",
+    tags: ["Prometheus", "Grafana", "SLO"],
+    count: 0,
+  },
+  {
     slug: "automation",
     nameKey: "cat.automation_name",
     descKey: "cat.automation_full",
@@ -93,6 +119,20 @@ export const CATEGORIES: CategoryConfig[] = [
     border: "group-hover:border-pink-500/50",
     tags: ["Ansible", "Python", "CI/CD"],
     count: 64,
+  },
+  {
+    slug: "ai",
+    nameKey: "cat.ai_name",
+    descKey: "cat.ai_full",
+    overviewKey: "cat.ai_overview",
+    shortDescKey: "cat.ai_desc",
+    certKey: "cat.cert_ai",
+    icon: Brain,
+    color: "text-violet-500",
+    bg: "bg-violet-500/10",
+    border: "group-hover:border-violet-500/50",
+    tags: ["LLM", "AI-Ops", "Copilots"],
+    count: 0,
   },
   {
     slug: "troubleshooting",
