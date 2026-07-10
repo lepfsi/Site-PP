@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { Github, Linkedin, Rss, Heart, Coffee, Facebook } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
-import { CATEGORIES } from "@/lib/categories";
 import { SITE, SOCIAL_LINKS, type SocialId } from "@/lib/site";
 import Logo from "./Logo";
 
@@ -30,6 +29,12 @@ const SOCIAL_ICONS: Record<SocialId, React.ComponentType<{ size?: number }>> = {
   facebook: Facebook,
   rss: Rss,
 };
+
+const FOOTER_EXPLORE = [
+  { key: "footer.categories_all", href: "/#categories" },
+  { key: "footer.articles", href: "/articles" },
+  { key: "footer.experience", href: "/experience" },
+] as const;
 
 const FOOTER_RESOURCES = [
   { key: "footer.cheatsheets", href: "/resources#cheatsheets" },
@@ -105,6 +110,7 @@ function SupportButton() {
 
 export default function Footer() {
   const { t } = useLanguage();
+  const exploreLinks = sortFooterLinksByLength(FOOTER_EXPLORE, t);
   const resourcesLinks = sortFooterLinksByLength(FOOTER_RESOURCES, t);
   const aboutLinks = sortFooterLinksByLength(FOOTER_ABOUT, t);
 
@@ -113,10 +119,10 @@ export default function Footer() {
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/35 to-transparent pointer-events-none" aria-hidden />
       <div className="container-custom">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 items-start">
-          <FooterColumn title={t("footer.categories")}>
-            {CATEGORIES.map((cat) => (
-              <FooterLink key={cat.slug} href={`/category/${cat.slug}`}>
-                {t(cat.nameKey)}
+          <FooterColumn title={t("footer.explore")}>
+            {exploreLinks.map((item) => (
+              <FooterLink key={item.key} href={item.href}>
+                {t(item.key)}
               </FooterLink>
             ))}
           </FooterColumn>
