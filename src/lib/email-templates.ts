@@ -13,31 +13,18 @@ function unsubscribeUrl(email: string): string {
   return `${SITE.url}/api/newsletter/unsubscribe?email=${encodeURIComponent(email)}`;
 }
 
-const SOCIAL_ICONS = [
-  { label: "LinkedIn", href: SITE.linkedin, file: "linkedin" },
-  { label: "X", href: SITE.x, file: "x" },
-  { label: "GitHub", href: SITE.github, file: "github" },
-  { label: "Facebook", href: SITE.facebook, file: "facebook" },
+const SOCIAL_LINKS = [
+  { label: "LinkedIn", href: SITE.linkedin },
+  { label: "X", href: SITE.x },
+  { label: "GitHub", href: SITE.github },
+  { label: "Facebook", href: SITE.facebook },
 ] as const;
 
-function socialIconSrc(file: string): string {
-  return `${SITE.url}/email/social/${file}.png`;
-}
-
-function socialIconCell(label: string, href: string, file: string): string {
-  const src = socialIconSrc(file);
-  return `<td style="padding:0 6px;">
-    <a href="${href}" title="${label}" style="display:inline-block;width:36px;height:36px;background:#ffffff;border:1px solid ${BRAND.border};border-radius:8px;text-decoration:none;">
-      <img src="${src}" width="18" height="18" alt="${label}" style="display:block;margin:9px auto;border:0;outline:none;text-decoration:none;" />
-    </a>
-  </td>`;
-}
-
 function socialRow(): string {
-  const cells = SOCIAL_ICONS.map((icon) => socialIconCell(icon.label, icon.href, icon.file)).join("");
-  return `<table role="presentation" cellpadding="0" cellspacing="0" align="center" style="margin:0 auto;">
-    <tr>${cells}</tr>
-  </table>`;
+  return SOCIAL_LINKS.map(
+    (link) =>
+      `<a href="${link.href}" style="color:${BRAND.turquoise};text-decoration:none;font-size:12px;font-weight:700;margin:0 10px;">${link.label}</a>`,
+  ).join("");
 }
 
 interface BrandedEmailOptions {
@@ -62,6 +49,7 @@ export function buildBrandedEmail({
   const visitLabel = lang === "FR" ? "Visiter le site" : "Visit the site";
   const unsubLabel = lang === "FR" ? "Se désabonner" : "Unsubscribe";
   const contactLabel = lang === "FR" ? "Nous contacter" : "Contact us";
+  const contactMailto = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(lang === "FR" ? "Newsletter DailyOps" : "DailyOps Newsletter")}`;
 
   const ctaBlock = cta
     ? `<p style="margin:28px 0 0;">
@@ -110,10 +98,11 @@ export function buildBrandedEmail({
             <td style="padding:20px 28px 28px;border-top:1px solid ${BRAND.border};background:#f8fafc;">
               <p style="margin:0 0 8px;font-size:13px;font-weight:600;color:${BRAND.navy};">${signature}</p>
               <p style="margin:0 0 16px;font-size:12px;color:${BRAND.muted};">
-                <a href="mailto:${SITE.contactEmail}" style="color:${BRAND.turquoise};text-decoration:none;">${contactLabel}</a>
+                <a href="${contactMailto}" style="color:${BRAND.turquoise};text-decoration:none;font-weight:600;">${contactLabel}</a>
+                (<a href="${contactMailto}" style="color:${BRAND.muted};text-decoration:none;">${SITE.contactEmail}</a>)
                 · <a href="${SITE.url}" style="color:${BRAND.turquoise};text-decoration:none;">dailyops.tech</a>
               </p>
-              <div style="margin:0;text-align:center;">${socialRow()}</div>
+              <p style="margin:0;text-align:center;line-height:2;">${socialRow()}</p>
               ${unsubBlock}
             </td>
           </tr>

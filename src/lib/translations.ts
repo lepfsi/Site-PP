@@ -312,6 +312,8 @@ export interface TranslationKeys {
   "news.input": string;
   "news.btn": string;
   "news.subscribed": string;
+  "news.success_title": string;
+  "news.success_desc": string;
   "news.feature1": string;
   "news.feature2": string;
   "news.feature3": string;
@@ -695,7 +697,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "news.desc": "Get the best articles, tech news, and infrastructure tips every week.",
     "news.input": "your.email@ops.tech",
     "news.btn": "Subscribe",
-    "news.subscribed": "OK",
+    "news.subscribed": "Subscribed!",
+    "news.success_title": "You're on the list!",
+    "news.success_desc": "Check your inbox — your welcome email is on its way. (Peek at spam if you don't see it.)",
     "news.feature1": "Premium articles",
     "news.feature2": "CVE alerts",
     "news.feature3": "Resources",
@@ -1077,7 +1081,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "news.desc": "Recevez chaque semaine les meilleurs articles, news tech, et astuces infrastructure.",
     "news.input": "votre.email@ops.tech",
     "news.btn": "S'abonner",
-    "news.subscribed": "OK",
+    "news.subscribed": "Inscrit !",
+    "news.success_title": "C'est bon, vous êtes inscrit !",
+    "news.success_desc": "Consultez votre boîte mail — l'email de bienvenue arrive dans un instant. (Pensez aux spams.)",
     "news.feature1": "Articles premium",
     "news.feature2": "Alertes CVE",
     "news.feature3": "Ressources",
