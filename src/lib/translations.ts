@@ -138,6 +138,12 @@ export interface TranslationKeys {
   "articles.13.title": string;
   "articles.13.excerpt": string;
   "articles.13.category": string;
+  "articles.14.title": string;
+  "articles.14.excerpt": string;
+  "articles.14.category": string;
+  "articles.15.title": string;
+  "articles.15.excerpt": string;
+  "articles.15.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -512,6 +518,12 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.13.title": "Network Packet Loss — Field Diagnosis Runbook",
     "articles.13.excerpt": "Layer-by-layer workflow to isolate packet loss: interface errors, QoS drops, ACLs, and path MTU issues.",
     "articles.13.category": "Troubleshooting",
+    "articles.14.title": "Prometheus & Grafana — Production Observability Stack",
+    "articles.14.excerpt": "Minimum viable metrics pipeline: scrape architecture, RED/USE signals, SLO alerting, and on-call routing without alert fatigue.",
+    "articles.14.category": "Observability",
+    "articles.15.title": "AI-Ops Assistant in Production — Architecture & Guardrails",
+    "articles.15.excerpt": "Tiered routing, internal knowledge grounding, safe escalation, and when an LLM beats a runbook — patterns from the DailyOps assistant.",
+    "articles.15.category": "AI",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -882,6 +894,12 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.13.title": "Perte de paquets réseau — runbook de diagnostic terrain",
     "articles.13.excerpt": "Workflow couche par couche pour isoler la perte : erreurs interface, drops QoS, ACLs et problèmes MTU.",
     "articles.13.category": "Troubleshooting",
+    "articles.14.title": "Prometheus & Grafana — stack d'observabilité production",
+    "articles.14.excerpt": "Pipeline métriques minimum viable : architecture scrape, signaux RED/USE, alerting SLO et routage astreinte sans fatigue d'alertes.",
+    "articles.14.category": "Observabilité",
+    "articles.15.title": "Assistant AI-Ops en production — architecture & garde-fous",
+    "articles.15.excerpt": "Routage par tiers, ancrage sur la base interne, escalade sécurisée et quand un LLM bat un runbook — patterns issus de l'assistant DailyOps.",
+    "articles.15.category": "IA",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",

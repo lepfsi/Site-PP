@@ -44,8 +44,6 @@ const FOOTER_RESOURCES = [
 ] as const;
 
 const FOOTER_ABOUT = [
-  { key: "footer.articles", href: "/articles" },
-  { key: "footer.experience", href: "/experience" },
   { key: "footer.about_dailyops", href: "/about#dailyops" },
   { key: "footer.about_author", href: "/about#author" },
   { key: "footer.methodology", href: "/about#methodology" },

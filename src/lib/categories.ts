@@ -104,7 +104,7 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-cyan-500/10",
     border: "group-hover:border-cyan-500/50",
     tags: ["Prometheus", "Grafana", "SLO"],
-    count: 0,
+    count: 1,
   },
   {
     slug: "automation",
@@ -132,7 +132,7 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-violet-500/10",
     border: "group-hover:border-violet-500/50",
     tags: ["LLM", "AI-Ops", "Copilots"],
-    count: 0,
+    count: 1,
   },
   {
     slug: "troubleshooting",

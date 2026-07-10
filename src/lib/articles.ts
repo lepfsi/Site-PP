@@ -19,6 +19,30 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "prometheus-grafana-production-stack",
+    category: "observability",
+    titleKey: "articles.14.title",
+    excerptKey: "articles.14.excerpt",
+    categoryLabelKey: "articles.14.category",
+    readTime: "14 min",
+    date: "2026-07-10",
+    color: "text-cyan-500",
+    bg: "bg-cyan-500/10",
+    format: "markdown",
+  },
+  {
+    slug: "ai-ops-assistant-production",
+    category: "ai",
+    titleKey: "articles.15.title",
+    excerptKey: "articles.15.excerpt",
+    categoryLabelKey: "articles.15.category",
+    readTime: "12 min",
+    date: "2026-07-10",
+    color: "text-violet-500",
+    bg: "bg-violet-500/10",
+    format: "markdown",
+  },
+  {
     slug: "ansible-cicd-pipeline",
     category: "automation",
     titleKey: "articles.8.title",
