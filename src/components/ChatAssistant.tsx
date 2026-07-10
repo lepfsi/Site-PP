@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import {
   X,
@@ -17,12 +18,21 @@ import {
 import { useLanguage } from "@/lib/LanguageContext";
 import type { ChatSource } from "@/lib/chat-sources";
 
-const NUDGE_STORAGE_KEY = "dailyops-chat-nudge-dismissed";
-const NUDGE_DELAY_MIN_MS = 22_000;
-const NUDGE_DELAY_JITTER_MS = 18_000;
-const NUDGE_AUTOHIDE_MS = 16_000;
+const NUDGE_STORAGE_KEY = "dailyops-chat-nudge-dismissed-at";
+const NUDGE_COOLDOWN_MS = 24 * 60 * 60 * 1000;
+const NUDGE_DELAY_MIN_MS = 8_000;
+const NUDGE_DELAY_JITTER_MS = 4_000;
 
 const NUDGE_KEYS = ["chat.nudge_1", "chat.nudge_2", "chat.nudge_3"] as const;
+
+function isNudgeDismissed(): boolean {
+  if (typeof window === "undefined") return false;
+  const raw = localStorage.getItem(NUDGE_STORAGE_KEY);
+  if (!raw) return false;
+  const dismissedAt = Number(raw);
+  if (!Number.isFinite(dismissedAt)) return false;
+  return Date.now() - dismissedAt < NUDGE_COOLDOWN_MS;
+}
 
 function RobotAvatar({ active }: { active?: boolean }) {
   return (
@@ -70,6 +80,7 @@ interface ChatMessage {
 
 export default function ChatAssistant() {
   const { t, lang } = useLanguage();
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -87,15 +98,13 @@ export default function ChatAssistant() {
   const dragBoundsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
 
-  const dismissNudge = (persist = true) => {
+  const dismissNudge = () => {
     setShowNudge(false);
-    if (persist && typeof window !== "undefined") {
-      sessionStorage.setItem(NUDGE_STORAGE_KEY, "1");
-    }
+    localStorage.setItem(NUDGE_STORAGE_KEY, String(Date.now()));
   };
 
   const openChat = () => {
-    dismissNudge();
+    setShowNudge(false);
     setOpen(true);
   };
 
@@ -105,21 +114,15 @@ export default function ChatAssistant() {
       return;
     }
     if (typeof window === "undefined") return;
-    if (sessionStorage.getItem(NUDGE_STORAGE_KEY)) return;
+    if (isNudgeDismissed()) return;
 
     const delay = NUDGE_DELAY_MIN_MS + Math.random() * NUDGE_DELAY_JITTER_MS;
     const showTimer = window.setTimeout(() => {
-      if (!sessionStorage.getItem(NUDGE_STORAGE_KEY)) setShowNudge(true);
+      if (!isNudgeDismissed()) setShowNudge(true);
     }, delay);
 
     return () => window.clearTimeout(showTimer);
-  }, [open]);
-
-  useEffect(() => {
-    if (!showNudge) return;
-    const hideTimer = window.setTimeout(() => setShowNudge(false), NUDGE_AUTOHIDE_MS);
-    return () => window.clearTimeout(hideTimer);
-  }, [showNudge]);
+  }, [open, pathname]);
 
   useEffect(() => {
     setMessages([]);
@@ -454,7 +457,7 @@ export default function ChatAssistant() {
       </div>
 
       {!open && (
-        <div className="fixed bottom-20 right-4 z-[85] flex flex-col items-end gap-2">
+        <div className="fixed bottom-20 right-4 z-[92] flex flex-col items-end gap-2">
           <AnimatePresence>
             {showNudge && (
               <motion.div
@@ -483,7 +486,7 @@ export default function ChatAssistant() {
                   </button>
                   <button
                     type="button"
-                    onClick={() => dismissNudge(true)}
+                    onClick={dismissNudge}
                     className="text-[9px] font-bold uppercase tracking-wider text-text-secondary/50 hover:text-text-secondary"
                   >
                     {t("chat.nudge_dismiss")}
@@ -491,7 +494,7 @@ export default function ChatAssistant() {
                 </div>
                 <button
                   type="button"
-                  onClick={() => dismissNudge(true)}
+                  onClick={dismissNudge}
                   className="absolute top-2 right-2 p-0.5 rounded-md text-text-secondary/40 hover:text-text-secondary"
                   aria-label={t("chat.nudge_dismiss")}
                 >
