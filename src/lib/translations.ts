@@ -269,8 +269,19 @@ export interface TranslationKeys {
   "labs.page.count": string;
   "labs.page.steps": string;
   "labs.page.start": string;
+  "labs.page.resume": string;
+  "labs.page.review": string;
   "labs.page.back": string;
   "labs.page.featured": string;
+  "labs.progress.label": string;
+  "labs.progress.hint": string;
+  "labs.progress.mark_done": string;
+  "labs.progress.mark_undone": string;
+  "labs.progress.complete_badge": string;
+  "labs.progress.path_complete_title": string;
+  "labs.progress.path_complete_desc": string;
+  "labs.progress.reset": string;
+  "labs.progress.reset_confirm": string;
   "labs.step.read": string;
   "labs.step.checklist": string;
   "labs.step.lab": string;
@@ -725,8 +736,19 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.page.count": "learning paths",
     "labs.page.steps": "steps",
     "labs.page.start": "Start path",
+    "labs.page.resume": "Continue",
+    "labs.page.review": "Review path",
     "labs.page.back": "Back to labs",
     "labs.page.featured": "Featured",
+    "labs.progress.label": "Your progress",
+    "labs.progress.hint": "Mark each step complete as you go — progress is saved locally in your browser.",
+    "labs.progress.mark_done": "Mark complete",
+    "labs.progress.mark_undone": "Completed — undo",
+    "labs.progress.complete_badge": "Complete",
+    "labs.progress.path_complete_title": "Path completed!",
+    "labs.progress.path_complete_desc": "You've finished every step in this learning path. Review anytime or start another path.",
+    "labs.progress.reset": "Reset progress",
+    "labs.progress.reset_confirm": "Reset all progress for this path? This cannot be undone.",
     "labs.step.read": "Read",
     "labs.step.checklist": "Checklist",
     "labs.step.lab": "Lab",
@@ -1177,8 +1199,19 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.page.count": "parcours",
     "labs.page.steps": "étapes",
     "labs.page.start": "Démarrer",
+    "labs.page.resume": "Continuer",
+    "labs.page.review": "Revoir le parcours",
     "labs.page.back": "Retour aux labs",
     "labs.page.featured": "À la une",
+    "labs.progress.label": "Votre progression",
+    "labs.progress.hint": "Marquez chaque étape au fur et à mesure — la progression est enregistrée localement dans votre navigateur.",
+    "labs.progress.mark_done": "Marquer terminé",
+    "labs.progress.mark_undone": "Terminé — annuler",
+    "labs.progress.complete_badge": "Terminé",
+    "labs.progress.path_complete_title": "Parcours complété !",
+    "labs.progress.path_complete_desc": "Vous avez terminé toutes les étapes de ce parcours. Revenez quand vous voulez ou lancez un autre parcours.",
+    "labs.progress.reset": "Réinitialiser",
+    "labs.progress.reset_confirm": "Réinitialiser toute la progression de ce parcours ? Cette action est irréversible.",
     "labs.step.read": "Lecture",
     "labs.step.checklist": "Checklist",
     "labs.step.lab": "Lab",

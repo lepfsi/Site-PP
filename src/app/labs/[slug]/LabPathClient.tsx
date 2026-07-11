@@ -13,10 +13,16 @@ import {
   ExternalLink,
   Layers,
   Clock,
+  CheckCircle2,
+  Circle,
+  Sparkles,
+  RotateCcw,
 } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import LabProgressBar from "@/components/LabProgressBar";
 import { useLanguage } from "@/lib/LanguageContext";
+import { useLabProgress } from "@/hooks/useLabProgress";
 import { getLabPathBySlug, type LabStepType } from "@/lib/labs";
 import { getArticleBySlug } from "@/lib/articles";
 import { getCategoryBySlug } from "@/lib/categories";
@@ -33,6 +39,7 @@ export default function LabPathClient() {
   const { t } = useLanguage();
   const slug = params.slug as string;
   const path = getLabPathBySlug(slug);
+  const { hydrated, getStats, stepDone, toggleStep, resetPath } = useLabProgress();
 
   if (!path) {
     return (
@@ -53,6 +60,13 @@ export default function LabPathClient() {
 
   const category = getCategoryBySlug(path.category);
   const Icon = path.icon;
+  const stats = hydrated ? getStats(path.slug, path.steps.length) : { completed: 0, total: path.steps.length, percent: 0, isComplete: false, hasStarted: false };
+
+  const handleReset = () => {
+    if (window.confirm(t("labs.progress.reset_confirm"))) {
+      resetPath(path.slug);
+    }
+  };
 
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
@@ -82,6 +96,12 @@ export default function LabPathClient() {
                 <span className="text-[10px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">
                   {t(path.levelKey)}
                 </span>
+                {stats.isComplete && (
+                  <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-green-500/10 border border-green-500/30 text-green-500 text-[9px] font-black uppercase tracking-widest">
+                    <CheckCircle2 size={11} />
+                    {t("labs.progress.complete_badge")}
+                  </span>
+                )}
               </div>
               <h1 className="text-3xl sm:text-4xl font-black text-text-primary tracking-tight mb-4">
                 {t(path.titleKey)}
@@ -89,7 +109,7 @@ export default function LabPathClient() {
               <p className="text-text-secondary text-base font-medium leading-relaxed mb-6">
                 {t(path.descKey)}
               </p>
-              <div className="flex flex-wrap gap-4 text-[10px] font-mono text-text-secondary/70 uppercase font-bold tracking-widest">
+              <div className="flex flex-wrap gap-4 text-[10px] font-mono text-text-secondary/70 uppercase font-bold tracking-widest mb-5">
                 <span className="flex items-center">
                   <Layers size={12} className="mr-1.5 text-turquoise" />
                   {path.steps.length} {t("labs.page.steps")}
@@ -99,6 +119,7 @@ export default function LabPathClient() {
                   {t(path.durationKey)}
                 </span>
               </div>
+              {hydrated && <LabProgressBar stats={stats} />}
             </motion.div>
           </div>
         </header>
@@ -113,12 +134,30 @@ export default function LabPathClient() {
               {t("labs.page.back")}
             </Link>
 
+            {stats.isComplete && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="mb-8 rounded-2xl border border-green-500/30 bg-green-500/10 px-6 py-5"
+              >
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles size={16} className="text-turquoise" />
+                  <h2 className="text-base font-black text-text-primary">{t("labs.progress.path_complete_title")}</h2>
+                </div>
+                <p className="text-sm text-text-secondary font-medium leading-relaxed">
+                  {t("labs.progress.path_complete_desc")}
+                </p>
+              </motion.div>
+            )}
+
             <ol className="space-y-0">
               {path.steps.map((step, index) => {
                 const meta = STEP_META[step.type];
                 const StepIcon = meta.icon;
                 const article = step.articleSlug ? getArticleBySlug(step.articleSlug) : undefined;
                 const isLast = index === path.steps.length - 1;
+                const done = hydrated && stepDone(path.slug, step.id);
+                const prevDone = index === 0 || (hydrated && stepDone(path.slug, path.steps[index - 1].id));
                 const bullets = ["checklist", "lab", "quiz"].includes(step.type)
                   ? t(step.descKey).split("\n").filter(Boolean)
                   : [];
@@ -127,26 +166,47 @@ export default function LabPathClient() {
                   <motion.li
                     key={step.id}
                     initial={{ opacity: 0, x: -12 }}
-                    whileInView={{ opacity: 1, x: 0 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.05 }}
                     className="relative flex gap-5 sm:gap-6"
                   >
                     {!isLast && (
-                      <div className="absolute left-[19px] sm:left-[21px] top-12 bottom-0 w-px bg-border-main/80" aria-hidden />
+                      <div
+                        className={`absolute left-[19px] sm:left-[21px] top-12 bottom-0 w-px transition-colors ${
+                          done ? "bg-turquoise/50" : "bg-border-main/80"
+                        }`}
+                        aria-hidden
+                      />
                     )}
-                    <div className="relative z-10 flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-bg-secondary border-2 border-turquoise/40 flex items-center justify-center text-[11px] font-black text-turquoise">
-                      {index + 1}
+                    <div
+                      className={`relative z-10 flex-shrink-0 w-10 h-10 sm:w-11 sm:h-11 rounded-full border-2 flex items-center justify-center text-[11px] font-black transition-all ${
+                        done
+                          ? "bg-green-500/15 border-green-500/50 text-green-500"
+                          : prevDone
+                            ? "bg-bg-secondary border-turquoise/60 text-turquoise"
+                            : "bg-bg-secondary border-turquoise/40 text-turquoise"
+                      }`}
+                    >
+                      {done ? <CheckCircle2 size={18} strokeWidth={2.5} /> : index + 1}
                     </div>
                     <div className="flex-grow pb-10">
-                      <div className="rounded-2xl border border-border-main bg-bg-secondary p-5 sm:p-6">
+                      <div
+                        className={`rounded-2xl border p-5 sm:p-6 transition-all ${
+                          done
+                            ? "border-green-500/25 bg-green-500/5"
+                            : "border-border-main bg-bg-secondary"
+                        }`}
+                      >
                         <div className="flex flex-wrap items-center gap-2 mb-3">
                           <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg border text-[9px] font-black uppercase tracking-widest ${meta.color}`}>
                             <StepIcon size={11} />
                             {t(meta.labelKey as "labs.step.read")}
                           </span>
                         </div>
-                        <h2 className="text-lg font-bold text-text-primary mb-2">{t(step.titleKey)}</h2>
+                        <h2 className={`text-lg font-bold mb-2 ${done ? "text-text-primary/80" : "text-text-primary"}`}>
+                          {t(step.titleKey)}
+                        </h2>
                         {step.type === "read" ? (
                           <>
                             <p className="text-text-secondary text-sm font-medium leading-relaxed mb-4">
@@ -155,7 +215,7 @@ export default function LabPathClient() {
                             {article && (
                               <Link
                                 href={`/articles/${article.slug}`}
-                                className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline"
+                                className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline mb-4"
                               >
                                 {t(article.titleKey)}
                                 <ExternalLink size={11} className="ml-1.5" />
@@ -163,7 +223,7 @@ export default function LabPathClient() {
                             )}
                           </>
                         ) : (
-                          <ul className="space-y-2">
+                          <ul className="space-y-2 mb-4">
                             {bullets.map((line, i) => (
                               <li key={i} className="flex gap-2 text-sm text-text-secondary font-medium leading-relaxed">
                                 <span className="text-turquoise shrink-0 mt-0.5">›</span>
@@ -172,12 +232,46 @@ export default function LabPathClient() {
                             ))}
                           </ul>
                         )}
+                        <button
+                          type="button"
+                          onClick={() => toggleStep(path.slug, step.id)}
+                          className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                            done
+                              ? "bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/15"
+                              : "bg-turquoise/10 border border-turquoise/30 text-turquoise hover:bg-turquoise/20"
+                          }`}
+                        >
+                          {done ? (
+                            <>
+                              <CheckCircle2 size={13} />
+                              {t("labs.progress.mark_undone")}
+                            </>
+                          ) : (
+                            <>
+                              <Circle size={13} />
+                              {t("labs.progress.mark_done")}
+                            </>
+                          )}
+                        </button>
                       </div>
                     </div>
                   </motion.li>
                 );
               })}
             </ol>
+
+            {stats.hasStarted && (
+              <div className="pt-2 border-t border-border-main/60">
+                <button
+                  type="button"
+                  onClick={handleReset}
+                  className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text-secondary/60 hover:text-red-500 transition-colors"
+                >
+                  <RotateCcw size={12} />
+                  {t("labs.progress.reset")}
+                </button>
+              </div>
+            )}
           </div>
         </section>
       </div>
