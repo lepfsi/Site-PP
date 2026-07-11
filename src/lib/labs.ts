@@ -199,3 +199,36 @@ export function getLabPathBySlug(slug: string): LabPath | undefined {
 export function getFeaturedLabPath(): LabPath | undefined {
   return LAB_PATHS.find((p) => p.featured);
 }
+
+export interface LabStepNavigation {
+  path: LabPath;
+  step: LabStep;
+  stepIndex: number;
+  nextStep?: LabStep;
+  prevStep?: LabStep;
+}
+
+export function getLabStepNavigation(pathSlug: string, stepId: string): LabStepNavigation | null {
+  const path = getLabPathBySlug(pathSlug);
+  if (!path) return null;
+
+  const stepIndex = path.steps.findIndex((s) => s.id === stepId);
+  if (stepIndex < 0) return null;
+
+  return {
+    path,
+    step: path.steps[stepIndex],
+    stepIndex,
+    nextStep: path.steps[stepIndex + 1],
+    prevStep: path.steps[stepIndex - 1],
+  };
+}
+
+export function buildLabArticleHref(pathSlug: string, stepId: string, articleSlug: string): string {
+  const params = new URLSearchParams({ fromLab: pathSlug, step: stepId });
+  return `/articles/${articleSlug}?${params.toString()}`;
+}
+
+export function buildLabPathStepHref(pathSlug: string, stepId: string): string {
+  return `/labs/${pathSlug}#step-${stepId}`;
+}

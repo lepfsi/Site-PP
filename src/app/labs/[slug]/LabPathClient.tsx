@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   ChevronRight,
@@ -24,7 +25,7 @@ import LabProgressBar from "@/components/LabProgressBar";
 import LabQuizStep from "@/components/LabQuizStep";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useLabProgress } from "@/hooks/useLabProgress";
-import { getLabPathBySlug, type LabStepType } from "@/lib/labs";
+import { buildLabArticleHref, getLabPathBySlug, type LabStepType } from "@/lib/labs";
 import { getArticleBySlug } from "@/lib/articles";
 import { getCategoryBySlug } from "@/lib/categories";
 
@@ -41,6 +42,15 @@ export default function LabPathClient() {
   const slug = params.slug as string;
   const path = getLabPathBySlug(slug);
   const { hydrated, getStats, stepDone, toggleStep, resetPath, authenticated, syncState } = useLabProgress();
+
+  useEffect(() => {
+    const hash = window.location.hash.slice(1);
+    if (!hash.startsWith("step-")) return;
+    const el = document.getElementById(hash);
+    if (el) {
+      setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 150);
+    }
+  }, [slug]);
 
   if (!path) {
     return (
@@ -173,11 +183,12 @@ export default function LabPathClient() {
                 return (
                   <motion.li
                     key={step.id}
+                    id={`step-${step.id}`}
                     initial={{ opacity: 0, x: -12 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
                     transition={{ delay: index * 0.05 }}
-                    className="relative flex gap-5 sm:gap-6"
+                    className="relative flex gap-5 sm:gap-6 scroll-mt-32"
                   >
                     {!isLast && (
                       <div
@@ -222,10 +233,10 @@ export default function LabPathClient() {
                             </p>
                             {article && (
                               <Link
-                                href={`/articles/${article.slug}`}
-                                className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline mb-4"
+                                href={buildLabArticleHref(path.slug, step.id, article.slug)}
+                                className="inline-flex items-center px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest bg-turquoise/10 border border-turquoise/30 text-turquoise hover:bg-turquoise/20 transition-all mb-4"
                               >
-                                {t(article.titleKey)}
+                                {t("article.lab_open_chapter")}
                                 <ExternalLink size={11} className="ml-1.5" />
                               </Link>
                             )}

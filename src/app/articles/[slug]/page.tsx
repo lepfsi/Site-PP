@@ -22,12 +22,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   );
 }
 
-export default async function ArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ArticlePage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ fromLab?: string; step?: string }>;
+}) {
   const { slug } = await params;
+  const { fromLab, step } = await searchParams;
   const article = getArticleBySlug(slug);
   if (!article) notFound();
 
   const markdownBodies = getMarkdownBodies(slug);
+  const labContext =
+    fromLab && step ? { pathSlug: fromLab, stepId: step } : null;
 
-  return <ArticlePageClient markdownBodies={markdownBodies} />;
+  return <ArticlePageClient markdownBodies={markdownBodies} labContext={labContext} />;
 }

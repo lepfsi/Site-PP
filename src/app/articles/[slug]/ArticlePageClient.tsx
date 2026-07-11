@@ -12,12 +12,15 @@ import { motion } from "framer-motion";
 import { ChevronRight, Clock, Calendar, ArrowLeft, FileText } from "lucide-react";
 import ArticleShareButton from "@/components/ArticleShareButton";
 import StickySidebar from "@/components/StickySidebar";
+import LabArticleNav from "@/components/LabArticleNav";
+import { getLabStepNavigation } from "@/lib/labs";
 
 interface ArticlePageClientProps {
   markdownBodies?: { EN: string | null; FR: string | null } | null;
+  labContext?: { pathSlug: string; stepId: string } | null;
 }
 
-export default function ArticlePageClient({ markdownBodies }: ArticlePageClientProps) {
+export default function ArticlePageClient({ markdownBodies, labContext }: ArticlePageClientProps) {
   const params = useParams();
   const { t, lang } = useLanguage();
   const slug = params.slug as string;
@@ -49,6 +52,10 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
   const bodyParagraphs =
     !markdownBody && article.bodyKey ? t(article.bodyKey).split("\n\n") : [];
 
+  const labNav = labContext
+    ? getLabStepNavigation(labContext.pathSlug, labContext.stepId)
+    : null;
+
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
       <Navbar />
@@ -60,9 +67,19 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
             <nav className="flex flex-wrap items-center mb-5 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
               <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
-              <Link href={`/category/${article.category}`} className="hover:text-turquoise transition-colors">
-                {t(category.nameKey)}
-              </Link>
+              {labNav ? (
+                <>
+                  <Link href="/labs" className="hover:text-turquoise transition-colors">{t("labs.page.title")}</Link>
+                  <ChevronRight className="mx-2 h-3 w-3" />
+                  <Link href={`/labs/${labNav.path.slug}`} className="hover:text-turquoise transition-colors truncate max-w-[140px] sm:max-w-none">
+                    {t(labNav.path.titleKey)}
+                  </Link>
+                </>
+              ) : (
+                <Link href={`/category/${article.category}`} className="hover:text-turquoise transition-colors">
+                  {t(category.nameKey)}
+                </Link>
+              )}
               <ChevronRight className="mx-2 h-3 w-3" />
               <span className="text-text-primary truncate max-w-[200px] sm:max-w-none">{t(article.titleKey)}</span>
             </nav>
@@ -134,13 +151,21 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
                   </div>
                 )}
 
-                <Link
-                  href="/articles"
-                  className="inline-flex items-center mt-12 text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group"
-                >
-                  <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" />
-                  {t("article.back")}
-                </Link>
+                {labContext ? (
+                  <LabArticleNav
+                    pathSlug={labContext.pathSlug}
+                    stepId={labContext.stepId}
+                    variant="inline"
+                  />
+                ) : (
+                  <Link
+                    href="/articles"
+                    className="inline-flex items-center mt-12 text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group"
+                  >
+                    <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" />
+                    {t("article.back")}
+                  </Link>
+                )}
               </article>
 
               <StickySidebar className="lg:col-span-4 space-y-8">
@@ -199,6 +224,16 @@ export default function ArticlePageClient({ markdownBodies }: ArticlePageClientP
           </div>
         </section>
       </div>
+      {labContext && (
+        <>
+          <div className="h-20 md:hidden" aria-hidden />
+          <LabArticleNav
+            pathSlug={labContext.pathSlug}
+            stepId={labContext.stepId}
+            variant="sticky"
+          />
+        </>
+      )}
       <Footer />
     </main>
   );

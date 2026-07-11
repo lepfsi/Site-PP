@@ -152,6 +152,13 @@ export interface TranslationKeys {
   "articles.author": string;
   "article.back": string;
   "article.published": string;
+  "article.lab_badge": string;
+  "article.lab_step": string;
+  "article.lab_back": string;
+  "article.lab_next_chapter": string;
+  "article.lab_next_step": string;
+  "article.lab_finish": string;
+  "article.lab_open_chapter": string;
   "article.related": string;
   "article.share": string;
   "article.share_copy": string;
@@ -641,6 +648,13 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
     "article.published": "Published",
+    "article.lab_badge": "Ops Labs",
+    "article.lab_step": "Step",
+    "article.lab_back": "Back to path",
+    "article.lab_next_chapter": "Next chapter",
+    "article.lab_next_step": "Next step",
+    "article.lab_finish": "Back to path",
+    "article.lab_open_chapter": "Open chapter",
     "article.related": "Related articles",
     "article.share": "Share",
     "article.share_copy": "Copy link",
@@ -1125,6 +1139,13 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",
     "article.published": "Publié le",
+    "article.lab_badge": "Ops Labs",
+    "article.lab_step": "Étape",
+    "article.lab_back": "Retour au parcours",
+    "article.lab_next_chapter": "Chapitre suivant",
+    "article.lab_next_step": "Étape suivante",
+    "article.lab_finish": "Retour au parcours",
+    "article.lab_open_chapter": "Ouvrir le chapitre",
     "article.related": "Articles connexes",
     "article.share": "Partager",
     "article.share_copy": "Copier le lien",
