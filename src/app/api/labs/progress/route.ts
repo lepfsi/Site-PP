@@ -1,6 +1,11 @@
 import { NextResponse } from "next/server";
 import { getSessionEmail } from "@/lib/labs-auth";
-import { getRemoteLabProgress, isLabsStorageConfigured, saveRemoteLabProgress } from "@/lib/labs-storage";
+import {
+  getRemoteLabProgress,
+  isLabsStorageConfigured,
+  registerLabsUser,
+  saveRemoteLabProgress,
+} from "@/lib/labs-storage";
 import {
   mergeLabProgressStores,
   type LabProgressStore,
@@ -41,6 +46,7 @@ export async function PUT(request: Request) {
     const remote = await getRemoteLabProgress(email);
     const merged = mergeLabProgressStores(remote, incoming);
     await saveRemoteLabProgress(email, merged);
+    await registerLabsUser(email);
 
     return NextResponse.json({ success: true, store: merged });
   } catch (err) {

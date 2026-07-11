@@ -19,8 +19,50 @@ function getRedis(): Redis | null {
   return redis;
 }
 
+const USERS_INDEX_KEY = "labs:users";
+
+export interface LabsUserRecord {
+  firstSeenAt: number;
+  lastSeenAt: number;
+}
+
 function progressKey(email: string): string {
   return `labs:progress:${normalizeLabsEmail(email)}`;
+}
+
+export async function registerLabsUser(email: string): Promise<void> {
+  const client = getRedis();
+  if (!client) return;
+
+  const key = normalizeLabsEmail(email);
+  const now = Date.now();
+  const existing = await client.hget<LabsUserRecord>(USERS_INDEX_KEY, key);
+
+  const record: LabsUserRecord = {
+    firstSeenAt: existing?.firstSeenAt ?? now,
+    lastSeenAt: now,
+  };
+
+  await client.hset(USERS_INDEX_KEY, { [key]: record });
+}
+
+export async function getLabsUserCount(): Promise<number> {
+  const client = getRedis();
+  if (!client) return 0;
+  return client.hlen(USERS_INDEX_KEY);
+}
+
+export async function listLabsUsers(): Promise<{ email: string; record: LabsUserRecord }[]> {
+  const client = getRedis();
+  if (!client) return [];
+
+  const all = await client.hgetall<Record<string, LabsUserRecord>>(USERS_INDEX_KEY);
+  if (!all) return [];
+
+  return Object.entries(all).map(([email, record]) => ({
+    email,
+    record: record ?? { firstSeenAt: 0, lastSeenAt: 0 },
+  }));
 }
 
 export async function getRemoteLabProgress(email: string): Promise<LabProgressStore> {

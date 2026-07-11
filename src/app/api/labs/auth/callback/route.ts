@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { setSessionCookie, verifyMagicLinkToken } from "@/lib/labs-auth";
-import { getRemoteLabProgress, saveRemoteLabProgress } from "@/lib/labs-storage";
+import { registerLabsUser, getRemoteLabProgress, saveRemoteLabProgress } from "@/lib/labs-storage";
 import { mergeLabProgressStores, type LabProgressStore } from "@/lib/lab-progress";
 import { SITE } from "@/lib/site";
 
@@ -22,6 +22,8 @@ export async function GET(request: Request) {
   if (!sessionSet) {
     return NextResponse.redirect(`${SITE.url}/labs?auth_error=server`);
   }
+
+  await registerLabsUser(email);
 
   return NextResponse.redirect(`${SITE.url}/labs?synced=1`);
 }
@@ -49,6 +51,7 @@ export async function POST(request: Request) {
     const remote = await getRemoteLabProgress(email);
     const merged = mergeLabProgressStores(localStore, remote);
     await saveRemoteLabProgress(email, merged);
+    await registerLabsUser(email);
 
     return NextResponse.json({ success: true, store: merged });
   } catch (err) {

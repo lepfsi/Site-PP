@@ -299,6 +299,10 @@ export interface TranslationKeys {
   "labs.sync.auth_error": string;
   "labs.sync.error": string;
   "labs.sync.offline": string;
+  "labs.quiz.required": string;
+  "labs.quiz.placeholder": string;
+  "labs.quiz.submit": string;
+  "labs.quiz.fail": string;
   "labs.step.read": string;
   "labs.step.checklist": string;
   "labs.step.lab": string;
@@ -783,6 +787,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.sync.auth_error": "Sign-in link invalid or expired. Request a new one.",
     "labs.sync.error": "Could not send sign-in email. Try again.",
     "labs.sync.offline": "Cloud sync is not enabled yet — progress stays in this browser only.",
+    "labs.quiz.required": "Answer all questions to validate this step",
+    "labs.quiz.placeholder": "Your answer...",
+    "labs.quiz.submit": "Check answers",
+    "labs.quiz.fail": "Not quite — review the path material and try again.",
     "labs.step.read": "Read",
     "labs.step.checklist": "Checklist",
     "labs.step.lab": "Lab",
@@ -1263,6 +1271,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.sync.auth_error": "Lien invalide ou expiré. Demandez-en un nouveau.",
     "labs.sync.error": "Impossible d'envoyer l'email. Réessayez.",
     "labs.sync.offline": "La sync cloud n'est pas encore activée — progression locale uniquement.",
+    "labs.quiz.required": "Répondez à toutes les questions pour valider cette étape",
+    "labs.quiz.placeholder": "Votre réponse...",
+    "labs.quiz.submit": "Vérifier les réponses",
+    "labs.quiz.fail": "Pas tout à fait — relisez le parcours et réessayez.",
     "labs.step.read": "Lecture",
     "labs.step.checklist": "Checklist",
     "labs.step.lab": "Lab",

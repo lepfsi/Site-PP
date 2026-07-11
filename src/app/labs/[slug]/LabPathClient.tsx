@@ -21,6 +21,7 @@ import {
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import LabProgressBar from "@/components/LabProgressBar";
+import LabQuizStep from "@/components/LabQuizStep";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useLabProgress } from "@/hooks/useLabProgress";
 import { getLabPathBySlug, type LabStepType } from "@/lib/labs";
@@ -163,9 +164,11 @@ export default function LabPathClient() {
                 const isLast = index === path.steps.length - 1;
                 const done = hydrated && stepDone(path.slug, step.id);
                 const prevDone = index === 0 || (hydrated && stepDone(path.slug, path.steps[index - 1].id));
-                const bullets = ["checklist", "lab", "quiz"].includes(step.type)
+                const bullets = ["checklist", "lab"].includes(step.type)
                   ? t(step.descKey).split("\n").filter(Boolean)
                   : [];
+                const quizQuestions =
+                  step.type === "quiz" ? t(step.descKey).split("\n").filter(Boolean) : [];
 
                 return (
                   <motion.li
@@ -226,38 +229,70 @@ export default function LabPathClient() {
                                 <ExternalLink size={11} className="ml-1.5" />
                               </Link>
                             )}
+                            <button
+                              type="button"
+                              onClick={() => toggleStep(path.slug, step.id)}
+                              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                                done
+                                  ? "bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/15"
+                                  : "bg-turquoise/10 border border-turquoise/30 text-turquoise hover:bg-turquoise/20"
+                              }`}
+                            >
+                              {done ? (
+                                <>
+                                  <CheckCircle2 size={13} />
+                                  {t("labs.progress.mark_undone")}
+                                </>
+                              ) : (
+                                <>
+                                  <Circle size={13} />
+                                  {t("labs.progress.mark_done")}
+                                </>
+                              )}
+                            </button>
                           </>
+                        ) : step.type === "quiz" ? (
+                          <LabQuizStep
+                            pathSlug={path.slug}
+                            stepId={step.id}
+                            questions={quizQuestions}
+                            done={done}
+                            onPass={() => toggleStep(path.slug, step.id)}
+                            onUndo={() => toggleStep(path.slug, step.id)}
+                          />
                         ) : (
-                          <ul className="space-y-2 mb-4">
-                            {bullets.map((line, i) => (
-                              <li key={i} className="flex gap-2 text-sm text-text-secondary font-medium leading-relaxed">
-                                <span className="text-turquoise shrink-0 mt-0.5">›</span>
-                                <span>{line}</span>
-                              </li>
-                            ))}
-                          </ul>
+                          <>
+                            <ul className="space-y-2 mb-4">
+                              {bullets.map((line, i) => (
+                                <li key={i} className="flex gap-2 text-sm text-text-secondary font-medium leading-relaxed">
+                                  <span className="text-turquoise shrink-0 mt-0.5">›</span>
+                                  <span>{line}</span>
+                                </li>
+                              ))}
+                            </ul>
+                            <button
+                              type="button"
+                              onClick={() => toggleStep(path.slug, step.id)}
+                              className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
+                                done
+                                  ? "bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/15"
+                                  : "bg-turquoise/10 border border-turquoise/30 text-turquoise hover:bg-turquoise/20"
+                              }`}
+                            >
+                              {done ? (
+                                <>
+                                  <CheckCircle2 size={13} />
+                                  {t("labs.progress.mark_undone")}
+                                </>
+                              ) : (
+                                <>
+                                  <Circle size={13} />
+                                  {t("labs.progress.mark_done")}
+                                </>
+                              )}
+                            </button>
+                          </>
                         )}
-                        <button
-                          type="button"
-                          onClick={() => toggleStep(path.slug, step.id)}
-                          className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all ${
-                            done
-                              ? "bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/15"
-                              : "bg-turquoise/10 border border-turquoise/30 text-turquoise hover:bg-turquoise/20"
-                          }`}
-                        >
-                          {done ? (
-                            <>
-                              <CheckCircle2 size={13} />
-                              {t("labs.progress.mark_undone")}
-                            </>
-                          ) : (
-                            <>
-                              <Circle size={13} />
-                              {t("labs.progress.mark_done")}
-                            </>
-                          )}
-                        </button>
                       </div>
                     </div>
                   </motion.li>
