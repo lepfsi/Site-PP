@@ -19,6 +19,18 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "genai-dlp-sensitive-data-leaks",
+    category: "cybersecurity",
+    titleKey: "articles.16.title",
+    excerptKey: "articles.16.excerpt",
+    categoryLabelKey: "articles.16.category",
+    readTime: "10 min",
+    date: "2026-07-11",
+    color: "text-purple-500",
+    bg: "bg-purple-500/10",
+    format: "markdown",
+  },
+  {
     slug: "prometheus-grafana-production-stack",
     category: "observability",
     titleKey: "articles.14.title",

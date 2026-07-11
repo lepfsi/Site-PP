@@ -144,6 +144,9 @@ export interface TranslationKeys {
   "articles.15.title": string;
   "articles.15.excerpt": string;
   "articles.15.category": string;
+  "articles.16.title": string;
+  "articles.16.excerpt": string;
+  "articles.16.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -186,6 +189,11 @@ export interface TranslationKeys {
   "about.author_role": string;
   "about.author_bio": string;
   "about.mission": string;
+  "about.opsgate_title": string;
+  "about.opsgate_badge": string;
+  "about.opsgate_desc": string;
+  "about.opsgate_cta_article": string;
+  "about.opsgate_cta_beta": string;
   "about.methodology_title": string;
   "about.methodology_desc": string;
   "about.contact_title": string;
@@ -534,6 +542,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.15.title": "AI-Ops Assistant in Production — Architecture & Guardrails",
     "articles.15.excerpt": "Tiered routing, internal knowledge grounding, safe escalation, and when an LLM beats a runbook — patterns from the DailyOps assistant.",
     "articles.15.category": "AI",
+    "articles.16.title": "GenAI & Accidental Data Leaks — What Ops Teams Paste Into ChatGPT",
+    "articles.16.excerpt": "Firewall configs, API keys, HR docs — why public LLMs are a blind spot for DLP, and practical guardrails before enterprise tools arrive.",
+    "articles.16.category": "Cybersecurity",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -576,6 +587,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.author_role": "Cybersecurity Engineer",
     "about.author_bio": "Steve BA-NDOUWE is a cybersecurity engineer by training who rapidly expanded into full-spectrum IT operations. From the start of his career, he has worked in high-stakes environments — banking, airports, and critical infrastructure where high availability, regulatory rigor, and round-the-clock monitoring leave no margin for error.\n\nThose production constraints shaped how he designs secure architectures, hardens systems, and troubleshoots under pressure. He founded DailyOps.Tech to share the playbooks and field lessons acquired alongside NOC and SOC teams.",
     "about.mission": "Every article on DailyOps is validated against real production constraints — no empty theory, no marketing fluff.",
+    "about.opsgate_title": "OpsGate — in development",
+    "about.opsgate_badge": "Early access",
+    "about.opsgate_desc": "OpsGate is a lightweight browser extension that protects sensitive data before it reaches public GenAI tools — ChatGPT, Claude, Gemini, and others.\n\nIt detects PII, financial and legal documents, credentials, and network/security configs (Fortinet, Cisco, Juniper…) in prompts and small file uploads, then offers intelligent masking without blocking the user.\n\nPhase 1 is in active testing for text and small documents. We're extending coverage before a wider beta.",
+    "about.opsgate_cta_article": "Read the article",
+    "about.opsgate_cta_beta": "Request early access",
     "about.methodology_title": "Our methodology",
     "about.methodology_desc": "We document what we deploy, break, and fix. Each guide follows a production-ready structure: context, architecture, step-by-step implementation, validation checks, and rollback procedures. Content is reviewed and updated as technologies evolve.",
     "about.contact_title": "Contact us",
@@ -920,6 +936,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.15.title": "Assistant AI-Ops en production — architecture & garde-fous",
     "articles.15.excerpt": "Routage par tiers, ancrage sur la base interne, escalade sécurisée et quand un LLM bat un runbook — patterns issus de l'assistant DailyOps.",
     "articles.15.category": "IA",
+    "articles.16.title": "IA générative & fuites accidentelles — ce que les équipes ops collent dans ChatGPT",
+    "articles.16.excerpt": "Configs pare-feu, clés API, docs RH — pourquoi les LLM publics sont un angle mort du DLP, et garde-fous pragmatiques avant les outils enterprise.",
+    "articles.16.category": "Cybersécurité",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",
@@ -962,6 +981,11 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.author_role": "Ingénieur en cybersécurité",
     "about.author_bio": "Steve BA-NDOUWE est ingénieur en cybersécurité de formation, qui s'est très rapidement orienté vers les opérations IT dans leur ensemble. Dès le début de son parcours, il a évolué dans des environnements à forte exigence — banque, aéroports et infrastructures critiques où la haute disponibilité, la conformité réglementaire et la surveillance continue ne laissent aucune place à l'approximation.\n\nCes contraintes de production ont façonné sa façon de concevoir des architectures sécurisées, durcir les systèmes et diagnostiquer sous pression. Il a fondé DailyOps.Tech pour partager les playbooks et retours terrain acquis aux côtés des équipes NOC et SOC.",
     "about.mission": "Chaque article sur DailyOps est validé face aux contraintes de production réelles — pas de théorie vide, pas de marketing.",
+    "about.opsgate_title": "OpsGate — en développement",
+    "about.opsgate_badge": "Accès anticipé",
+    "about.opsgate_desc": "OpsGate est une extension navigateur légère qui protège les données sensibles avant qu'elles n'atteignent les outils d'IA générative publics — ChatGPT, Claude, Gemini, et autres.\n\nElle détecte les PII, documents financiers et juridiques, credentials et configurations réseau/sécurité (Fortinet, Cisco, Juniper…) dans les prompts et petits uploads, puis propose un masquage intelligent sans bloquer l'utilisateur.\n\nLa phase 1 est en test actif pour les textes et documents de petite taille. Nous étendons la couverture avant une beta plus large.",
+    "about.opsgate_cta_article": "Lire l'article",
+    "about.opsgate_cta_beta": "Demander un accès anticipé",
     "about.methodology_title": "Notre méthodologie",
     "about.methodology_desc": "Nous documentons ce que nous déployons, cassons et réparons. Chaque guide suit une structure production-ready : contexte, architecture, implémentation pas à pas, checks de validation et procédures de rollback. Le contenu est revu et mis à jour au fil de l'évolution des technologies.",
     "about.contact_title": "Nous contacter",
