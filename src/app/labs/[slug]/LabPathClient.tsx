@@ -39,7 +39,7 @@ export default function LabPathClient() {
   const { t } = useLanguage();
   const slug = params.slug as string;
   const path = getLabPathBySlug(slug);
-  const { hydrated, getStats, stepDone, toggleStep, resetPath } = useLabProgress();
+  const { hydrated, getStats, stepDone, toggleStep, resetPath, authenticated, syncState } = useLabProgress();
 
   if (!path) {
     return (
@@ -120,6 +120,11 @@ export default function LabPathClient() {
                 </span>
               </div>
               {hydrated && <LabProgressBar stats={stats} />}
+              {authenticated && hydrated && (
+                <p className="text-[9px] font-mono text-turquoise/80 uppercase tracking-widest mt-3">
+                  {syncState === "syncing" ? t("labs.sync.syncing") : syncState === "synced" ? t("labs.sync.synced") : t("labs.sync.ready")}
+                </p>
+              )}
             </motion.div>
           </div>
         </header>

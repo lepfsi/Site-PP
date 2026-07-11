@@ -282,6 +282,23 @@ export interface TranslationKeys {
   "labs.progress.path_complete_desc": string;
   "labs.progress.reset": string;
   "labs.progress.reset_confirm": string;
+  "labs.sync.title": string;
+  "labs.sync.desc": string;
+  "labs.sync.email_placeholder": string;
+  "labs.sync.send_link": string;
+  "labs.sync.sending": string;
+  "labs.sync.sent_title": string;
+  "labs.sync.sent_desc": string;
+  "labs.sync.signed_in": string;
+  "labs.sync.syncing": string;
+  "labs.sync.synced": string;
+  "labs.sync.sync_error": string;
+  "labs.sync.ready": string;
+  "labs.sync.logout": string;
+  "labs.sync.connected": string;
+  "labs.sync.auth_error": string;
+  "labs.sync.error": string;
+  "labs.sync.offline": string;
   "labs.step.read": string;
   "labs.step.checklist": string;
   "labs.step.lab": string;
@@ -741,7 +758,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.page.back": "Back to labs",
     "labs.page.featured": "Featured",
     "labs.progress.label": "Your progress",
-    "labs.progress.hint": "Mark each step complete as you go — progress is saved locally in your browser.",
+    "labs.progress.hint": "Mark each step complete as you go. Connect your email above to sync across devices.",
     "labs.progress.mark_done": "Mark complete",
     "labs.progress.mark_undone": "Completed — undo",
     "labs.progress.complete_badge": "Complete",
@@ -749,6 +766,23 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.progress.path_complete_desc": "You've finished every step in this learning path. Review anytime or start another path.",
     "labs.progress.reset": "Reset progress",
     "labs.progress.reset_confirm": "Reset all progress for this path? This cannot be undone.",
+    "labs.sync.title": "Sync across devices",
+    "labs.sync.desc": "Sign in with your email to save progress in the cloud and pick up where you left off on any device.",
+    "labs.sync.email_placeholder": "your.email@ops.tech",
+    "labs.sync.send_link": "Send magic link",
+    "labs.sync.sending": "Sending...",
+    "labs.sync.sent_title": "Check your inbox",
+    "labs.sync.sent_desc": "We sent a sign-in link — valid for 15 minutes. Open it on this or any device.",
+    "labs.sync.signed_in": "Signed in as",
+    "labs.sync.syncing": "Syncing...",
+    "labs.sync.synced": "Synced",
+    "labs.sync.sync_error": "Sync failed — changes saved locally",
+    "labs.sync.ready": "Ready to sync",
+    "labs.sync.logout": "Sign out",
+    "labs.sync.connected": "Account connected — your progress is syncing.",
+    "labs.sync.auth_error": "Sign-in link invalid or expired. Request a new one.",
+    "labs.sync.error": "Could not send sign-in email. Try again.",
+    "labs.sync.offline": "Cloud sync is not enabled yet — progress stays in this browser only.",
     "labs.step.read": "Read",
     "labs.step.checklist": "Checklist",
     "labs.step.lab": "Lab",
@@ -1204,7 +1238,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.page.back": "Retour aux labs",
     "labs.page.featured": "À la une",
     "labs.progress.label": "Votre progression",
-    "labs.progress.hint": "Marquez chaque étape au fur et à mesure — la progression est enregistrée localement dans votre navigateur.",
+    "labs.progress.hint": "Marquez chaque étape au fur et à mesure. Connectez votre email ci-dessus pour synchroniser sur tous vos appareils.",
     "labs.progress.mark_done": "Marquer terminé",
     "labs.progress.mark_undone": "Terminé — annuler",
     "labs.progress.complete_badge": "Terminé",
@@ -1212,6 +1246,23 @@ export const translations: Record<Language, TranslationKeys> = {
     "labs.progress.path_complete_desc": "Vous avez terminé toutes les étapes de ce parcours. Revenez quand vous voulez ou lancez un autre parcours.",
     "labs.progress.reset": "Réinitialiser",
     "labs.progress.reset_confirm": "Réinitialiser toute la progression de ce parcours ? Cette action est irréversible.",
+    "labs.sync.title": "Synchroniser sur tous vos appareils",
+    "labs.sync.desc": "Connectez-vous par email pour sauvegarder votre progression dans le cloud et reprendre où vous en étiez.",
+    "labs.sync.email_placeholder": "votre.email@ops.tech",
+    "labs.sync.send_link": "Recevoir le lien",
+    "labs.sync.sending": "Envoi...",
+    "labs.sync.sent_title": "Consultez votre boîte mail",
+    "labs.sync.sent_desc": "Nous avons envoyé un lien de connexion — valable 15 minutes. Ouvrez-le sur cet appareil ou un autre.",
+    "labs.sync.signed_in": "Connecté en tant que",
+    "labs.sync.syncing": "Synchronisation...",
+    "labs.sync.synced": "Synchronisé",
+    "labs.sync.sync_error": "Échec sync — sauvegarde locale active",
+    "labs.sync.ready": "Prêt à synchroniser",
+    "labs.sync.logout": "Se déconnecter",
+    "labs.sync.connected": "Compte connecté — votre progression se synchronise.",
+    "labs.sync.auth_error": "Lien invalide ou expiré. Demandez-en un nouveau.",
+    "labs.sync.error": "Impossible d'envoyer l'email. Réessayez.",
+    "labs.sync.offline": "La sync cloud n'est pas encore activée — progression locale uniquement.",
     "labs.step.read": "Lecture",
     "labs.step.checklist": "Checklist",
     "labs.step.lab": "Lab",

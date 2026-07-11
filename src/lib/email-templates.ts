@@ -152,3 +152,39 @@ export function buildNewsletterWelcomeEmail(lang: Language, email: string): { su
     }),
   };
 }
+
+export function buildLabsMagicLinkEmail(
+  lang: Language,
+  email: string,
+  magicUrl: string
+): { subject: string; html: string } {
+  if (lang === "FR") {
+    return {
+      subject: "Connexion Ops Labs — DailyOps.Tech",
+      html: buildBrandedEmail({
+        lang,
+        preheader: "Synchronisez votre progression sur tous vos appareils.",
+        title: "Connexion Ops Labs",
+        bodyHtml: `
+          <p>Utilisez le lien ci-dessous pour connecter votre compte <strong>${email}</strong> et synchroniser la progression de vos parcours Ops Labs.</p>
+          <p style="font-size:13px;color:${BRAND.muted};">Ce lien expire dans <strong>15 minutes</strong>. Si vous n'êtes pas à l'origine de cette demande, ignorez cet email.</p>
+        `,
+        cta: { label: "Connecter mon compte", href: magicUrl },
+      }),
+    };
+  }
+
+  return {
+    subject: "Ops Labs sign-in — DailyOps.Tech",
+    html: buildBrandedEmail({
+      lang,
+      preheader: "Sync your learning path progress across devices.",
+      title: "Ops Labs sign-in",
+      bodyHtml: `
+        <p>Use the link below to connect <strong>${email}</strong> and sync your Ops Labs learning path progress.</p>
+        <p style="font-size:13px;color:${BRAND.muted};">This link expires in <strong>15 minutes</strong>. If you didn't request this, you can ignore this email.</p>
+      `,
+      cta: { label: "Connect my account", href: magicUrl },
+    }),
+  };
+}

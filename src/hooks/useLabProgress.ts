@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useLabAccountOptional } from "@/contexts/LabAccountContext";
 import {
   getLabProgressStats,
   isStepComplete,
@@ -13,6 +14,7 @@ import {
 } from "@/lib/lab-progress";
 
 export function useLabProgress() {
+  const account = useLabAccountOptional();
   const [store, setStore] = useState<LabProgressStore>({});
   const [hydrated, setHydrated] = useState(false);
 
@@ -48,12 +50,23 @@ export function useLabProgress() {
   const toggleStep = useCallback((pathSlug: string, stepId: string) => {
     toggleLabStep(pathSlug, stepId);
     refresh();
-  }, [refresh]);
+    account?.queueSync();
+  }, [refresh, account]);
 
   const resetPath = useCallback((pathSlug: string) => {
     resetLabPathProgress(pathSlug);
     refresh();
-  }, [refresh]);
+    account?.queueSync();
+  }, [refresh, account]);
 
-  return { hydrated, store, getStats, stepDone, toggleStep, resetPath };
+  return {
+    hydrated,
+    store,
+    getStats,
+    stepDone,
+    toggleStep,
+    resetPath,
+    syncState: account?.syncState ?? "idle",
+    authenticated: account?.authenticated ?? false,
+  };
 }

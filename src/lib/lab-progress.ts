@@ -96,3 +96,30 @@ export function resetLabPathProgress(pathSlug: string): void {
   delete store[pathSlug];
   writeLabProgressStore(store);
 }
+
+export function replaceLabProgressStore(store: LabProgressStore): void {
+  writeLabProgressStore(store);
+}
+
+export function mergeLabProgressStores(
+  local: LabProgressStore,
+  remote: LabProgressStore
+): LabProgressStore {
+  const merged: LabProgressStore = { ...local };
+
+  for (const [slug, remotePath] of Object.entries(remote)) {
+    const localPath = merged[slug];
+    if (!localPath) {
+      merged[slug] = remotePath;
+      continue;
+    }
+
+    const steps = new Set([...localPath.completedSteps, ...remotePath.completedSteps]);
+    merged[slug] = {
+      completedSteps: Array.from(steps),
+      updatedAt: Math.max(localPath.updatedAt, remotePath.updatedAt),
+    };
+  }
+
+  return merged;
+}

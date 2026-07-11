@@ -1,10 +1,12 @@
 "use client";
 
+import { Suspense } from "react";
 import { motion } from "framer-motion";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import PageHeader, { PAGE_TOP_OFFSET } from "@/components/PageHeader";
 import LabPathCard from "@/components/LabPathCard";
+import LabSyncPanel from "@/components/LabSyncPanel";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getAllLabPaths } from "@/lib/labs";
 
@@ -33,6 +35,9 @@ export default function LabsPage() {
 
         <section className="py-10 sm:py-14 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
+            <Suspense fallback={null}>
+              <LabSyncPanel />
+            </Suspense>
             <p className="text-text-secondary text-sm font-medium mb-8 max-w-2xl">
               {t("labs.progress.hint")}
             </p>

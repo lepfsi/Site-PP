@@ -2,6 +2,7 @@ import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { LanguageProvider } from "@/lib/LanguageContext";
+import { LabAccountProvider } from "@/contexts/LabAccountContext";
 import { cn } from "@/lib/utils";
 import { siteMetadata } from "@/lib/seo";
 import CookieNotice from "@/components/CookieNotice";
@@ -38,9 +39,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <LanguageProvider>
-            {children}
-            <ChatAssistant />
-            <CookieNotice />
+            <LabAccountProvider>
+              {children}
+              <ChatAssistant />
+              <CookieNotice />
+            </LabAccountProvider>
           </LanguageProvider>
         </ThemeProvider>
       </body>
