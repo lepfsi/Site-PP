@@ -1,27 +1,14 @@
 import { NextResponse } from "next/server";
 import { isEmailConfigured } from "@/lib/email";
+import { isNewsletterAdminAuthorized } from "@/lib/newsletter-admin";
 import { setupNewsletterSegment } from "@/lib/newsletter-segment";
-
-function isAuthorized(request: Request): boolean {
-  const secret =
-    process.env.NEWSLETTER_SETUP_SECRET?.trim() ??
-    process.env.LABS_ADMIN_SECRET?.trim();
-
-  if (!secret) return false;
-
-  const auth = request.headers.get("authorization");
-  if (auth === `Bearer ${secret}`) return true;
-
-  const url = new URL(request.url);
-  return url.searchParams.get("key") === secret;
-}
 
 export async function POST(request: Request) {
   if (!isEmailConfigured()) {
     return NextResponse.json({ error: "Email service not configured" }, { status: 503 });
   }
 
-  if (!isAuthorized(request)) {
+  if (!isNewsletterAdminAuthorized(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

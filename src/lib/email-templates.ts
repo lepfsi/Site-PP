@@ -27,29 +27,83 @@ function socialRow(): string {
   ).join("");
 }
 
+export type NewsletterArticleItem = {
+  title: string;
+  category: string;
+  excerpt: string;
+  href: string;
+  readTime?: string;
+};
+
+export type NewsletterEditionInput = {
+  lang: Language;
+  editionLabel: string;
+  preheader: string;
+  title: string;
+  introHtml: string;
+  articles: NewsletterArticleItem[];
+  tipHtml?: string;
+  cta?: { label: string; href: string };
+};
+
+type UnsubscribeMode = "subscriber" | "broadcast" | "none";
+
 interface BrandedEmailOptions {
   lang: Language;
   preheader?: string;
+  badgeHtml?: string;
   title: string;
   bodyHtml: string;
   cta?: { label: string; href: string };
   subscriberEmail?: string;
+  unsubscribeMode?: UnsubscribeMode;
+}
+
+function resolveUnsubscribeMode(options: BrandedEmailOptions): UnsubscribeMode {
+  if (options.unsubscribeMode) return options.unsubscribeMode;
+  return options.subscriberEmail ? "subscriber" : "none";
+}
+
+function buildUnsubscribeBlock(lang: Language, mode: UnsubscribeMode, subscriberEmail?: string): string {
+  const unsubLabel = lang === "FR" ? "Se désabonner" : "Unsubscribe";
+
+  if (mode === "broadcast") {
+    return `<p style="margin:16px 0 0;font-size:11px;color:${BRAND.muted};">
+        <a href="{{{RESEND_UNSUBSCRIBE_URL}}}" style="color:${BRAND.muted};text-decoration:underline;">${unsubLabel}</a>
+       </p>`;
+  }
+
+  if (mode === "subscriber" && subscriberEmail) {
+    return `<p style="margin:16px 0 0;font-size:11px;color:${BRAND.muted};">
+        <a href="${unsubscribeUrl(subscriberEmail)}" style="color:${BRAND.muted};text-decoration:underline;">${unsubLabel}</a>
+       </p>`;
+  }
+
+  return "";
 }
 
 export function buildBrandedEmail({
   lang,
   preheader,
+  badgeHtml,
   title,
   bodyHtml,
   cta,
   subscriberEmail,
+  unsubscribeMode,
 }: BrandedEmailOptions): string {
-  const tagline = lang === "FR" ? "OPERATE · OPTIMIZE · SECURE" : "OPERATE · OPTIMIZE · SECURE";
+  const tagline = "OPERATE · OPTIMIZE · SECURE";
   const signature = lang === "FR" ? "— L'équipe DailyOps" : "— The DailyOps team";
   const visitLabel = lang === "FR" ? "Visiter le site" : "Visit the site";
-  const unsubLabel = lang === "FR" ? "Se désabonner" : "Unsubscribe";
   const contactLabel = lang === "FR" ? "Nous contacter" : "Contact us";
   const contactMailto = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(lang === "FR" ? "Newsletter DailyOps" : "DailyOps Newsletter")}`;
+  const resolvedUnsubscribeMode = resolveUnsubscribeMode({
+    lang,
+    title,
+    bodyHtml,
+    subscriberEmail,
+    unsubscribeMode,
+  });
 
   const ctaBlock = cta
     ? `<p style="margin:28px 0 0;">
@@ -59,11 +113,7 @@ export function buildBrandedEmail({
         <a href="${SITE.url}" style="display:inline-block;background:${BRAND.navy};color:#ffffff;padding:12px 24px;border-radius:8px;text-decoration:none;font-size:13px;font-weight:700;letter-spacing:0.04em;">${visitLabel}</a>
        </p>`;
 
-  const unsubBlock = subscriberEmail
-    ? `<p style="margin:16px 0 0;font-size:11px;color:${BRAND.muted};">
-        <a href="${unsubscribeUrl(subscriberEmail)}" style="color:${BRAND.muted};text-decoration:underline;">${unsubLabel}</a>
-       </p>`
-    : "";
+  const unsubBlock = buildUnsubscribeBlock(lang, resolvedUnsubscribeMode, subscriberEmail);
 
   return `<!DOCTYPE html>
 <html lang="${lang === "FR" ? "fr" : "en"}">
@@ -89,6 +139,7 @@ export function buildBrandedEmail({
           </tr>
           <tr>
             <td style="padding:28px;">
+              ${badgeHtml ? `<p style="margin:0 0 12px;">${badgeHtml}</p>` : ""}
               <h1 style="margin:0 0 16px;font-size:20px;font-weight:800;color:${BRAND.navy};line-height:1.3;">${title}</h1>
               <div style="font-size:15px;line-height:1.65;color:#334155;">${bodyHtml}</div>
               ${ctaBlock}
@@ -112,6 +163,71 @@ export function buildBrandedEmail({
   </table>
 </body>
 </html>`;
+}
+
+function buildEditionBadge(label: string): string {
+  return `<span style="display:inline-block;background:rgba(34,175,157,0.12);color:${BRAND.turquoise};font-size:10px;font-weight:800;letter-spacing:0.14em;text-transform:uppercase;padding:6px 10px;border-radius:999px;border:1px solid rgba(34,175,157,0.25);">${label}</span>`;
+}
+
+function buildArticleCard(lang: Language, article: NewsletterArticleItem): string {
+  const readLabel = lang === "FR" ? "Lire" : "Read";
+  const readMeta = article.readTime
+    ? `${article.readTime} · <a href="${article.href}" style="color:${BRAND.turquoise};font-weight:700;text-decoration:none;">${readLabel} →</a>`
+    : `<a href="${article.href}" style="color:${BRAND.turquoise};font-weight:700;text-decoration:none;">${readLabel} →</a>`;
+
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:0 0 14px;border:1px solid ${BRAND.border};border-radius:10px;overflow:hidden;">
+    <tr>
+      <td style="padding:16px 18px;">
+        <p style="margin:0 0 6px;font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:${BRAND.turquoise};">${article.category}</p>
+        <p style="margin:0 0 8px;font-size:16px;font-weight:800;line-height:1.35;color:${BRAND.navy};">
+          <a href="${article.href}" style="color:${BRAND.navy};text-decoration:none;">${article.title}</a>
+        </p>
+        <p style="margin:0 0 10px;font-size:14px;line-height:1.55;color:${BRAND.muted};">${article.excerpt}</p>
+        <p style="margin:0;font-size:12px;color:${BRAND.muted};">${readMeta}</p>
+      </td>
+    </tr>
+  </table>`;
+}
+
+function buildTipBox(tipHtml: string): string {
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:22px 0 0;border-left:4px solid ${BRAND.turquoise};background:#f8fafc;border-radius:0 8px 8px 0;">
+    <tr>
+      <td style="padding:14px 16px;font-size:14px;line-height:1.6;color:#334155;">${tipHtml}</td>
+    </tr>
+  </table>`;
+}
+
+export function buildNewsletterBroadcastEmail(
+  edition: NewsletterEditionInput,
+): { subject: string; html: string } {
+  const sectionLabel = edition.lang === "FR" ? "À la une" : "Featured";
+  const articlesHtml = edition.articles.map((article) => buildArticleCard(edition.lang, article)).join("");
+  const tipBlock = edition.tipHtml ? buildTipBox(edition.tipHtml) : "";
+
+  const bodyHtml = `
+    ${edition.introHtml}
+    <p style="margin:24px 0 12px;font-size:11px;font-weight:800;letter-spacing:0.16em;text-transform:uppercase;color:${BRAND.muted};">${sectionLabel}</p>
+    ${articlesHtml}
+    ${tipBlock}
+  `;
+
+  const subject =
+    edition.lang === "FR"
+      ? `Ops Mail — ${edition.editionLabel.replace("OPS MAIL · ", "")}`
+      : `Ops Mail — ${edition.editionLabel.replace("OPS MAIL · ", "")}`;
+
+  return {
+    subject,
+    html: buildBrandedEmail({
+      lang: edition.lang,
+      preheader: edition.preheader,
+      badgeHtml: buildEditionBadge(edition.editionLabel),
+      title: edition.title,
+      bodyHtml,
+      cta: edition.cta,
+      unsubscribeMode: "broadcast",
+    }),
+  };
 }
 
 export function buildNewsletterWelcomeEmail(lang: Language, email: string): { subject: string; html: string } {
