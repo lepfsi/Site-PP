@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "newsletter:setup-segment": "node scripts/setup-newsletter-segment.mjs",
-    "newsletter:template": "node scripts/generate-newsletter-template.mjs"
+    "newsletter:template": "node scripts/generate-newsletter-template.mjs",
+    "newsletter:sync-resend": "node scripts/generate-newsletter-template.mjs --sync"
   },
   "dependencies": {
     "@upstash/redis": "^1.38.0",

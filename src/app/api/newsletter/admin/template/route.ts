@@ -1,6 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NewsletterEditionInput } from "@/lib/email-templates";
-import { isNewsletterAdminAuthorized } from "@/lib/newsletter-admin";
+import {
+  isNewsletterAdminAuthorized,
+  NEWSLETTER_ADMIN_AUTH_HINT,
+} from "@/lib/newsletter-admin";
 import {
   buildNewsletterEditionFromInput,
   buildSampleNewsletterEdition,
@@ -29,10 +32,20 @@ function usageNotes(lang: Language): string[] {
   ];
 }
 
+function unauthorized() {
+  return NextResponse.json(
+    {
+      error: "Unauthorized",
+      hint: NEWSLETTER_ADMIN_AUTH_HINT,
+      previewWithoutAuth: "/api/newsletter/preview?lang=FR",
+      syncDraft: "POST /api/newsletter/admin/sync-resend (Bearer header)",
+    },
+    { status: 401 },
+  );
+}
+
 export async function GET(request: Request) {
-  if (!isNewsletterAdminAuthorized(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  if (!isNewsletterAdminAuthorized(request)) return unauthorized();
 
   const url = new URL(request.url);
   const lang = parseLang(url.searchParams.get("lang"));
@@ -59,9 +72,7 @@ export async function GET(request: Request) {
 }
 
 export async function POST(request: Request) {
-  if (!isNewsletterAdminAuthorized(request)) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-  }
+  if (!isNewsletterAdminAuthorized(request)) return unauthorized();
 
   try {
     const url = new URL(request.url);
