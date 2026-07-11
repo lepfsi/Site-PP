@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, ExternalLink, Play } from "lucide-react";
+import { Download, ExternalLink } from "lucide-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
@@ -12,7 +12,6 @@ const ACTION_ICONS: Record<string, LucideIcon> = {
   cheatsheets: Download,
   scripts: ExternalLink,
   templates: Download,
-  training: Play,
 };
 
 export default function ResourcesSection() {
@@ -29,9 +28,10 @@ export default function ResourcesSection() {
           {t("res.title")}
         </SectionHeading>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
           {RESOURCE_SECTIONS.map((section, index) => {
             const ActionIcon = ACTION_ICONS[section.id] ?? Download;
+            const href = section.externalHref ?? `/resources#${section.id}`;
 
             return (
               <motion.div
@@ -50,7 +50,9 @@ export default function ResourcesSection() {
                 </p>
 
                 <Link
-                  href={`/resources#${section.id}`}
+                  href={href}
+                  target={section.externalHref ? "_blank" : undefined}
+                  rel={section.externalHref ? "noopener noreferrer" : undefined}
                   className="text-turquoise hover:underline text-[11px] font-black uppercase tracking-widest flex items-center mt-auto"
                 >
                   {t(section.linkKey)}

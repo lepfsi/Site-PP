@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { getAllArticles } from "@/lib/articles";
 import { CATEGORIES } from "@/lib/categories";
 import { EXPERIENCES } from "@/lib/experiences";
+import { LAB_PATHS } from "@/lib/labs";
 import { absoluteUrl } from "@/lib/seo";
 
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -13,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/experience"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: absoluteUrl("/about"), lastModified: now, changeFrequency: "monthly", priority: 0.6 },
     { url: absoluteUrl("/resources"), lastModified: now, changeFrequency: "weekly", priority: 0.7 },
+    { url: absoluteUrl("/labs"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
     { url: absoluteUrl("/legal"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
     { url: absoluteUrl("/privacy"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
@@ -38,5 +40,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  return [...staticPages, ...articlePages, ...categoryPages, ...experiencePages];
+  const labPages: MetadataRoute.Sitemap = LAB_PATHS.map((path) => ({
+    url: absoluteUrl(`/labs/${path.slug}`),
+    lastModified: now,
+    changeFrequency: "monthly",
+    priority: 0.75,
+  }));
+
+  return [...staticPages, ...articlePages, ...categoryPages, ...experiencePages, ...labPages];
 }

@@ -40,7 +40,7 @@ const FOOTER_RESOURCES = [
   { key: "footer.cheatsheets", href: "/resources#cheatsheets" },
   { key: "footer.templates", href: "/resources#templates" },
   { key: "footer.scripts", href: "/resources#scripts" },
-  { key: "footer.training", href: "/resources#training" },
+  { key: "footer.labs", href: "/labs" },
 ] as const;
 
 const FOOTER_ABOUT = [

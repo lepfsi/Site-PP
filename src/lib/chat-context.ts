@@ -1,6 +1,7 @@
 import { getAllArticles } from "./articles";
 import { CATEGORIES } from "./categories";
 import { getAllExperiences } from "./experiences";
+import { getAllLabPaths } from "./labs";
 import { translations, type Language } from "./translations";
 import { SITE } from "./site";
 
@@ -34,13 +35,18 @@ export function buildCompactKnowledge(lang: Language): string {
     .map((e) => `${t[e.titleKey as keyof typeof t]} (/experience/${e.slug})`)
     .join("; ");
 
+  const labTitles = getAllLabPaths()
+    .map((p) => `${t[p.titleKey as keyof typeof t]} (/labs/${p.slug})`)
+    .join("; ");
+
   return `
 Identity: DailyOps.Tech — production-first ops knowledge platform. ${t["hero.desc"]}
 Founder: ${t["about.author_name"]}, ${t["about.author_role"]}. ${t["about.mission"]}
 Domains: ${domains}
 Articles: ${articleTitles}
 Field experience: ${expTitles}
-Pages: /about /articles /experience /resources /about#contact
+Ops labs (learning paths): ${labTitles}
+Pages: /about /articles /labs /experience /resources /about#contact
 Contact: ${SITE.contactEmail}
 `.trim();
 }

@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react";
-import { FileCode, Laptop, Book, GraduationCap } from "lucide-react";
+import { FileCode, Laptop, Book } from "lucide-react";
+import { SITE } from "./site";
 
 export interface ResourceSection {
   id: string;
@@ -9,6 +10,7 @@ export interface ResourceSection {
   linkKey: string;
   articleSlugs: string[];
   categorySlug?: string;
+  externalHref?: string;
 }
 
 export const RESOURCE_SECTIONS: ResourceSection[] = [
@@ -29,6 +31,7 @@ export const RESOURCE_SECTIONS: ResourceSection[] = [
     linkKey: "res.2.link",
     articleSlugs: ["ansible-cicd-pipeline", "terraform-multicloud-patterns"],
     categorySlug: "automation",
+    externalHref: SITE.github,
   },
   {
     id: "templates",
@@ -38,19 +41,5 @@ export const RESOURCE_SECTIONS: ResourceSection[] = [
     linkKey: "res.3.link",
     articleSlugs: ["soc-incident-response-playbook", "linux-hardening-baseline", "zero-trust-freeipa-vault"],
     categorySlug: "infrastructure",
-  },
-  {
-    id: "training",
-    icon: GraduationCap,
-    titleKey: "res.4.title",
-    descKey: "res.page.training_desc",
-    linkKey: "res.4.link",
-    articleSlugs: [
-      "eks-production-checklist",
-      "kubernetes-network-policies",
-      "proxmox-ha-cluster-guide",
-      "wireguard-enterprise-deployment",
-      "ospf-neighbor-init-diagnosis",
-    ],
   },
 ];

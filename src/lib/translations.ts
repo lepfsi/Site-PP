@@ -4,6 +4,7 @@ export interface TranslationKeys {
   "nav.home": string;
   "nav.categories": string;
   "nav.articles": string;
+  "nav.labs": string;
   "nav.expertise": string;
   "nav.about": string;
   "nav.newsletter": string;
@@ -259,9 +260,68 @@ export interface TranslationKeys {
   "res.3.title": string;
   "res.3.desc": string;
   "res.3.link": string;
-  "res.4.title": string;
-  "res.4.desc": string;
-  "res.4.link": string;
+
+  "labs.home.title": string;
+  "labs.home.subtitle": string;
+  "labs.home.view_all": string;
+  "labs.page.title": string;
+  "labs.page.subtitle": string;
+  "labs.page.count": string;
+  "labs.page.steps": string;
+  "labs.page.start": string;
+  "labs.page.back": string;
+  "labs.page.featured": string;
+  "labs.step.read": string;
+  "labs.step.checklist": string;
+  "labs.step.lab": string;
+  "labs.step.quiz": string;
+  "labs.level.beginner": string;
+  "labs.level.intermediate": string;
+  "labs.soc.title": string;
+  "labs.soc.desc": string;
+  "labs.soc.duration": string;
+  "labs.soc.s1.title": string;
+  "labs.soc.s1.desc": string;
+  "labs.soc.s2.title": string;
+  "labs.soc.s2.desc": string;
+  "labs.soc.s3.title": string;
+  "labs.soc.s3.desc": string;
+  "labs.soc.s4.title": string;
+  "labs.soc.s4.desc": string;
+  "labs.soc.s5.title": string;
+  "labs.soc.s5.desc": string;
+  "labs.soc.s6.title": string;
+  "labs.soc.s6.desc": string;
+  "labs.noc.title": string;
+  "labs.noc.desc": string;
+  "labs.noc.duration": string;
+  "labs.noc.s1.title": string;
+  "labs.noc.s1.desc": string;
+  "labs.noc.s2.title": string;
+  "labs.noc.s2.desc": string;
+  "labs.noc.s3.title": string;
+  "labs.noc.s3.desc": string;
+  "labs.noc.s4.title": string;
+  "labs.noc.s4.desc": string;
+  "labs.noc.s5.title": string;
+  "labs.noc.s5.desc": string;
+  "labs.noc.s6.title": string;
+  "labs.noc.s6.desc": string;
+  "labs.cloud.title": string;
+  "labs.cloud.desc": string;
+  "labs.cloud.duration": string;
+  "labs.cloud.s1.title": string;
+  "labs.cloud.s1.desc": string;
+  "labs.cloud.s2.title": string;
+  "labs.cloud.s2.desc": string;
+  "labs.cloud.s3.title": string;
+  "labs.cloud.s3.desc": string;
+  "labs.cloud.s4.title": string;
+  "labs.cloud.s4.desc": string;
+  "labs.cloud.s5.title": string;
+  "labs.cloud.s5.desc": string;
+  "labs.cloud.s6.title": string;
+  "labs.cloud.s6.desc": string;
 
   "exp.title": string;
   "exp.subtitle": string;
@@ -312,7 +372,6 @@ export interface TranslationKeys {
   "res.page.cheatsheets_desc": string;
   "res.page.scripts_desc": string;
   "res.page.templates_desc": string;
-  "res.page.training_desc": string;
 
   "res.page.view_category": string;
   "news.title": string;
@@ -391,7 +450,7 @@ export interface TranslationKeys {
   "footer.cheatsheets": string;
   "footer.templates": string;
   "footer.scripts": string;
-  "footer.training": string;
+  "footer.labs": string;
   "footer.lab": string;
   "footer.copyright": string;
   "footer.production_ready": string;
@@ -402,6 +461,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "nav.home": "Home",
     "nav.categories": "Categories",
     "nav.articles": "Articles",
+    "nav.labs": "Labs",
     "nav.expertise": "Expertise",
     "nav.about": "About",
     "nav.newsletter": "Ops Mail",
@@ -650,16 +710,74 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.subtitle": "Toolbox for infrastructure professionals",
     "res.1.title": "Cheatsheets",
     "res.1.desc": "Essential commands and syntax references",
-    "res.1.link": "35 cheatsheets",
+    "res.1.link": "3 references",
     "res.2.title": "Scripts",
     "res.2.desc": "Automation and monitoring utilities",
     "res.2.link": "GitHub Repo",
     "res.3.title": "Templates",
     "res.3.desc": "Documentation and runbook templates",
-    "res.3.link": "20 templates",
-    "res.4.title": "Training & Lab",
-    "res.4.desc": "Guides and hands-on lab environments",
-    "res.4.link": "5 guides",
+    "res.3.link": "3 templates",
+    "labs.home.title": "Ops Labs",
+    "labs.home.subtitle": "Structured learning paths — read, practice, validate. Built from our production guides.",
+    "labs.home.view_all": "View all paths",
+    "labs.page.title": "Ops Labs",
+    "labs.page.subtitle": "Step-by-step ops paths: articles, checklists, hands-on labs, and self-assessment — no empty theory.",
+    "labs.page.count": "learning paths",
+    "labs.page.steps": "steps",
+    "labs.page.start": "Start path",
+    "labs.page.back": "Back to labs",
+    "labs.page.featured": "Featured",
+    "labs.step.read": "Read",
+    "labs.step.checklist": "Checklist",
+    "labs.step.lab": "Lab",
+    "labs.step.quiz": "Self-check",
+    "labs.level.beginner": "Beginner",
+    "labs.level.intermediate": "Intermediate",
+    "labs.soc.title": "SOC — First 30 Days",
+    "labs.soc.desc": "From alert triage to containment and hardening — the minimum viable skill set for a junior SOC analyst.",
+    "labs.soc.duration": "~8h",
+    "labs.soc.s1.title": "Incident response playbook",
+    "labs.soc.s1.desc": "Learn the first-30-minutes workflow: triage, scope, preserve evidence, contain.",
+    "labs.soc.s2.title": "Linux hardening baseline",
+    "labs.soc.s2.desc": "CIS-aligned controls you can apply on a fresh server before it touches production.",
+    "labs.soc.s3.title": "SOC triage checklist",
+    "labs.soc.s3.desc": "Validate alert severity (P1/P2/P3) against defined criteria\nConfirm false-positive sources (patch window, scanner, pentest)\nPreserve SIEM query URL and raw logs before any containment\nAssign incident roles: IC, scribe, comms",
+    "labs.soc.s4.title": "Mini lab — phishing triage",
+    "labs.soc.s4.desc": "In a VM lab, ingest a sample phishing alert JSON\nIdentify entry vector, affected account, and active C2 indicators\nDraft a containment plan without executing destructive actions\nDocument rollback steps if containment is wrong",
+    "labs.soc.s5.title": "GenAI data leakage risks",
+    "labs.soc.s5.desc": "Understand what ops teams paste into public LLMs and why browser-layer DLP matters.",
+    "labs.soc.s6.title": "Self-check — SOC foundations",
+    "labs.soc.s6.desc": "What are the four phases of the first-30-minutes playbook?\nWhen do you isolate a host vs disable an account?\nName two signs of lateral movement in SIEM logs\nWhy should GenAI usage be part of SOC awareness?",
+    "labs.noc.title": "NOC — Network Foundations",
+    "labs.noc.desc": "VLANs, OSPF, BGP, and packet-level troubleshooting — the core stack for a junior network engineer.",
+    "labs.noc.duration": "~10h",
+    "labs.noc.s1.title": "VLAN & trunking runbook",
+    "labs.noc.s1.desc": "802.1Q tagging, native VLAN pitfalls, and inter-VLAN routing patterns.",
+    "labs.noc.s2.title": "OSPF neighbor diagnosis",
+    "labs.noc.s2.desc": "Stuck INIT/EXSTART states, MTU mismatches, and authentication failures.",
+    "labs.noc.s3.title": "Lab — OSPF in Eve-NG/GNS3",
+    "labs.noc.s3.desc": "Build a 3-router OSPF triangle with loopback advertisements\nBreak adjacency intentionally (MTU, auth, network type) and restore it\nCapture Wireshark during Hello exchange to verify timers\nDocument show commands used at each troubleshooting step",
+    "labs.noc.s4.title": "BGP communities & policy",
+    "labs.noc.s4.desc": "Route tagging, local-pref manipulation, and provider-specific communities.",
+    "labs.noc.s5.title": "Packet loss diagnosis",
+    "labs.noc.s5.desc": "Systematic L1–L4 checks before blaming the application.",
+    "labs.noc.s6.title": "Self-check — networking",
+    "labs.noc.s6.desc": "What breaks OSPF adjacency when MTU differs across the link?\nWhen is a native VLAN mismatch dangerous?\nHow do BGP communities influence upstream path selection?\nWhat is your first command when users report intermittent packet loss?",
+    "labs.cloud.title": "Cloud Ops — Production Ready",
+    "labs.cloud.desc": "EKS hardening, network policies, observability, and IaC patterns for teams shipping to production.",
+    "labs.cloud.duration": "~12h",
+    "labs.cloud.s1.title": "EKS production checklist",
+    "labs.cloud.s1.desc": "Control plane, node groups, IRSA, and upgrade strategy before go-live.",
+    "labs.cloud.s2.title": "Kubernetes network policies",
+    "labs.cloud.s2.desc": "Default-deny posture, namespace isolation, and CNI interaction.",
+    "labs.cloud.s3.title": "Lab — NetworkPolicy on kind",
+    "labs.cloud.s3.desc": "Spin a local kind cluster with two namespaces\nApply default-deny policies and verify blocked cross-namespace traffic\nAllow only required pod-to-pod flows and test with curl/netcat\nRollback policies and document the diff",
+    "labs.cloud.s4.title": "Prometheus & Grafana stack",
+    "labs.cloud.s4.desc": "RED/USE signals, scrape architecture, and SLO alerting without fatigue.",
+    "labs.cloud.s5.title": "Terraform multicloud patterns",
+    "labs.cloud.s5.desc": "Module structure, state backends, and environment promotion.",
+    "labs.cloud.s6.title": "Self-check — cloud ops",
+    "labs.cloud.s6.desc": "Name three EKS items you verify before production traffic\nWhat does a default-deny NetworkPolicy achieve?\nWhich metric types map to RED vs USE?\nWhy separate Terraform state per environment?",
     "exp.title": "Field experience feedback",
     "exp.subtitle": "From the field, validated in production. No empty theory — content forged in NOCs and SOCs.",
     "exp.view_all": "View all case studies",
@@ -705,11 +823,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "exp.page.back": "Back to field experience",
     "exp.page.related": "Related guide",
     "res.page.title": "Tools & Resources",
-    "res.page.subtitle": "Curated references, scripts, templates, and training material from our production guides.",
+    "res.page.subtitle": "Downloadable references, scripts, and templates from our production guides. For learning paths, see Ops Labs.",
     "res.page.cheatsheets_desc": "Quick-reference command sheets for troubleshooting and daily operations — BGP, OSPF, Linux networking, and more.",
     "res.page.scripts_desc": "Automation utilities and infrastructure-as-code patterns ready to adapt to your environment.",
     "res.page.templates_desc": "Runbook and architecture documentation templates used in real incident response and migration projects.",
-    "res.page.training_desc": "Structured learning paths, cloud-native guides, and reproducible lab setups — HA clusters, VPN tunnels, and protocol troubleshooting in isolated environments.",
     "res.page.view_category": "Browse category",
     "news.title": "Weekly Newsletter",
     "news.desc": "Get the best articles, tech news, and infrastructure tips every week.",
@@ -787,7 +904,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.cheatsheets": "Cheatsheets",
     "footer.templates": "Templates",
     "footer.scripts": "Scripts & Tools",
-    "footer.training": "Training & Lab",
+    "footer.labs": "Ops Labs",
     "footer.lab": "Lab Environment",
     "footer.copyright": "© 2026 DailyOps.Tech —",
     "footer.production_ready": "Production Ready",
@@ -796,6 +913,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "nav.home": "Accueil",
     "nav.categories": "Catégories",
     "nav.articles": "Articles",
+    "nav.labs": "Labs",
     "nav.expertise": "Expertise",
     "nav.about": "À propos",
     "nav.newsletter": "Ops Mail",
@@ -1044,16 +1162,74 @@ export const translations: Record<Language, TranslationKeys> = {
     "res.subtitle": "Toolbox pour professionnels infrastructure",
     "res.1.title": "Cheatsheets",
     "res.1.desc": "Commandes et syntaxes essentielles",
-    "res.1.link": "35 cheatsheets",
+    "res.1.link": "3 références",
     "res.2.title": "Scripts",
     "res.2.desc": "Automatisation et monitoring",
     "res.2.link": "GitHub Repo",
     "res.3.title": "Templates",
     "res.3.desc": "Documentation et runbooks",
-    "res.3.link": "20 templates",
-    "res.4.title": "Formation & Lab",
-    "res.4.desc": "Guides et environnements lab",
-    "res.4.link": "5 guides",
+    "res.3.link": "3 modèles",
+    "labs.home.title": "Ops Labs",
+    "labs.home.subtitle": "Parcours structurés — lire, pratiquer, valider. Construits à partir de nos guides de production.",
+    "labs.home.view_all": "Voir tous les parcours",
+    "labs.page.title": "Ops Labs",
+    "labs.page.subtitle": "Parcours ops pas à pas : articles, checklists, labs terrain et auto-évaluation — pas de théorie vide.",
+    "labs.page.count": "parcours",
+    "labs.page.steps": "étapes",
+    "labs.page.start": "Démarrer",
+    "labs.page.back": "Retour aux labs",
+    "labs.page.featured": "À la une",
+    "labs.step.read": "Lecture",
+    "labs.step.checklist": "Checklist",
+    "labs.step.lab": "Lab",
+    "labs.step.quiz": "Auto-test",
+    "labs.level.beginner": "Débutant",
+    "labs.level.intermediate": "Intermédiaire",
+    "labs.soc.title": "SOC — Les 30 premiers jours",
+    "labs.soc.desc": "Du triage d'alerte à la containment et au durcissement — le socle minimum pour un analyste SOC junior.",
+    "labs.soc.duration": "~8h",
+    "labs.soc.s1.title": "Playbook réponse incident",
+    "labs.soc.s1.desc": "Workflow des 30 premières minutes : triage, scope, préservation des preuves, containment.",
+    "labs.soc.s2.title": "Baseline durcissement Linux",
+    "labs.soc.s2.desc": "Contrôles alignés CIS applicables sur un serveur neuf avant la production.",
+    "labs.soc.s3.title": "Checklist triage SOC",
+    "labs.soc.s3.desc": "Valider la sévérité (P1/P2/P3) selon les critères définis\nConfirmer les faux positifs (fenêtre patch, scanner, pentest)\nPréserver l'URL requête SIEM et les logs bruts avant containment\nAssigner les rôles : IC, scribe, comms",
+    "labs.soc.s4.title": "Mini lab — triage phishing",
+    "labs.soc.s4.desc": "Dans un lab VM, ingérer un JSON d'alerte phishing type\nIdentifier vecteur d'entrée, compte affecté et indicateurs C2 actifs\nRédiger un plan de containment sans action destructive\nDocumenter les étapes de rollback si le containment est erroné",
+    "labs.soc.s5.title": "Risques de fuite via GenAI",
+    "labs.soc.s5.desc": "Comprendre ce que les équipes ops collent dans les LLM publics et pourquoi un DLP navigateur compte.",
+    "labs.soc.s6.title": "Auto-test — fondations SOC",
+    "labs.soc.s6.desc": "Quelles sont les 4 phases du playbook 30 premières minutes ?\nQuand isoler un hôte vs désactiver un compte ?\nCitez deux signes de mouvement latéral dans les logs SIEM\nPourquoi l'usage GenAI doit faire partie de la sensibilisation SOC ?",
+    "labs.noc.title": "NOC — Fondations réseau",
+    "labs.noc.desc": "VLAN, OSPF, BGP et troubleshooting paquets — le socle d'un ingénieur réseau junior.",
+    "labs.noc.duration": "~10h",
+    "labs.noc.s1.title": "Runbook VLAN & trunking",
+    "labs.noc.s1.desc": "Tagging 802.1Q, pièges native VLAN et patterns de routage inter-VLAN.",
+    "labs.noc.s2.title": "Diagnostic voisin OSPF",
+    "labs.noc.s2.desc": "États INIT/EXSTART bloqués, MTU, échecs d'authentification.",
+    "labs.noc.s3.title": "Lab — OSPF sur Eve-NG/GNS3",
+    "labs.noc.s3.desc": "Construire un triangle OSPF 3 routeurs avec loopbacks annoncés\nCasser puis restaurer une adjacence (MTU, auth, type réseau)\nCapturer Wireshark pendant l'échange Hello pour vérifier les timers\nDocumenter les commandes show à chaque étape de debug",
+    "labs.noc.s4.title": "BGP communities & policy",
+    "labs.noc.s4.desc": "Tagging de routes, manipulation local-pref et communities fournisseur.",
+    "labs.noc.s5.title": "Diagnostic perte de paquets",
+    "labs.noc.s5.desc": "Checks systématiques L1–L4 avant d'accuser l'application.",
+    "labs.noc.s6.title": "Auto-test — réseau",
+    "labs.noc.s6.desc": "Que casse une adjacence OSPF si le MTU diffère sur le lien ?\nQuand un mismatch native VLAN est-il dangereux ?\nComment les communities BGP influencent le chemin upstream ?\nQuelle est votre première commande face à des pertes intermittentes ?",
+    "labs.cloud.title": "Cloud Ops — Prêt production",
+    "labs.cloud.desc": "Durcissement EKS, network policies, observabilité et patterns IaC pour équipes en prod.",
+    "labs.cloud.duration": "~12h",
+    "labs.cloud.s1.title": "Checklist EKS production",
+    "labs.cloud.s1.desc": "Control plane, node groups, IRSA et stratégie d'upgrade avant go-live.",
+    "labs.cloud.s2.title": "Network policies Kubernetes",
+    "labs.cloud.s2.desc": "Posture default-deny, isolation namespace et interaction CNI.",
+    "labs.cloud.s3.title": "Lab — NetworkPolicy sur kind",
+    "labs.cloud.s3.desc": "Monter un cluster kind local avec deux namespaces\nAppliquer default-deny et vérifier le trafic cross-namespace bloqué\nAutoriser uniquement les flux pod-to-pod requis (curl/netcat)\nRollback des policies et documenter le diff",
+    "labs.cloud.s4.title": "Stack Prometheus & Grafana",
+    "labs.cloud.s4.desc": "Signaux RED/USE, architecture scrape et alerting SLO sans fatigue.",
+    "labs.cloud.s5.title": "Patterns Terraform multicloud",
+    "labs.cloud.s5.desc": "Structure modules, backends state et promotion d'environnements.",
+    "labs.cloud.s6.title": "Auto-test — cloud ops",
+    "labs.cloud.s6.desc": "Citez 3 points EKS à vérifier avant le trafic production\nQue permet une NetworkPolicy default-deny ?\nQuels types de métriques correspondent à RED vs USE ?\nPourquoi séparer le state Terraform par environnement ?",
     "exp.title": "Retours d'expérience terrain",
     "exp.subtitle": "Du terrain, validé en production. Pas de théorie vide — contenu forgé dans les NOC et SOC.",
     "exp.view_all": "Voir tous les retours",
@@ -1099,11 +1275,10 @@ export const translations: Record<Language, TranslationKeys> = {
     "exp.page.back": "Retour aux retours terrain",
     "exp.page.related": "Guide connexe",
     "res.page.title": "Outils & Ressources",
-    "res.page.subtitle": "Références, scripts, templates et contenus de formation issus de nos guides de production.",
+    "res.page.subtitle": "Références, scripts et modèles téléchargeables issus de nos guides. Pour les parcours, voir Ops Labs.",
     "res.page.cheatsheets_desc": "Aide-mémoires de commandes pour le dépannage et les opérations quotidiennes — BGP, OSPF, réseau Linux, et plus.",
     "res.page.scripts_desc": "Utilitaires d'automatisation et patterns infrastructure-as-code prêts à adapter à votre environnement.",
     "res.page.templates_desc": "Templates de runbooks et documentation d'architecture utilisés en incident response et migrations réelles.",
-    "res.page.training_desc": "Parcours structurés, guides cloud-native et setups lab reproductibles — clusters HA, tunnels VPN et troubleshooting protocoles en environnement isolé.",
     "res.page.view_category": "Parcourir la catégorie",
     "news.title": "Newsletter Hebdomadaire",
     "news.desc": "Recevez chaque semaine les meilleurs articles, news tech, et astuces infrastructure.",
@@ -1181,7 +1356,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.cheatsheets": "Cheatsheets",
     "footer.templates": "Templates",
     "footer.scripts": "Scripts & Outils",
-    "footer.training": "Formation & Lab",
+    "footer.labs": "Ops Labs",
     "footer.lab": "Environnement Lab",
     "footer.copyright": "© 2026 DailyOps.Tech —",
     "footer.production_ready": "Production Ready",
