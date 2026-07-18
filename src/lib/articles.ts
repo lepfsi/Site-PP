@@ -19,6 +19,18 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "redondance-theorique-realite",
+    category: "infrastructure",
+    titleKey: "articles.19.title",
+    excerptKey: "articles.19.excerpt",
+    categoryLabelKey: "articles.19.category",
+    readTime: "10 min",
+    date: "2026-07-18",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+    format: "markdown",
+  },
+  {
     slug: "pme-fragility-points",
     category: "infrastructure",
     titleKey: "articles.18.title",

@@ -154,6 +154,9 @@ export interface TranslationKeys {
   "articles.18.title": string;
   "articles.18.excerpt": string;
   "articles.18.category": string;
+  "articles.19.title": string;
+  "articles.19.excerpt": string;
+  "articles.19.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -656,6 +659,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.18.title": "The Real Fragility Points Many SMEs Still Underestimate",
     "articles.18.excerpt": "Identifying hidden single points of failure in SME infrastructures: VPN tunnels, central equipment, cross-cutting services. Realistic methods to address them.",
     "articles.18.category": "Infrastructure",
+    "articles.19.title": "Why Theoretical Redundancy Often Fails in Reality",
+    "articles.19.excerpt": "Analyzing the gap between theoretical redundancy and operational reality: missing tests, outdated configurations, hidden single points of failure.",
+    "articles.19.category": "Infrastructure",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -1153,6 +1159,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.18.title": "Les vrais points de fragilité que beaucoup de PME sous-estiment encore",
     "articles.18.excerpt": "Identification des single points of failure cachés dans les infrastructures PME : tunnels VPN, équipements centraux, services transverses. Méthodes pour les traiter de façon réaliste.",
     "articles.18.category": "Infrastructure",
+    "articles.19.title": "Pourquoi la redondance « sur le papier » ne marche souvent pas en vrai",
+    "articles.19.excerpt": "Analyse des écarts entre la redondance théorique et la réalité opérationnelle : tests manquants, configurations obsolètes, points de défaillance cachés.",
+    "articles.19.category": "Infrastructure",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",
