@@ -19,6 +19,18 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "pme-fragility-points",
+    category: "infrastructure",
+    titleKey: "articles.18.title",
+    excerptKey: "articles.18.excerpt",
+    categoryLabelKey: "articles.18.category",
+    readTime: "10 min",
+    date: "2026-07-15",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+    format: "markdown",
+  },
+  {
     slug: "conditional-access-governance",
     category: "cybersecurity",
     titleKey: "articles.17.title",

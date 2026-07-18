@@ -151,6 +151,9 @@ export interface TranslationKeys {
   "articles.17.title": string;
   "articles.17.excerpt": string;
   "articles.17.category": string;
+  "articles.18.title": string;
+  "articles.18.excerpt": string;
+  "articles.18.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -650,6 +653,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.17.title": "Conditional Access: When One Person Holds the Keys to Your Entire Company",
     "articles.17.excerpt": "Why centralizing Conditional Access on a single person creates operational and security risks. Strategies to delegate and secure access.",
     "articles.17.category": "Cybersecurity",
+    "articles.18.title": "The Real Fragility Points Many SMEs Still Underestimate",
+    "articles.18.excerpt": "Identifying hidden single points of failure in SME infrastructures: VPN tunnels, central equipment, cross-cutting services. Realistic methods to address them.",
+    "articles.18.category": "Infrastructure",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -1144,6 +1150,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.17.title": "Conditional Access : quand une seule personne détient les clés de l’accès à toute l’entreprise",
     "articles.17.excerpt": "Pourquoi la centralisation de Conditional Access sur une seule personne crée un risque opérationnel et de sécurité. Stratégies pour déléguer et sécuriser l’accès.",
     "articles.17.category": "Cybersécurité",
+    "articles.18.title": "Les vrais points de fragilité que beaucoup de PME sous-estiment encore",
+    "articles.18.excerpt": "Identification des single points of failure cachés dans les infrastructures PME : tunnels VPN, équipements centraux, services transverses. Méthodes pour les traiter de façon réaliste.",
+    "articles.18.category": "Infrastructure",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",
