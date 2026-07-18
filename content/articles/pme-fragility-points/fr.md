@@ -19,8 +19,7 @@ La plupart des infrastructures PME n’ont pas été conçues en une seule fois.
 
 À chaque étape, on ajoute une solution pragmatique qui *« fonctionne pour le moment »*.
 
-> [!info]
-> Le résultat est souvent une architecture qui fonctionne bien… **tant qu’aucun élément important ne tombe**.
+> ℹ️ **Info** : Le résultat est souvent une architecture qui fonctionne bien… **tant qu’aucun élément important ne tombe**.
 
 Voici les situations que je rencontre le plus souvent sur le terrain.
 
@@ -32,8 +31,7 @@ C’est probablement le cas le plus fréquent.
 
 Une entreprise a plusieurs sites interconnectés via des tunnels Site-to-Site VPN. Sur le papier, tout est redondant… mais dans la réalité, **un seul tunnel** porte souvent l’essentiel du trafic critique.
 
-> [!warning]
-> Quand ce tunnel tombe, les conséquences peuvent être immédiates : impossibilité d’accéder aux applications centrales, rupture des flux métiers, et parfois même arrêt partiel de l’activité.
+> ⚠️ **Attention** : Quand ce tunnel tombe, les conséquences peuvent être immédiates : impossibilité d’accéder aux applications centrales, rupture des flux métiers, et parfois même arrêt partiel de l’activité.
 
 ---
 
@@ -43,8 +41,7 @@ Beaucoup de PME ont un (ou deux) firewalls/routeurs qui concentrent un grand nom
 
 Cet équipement devient alors un **single point of failure** majeur.
 
-> [!important]
-> Sa panne ou sa saturation impacte simultanément plusieurs services critiques.
+> 🔴 **Important** : Sa panne ou sa saturation impacte simultanément plusieurs services critiques.
 
 ---
 
@@ -54,8 +51,7 @@ Certains services sont utilisés par l’ensemble de l’infrastructure, mais ne
 
 On pense notamment à : Active Directory, DNS interne, supervision, sauvegardes centralisées.
 
-> [!caution]
-> Quand l’un de ces services devient indisponible, les conséquences peuvent être larges et parfois surprenantes.
+> ⚠️ **Prudence** : Quand l’un de ces services devient indisponible, les conséquences peuvent être larges et parfois surprenantes.
 
 ---
 
@@ -65,8 +61,7 @@ La meilleure façon de procéder est de se poser une question simple :
 
 > *Si cet élément tombe demain matin, que se passe-t-il concrètement pour l’activité ?*
 
-> [!tip]
-> Posez-vous ces trois questions :
+> 💡 **Astuce** : Posez-vous ces trois questions :
 > - Existe-t-il une vraie solution de contournement **opérationnelle** ?
 > - Cette solution a-t-elle été **testée récemment** ?
 > - Qui serait impacté, et pendant combien de temps ?
@@ -77,5 +72,4 @@ La meilleure façon de procéder est de se poser une question simple :
 
 Dans la plupart des PME, il n’est pas question de viser une résilience *« enterprise »*. L’objectif est d’identifier les risques les plus importants et d’y apporter des réponses **proportionnées**.
 
-> [!note]
-> L’important n’est pas d’atteindre la perfection, mais de réduire significativement le risque que *« tout s’arrête en même temps »*.
+> 📝 **Note** : L’important n’est pas d’atteindre la perfection, mais de réduire significativement le risque que *« tout s’arrête en même temps »*.

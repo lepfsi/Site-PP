@@ -33,9 +33,7 @@ Le souci, c’est que dans de nombreuses organisations, cette responsabilité re
 
 Résultat : on concentre les droits et la connaissance sur très peu de personnes.
 
-> [!warning]
-> **Conditional Access n’est pas juste une *« fonctionnalité de sécurité »*.**
-> C’est souvent le dernier rempart avant l’accès aux données stratégiques de l’entreprise.
+> ⚠️ **Attention** : Conditional Access n’est pas juste une *« fonctionnalité de sécurité »*. C’est souvent le dernier rempart avant l’accès aux données stratégiques de l’entreprise.
 
 ---
 
@@ -68,9 +66,7 @@ Avoir une seule personne en mesure de toucher à Conditional Access crée plusie
 | **Erreur humaine** | Une modification mal maîtrisée peut impacter des centaines d’utilisateurs. |
 | **Sécurité paradoxale** | En voulant trop centraliser pour *« mieux contrôler »*, on crée un point de fragilité exploitable (pression, erreur, ou départ de la personne clé). |
 
-> [!important]
-> **La sécurité ne devrait jamais reposer sur une seule personne.**
-> C’est l’un des principes de base de la résilience.
+> 🔴 **Important** : La sécurité ne devrait jamais reposer sur une seule personne. C’est l’un des principes de base de la résilience.
 
 ---
 
@@ -98,8 +94,7 @@ Traitez vos politiques Conditional Access comme du code :
 - Expliquez le *« pourquoi »* de chaque règle ;
 - Gardez un **historique des modifications**.
 
-> [!tip]
-> **Règle simple :** Personne ne devrait être irremplaçable sur un sujet qui peut bloquer l’accès à toute l’entreprise.
+> 💡 **Astuce** : Règle simple : Personne ne devrait être irremplaçable sur un sujet qui peut bloquer l’accès à toute l’entreprise.
 
 ---
 

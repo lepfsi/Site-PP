@@ -33,9 +33,7 @@ The issue is that in many organizations, this responsibility still rests on **a 
 
 Result: rights and knowledge are concentrated in very few hands.
 
-> [!warning]
-> **Conditional Access is not just a *« security feature »*.**
-> It’s often the last line of defense before accessing the company’s strategic data.
+> ⚠️ **Warning**: Conditional Access is not just a *« security feature »*. It’s often the last line of defense before accessing the company’s strategic data.
 
 ---
 
@@ -68,9 +66,7 @@ Having only one person able to touch Conditional Access creates several concrete
 | **Human Error** | A poorly mastered modification can impact hundreds of users. |
 | **Paradoxical Security** | By over-centralizing to *« better control »*, you create a point of fragility that can be exploited (pressure, error, or departure of the key person). |
 
-> [!important]
-> **Security should never depend on a single person.**
-> This is one of the basic principles of resilience.
+> 🔴 **Important**: Security should never depend on a single person. This is one of the basic principles of resilience.
 
 ---
 
@@ -98,8 +94,7 @@ Treat your Conditional Access policies like code:
 - Explain the *« why »* behind each rule;
 - Keep a **history of modifications**.
 
-> [!tip]
-> **Simple rule:** No one should be irreplaceable on a topic that can block access to the entire company.
+> 💡 **Tip**: Simple rule: No one should be irreplaceable on a topic that can block access to the entire company.
 
 ---
 

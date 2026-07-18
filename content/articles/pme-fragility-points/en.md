@@ -19,8 +19,7 @@ Most SME infrastructures were not designed all at once. They have grown graduall
 
 At each step, a pragmatic solution that *« works for now »* is added.
 
-> [!info]
-> The result is often an architecture that works well… **as long as no important element fails**.
+> ℹ️ **Info**: The result is often an architecture that works well… **as long as no important element fails**.
 
 Here are the situations I encounter most often in the field.
 
@@ -32,8 +31,7 @@ This is probably the most common case.
 
 A company has multiple sites interconnected via Site-to-Site VPN tunnels. On paper, everything is redundant… but in reality, **a single tunnel** often carries most of the critical traffic.
 
-> [!warning]
-> When this tunnel goes down, the consequences can be immediate: inability to access central applications, disruption of business flows, and sometimes even partial business shutdown.
+> ⚠️ **Warning**: When this tunnel goes down, the consequences can be immediate: inability to access central applications, disruption of business flows, and sometimes even partial business shutdown.
 
 ---
 
@@ -43,8 +41,7 @@ Many SMEs have one (or two) firewalls/routers that concentrate a large number of
 
 This equipment then becomes a **major single point of failure**.
 
-> [!important]
-> Its failure or saturation simultaneously impacts multiple critical services.
+> 🔴 **Important**: Its failure or saturation simultaneously impacts multiple critical services.
 
 ---
 
@@ -54,8 +51,7 @@ Some services are used by the entire infrastructure but do not always have the s
 
 We are thinking in particular of: Active Directory, internal DNS, monitoring, centralized backups.
 
-> [!caution]
-> When one of these services becomes unavailable, the consequences can be widespread and sometimes surprising.
+> ⚠️ **Caution**: When one of these services becomes unavailable, the consequences can be widespread and sometimes surprising.
 
 ---
 
@@ -65,8 +61,7 @@ The best way to proceed is to ask yourself a simple question:
 
 > *If this element fails tomorrow morning, what concretely happens to the business?*
 
-> [!tip]
-> Ask yourself these three questions:
+> 💡 **Tip**: Ask yourself these three questions:
 > - Is there a real **operational** workaround solution?
 > - Has this solution been **tested recently**?
 > - Who would be impacted, and for how long?
@@ -77,5 +72,4 @@ The best way to proceed is to ask yourself a simple question:
 
 In most SMEs, there is no question of aiming for *« enterprise »* resilience. The goal is to identify the most important risks and provide **proportionate** responses.
 
-> [!note]
-> The important thing is not to achieve perfection, but to significantly reduce the risk that *« everything stops at the same time »*.
+> 📝 **Note**: The important thing is not to achieve perfection, but to significantly reduce the risk that *« everything stops at the same time »*.
