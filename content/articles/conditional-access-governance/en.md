@@ -1,9 +1,6 @@
 ---
 title: "Conditional Access: When One Person Holds the Keys to Your Entire Company"
 excerpt: "Why centralizing Conditional Access on a single person creates operational and security risks. Strategies to delegate and secure access."
-category: "Security & Identity"
-tags: [Conditional Access, Entra ID, Microsoft 365, Security, Resilience, Governance]
-published: "2026-07-18"
 ---
 
 ## Context

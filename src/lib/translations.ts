@@ -148,6 +148,9 @@ export interface TranslationKeys {
   "articles.16.title": string;
   "articles.16.excerpt": string;
   "articles.16.category": string;
+  "articles.17.title": string;
+  "articles.17.excerpt": string;
+  "articles.17.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -644,6 +647,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.16.title": "GenAI & Accidental Data Leaks — What Ops Teams Paste Into ChatGPT",
     "articles.16.excerpt": "Firewall configs, API keys, HR docs — why public LLMs are a blind spot for DLP, and practical guardrails before enterprise tools arrive.",
     "articles.16.category": "Cybersecurity",
+    "articles.17.title": "Conditional Access: When One Person Holds the Keys to Your Entire Company",
+    "articles.17.excerpt": "Why centralizing Conditional Access on a single person creates operational and security risks. Strategies to delegate and secure access.",
+    "articles.17.category": "Cybersecurity",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -1135,6 +1141,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.16.title": "IA générative & fuites accidentelles — ce que les équipes ops collent dans ChatGPT",
     "articles.16.excerpt": "Configs pare-feu, clés API, docs RH — pourquoi les LLM publics sont un angle mort du DLP, et garde-fous pragmatiques avant les outils enterprise.",
     "articles.16.category": "Cybersécurité",
+    "articles.17.title": "Conditional Access : quand une seule personne détient les clés de l’accès à toute l’entreprise",
+    "articles.17.excerpt": "Pourquoi la centralisation de Conditional Access sur une seule personne crée un risque opérationnel et de sécurité. Stratégies pour déléguer et sécuriser l’accès.",
+    "articles.17.category": "Cybersécurité",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",

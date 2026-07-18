@@ -19,6 +19,18 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "conditional-access-governance",
+    category: "cybersecurity",
+    titleKey: "articles.17.title",
+    excerptKey: "articles.17.excerpt",
+    categoryLabelKey: "articles.17.category",
+    readTime: "12 min",
+    date: "2026-07-18",
+    color: "text-purple-500",
+    bg: "bg-purple-500/10",
+    format: "markdown",
+  },
+  {
     slug: "genai-dlp-sensitive-data-leaks",
     category: "cybersecurity",
     titleKey: "articles.16.title",
