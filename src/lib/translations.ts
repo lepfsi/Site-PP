@@ -158,6 +158,18 @@ export interface TranslationKeys {
   "articles.19.title": string;
   "articles.19.excerpt": string;
   "articles.19.category": string;
+  "articles.20.title": string;
+  "articles.20.excerpt": string;
+  "articles.20.category": string;
+  "articles.21.title": string;
+  "articles.21.excerpt": string;
+  "articles.21.category": string;
+  "articles.22.title": string;
+  "articles.22.excerpt": string;
+  "articles.22.category": string;
+  "articles.23.title": string;
+  "articles.23.excerpt": string;
+  "articles.23.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -170,6 +182,20 @@ export interface TranslationKeys {
   "article.lab_finish": string;
   "article.lab_open_chapter": string;
   "article.related": string;
+  "article.toc": string;
+  "article.takeaways": string;
+  "article.see_also": string;
+  "article.copy_code": string;
+  "article.copied": string;
+  "article.reading_mode": string;
+  "article.exit_focus": string;
+  "article.font_smaller": string;
+  "article.font_larger": string;
+  "article.back_to_top": string;
+  "article.updated": string;
+  "article.cta_default": string;
+  "article.continue_reading": string;
+  "article.read_next": string;
   "article.share": string;
   "article.share_copy": string;
   "article.share_copied": string;
@@ -699,6 +725,18 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.19.title": "Why Theoretical Redundancy Often Fails in Reality",
     "articles.19.excerpt": "Analyzing the gap between theoretical redundancy and operational reality: missing tests, outdated configurations, hidden single points of failure.",
     "articles.19.category": "Infrastructure",
+    "articles.20.title": "SOC Triage and SLAs: Ranking Alerts Without Drowning the Team",
+    "articles.20.excerpt": "A practical P1-P3 matrix, severity criteria, and operational callouts for realistic first-line SOC triage.",
+    "articles.20.category": "Cybersecurity",
+    "articles.21.title": "Long-form Reading: Navigation That Keeps You Oriented",
+    "articles.21.excerpt": "Demo article for table of contents, section anchors, reading progress, and typography controls.",
+    "articles.21.category": "Infrastructure",
+    "articles.22.title": "SSH Hardening Runbook: Code, Checklists, Tables",
+    "articles.22.excerpt": "Demo article for copyable code blocks, interactive checklists, callouts, and operational tables.",
+    "articles.22.category": "Cybersecurity",
+    "articles.23.title": "Connecting Knowledge: Takeaways, Links, Notes, CTA",
+    "articles.23.excerpt": "Demo article for key takeaways, see-also links, footnotes, figures, and a clear end-of-article CTA.",
+    "articles.23.category": "Automation",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -711,6 +749,20 @@ export const translations: Record<Language, TranslationKeys> = {
     "article.lab_finish": "Back to path",
     "article.lab_open_chapter": "Open chapter",
     "article.related": "Related articles",
+    "article.toc": "On this page",
+    "article.takeaways": "Key takeaways",
+    "article.see_also": "See also",
+    "article.copy_code": "Copy",
+    "article.copied": "Copied",
+    "article.reading_mode": "Focus",
+    "article.exit_focus": "Exit focus",
+    "article.font_smaller": "Smaller text",
+    "article.font_larger": "Larger text",
+    "article.back_to_top": "Back to top",
+    "article.updated": "Updated",
+    "article.cta_default": "Continue",
+    "article.continue_reading": "Continue reading",
+    "article.read_next": "Read next",
     "article.share": "Share",
     "article.share_copy": "Copy link",
     "article.share_copied": "Copied!",
@@ -1235,6 +1287,18 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.19.title": "Pourquoi la redondance « sur le papier » ne marche souvent pas en vrai",
     "articles.19.excerpt": "Analyse des écarts entre la redondance théorique et la réalité opérationnelle : tests manquants, configurations obsolètes, points de défaillance cachés.",
     "articles.19.category": "Infrastructure",
+    "articles.20.title": "Triage SOC et SLA: classer les alertes sans noyer l'équipe",
+    "articles.20.excerpt": "Matrice P1-P3, critères de sévérité et callouts opérationnels pour un premier triage SOC réaliste.",
+    "articles.20.category": "Cybersécurité",
+    "articles.21.title": "Lecture long format: une navigation qui te garde orienté",
+    "articles.21.excerpt": "Article démo pour table des matières, ancres de section, barre de progression et contrôles de typo.",
+    "articles.21.category": "Infrastructure",
+    "articles.22.title": "Runbook durcissement SSH: code, checklists, tableaux",
+    "articles.22.excerpt": "Article démo pour blocs de code copiables, checklists interactives, callouts et tableaux ops.",
+    "articles.22.category": "Cybersécurité",
+    "articles.23.title": "Relier le savoir: takeaways, liens, notes, CTA",
+    "articles.23.excerpt": "Article démo pour points clés, liens voir aussi, footnotes, figures et CTA de fin d'article.",
+    "articles.23.category": "Automatisation",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",
@@ -1247,6 +1311,20 @@ export const translations: Record<Language, TranslationKeys> = {
     "article.lab_finish": "Retour au parcours",
     "article.lab_open_chapter": "Ouvrir le chapitre",
     "article.related": "Articles connexes",
+    "article.toc": "Sur cette page",
+    "article.takeaways": "À retenir",
+    "article.see_also": "Voir aussi",
+    "article.copy_code": "Copier",
+    "article.copied": "Copié",
+    "article.reading_mode": "Focus",
+    "article.exit_focus": "Quitter focus",
+    "article.font_smaller": "Texte plus petit",
+    "article.font_larger": "Texte plus grand",
+    "article.back_to_top": "Haut de page",
+    "article.updated": "Mis à jour",
+    "article.cta_default": "Continuer",
+    "article.continue_reading": "Continuer la lecture",
+    "article.read_next": "Lire la suite",
     "article.share": "Partager",
     "article.share_copy": "Copier le lien",
     "article.share_copied": "Copié !",

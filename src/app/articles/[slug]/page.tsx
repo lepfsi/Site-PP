@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getMarkdownBodies } from "@/lib/markdown";
+import { getMarkdownBodies, getMarkdownMetas } from "@/lib/markdown";
 import { ARTICLES, getArticleBySlug } from "@/lib/articles";
 import { articleMetadata } from "@/lib/seo";
 import type { TranslationKeys } from "@/lib/translations";
@@ -35,8 +35,15 @@ export default async function ArticlePage({
   if (!article) notFound();
 
   const markdownBodies = getMarkdownBodies(slug);
+  const markdownMeta = getMarkdownMetas(slug);
   const labContext =
     fromLab && step ? { pathSlug: fromLab, stepId: step } : null;
 
-  return <ArticlePageClient markdownBodies={markdownBodies} labContext={labContext} />;
+  return (
+    <ArticlePageClient
+      markdownBodies={markdownBodies}
+      markdownMeta={markdownMeta}
+      labContext={labContext}
+    />
+  );
 }

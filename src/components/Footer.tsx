@@ -85,7 +85,7 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="relative surface-header border-t border-border-main/70 pt-8 pb-5">
+    <footer id="site-footer" className="relative surface-header border-t border-border-main/70 pt-8 pb-5">
       <div className="container-custom">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 items-start mb-6">
           <FooterColumn title={t("footer.explore")}>

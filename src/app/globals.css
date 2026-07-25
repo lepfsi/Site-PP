@@ -266,3 +266,65 @@
   border-radius: 4px;
 }
 
+/* Article reading UX — font scale (default = sm, denser ops reading) */
+.article-font-sm {
+  --article-body: 0.875rem; /* 14px */
+  --article-body-lh: 1.65;
+}
+.article-font-md {
+  --article-body: 0.9375rem; /* 15px */
+  --article-body-lh: 1.7;
+}
+.article-font-lg {
+  --article-body: 1.0625rem; /* 17px */
+  --article-body-lh: 1.75;
+}
+@media (min-width: 640px) {
+  .article-font-sm {
+    --article-body: 0.9375rem; /* 15px */
+  }
+  .article-font-md {
+    --article-body: 1rem; /* 16px */
+  }
+  .article-font-lg {
+    --article-body: 1.125rem; /* 18px */
+  }
+}
+
+.article-font-sm .prose-custom p,
+.article-font-sm .prose-custom li,
+.article-font-sm .article-body-text,
+.article-font-md .prose-custom p,
+.article-font-md .prose-custom li,
+.article-font-md .article-body-text,
+.article-font-lg .prose-custom p,
+.article-font-lg .prose-custom li,
+.article-font-lg .article-body-text {
+  font-size: var(--article-body) !important;
+  line-height: var(--article-body-lh) !important;
+}
+
+/* Print-friendly articles (runbooks) */
+@media print {
+  .print\:hidden,
+  nav,
+  footer,
+  [data-callout] button,
+  .scanline {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+  }
+
+  #article-body {
+    max-width: 100% !important;
+  }
+
+  a[href]::after {
+    content: none;
+  }
+}
+

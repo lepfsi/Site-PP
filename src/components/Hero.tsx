@@ -71,7 +71,7 @@ function HeroDashboard({
   return (
     <Link
       href={`/articles/${featured.slug}`}
-      className="group block relative w-full max-w-[400px] ml-auto aspect-[4/5] sm:aspect-square"
+      className="group block relative w-full max-w-[340px] ml-auto aspect-[4/5] sm:aspect-[5/5.2]"
     >
       {/* Soft glow behind card */}
       <div
@@ -153,20 +153,20 @@ function HeroDashboard({
           </AnimatePresence>
         </div>
 
-        <div className="border-t border-border-main bg-bg-secondary/90 px-4 py-3.5">
-          <div className="flex items-center justify-between mb-3">
-            <div className="flex items-center gap-2">
-              <Activity size={13} className="text-turquoise" />
-              <span className="text-[11px] font-semibold text-text-primary">
+        <div className="border-t border-border-main bg-bg-secondary/90 px-3.5 py-2.5">
+          <div className="flex items-center justify-between mb-2">
+            <div className="flex items-center gap-1.5">
+              <Activity size={12} className="text-turquoise" />
+              <span className="text-[10px] font-semibold text-text-primary">
                 {t("hero.monitor_live")}
               </span>
             </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-turquoise/10 border border-turquoise/20 px-2 py-0.5 text-[10px] font-semibold text-turquoise">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-turquoise/10 border border-turquoise/20 px-1.5 py-0.5 text-[9px] font-semibold text-turquoise">
               <span className="h-1.5 w-1.5 rounded-full bg-turquoise animate-pulse" />
               {t("hero.monitor_live_badge")}
             </span>
           </div>
-          <div className="grid grid-cols-2 gap-3 text-[11px]">
+          <div className="grid grid-cols-2 gap-2 text-[10px]">
             <div>
               <div className="text-text-secondary mb-0.5">{t("hero.monitor_guides")}</div>
               <div className="font-semibold text-text-primary tabular-nums">{articleCount}</div>

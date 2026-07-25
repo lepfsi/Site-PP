@@ -64,15 +64,29 @@ DailyOps prétraite ces alertes dans `src/lib/markdown-callouts.ts`.
 
 Types : `NOTE` · `TIP` · `IMPORTANT` · `WARNING` · `CAUTION` · `INFO`
 
-**Format alternatif (emoji en blockquote)** :
+Rendu : label texte (sans emoji), fond transparent, filet coloré à gauche.
+
+**Frontmatter** : mets les titres entre guillemets s’ils contiennent `:` (sinon le YAML casse et le frontmatter peut s’afficher en brut).
 
 ```markdown
-> ⚠️ **Attention** : vérifie le MTU avant.
-
-> 💡 **Astuce** : garde un runbook de premier diagnostic.
+---
+title: "SOC triage and SLAs: ranking alerts"
+excerpt: "Court résumé."
+---
 ```
 
-Les deux formats sont stylés (bandeau latéral turquoise / ambre / rose).
+### Tables Markdown
+
+Les tables GFM nécessitent le plugin **`remark-gfm`** (activé dans `ArticleMarkdown.tsx`).
+
+```markdown
+| Niveau | Critères | SLA |
+|--------|----------|-----|
+| P1 | Exfiltration active | 15 min |
+| P2 | Mouvement latéral | 30 min |
+```
+
+Sans `remark-gfm`, le navigateur affiche le brut (`| Level | ... |-------|`), ce qui n'est **pas** voulu.
 
 ---
 
@@ -162,6 +176,42 @@ npm run dev
 - http://localhost:3000/articles (liste)
 
 Le sitemap (`src/app/sitemap.ts`) reprend automatiquement `getAllArticles()`.
+
+---
+
+## Reading UX (TOC, callouts, takeaways, next read…)
+
+Voir la doc complète: **[ARTICLE-READING-UX.md](./ARTICLE-READING-UX.md)**  
+(surtout §6: **next read**, **related**, **footnotes**, **see-also**).
+
+Blocs utiles en résumé:
+
+```markdown
+:::takeaways
+- Point clé
+:::
+
+> [!warning]
+> Message.
+
+:::see-also
+- [Autre article](/articles/slug): pourquoi
+:::
+
+:::cta
+title: Titre
+body: Phrase
+href: /labs
+label: Bouton
+:::
+
+Nuance en note[^1].
+
+[^1]: Détail en bas de fichier.
+```
+
+- **Next read**: automatique (ordre dans `ARTICLES` + même logique related en fallback).  
+- **Related sidebar**: top 3 de la **même `category`**, ordre = ordre dans `ARTICLES`.
 
 ---
 

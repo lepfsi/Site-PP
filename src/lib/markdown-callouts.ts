@@ -1,9 +1,7 @@
 /**
- * GitHub-style alerts (`> [!NOTE]`) are NOT part of CommonMark / GFM base
- * and are ignored by react-markdown unless preprocessed.
- *
- * We convert them to standard blockquotes with a typed label line that
- * ArticleMarkdown can style as DailyOps callouts.
+ * GitHub-style alerts (`> [!NOTE]`) are NOT part of CommonMark / GFM base.
+ * We split them out of the markdown stream so the UI can render framed callouts
+ * without leaking markers or duplicating labels.
  *
  * Supported: NOTE, TIP, IMPORTANT, WARNING, CAUTION, INFO
  */
@@ -12,14 +10,18 @@ export type CalloutKind = "note" | "tip" | "important" | "warning" | "caution" |
 
 const ALERT_RE = /^>\s*\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|INFO)\]\s*(.*)$/i;
 
-const LABELS: Record<CalloutKind, { emoji: string; en: string; fr: string }> = {
-  note: { emoji: "ℹ️", en: "Note", fr: "Note" },
-  tip: { emoji: "💡", en: "Tip", fr: "Astuce" },
-  important: { emoji: "🔴", en: "Important", fr: "Important" },
-  warning: { emoji: "⚠️", en: "Warning", fr: "Attention" },
-  caution: { emoji: "⚠️", en: "Caution", fr: "Prudence" },
-  info: { emoji: "ℹ️", en: "Info", fr: "Info" },
+const LABELS: Record<CalloutKind, { en: string; fr: string }> = {
+  note: { en: "Note", fr: "Note" },
+  tip: { en: "Tip", fr: "Astuce" },
+  important: { en: "Important", fr: "Important" },
+  warning: { en: "Warning", fr: "Attention" },
+  caution: { en: "Caution", fr: "Prudence" },
+  info: { en: "Info", fr: "Info" },
 };
+
+export type MarkdownSegment =
+  | { type: "markdown"; content: string }
+  | { type: "callout"; kind: CalloutKind; content: string };
 
 function normalizeKind(raw: string): CalloutKind {
   const k = raw.toLowerCase();
@@ -29,119 +31,108 @@ function normalizeKind(raw: string): CalloutKind {
   return "note";
 }
 
+export function calloutLabel(kind: CalloutKind, lang: "EN" | "FR" = "EN"): string {
+  const meta = LABELS[kind];
+  return lang === "FR" ? meta.fr : meta.en;
+}
+
 /**
- * Transform GFM alert syntax into standard markdown blockquotes.
+ * Split markdown into plain body chunks and callout chunks.
+ * Callout body has no marker and no label line — the React layer adds the label once.
  */
-export function preprocessMarkdownCallouts(markdown: string, lang: "EN" | "FR" = "EN"): string {
+export function splitMarkdownCallouts(markdown: string): MarkdownSegment[] {
   const lines = markdown.replace(/\r\n/g, "\n").split("\n");
-  const out: string[] = [];
+  const segments: MarkdownSegment[] = [];
+  let buffer: string[] = [];
   let i = 0;
+
+  const flushMarkdown = () => {
+    const content = buffer.join("\n").trim();
+    if (content) segments.push({ type: "markdown", content });
+    buffer = [];
+  };
 
   while (i < lines.length) {
     const match = lines[i].match(ALERT_RE);
     if (!match) {
-      out.push(lines[i]);
+      buffer.push(lines[i]);
       i += 1;
       continue;
     }
 
+    flushMarkdown();
+
     const kind = normalizeKind(match[1]);
-    const meta = LABELS[kind];
-    const label = lang === "FR" ? meta.fr : meta.en;
+    const bodyLines: string[] = [];
     const sameLine = match[2]?.trim() ?? "";
-
-    // Title line of the blockquote (detectable by the renderer)
-    out.push(`> ${meta.emoji} **${label}**`);
-
-    if (sameLine) {
-      out.push(`> ${sameLine}`);
-    }
+    if (sameLine) bodyLines.push(sameLine);
 
     i += 1;
-
-    // Consume following blockquote lines of this alert
     while (i < lines.length && lines[i].startsWith(">")) {
-      // Nested / next alert starts a new block
       if (ALERT_RE.test(lines[i])) break;
-
       const body = lines[i].replace(/^>\s?/, "");
-      // Skip empty quote-only lines at start after title
-      if (body.trim() === "" && out[out.length - 1] === `> ${meta.emoji} **${label}**`) {
-        i += 1;
-        continue;
-      }
-      out.push(`> ${body}`);
+      bodyLines.push(body);
       i += 1;
     }
 
-    // Ensure a blank line after the callout for clean paragraph separation
-    if (i < lines.length && lines[i].trim() !== "") {
-      out.push("");
-    }
+    const content = bodyLines.join("\n").replace(/^\n+|\n+$/g, "").trim();
+    segments.push({ type: "callout", kind, content });
   }
 
-  return out.join("\n");
+  flushMarkdown();
+  return segments;
 }
 
-/** Detect callout kind from rendered blockquote text (first line / full text). */
-export function detectCalloutKind(text: string): CalloutKind | null {
-  const t = text.trim();
-  if (!t) return null;
-
-  // GFM leftover (if preprocess missed)
-  const gfm = t.match(/^\[!(NOTE|TIP|IMPORTANT|WARNING|CAUTION|INFO)\]/i);
-  if (gfm) return normalizeKind(gfm[1]);
-
-  // Emoji / label heuristics (EN + FR)
-  if (/^(💡|tip|astuce)\b/i.test(t) || /\*\*(tip|astuce)\*\*/i.test(t.slice(0, 40))) return "tip";
-  if (/^(🔴|important)\b/i.test(t) || /\*\*important\*\*/i.test(t.slice(0, 40))) return "important";
-  if (/^(⚠️|warning|attention|caution|prudence)\b/i.test(t) || /\*\*(warning|attention|caution|prudence)\*\*/i.test(t.slice(0, 48))) {
-    if (/caution|prudence/i.test(t.slice(0, 48))) return "caution";
-    return "warning";
-  }
-  if (/^(ℹ️|info|note)\b/i.test(t) || /\*\*(note|info)\*\*/i.test(t.slice(0, 40))) {
-    if (/^ℹ️?\s*\*?\*?info/i.test(t)) return "info";
-    return "note";
-  }
-
-  // French editorial convention: "Note terrain"
-  if (/note terrain/i.test(t.slice(0, 40))) return "note";
-
-  return null;
-}
-
+/** Framed callout styles — left accent + soft fill + border, no emoji. */
 export function calloutVisual(kind: CalloutKind): {
   border: string;
   bg: string;
-  label: string;
+  labelColor: string;
+  ring: string;
 } {
   switch (kind) {
     case "tip":
       return {
-        border: "border-turquoise",
-        bg: "bg-turquoise/8",
-        label: "Tip",
+        border: "border-l-turquoise",
+        bg: "bg-turquoise/[0.07]",
+        labelColor: "text-turquoise",
+        ring: "border-turquoise/25",
       };
     case "important":
       return {
-        border: "border-rose-500/70",
-        bg: "bg-rose-500/8",
-        label: "Important",
+        border: "border-l-rose-500",
+        bg: "bg-rose-500/[0.07]",
+        labelColor: "text-rose-400",
+        ring: "border-rose-500/25",
       };
     case "warning":
+      return {
+        border: "border-l-amber-500",
+        bg: "bg-amber-500/[0.08]",
+        labelColor: "text-amber-400",
+        ring: "border-amber-500/25",
+      };
     case "caution":
       return {
-        border: "border-amber-500/70",
-        bg: "bg-amber-500/8",
-        label: kind === "caution" ? "Caution" : "Warning",
+        border: "border-l-orange-500",
+        bg: "bg-orange-500/[0.08]",
+        labelColor: "text-orange-400",
+        ring: "border-orange-500/25",
       };
     case "info":
+      return {
+        border: "border-l-sky-500",
+        bg: "bg-sky-500/[0.07]",
+        labelColor: "text-sky-400",
+        ring: "border-sky-500/25",
+      };
     case "note":
     default:
       return {
-        border: "border-turquoise/60",
-        bg: "bg-turquoise/6",
-        label: kind === "info" ? "Info" : "Note",
+        border: "border-l-text-secondary/50",
+        bg: "bg-bg-secondary/50",
+        labelColor: "text-text-secondary",
+        ring: "border-border-main",
       };
   }
 }

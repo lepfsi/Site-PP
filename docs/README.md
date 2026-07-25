@@ -7,6 +7,7 @@ Guide pour faire évoluer le site sans casser la prod. Tout le code vit dans ce 
 | Doc | Contenu |
 |-----|---------|
 | [ADDING-ARTICLES.md](./ADDING-ARTICLES.md) | Ajouter un article (markdown + registre + i18n) |
+| [ARTICLE-READING-UX.md](./ARTICLE-READING-UX.md) | Features de lecture (TOC, callouts, code, checklists…) + démos |
 | [ADDING-CONTENT.md](./ADDING-CONTENT.md) | Labs, expérience, ressources, catégories, produits |
 | [CODE-MAP.md](./CODE-MAP.md) | Carte des dossiers et responsabilités |
 | [CHAT-AND-AI.md](./CHAT-AND-AI.md) | Chatbot, UniKey, providers, qualité, recherche web |
