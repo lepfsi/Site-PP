@@ -100,60 +100,86 @@ export default function Navbar() {
           <Link href="/about" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.about")}</Link>
         </div>
 
-        {/* RIGHT ACTIONS */}
-        <div className="flex items-center space-x-3 z-10">
+        {/* RIGHT ACTIONS — lang always visible on mobile */}
+        <div className="flex items-center gap-1.5 sm:gap-2 z-10">
           <div className="hidden md:block">
             <CommandSearch />
           </div>
 
-          <div className="hidden md:flex bg-bg-secondary/50 border border-border-main rounded-full p-0.5 shadow-sm overflow-hidden">
-            <button onClick={() => setLang("FR")} className={`px-2.5 py-1 text-[8px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary"}`}>FR</button>
-            <button onClick={() => setLang("EN")} className={`px-2.5 py-1 text-[8px] font-black rounded-full transition-all ${lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary"}`}>EN</button>
+          <div className="flex bg-bg-secondary/60 border border-border-main rounded-full p-0.5 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setLang("FR")}
+              className={`min-w-[2rem] px-2 py-1 text-[10px] font-semibold rounded-full transition-colors ${
+                lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary"
+              }`}
+              aria-label="Français"
+            >
+              FR
+            </button>
+            <button
+              type="button"
+              onClick={() => setLang("EN")}
+              className={`min-w-[2rem] px-2 py-1 text-[10px] font-semibold rounded-full transition-colors ${
+                lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary"
+              }`}
+              aria-label="English"
+            >
+              EN
+            </button>
           </div>
 
           <button
+            type="button"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-            className="p-1.5 rounded-full border border-border-main bg-bg-secondary/50 text-text-secondary hover:text-turquoise transition-all active:scale-90"
+            className="p-1.5 rounded-full border border-border-main bg-bg-secondary/50 text-text-secondary hover:text-turquoise transition-colors"
+            aria-label="Toggle theme"
           >
             {theme === "dark" ? <Sun size={14} /> : <Moon size={14} />}
           </button>
 
-          <button onClick={() => setIsOpen(!isOpen)} className="lg:hidden p-2 rounded-xl text-text-primary bg-bg-secondary border border-border-main">
+          <button
+            type="button"
+            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden p-2 rounded-xl text-text-primary bg-bg-secondary border border-border-main"
+            aria-label="Menu"
+          >
             {isOpen ? <X size={16} /> : <Menu size={16} />}
           </button>
         </div>
       </div>
 
-      {/* MOBILE MENU */}
+      {/* MOBILE MENU — compact, no lang (already in bar) */}
       <AnimatePresence>
         {isOpen && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden mt-4 pt-4 border-t border-border-main/20 space-y-1 overflow-hidden pb-4"
+            className="lg:hidden mt-3 max-h-[min(70vh,28rem)] overflow-y-auto overscroll-contain border-t border-border-main/20 pt-3 pb-2"
           >
-            <Link href="/" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={handleHomeClick}>{t("nav.home")}</Link>
-            <div className="px-4 py-2 text-[11px] font-semibold text-text-secondary/60">{t("nav.categories")}</div>
-            {CATEGORIES.map((cat) => (
-              <Link
-                key={cat.slug}
-                href={`/category/${cat.slug}`}
-                className="flex items-center px-6 py-2 text-[12px] font-medium text-text-secondary hover:text-turquoise border-b border-border-main/10"
-                onClick={() => setIsOpen(false)}
-              >
-                <cat.icon size={14} className="mr-2 opacity-70" />
-                {t(cat.nameKey)}
-              </Link>
-            ))}
-            <Link href="/articles" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
-            <Link href="/labs" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.labs")}</Link>
-            <Link href="/products" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.products")}</Link>
-            <Link href="/experience" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("exp.title")}</Link>
-            <Link href="/about" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
-            <div className="flex items-center justify-center gap-2 px-4 pt-4">
-              <button onClick={() => setLang("FR")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>FR</button>
-              <button onClick={() => setLang("EN")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>EN</button>
+            <Link href="/" className="block px-3 py-2 text-[13px] font-semibold rounded-lg hover:bg-bg-secondary" onClick={handleHomeClick}>{t("nav.home")}</Link>
+            <Link href="/articles" className="block px-3 py-2 text-[13px] font-semibold rounded-lg hover:bg-bg-secondary" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
+            <Link href="/labs" className="block px-3 py-2 text-[13px] font-semibold rounded-lg hover:bg-bg-secondary" onClick={() => setIsOpen(false)}>{t("nav.labs")}</Link>
+            <Link href="/products" className="block px-3 py-2 text-[13px] font-semibold rounded-lg hover:bg-bg-secondary" onClick={() => setIsOpen(false)}>{t("nav.products")}</Link>
+            <Link href="/experience" className="block px-3 py-2 text-[13px] font-semibold rounded-lg hover:bg-bg-secondary" onClick={() => setIsOpen(false)}>{t("exp.title")}</Link>
+            <Link href="/about" className="block px-3 py-2 text-[13px] font-semibold rounded-lg hover:bg-bg-secondary" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
+
+            <div className="mt-2 px-3 pt-2 border-t border-border-main/15">
+              <p className="text-[11px] font-semibold text-text-secondary/60 mb-1.5">{t("nav.categories")}</p>
+              <div className="grid grid-cols-2 gap-1">
+                {CATEGORIES.map((cat) => (
+                  <Link
+                    key={cat.slug}
+                    href={`/category/${cat.slug}`}
+                    className="flex items-center gap-1.5 rounded-lg px-2 py-1.5 text-[12px] font-medium text-text-secondary hover:bg-bg-secondary hover:text-turquoise"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <cat.icon size={13} className="opacity-70 shrink-0" />
+                    <span className="truncate">{t(cat.nameKey)}</span>
+                  </Link>
+                ))}
+              </div>
             </div>
           </motion.div>
         )}

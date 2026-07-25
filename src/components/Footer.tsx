@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Rss, Heart, Coffee, Facebook } from "lucide-react";
+import { Github, Linkedin, Rss, Coffee, Facebook } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { SITE, SOCIAL_LINKS, type SocialId } from "@/lib/site";
 import Logo from "./Logo";
@@ -60,10 +60,10 @@ const FOOTER_LEGAL = [
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="text-[12px] font-semibold tracking-wide text-text-primary mb-3">
+      <h4 className="mb-2.5 pl-2.5 border-l-2 border-turquoise/50 text-[12px] font-semibold tracking-wide text-text-primary">
         {title}
       </h4>
-      <ul className="space-y-2">{children}</ul>
+      <ul className="space-y-1.5">{children}</ul>
     </div>
   );
 }
@@ -85,9 +85,9 @@ export default function Footer() {
   const { t } = useLanguage();
 
   return (
-    <footer className="relative surface-header border-t border-border-main/70 pt-10 pb-8">
+    <footer className="relative surface-header border-t border-border-main/70 pt-8 pb-5">
       <div className="container-custom">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 items-start mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 items-start mb-6">
           <FooterColumn title={t("footer.explore")}>
             {FOOTER_EXPLORE.map((item) => (
               <FooterLink key={item.key} href={item.href}>
@@ -121,13 +121,14 @@ export default function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="pt-6 border-t border-border-main/50">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 min-w-0">
-              <Link href="/" className="shrink-0 w-fit">
+        {/* Compact bottom bar */}
+        <div className="border-t border-border-main/50 pt-3.5">
+          <div className="flex flex-col items-center gap-2.5">
+            <div className="flex items-center gap-3">
+              <Link href="/" className="shrink-0">
                 <Logo iconOnly />
               </Link>
-              <div className="flex gap-3 shrink-0">
+              <div className="flex gap-2.5">
                 {SOCIAL_LINKS.map(({ id, href, label, external }) => {
                   const Icon = SOCIAL_ICONS[id];
                   return (
@@ -138,26 +139,26 @@ export default function Footer() {
                       title={label}
                       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                     >
-                      <Icon size={16} />
+                      <Icon size={15} />
                     </Link>
                   );
                 })}
               </div>
-              <p className="text-[12px] font-medium text-text-secondary/70 leading-snug">
-                {t("footer.copyright")} {t("footer.rights")}
-              </p>
+              <Link
+                href={SITE.kofi}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 rounded-lg border border-border-main bg-bg-elevated px-2.5 py-1 text-[11px] font-medium text-text-secondary hover:border-turquoise/40 hover:text-turquoise transition-colors"
+                title={t("footer.buy_me_coffee")}
+              >
+                <Coffee size={12} className="text-turquoise shrink-0" />
+                {t("footer.buy_me_coffee")}
+              </Link>
             </div>
 
-            <Link
-              href={SITE.kofi}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border-main bg-bg-elevated hover:border-turquoise/40 hover:text-turquoise transition-colors text-[12px] font-medium text-text-secondary w-fit"
-              title={t("footer.buy_me_coffee")}
-            >
-              <Coffee size={14} className="text-turquoise shrink-0" />
-              {t("footer.buy_me_coffee")}
-            </Link>
+            <p className="text-center text-[11px] font-medium text-text-secondary/65 leading-none">
+              {t("footer.copyright")} {t("footer.rights")}
+            </p>
           </div>
         </div>
       </div>

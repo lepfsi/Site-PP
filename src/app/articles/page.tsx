@@ -40,8 +40,17 @@ export default function ArticlesPage() {
           }
         />
 
-        <section className="py-8 sm:py-10 bg-bg-primary border-b border-border-main">
-          <div className="container-custom">
+        <section className="relative overflow-hidden py-8 sm:py-10 border-b border-border-main">
+          <div className="absolute inset-0 bg-bg-primary" aria-hidden />
+          <div
+            className="pointer-events-none absolute inset-0 opacity-90"
+            aria-hidden
+            style={{
+              background:
+                "radial-gradient(ellipse 70% 55% at 15% 15%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%), radial-gradient(ellipse 50% 45% at 90% 80%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 65%)",
+            }}
+          />
+          <div className="container-custom relative z-10">
             <div className="flex flex-wrap gap-2 mb-8">
               <button
                 onClick={() => setFilter("all")}

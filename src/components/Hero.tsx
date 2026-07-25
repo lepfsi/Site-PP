@@ -195,20 +195,21 @@ function FloatingStats({
     <motion.div
       animate={{ y: [0, -10, 0] }}
       transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute -left-6 top-8 z-20 hidden xl:block"
+      className="pointer-events-none absolute -left-4 top-10 z-0 hidden xl:block"
+      aria-hidden
     >
-      <div className="w-[168px] rounded-xl border border-border-main/80 bg-bg-elevated/95 p-3.5 shadow-[var(--surface-shadow)] backdrop-blur-md">
-        <div className="space-y-2.5 text-[11px] font-medium text-text-secondary">
+      <div className="w-[160px] rounded-xl border border-border-main/60 bg-bg-elevated/75 p-3 shadow-md backdrop-blur-sm opacity-90">
+        <div className="space-y-2 text-[11px] font-medium text-text-secondary">
           <div className="flex items-center gap-2">
-            <FileText size={13} className="text-turquoise shrink-0" />
+            <FileText size={12} className="text-turquoise shrink-0" />
             <span className="leading-snug">{guides}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Layers size={13} className="text-turquoise shrink-0" />
+            <Layers size={12} className="text-turquoise shrink-0" />
             <span className="leading-snug">{domains}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar size={13} className="text-turquoise shrink-0" />
+            <Calendar size={12} className="text-turquoise shrink-0" />
             <span className="leading-snug">{updated}</span>
           </div>
         </div>
@@ -305,9 +306,9 @@ export default function Hero() {
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.45 }}
-              className="max-w-xl"
+              className="max-w-2xl"
             >
-              <h1 className="text-[2rem] sm:text-4xl md:text-5xl xl:text-[3.35rem] font-semibold tracking-tight text-text-primary leading-[1.12]">
+              <h1 className="text-[clamp(1.4rem,4.6vw+0.4rem,3.15rem)] font-semibold tracking-tight text-text-primary leading-[1.15] sm:whitespace-nowrap">
                 {t("hero.title_main")}
               </h1>
 
@@ -315,7 +316,7 @@ export default function Hero() {
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="mt-4 flex flex-wrap items-baseline gap-x-1 gap-y-1 text-lg sm:text-xl md:text-2xl font-medium text-text-primary"
+                className="mt-3 sm:mt-4 flex flex-wrap items-baseline gap-x-1 gap-y-1 text-base sm:text-lg md:text-xl font-medium text-text-primary"
               >
                 <motion.span variants={staggeredItem}>
                   {t("hero.sub_operate")}
@@ -331,21 +332,21 @@ export default function Hero() {
                 </motion.span>
               </motion.div>
 
-              <p className="mt-5 max-w-lg text-[15px] sm:text-base text-text-secondary leading-relaxed">
+              <p className="mt-4 sm:mt-5 max-w-lg text-[14px] sm:text-[15px] text-text-secondary leading-relaxed">
                 {t("hero.desc")}
               </p>
 
-              <div className="mt-8 flex flex-wrap items-center gap-3">
+              <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3">
                 <Link
-                  href="#articles"
-                  className="inline-flex items-center gap-2 rounded-xl bg-navy px-5 py-3 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 dark:bg-turquoise dark:text-navy"
+                  href="/articles"
+                  className="inline-flex items-center gap-2 rounded-xl bg-navy px-5 py-2.5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 dark:bg-turquoise dark:text-navy"
                 >
                   {t("hero.cta_browse")}
                   <ArrowRight size={15} />
                 </Link>
                 <Link
                   href="/products"
-                  className="inline-flex items-center gap-1.5 rounded-xl border border-border-main bg-bg-elevated/80 px-5 py-3 text-[13px] font-semibold text-text-primary transition-colors hover:border-turquoise/40 hover:text-turquoise"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-border-main bg-bg-elevated/80 px-5 py-2.5 text-[13px] font-semibold text-text-primary transition-colors hover:border-turquoise/40 hover:text-turquoise"
                 >
                   {t("nav.products")}
                 </Link>
@@ -373,6 +374,7 @@ export default function Hero() {
           </div>
 
           <div className="relative lg:col-span-6 xl:col-span-5">
+            {/* Stats behind terminal */}
             <FloatingStats guides={statGuides} domains={statDomains} updated={statUpdated} />
             <motion.div
               initial={{ opacity: 0, y: 16 }}

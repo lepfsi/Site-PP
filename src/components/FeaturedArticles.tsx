@@ -14,7 +14,19 @@ export default function FeaturedArticles() {
   const recentArticles = getRecentArticles(6);
 
   return (
-    <section id="articles" className="py-16 md:py-24 bg-bg-primary section-band relative overflow-hidden">
+    <section id="articles" className="relative overflow-hidden py-16 md:py-24 section-band">
+      {/* Same layered feel as homepage hero */}
+      <div className="absolute inset-0 bg-bg-primary" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-90"
+        aria-hidden
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 55% at 15% 15%, color-mix(in srgb, var(--accent) 16%, transparent), transparent 70%), radial-gradient(ellipse 50% 45% at 90% 80%, color-mix(in srgb, var(--accent) 9%, transparent), transparent 65%)",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 noc-grid hero-grid opacity-[0.3] dark:opacity-90" aria-hidden />
+
       <div className="container-custom relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 14 }}
