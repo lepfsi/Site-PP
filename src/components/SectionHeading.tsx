@@ -24,7 +24,7 @@ export default function SectionHeading({
     <div className={cn(centered ? "text-center" : "text-left", className)}>
       <h2
         className={cn(
-          "text-2xl sm:text-3xl md:text-[2rem] font-bold tracking-tight text-text-primary leading-tight",
+          "text-2xl sm:text-3xl md:text-[2rem] font-semibold tracking-tight text-text-primary leading-tight",
           centered && "text-center",
           titleClassName,
         )}

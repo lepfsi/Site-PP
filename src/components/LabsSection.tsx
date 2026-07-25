@@ -13,24 +13,23 @@ export default function LabsSection() {
   const paths = getAllLabPaths();
 
   return (
-    <section id="labs" className="py-16 md:py-20 bg-bg-secondary section-band relative overflow-hidden">
-      <div className="absolute inset-0 tech-grid section-grid pointer-events-none" />
+    <section id="labs" className="py-16 md:py-24 bg-bg-secondary section-band relative overflow-hidden">
       <div className="container-custom relative z-10">
         <SectionHeading
-          className="mb-10"
-          subtitle={<p className="text-text-secondary text-base font-medium">{t("labs.home.subtitle")}</p>}
+          className="mb-10 md:mb-12"
+          subtitle={<p className="text-text-secondary text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed">{t("labs.home.subtitle")}</p>}
         >
           {t("labs.home.title")}
         </SectionHeading>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 max-w-6xl mx-auto mb-8">
           {paths.map((path, index) => (
             <motion.div
               key={path.slug}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ delay: index * 0.08 }}
+              transition={{ delay: index * 0.06 }}
             >
               <LabPathCard path={path} variant="home" />
             </motion.div>
@@ -40,10 +39,10 @@ export default function LabsSection() {
         <div className="text-center">
           <Link
             href="/labs"
-            className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline"
+            className="inline-flex items-center text-[13px] font-semibold text-turquoise hover:underline"
           >
             {t("labs.home.view_all")}
-            <ArrowRight size={12} className="ml-1.5" />
+            <ArrowRight size={14} className="ml-1.5" />
           </Link>
         </div>
       </div>

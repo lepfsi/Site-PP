@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { ChevronRight, Mail, FileText, Layers, Calendar, Activity, ShieldAlert } from "lucide-react";
+import { ChevronRight, FileText, Layers, Calendar, Activity, ShieldAlert } from "lucide-react";
 import { useLanguage, type Language } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef, useMemo } from "react";
 import ArticleVisual from "@/components/article-visuals/ArticleVisual";
@@ -247,25 +247,16 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-28 pb-4 md:pt-32 md:pb-6 min-h-[60vh] lg:min-h-[75vh] flex items-center overflow-hidden border-b border-border-main/60">
+    <section className="relative pt-28 pb-14 md:pt-36 md:pb-20 min-h-[72vh] lg:min-h-[90vh] flex items-center overflow-hidden border-b border-border-main/60">
       <div className="absolute inset-0 noc-grid hero-grid pointer-events-none" aria-hidden />
       <div className="container-custom relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div className="lg:col-span-7 flex flex-col justify-center gap-5 md:gap-6">
-            <motion.div
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full w-fit"
-            >
-              <span className="h-1.5 w-1.5 rounded-full bg-turquoise" />
-              <span className="text-turquoise text-[11px] font-semibold tracking-wide">{t("hero.badge")}</span>
-            </motion.div>
-
-            <div className="space-y-3 md:space-y-3.5">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+          <div className="lg:col-span-7 flex flex-col justify-center gap-6 md:gap-7">
+            <div className="space-y-4 md:space-y-5">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-text-primary leading-[1.1]"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-semibold tracking-tight text-text-primary leading-[1.12]"
               >
                 {t("hero.title_main")}
               </motion.h1>
@@ -274,18 +265,19 @@ export default function Hero() {
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="flex flex-wrap items-center gap-x-2 gap-y-1 text-base sm:text-lg md:text-xl font-semibold text-text-primary"
+                className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1 text-base sm:text-lg md:text-xl font-medium text-text-primary"
               >
                 <motion.span variants={staggeredItem}>
                   {t("hero.sub_operate")}
+                  <span className="text-turquoise">.</span>
                 </motion.span>
-                <span className="text-text-secondary/40 font-normal">·</span>
-                <motion.span variants={staggeredItem} className="text-turquoise">
+                <motion.span variants={staggeredItem}>
                   {t("hero.sub_optimize")}
+                  <span className="text-turquoise">.</span>
                 </motion.span>
-                <span className="text-text-secondary/40 font-normal">·</span>
                 <motion.span variants={staggeredItem}>
                   {t("hero.sub_secure")}
+                  <span className="text-turquoise">.</span>
                 </motion.span>
               </motion.div>
             </div>
@@ -293,26 +285,13 @@ export default function Hero() {
             <motion.p
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.35 }}
-              className="text-sm md:text-[15px] text-text-secondary max-w-xl font-medium leading-relaxed"
+              transition={{ delay: 0.3 }}
+              className="text-sm md:text-[15px] text-text-secondary max-w-xl font-normal leading-relaxed"
             >
               {t("hero.desc")}
             </motion.p>
 
-            <div className="flex flex-wrap gap-2.5 md:gap-3 mt-4 md:mt-6 lg:mt-8">
-              <a href="#categories" className="px-5 py-2.5 bg-navy text-white dark:bg-turquoise dark:text-navy font-semibold rounded-xl flex items-center justify-center transition-opacity hover:opacity-90 text-[13px] border border-transparent">
-                {t("hero.cta_explore")}
-              </a>
-              <a href="#articles" className="px-5 py-2.5 bg-bg-elevated border border-turquoise/50 text-turquoise font-semibold rounded-xl flex items-center justify-center transition-colors hover:bg-turquoise/10 text-[13px]">
-                {t("hero.cta_browse")}
-              </a>
-              <a href="#newsletter" className="px-5 py-2.5 bg-bg-elevated border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise/40 font-semibold rounded-xl flex items-center justify-center transition-colors text-[13px] group">
-                <Mail size={14} className="mr-2 opacity-80" />
-                {t("hero.cta_news")}
-              </a>
-            </div>
-
-            <div className="lg:hidden grid grid-cols-3 gap-3 pt-1">
+            <div className="lg:hidden grid grid-cols-3 gap-3 pt-2">
               <HeroStatCard icon={FileText} label={statGuides} />
               <HeroStatCard icon={Layers} label={statDomains} />
               <HeroStatCard icon={Calendar} label={statUpdated} />

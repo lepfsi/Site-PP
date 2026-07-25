@@ -27,15 +27,16 @@ const SHELL_HEIGHT: Record<VisualVariant, string> = {
   card: "min-h-[112px] sm:min-h-[128px]",
 };
 
+/** Muted accents (less neon / vibe-coded) */
 const ACCENTS: Record<CategorySlug, string> = {
-  networking: "#3b82f6",
-  cybersecurity: "#a855f7",
-  infrastructure: "#10b981",
-  cloud: "#60a5fa",
-  observability: "#06b6d4",
-  automation: "#ec4899",
-  ai: "#8b5cf6",
-  troubleshooting: "#f97316",
+  networking: "#5b8def",
+  cybersecurity: "#9b7bb8",
+  infrastructure: "#5aab8a",
+  cloud: "#6b9fd4",
+  observability: "#4a9eab",
+  automation: "#c47a9e",
+  ai: "#8b7ab5",
+  troubleshooting: "#c4896a",
 };
 
 type ArticleSlug = Article["slug"];

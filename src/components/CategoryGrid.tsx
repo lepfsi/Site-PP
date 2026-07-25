@@ -67,17 +67,12 @@ function TypewriterTerminal() {
         </div>
       </motion.div>
 
-      <div className="flex flex-col w-full sm:w-48 bg-navy/90 border border-green-500/30 rounded-lg p-2 font-mono text-[8px] shadow-lg shadow-green-500/5 min-h-[40px]">
-        <div className="flex space-x-1 mb-1 opacity-50">
-          <div className="w-1 h-1 rounded-full bg-[#ff5f57]/60"></div>
-          <div className="w-1 h-1 rounded-full bg-[#febc2e]/60"></div>
-          <div className="w-1 h-1 rounded-full bg-[#28c840]/60"></div>
-        </div>
-        <div className="text-green-500/80 leading-tight">
+      <div className="flex flex-col w-full sm:w-48 bg-bg-elevated border border-border-main rounded-lg p-2.5 font-mono text-[9px] min-h-[40px]">
+        <div className="text-turquoise/90 leading-tight">
           <div className="truncate">{t(activeTag.cmdKey)}</div>
-          <div className="flex items-center">
-            <span className="animate-pulse">_</span>
-            <span className="ml-1 truncate text-green-400 opacity-70">{t(activeTag.logKey)}</span>
+          <div className="flex items-center mt-0.5">
+            <span className="text-turquoise/50">_</span>
+            <span className="ml-1 truncate text-text-secondary opacity-80">{t(activeTag.logKey)}</span>
           </div>
         </div>
       </div>
@@ -89,18 +84,15 @@ export default function CategoryGrid() {
   const { t } = useLanguage();
 
   return (
-    <section id="categories" className="py-16 md:py-20 bg-bg-secondary section-band relative overflow-hidden">
-      <div className="absolute inset-0 noc-grid section-grid pointer-events-none" />
-      
+    <section id="categories" className="py-16 md:py-24 bg-bg-secondary section-band relative overflow-hidden">
       <div className="container-custom relative z-10">
-        <div className="flex flex-col md:flex-row items-center justify-between mb-10 gap-6">
-          <div className="text-center md:text-left">
-            <h2 className="flex flex-wrap items-center gap-x-3 gap-y-2 text-3xl md:text-4xl font-black tracking-tight text-text-primary code-font mb-2 md:justify-start justify-center">
-              <span className="heading-prefix" aria-hidden>//</span>
-              <span>{t("cat.title")}</span>
+        <div className="flex flex-col md:flex-row items-center justify-between mb-10 md:mb-12 gap-6">
+          <div className="text-center md:text-left max-w-xl">
+            <h2 className="text-2xl sm:text-3xl md:text-[2rem] font-semibold tracking-tight text-text-primary mb-2">
+              {t("cat.title")}
             </h2>
             <div className="heading-accent md:mx-0 mx-auto" aria-hidden />
-            <p className="text-text-secondary text-base font-medium mt-4">{t("cat.subtitle")}</p>
+            <p className="text-text-secondary text-sm sm:text-base font-normal mt-4 leading-relaxed">{t("cat.subtitle")}</p>
           </div>
           
           <TypewriterTerminal />

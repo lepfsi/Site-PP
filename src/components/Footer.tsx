@@ -34,33 +34,33 @@ const FOOTER_EXPLORE = [
   { key: "footer.categories_all", href: "/#categories" },
   { key: "footer.articles", href: "/articles" },
   { key: "footer.experience", href: "/experience" },
+  { key: "footer.labs", href: "/labs" },
 ] as const;
 
 const FOOTER_RESOURCES = [
   { key: "footer.cheatsheets", href: "/resources#cheatsheets" },
   { key: "footer.templates", href: "/resources#templates" },
   { key: "footer.scripts", href: "/resources#scripts" },
-  { key: "footer.labs", href: "/labs" },
+  { key: "footer.newsletter", href: "/#newsletter" },
 ] as const;
 
-const FOOTER_ABOUT = [
-  { key: "footer.about_dailyops", href: "/about#dailyops" },
+const FOOTER_COMPANY = [
   { key: "footer.products", href: "/products" },
+  { key: "footer.about_dailyops", href: "/about#dailyops" },
   { key: "footer.about_author", href: "/about#author" },
-  { key: "footer.methodology", href: "/about#methodology" },
   { key: "footer.contact", href: "/about#contact" },
 ] as const;
 
-const FOOTER_INFORMATION = [
+const FOOTER_LEGAL = [
   { key: "footer.privacy", href: "/privacy" },
   { key: "footer.legal", href: "/legal" },
-  { key: "footer.newsletter", href: "/#newsletter" },
+  { key: "footer.methodology", href: "/about#methodology" },
 ] as const;
 
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="text-[12px] font-semibold tracking-wide text-text-primary mb-3 pl-2.5 border-l-2 border-turquoise/40">
+      <h4 className="text-[12px] font-semibold tracking-wide text-text-primary mb-3">
         {title}
       </h4>
       <ul className="space-y-2">{children}</ul>
@@ -68,60 +68,28 @@ function FooterColumn({ title, children }: { title: string; children: React.Reac
   );
 }
 
-function sortFooterLinksByLength<T extends { key: string }>(
-  items: readonly T[],
-  label: (key: string) => string,
-): T[] {
-  return [...items].sort((a, b) => label(b.key).length - label(a.key).length);
-}
-
 function FooterLink({ href, children }: { href: string; children: React.ReactNode }) {
   return (
     <li>
-      <Link href={href} className="text-xs font-medium text-text-secondary hover:text-turquoise transition-colors leading-snug">
+      <Link
+        href={href}
+        className="text-xs font-medium text-text-secondary hover:text-turquoise transition-colors leading-snug"
+      >
         {children}
       </Link>
     </li>
   );
 }
 
-function SupportButton() {
-  const { t } = useLanguage();
-
-  return (
-    <Link
-      href={SITE.kofi}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-border-main bg-bg-elevated hover:border-turquoise/40 hover:bg-turquoise/5 transition-colors group"
-      title={t("footer.buy_me_coffee")}
-    >
-      <Heart size={14} className="text-red-500 fill-red-500 shrink-0" />
-      <span className="text-[12px] font-semibold text-text-primary">
-        {t("footer.support_us")}
-      </span>
-      <span className="hidden sm:block w-px h-3.5 bg-border-main" aria-hidden />
-      <Coffee size={14} className="text-turquoise shrink-0" />
-      <span className="text-[12px] font-medium text-text-secondary group-hover:text-turquoise transition-colors">
-        {t("footer.buy_me_coffee")}
-      </span>
-    </Link>
-  );
-}
-
 export default function Footer() {
   const { t } = useLanguage();
-  const exploreLinks = sortFooterLinksByLength(FOOTER_EXPLORE, t);
-  const resourcesLinks = sortFooterLinksByLength(FOOTER_RESOURCES, t);
-  const aboutLinks = sortFooterLinksByLength(FOOTER_ABOUT, t);
 
   return (
-    <footer className="relative surface-header border-t border-border-main/70 pt-8 pb-5">
-      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-turquoise/25 to-transparent pointer-events-none" aria-hidden />
+    <footer className="relative surface-header border-t border-border-main/70 pt-10 pb-8">
       <div className="container-custom">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 items-start">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 lg:gap-12 items-start mb-10">
           <FooterColumn title={t("footer.explore")}>
-            {exploreLinks.map((item) => (
+            {FOOTER_EXPLORE.map((item) => (
               <FooterLink key={item.key} href={item.href}>
                 {t(item.key)}
               </FooterLink>
@@ -129,7 +97,7 @@ export default function Footer() {
           </FooterColumn>
 
           <FooterColumn title={t("footer.resources")}>
-            {resourcesLinks.map((item) => (
+            {FOOTER_RESOURCES.map((item) => (
               <FooterLink key={item.key} href={item.href}>
                 {t(item.key)}
               </FooterLink>
@@ -137,7 +105,7 @@ export default function Footer() {
           </FooterColumn>
 
           <FooterColumn title={t("footer.about")}>
-            {aboutLinks.map((item) => (
+            {FOOTER_COMPANY.map((item) => (
               <FooterLink key={item.key} href={item.href}>
                 {t(item.key)}
               </FooterLink>
@@ -145,7 +113,7 @@ export default function Footer() {
           </FooterColumn>
 
           <FooterColumn title={t("footer.information")}>
-            {FOOTER_INFORMATION.map((item) => (
+            {FOOTER_LEGAL.map((item) => (
               <FooterLink key={item.key} href={item.href}>
                 {t(item.key)}
               </FooterLink>
@@ -153,13 +121,13 @@ export default function Footer() {
           </FooterColumn>
         </div>
 
-        <div className="mt-6 pt-4 border-t border-border-main/60">
-          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3 lg:gap-4">
-            <div className="flex flex-wrap lg:flex-nowrap items-center justify-start gap-x-2.5 lg:gap-x-3 gap-y-2 min-w-0 lg:flex-1 lg:pr-3">
-              <Link href="/" className="shrink-0">
+        <div className="pt-6 border-t border-border-main/50">
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-5 min-w-0">
+              <Link href="/" className="shrink-0 w-fit">
                 <Logo iconOnly />
               </Link>
-              <div className="flex gap-2.5 shrink-0">
+              <div className="flex gap-3 shrink-0">
                 {SOCIAL_LINKS.map(({ id, href, label, external }) => {
                   const Icon = SOCIAL_ICONS[id];
                   return (
@@ -175,22 +143,21 @@ export default function Footer() {
                   );
                 })}
               </div>
-              <span className="hidden lg:inline text-border-main/70 shrink-0" aria-hidden>|</span>
-              <p className="text-[9px] lg:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-none whitespace-nowrap shrink-0">
+              <p className="text-[12px] font-medium text-text-secondary/70 leading-snug">
                 {t("footer.copyright")} {t("footer.rights")}
               </p>
-              <span className="hidden lg:inline text-border-main/70 shrink-0" aria-hidden>|</span>
-              <span className="inline-flex items-center text-[9px] lg:text-[10px] font-medium text-text-secondary/50 uppercase tracking-wide leading-none whitespace-nowrap shrink-0">
-                <Heart size={11} className="text-red-500 mr-1.5 fill-red-500 shrink-0" /> {t("footer.made")}
-              </span>
-              <span className="hidden lg:inline text-border-main/70 shrink-0" aria-hidden>|</span>
-              <span className="inline-flex items-center gap-1.5 text-[9px] lg:text-[10px] font-black text-turquoise uppercase tracking-wide leading-none whitespace-nowrap shrink-0">
-                <span className="w-1.5 h-1.5 rounded-full bg-turquoise animate-pulse shrink-0" />
-                {t("footer.production_ready")}
-              </span>
             </div>
 
-            <SupportButton />
+            <Link
+              href={SITE.kofi}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl border border-border-main bg-bg-elevated hover:border-turquoise/40 hover:text-turquoise transition-colors text-[12px] font-medium text-text-secondary w-fit"
+              title={t("footer.buy_me_coffee")}
+            >
+              <Coffee size={14} className="text-turquoise shrink-0" />
+              {t("footer.buy_me_coffee")}
+            </Link>
           </div>
         </div>
       </div>

@@ -7,7 +7,7 @@ import { CATEGORIES } from "@/lib/categories";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
 import { useLanguage } from "@/lib/LanguageContext";
-import { navigateHashPath, navigateHomePath } from "@/lib/navigation";
+import { navigateHomePath } from "@/lib/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import CommandSearch from "./CommandSearch";
 import Logo from "./Logo";
@@ -23,11 +23,6 @@ export default function Navbar() {
 
   const handleHomeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     navigateHomePath(pathname, event);
-    setIsOpen(false);
-  };
-
-  const handleHashClick = (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
-    navigateHashPath(pathname, href, event);
     setIsOpen(false);
   };
 
@@ -102,7 +97,6 @@ export default function Navbar() {
           <Link href="/articles" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.articles")}</Link>
           <Link href="/labs" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.labs")}</Link>
           <Link href="/products" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.products")}</Link>
-          <Link href="/#experience" onClick={handleHashClick("/#experience")} className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.expertise")}</Link>
           <Link href="/about" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.about")}</Link>
         </div>
 
@@ -155,7 +149,7 @@ export default function Navbar() {
             <Link href="/articles" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
             <Link href="/labs" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.labs")}</Link>
             <Link href="/products" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.products")}</Link>
-            <Link href="/#experience" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={handleHashClick("/#experience")}>{t("nav.expertise")}</Link>
+            <Link href="/experience" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("exp.title")}</Link>
             <Link href="/about" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
             <div className="flex items-center justify-center gap-2 px-4 pt-4">
               <button onClick={() => setLang("FR")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>FR</button>

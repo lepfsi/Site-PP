@@ -14,15 +14,13 @@ export default function FeaturedArticles() {
   const recentArticles = getRecentArticles(6);
 
   return (
-    <section id="articles" className="py-16 md:py-20 bg-bg-primary section-band relative overflow-hidden">
-      <div className="absolute inset-0 tech-grid section-grid pointer-events-none" />
-
+    <section id="articles" className="py-16 md:py-24 bg-bg-primary section-band relative overflow-hidden">
       <div className="container-custom relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 14 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mb-10"
+          className="mb-10 md:mb-12"
         >
           <SectionHeading
             subtitle={
@@ -60,7 +58,7 @@ export default function FeaturedArticles() {
                   </span>
                 </div>
                 
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-semibold text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
                   {t(featured.titleKey)}
                 </h3>
                 
