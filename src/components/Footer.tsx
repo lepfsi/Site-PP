@@ -60,7 +60,7 @@ const FOOTER_INFORMATION = [
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="text-[10px] font-black uppercase tracking-[0.18em] text-text-secondary mb-3 pl-2.5 border-l-2 border-turquoise/50">
+      <h4 className="text-[12px] font-semibold tracking-wide text-text-primary mb-3 pl-2.5 border-l-2 border-turquoise/40">
         {title}
       </h4>
       <ul className="space-y-2">{children}</ul>
@@ -93,16 +93,16 @@ function SupportButton() {
       href={SITE.kofi}
       target="_blank"
       rel="noopener noreferrer"
-      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-border-main bg-bg-primary hover:border-turquoise/40 hover:bg-turquoise/5 transition-all group shadow-sm"
+      className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-full border border-border-main bg-bg-elevated hover:border-turquoise/40 hover:bg-turquoise/5 transition-colors group"
       title={t("footer.buy_me_coffee")}
     >
-      <Heart size={14} className="text-red-500 fill-red-500 shrink-0 group-hover:scale-110 transition-transform" />
-      <span className="text-[10px] font-black uppercase tracking-[0.18em] text-text-primary">
+      <Heart size={14} className="text-red-500 fill-red-500 shrink-0" />
+      <span className="text-[12px] font-semibold text-text-primary">
         {t("footer.support_us")}
       </span>
       <span className="hidden sm:block w-px h-3.5 bg-border-main" aria-hidden />
       <Coffee size={14} className="text-turquoise shrink-0" />
-      <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary group-hover:text-turquoise transition-colors">
+      <span className="text-[12px] font-medium text-text-secondary group-hover:text-turquoise transition-colors">
         {t("footer.buy_me_coffee")}
       </span>
     </Link>

@@ -8,6 +8,8 @@ interface SectionHeadingProps {
   centered?: boolean;
   className?: string;
   titleClassName?: string;
+  /** Softer default for product-style pages; site home still gets accent bar */
+  showAccent?: boolean;
 }
 
 export default function SectionHeading({
@@ -16,22 +18,22 @@ export default function SectionHeading({
   centered = true,
   className,
   titleClassName,
+  showAccent = true,
 }: SectionHeadingProps) {
   return (
     <div className={cn(centered ? "text-center" : "text-left", className)}>
       <h2
         className={cn(
-          "flex flex-wrap items-center gap-x-3 gap-y-2 text-3xl md:text-4xl font-black tracking-tight text-text-primary code-font",
-          centered && "justify-center",
+          "text-2xl sm:text-3xl md:text-[2rem] font-bold tracking-tight text-text-primary leading-tight",
+          centered && "text-center",
           titleClassName,
         )}
       >
-        <span className="heading-prefix" aria-hidden>
-          //
-        </span>
-        <span>{children}</span>
+        {children}
       </h2>
-      <div className={cn("heading-accent", centered && "mx-auto")} aria-hidden />
+      {showAccent && (
+        <div className={cn("heading-accent", centered && "mx-auto")} aria-hidden />
+      )}
       {subtitle && (
         <div className={cn("mt-4", centered && "flex flex-col items-center")}>
           {subtitle}

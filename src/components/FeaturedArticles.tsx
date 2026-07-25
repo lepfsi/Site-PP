@@ -28,8 +28,8 @@ export default function FeaturedArticles() {
             subtitle={
               <>
                 <p className="text-text-secondary text-base font-medium">{t("articles.featured_subtitle")}</p>
-                <Link href="/articles" className="flex items-center text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group mt-3">
-                  {t("articles.view_all")} <ArrowRight size={12} className="ml-1.5 group-hover:translate-x-1 transition-transform" />
+                <Link href="/articles" className="flex items-center text-[13px] font-semibold text-turquoise hover:underline group mt-3">
+                  {t("articles.view_all")} <ArrowRight size={14} className="ml-1.5 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </>
             }
@@ -52,15 +52,15 @@ export default function FeaturedArticles() {
               
               <div className="lg:col-span-7 p-6 sm:p-8 md:p-10 flex flex-col justify-center">
                 <div className="flex flex-wrap items-center gap-3 mb-5">
-                  <span className={`px-2.5 py-0.5 rounded ${featured.bg} ${featured.color} text-[10px] font-black uppercase tracking-[0.2em] border border-border-main/40`}>
+                  <span className={`px-2.5 py-0.5 rounded-md ${featured.bg} ${featured.color} text-[11px] font-semibold tracking-wide border border-border-main/30`}>
                     {t(featured.categoryLabelKey)}
                   </span>
-                  <span className="text-[9px] font-mono text-text-secondary/50 font-bold uppercase tracking-wider">
+                  <span className="text-[12px] text-text-secondary/70 font-medium">
                     {featured.readTime} {t("articles.read_time")}
                   </span>
                 </div>
                 
-                <h3 className="text-xl sm:text-2xl md:text-3xl font-black text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
+                <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-text-primary mb-4 leading-tight group-hover:text-turquoise transition-colors tracking-tight">
                   {t(featured.titleKey)}
                 </h3>
                 
@@ -69,12 +69,12 @@ export default function FeaturedArticles() {
                 </p>
                 
                 <div className="flex items-center space-x-3 mt-auto">
-                  <div className="w-8 h-8 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20 font-black text-[10px] text-turquoise">
+                  <div className="w-8 h-8 rounded-full bg-turquoise/10 flex items-center justify-center border border-turquoise/20 font-bold text-[11px] text-turquoise">
                     D
                   </div>
                   <div>
-                    <div className="text-[11px] font-bold text-text-primary uppercase tracking-widest leading-none">{t("articles.author")}</div>
-                    <div className="text-[9px] font-mono text-text-secondary/40 mt-1">{featured.date}</div>
+                    <div className="text-[12px] font-semibold text-text-primary leading-none">{t("articles.author")}</div>
+                    <div className="text-[11px] text-text-secondary/50 mt-1">{featured.date}</div>
                   </div>
                 </div>
               </div>
@@ -98,21 +98,21 @@ export default function FeaturedArticles() {
                 <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-2xl"></div>
                 
                 <div className="mb-4 relative z-10">
-                  <span className={`px-2 py-0.5 rounded ${article.bg} ${article.color} text-[9px] font-bold uppercase tracking-widest border border-border-main/40`}>
+                  <span className={`px-2 py-0.5 rounded-md ${article.bg} ${article.color} text-[11px] font-semibold tracking-wide border border-border-main/30`}>
                     {t(article.categoryLabelKey)}
                   </span>
                 </div>
                 
-                <h4 className="text-lg font-bold text-text-primary mb-3 leading-tight group-hover:text-turquoise transition-colors relative z-10">
+                <h4 className="text-lg font-semibold text-text-primary mb-3 leading-tight group-hover:text-turquoise transition-colors relative z-10">
                   {t(article.titleKey)}
                 </h4>
                 
-                <p className="text-text-secondary text-xs mb-8 flex-grow font-medium leading-relaxed opacity-70 relative z-10">
+                <p className="text-text-secondary text-sm mb-8 flex-grow font-medium leading-relaxed opacity-80 relative z-10">
                   {t(article.excerptKey)}
                 </p>
                 
-                <div className="flex justify-between items-center pt-5 border-t border-border-main/50 text-[9px] font-mono text-text-secondary/40 font-bold uppercase tracking-widest relative z-10">
-                  <span className="flex items-center"><Clock size={12} className="mr-1.5" /> {article.readTime}</span>
+                <div className="flex justify-between items-center pt-5 border-t border-border-main/50 text-[12px] text-text-secondary/60 font-medium relative z-10">
+                  <span className="flex items-center"><Clock size={13} className="mr-1.5" /> {article.readTime}</span>
                   <span>{article.date}</span>
                 </div>
               </Link>

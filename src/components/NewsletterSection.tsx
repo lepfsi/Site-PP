@@ -58,11 +58,11 @@ export default function NewsletterSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative bg-bg-secondary border-2 border-turquoise/30 rounded-[2rem] p-7 md:p-9 shadow-xl shadow-turquoise/10 text-center overflow-hidden"
+            className="relative bg-bg-elevated border border-border-main rounded-2xl p-7 md:p-9 shadow-[var(--surface-shadow)] text-center overflow-hidden"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-turquoise/5 via-transparent to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-br from-turquoise/[0.06] via-transparent to-transparent pointer-events-none" />
             <div className="relative z-10">
-              <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-turquoise/15 border border-turquoise/30 text-turquoise mb-4">
+              <div className="inline-flex items-center justify-center w-11 h-11 rounded-xl bg-turquoise/12 border border-turquoise/25 text-turquoise mb-4">
                 <Mail className="h-5 w-5" />
               </div>
 
@@ -74,9 +74,9 @@ export default function NewsletterSection() {
                 {t("news.desc")}
               </p>
 
-              <div className="flex items-center justify-center space-x-2 text-turquoise font-bold text-xs mb-6">
+              <div className="flex items-center justify-center gap-2 text-turquoise font-semibold text-[13px] mb-6">
                 <Users size={14} />
-                <span className="uppercase tracking-widest text-[9px]">{t("news.subscribers")}</span>
+                <span>{t("news.subscribers")}</span>
               </div>
 
               <AnimatePresence mode="wait">

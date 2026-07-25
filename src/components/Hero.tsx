@@ -61,21 +61,21 @@ function HeroDashboard({
   return (
     <Link
       href={`/articles/${featured.slug}`}
-      className="group block relative aspect-square max-w-[360px] ml-auto w-full transition-transform hover:scale-[1.02] active:scale-[0.99]"
+      className="group block relative aspect-square max-w-[360px] ml-auto w-full transition-opacity"
     >
-      <div className="bg-bg-secondary/80 border border-border-main group-hover:border-turquoise/40 border-b-0 px-4 py-3 rounded-t-[1.5rem] flex items-center justify-between backdrop-blur-md transition-colors">
-        <div className="flex space-x-2">
-          <div className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#febc2e]" />
-          <div className="w-2.5 h-2.5 rounded-full bg-[#28c840]" />
+      <div className="bg-bg-elevated border border-border-main group-hover:border-turquoise/35 border-b-0 px-4 py-3 rounded-t-2xl flex items-center justify-between transition-colors">
+        <div className="flex space-x-1.5">
+          <div className="w-2 h-2 rounded-full bg-border-main" />
+          <div className="w-2 h-2 rounded-full bg-border-main" />
+          <div className="w-2 h-2 rounded-full bg-border-main" />
         </div>
-        <div className="text-[9px] font-mono text-text-secondary/50 uppercase tracking-widest font-bold">
+        <div className="text-[10px] text-text-secondary/70 font-medium tracking-wide">
           {dashboardMode === "featured" ? t("hero.monitor_featured") : t("hero.monitor_terminal")}
         </div>
-        <ChevronRight size={12} className="text-turquoise/50 group-hover:text-turquoise group-hover:translate-x-0.5 transition-all" />
+        <ChevronRight size={14} className="text-text-secondary/40 group-hover:text-turquoise transition-colors" />
       </div>
 
-      <div className="relative z-10 bg-bg-secondary/60 border border-border-main group-hover:border-turquoise/30 border-t-0 backdrop-blur-3xl rounded-b-[1.5rem] shadow-2xl group-hover:shadow-turquoise/10 overflow-hidden flex flex-col h-[calc(100%-40px)] transition-all">
+      <div className="relative z-10 bg-bg-elevated border border-border-main group-hover:border-turquoise/25 border-t-0 rounded-b-2xl shadow-[var(--surface-shadow)] overflow-hidden flex flex-col h-[calc(100%-40px)] transition-colors">
         <div className="flex-grow relative overflow-hidden bg-bg-primary/30 min-h-[180px]">
           <AnimatePresence mode="wait">
             {dashboardMode === "featured" ? (
@@ -89,14 +89,14 @@ function HeroDashboard({
                 <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
                 <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/95 via-bg-primary/30 to-transparent pointer-events-none" />
                 <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 pointer-events-none">
-                  <span className={`inline-block px-2 py-0.5 rounded text-[8px] font-black uppercase tracking-widest border border-border-main/40 ${featured.bg} ${featured.color} mb-1.5`}>
+                  <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide border border-border-main/30 ${featured.bg} ${featured.color} mb-1.5`}>
                     {t(featured.categoryLabelKey)}
                   </span>
-                  <p className="text-[11px] sm:text-xs font-bold text-text-primary leading-snug line-clamp-2 mb-1.5">
+                  <p className="text-xs sm:text-sm font-semibold text-text-primary leading-snug line-clamp-2 mb-1.5">
                     {t(featured.titleKey)}
                   </p>
-                  <span className="inline-flex items-center text-[8px] font-black uppercase tracking-widest text-turquoise group-hover:underline">
-                    {t("hero.dashboard_cta")} <ChevronRight size={10} className="ml-1 group-hover:translate-x-0.5 transition-transform" />
+                  <span className="inline-flex items-center text-[11px] font-semibold text-turquoise">
+                    {t("hero.dashboard_cta")} <ChevronRight size={12} className="ml-0.5" />
                   </span>
                 </div>
               </motion.div>
@@ -121,51 +121,41 @@ function HeroDashboard({
           </AnimatePresence>
         </div>
 
-        <div className="bg-bg-secondary/90 border-t border-border-main p-4 md:p-6 backdrop-blur-xl">
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex items-center space-x-2">
-              <div className="p-1.5 bg-turquoise/20 rounded-lg text-turquoise">
+        <div className="bg-bg-secondary/80 border-t border-border-main p-4 md:p-5">
+          <div className="flex justify-between items-center mb-3">
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-turquoise/15 rounded-md text-turquoise">
                 <Activity size={12} />
               </div>
-              <span className="text-[8px] font-black text-text-primary uppercase tracking-[0.2em]">{t("hero.monitor_live")}</span>
+              <span className="text-[11px] font-semibold text-text-primary tracking-wide">{t("hero.monitor_live")}</span>
             </div>
-            <div className="flex items-center space-x-2 bg-green-500/10 px-2 py-1 rounded-md border border-green-500/20">
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[8px] font-black text-green-500 uppercase tracking-widest">{t("hero.monitor_live_badge")}</span>
+            <div className="flex items-center gap-1.5 bg-turquoise/10 px-2 py-1 rounded-md border border-turquoise/20">
+              <span className="h-1.5 w-1.5 rounded-full bg-turquoise" />
+              <span className="text-[10px] font-semibold text-turquoise tracking-wide">{t("hero.monitor_live_badge")}</span>
             </div>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             <div>
-              <div className="flex justify-between text-[8px] font-bold text-text-secondary/60 mb-1 uppercase tracking-widest">
+              <div className="flex justify-between text-[11px] font-medium text-text-secondary mb-1">
                 <span>{t("hero.monitor_guides")}</span>
-                <span className="text-turquoise code-font">{articleCount}/{articleCount}</span>
+                <span className="text-turquoise tabular-nums">{articleCount}</span>
               </div>
-              <div className="h-1 w-full bg-border-main/50 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1.2, ease: "easeOut" }}
-                  className="h-full bg-gradient-to-r from-turquoise/40 to-turquoise rounded-full"
-                />
+              <div className="h-1 w-full bg-border-main/40 rounded-full overflow-hidden">
+                <div className="h-full w-full bg-turquoise/80 rounded-full" />
               </div>
             </div>
 
             <div>
-              <div className="flex justify-between text-[8px] font-bold text-text-secondary/60 mb-1 uppercase tracking-widest">
+              <div className="flex justify-between text-[11px] font-medium text-text-secondary mb-1">
                 <span>{t("hero.monitor_domains")}</span>
-                <div className="flex items-center text-pink-500">
-                  <ShieldAlert size={10} className="mr-1.5" />
-                  <span className="code-font">{domainCount}/{domainCount}</span>
-                </div>
+                <span className="text-text-primary tabular-nums flex items-center gap-1">
+                  <ShieldAlert size={11} className="text-turquoise" />
+                  {domainCount}
+                </span>
               </div>
-              <div className="h-1 w-full bg-border-main/50 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: "100%" }}
-                  transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
-                  className="h-full bg-gradient-to-r from-pink-500/40 to-pink-500 rounded-full"
-                />
+              <div className="h-1 w-full bg-border-main/40 rounded-full overflow-hidden">
+                <div className="h-full w-full bg-turquoise/50 rounded-full" />
               </div>
             </div>
           </div>
@@ -185,7 +175,7 @@ function HeroStatCard({
   return (
     <div className="p-3 rounded-xl surface-card text-center">
       <Icon size={14} className="mx-auto mb-1.5 text-turquoise" />
-      <div className="text-[8px] font-black text-text-primary uppercase tracking-wider leading-tight">{label}</div>
+      <div className="text-[10px] font-semibold text-text-primary leading-tight">{label}</div>
     </div>
   );
 }
@@ -263,19 +253,19 @@ export default function Hero() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
           <div className="lg:col-span-7 flex flex-col justify-center gap-5 md:gap-6">
             <motion.div
-              initial={{ opacity: 0, y: -10 }}
+              initial={{ opacity: 0, y: -8 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center space-x-2 px-3 py-1 bg-green-500/10 border border-green-500/20 rounded-full w-fit"
+              className="inline-flex items-center gap-2 px-3 py-1 bg-turquoise/10 border border-turquoise/20 rounded-full w-fit"
             >
-              <span className="h-1.5 w-1.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-green-500 code-font text-[9px] font-black uppercase tracking-widest">{t("hero.badge")}</span>
+              <span className="h-1.5 w-1.5 rounded-full bg-turquoise" />
+              <span className="text-turquoise text-[11px] font-semibold tracking-wide">{t("hero.badge")}</span>
             </motion.div>
 
             <div className="space-y-3 md:space-y-3.5">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tighter text-text-primary code-font leading-[1.05]"
+                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-bold tracking-tight text-text-primary leading-[1.1]"
               >
                 {t("hero.title_main")}
               </motion.h1>
@@ -284,38 +274,40 @@ export default function Hero() {
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="flex flex-wrap items-center gap-x-1 gap-y-1 text-base sm:text-lg md:text-xl lg:text-2xl font-black code-font text-text-primary"
+                className="flex flex-wrap items-center gap-x-2 gap-y-1 text-base sm:text-lg md:text-xl font-semibold text-text-primary"
               >
                 <motion.span variants={staggeredItem}>
-                  {t("hero.sub_operate")}<span className="text-green-500">.</span>
+                  {t("hero.sub_operate")}
                 </motion.span>
+                <span className="text-text-secondary/40 font-normal">·</span>
                 <motion.span variants={staggeredItem} className="text-turquoise">
-                  {t("hero.sub_optimize")}<span className="text-green-500">.</span>
+                  {t("hero.sub_optimize")}
                 </motion.span>
+                <span className="text-text-secondary/40 font-normal">·</span>
                 <motion.span variants={staggeredItem}>
-                  {t("hero.sub_secure")}<span className="text-green-500">.</span>
+                  {t("hero.sub_secure")}
                 </motion.span>
               </motion.div>
             </div>
 
             <motion.p
-              initial={{ opacity: 0, y: 16 }}
+              initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="text-xs md:text-sm text-text-secondary/80 max-w-xl font-medium leading-relaxed"
+              transition={{ delay: 0.35 }}
+              className="text-sm md:text-[15px] text-text-secondary max-w-xl font-medium leading-relaxed"
             >
               {t("hero.desc")}
             </motion.p>
 
             <div className="flex flex-wrap gap-2.5 md:gap-3 mt-4 md:mt-6 lg:mt-8">
-              <a href="#categories" className="px-5 py-2.5 bg-text-primary text-bg-primary font-black rounded-xl flex items-center justify-center transition-all hover:scale-105 active:scale-95 shadow-xl text-[10px] tracking-widest uppercase border border-transparent">
+              <a href="#categories" className="px-5 py-2.5 bg-navy text-white dark:bg-turquoise dark:text-navy font-semibold rounded-xl flex items-center justify-center transition-opacity hover:opacity-90 text-[13px] border border-transparent">
                 {t("hero.cta_explore")}
               </a>
-              <a href="#articles" className="px-5 py-2.5 bg-bg-secondary border-2 border-turquoise text-turquoise font-black rounded-xl flex items-center justify-center transition-all hover:bg-turquoise/10 text-[10px] tracking-widest uppercase shadow-lg shadow-turquoise/5">
+              <a href="#articles" className="px-5 py-2.5 bg-bg-elevated border border-turquoise/50 text-turquoise font-semibold rounded-xl flex items-center justify-center transition-colors hover:bg-turquoise/10 text-[13px]">
                 {t("hero.cta_browse")}
               </a>
-              <a href="#newsletter" className="px-5 py-2.5 bg-bg-secondary border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise font-bold rounded-xl flex items-center justify-center transition-all text-[10px] tracking-widest uppercase group">
-                <Mail size={12} className="mr-2 group-hover:scale-110" />
+              <a href="#newsletter" className="px-5 py-2.5 bg-bg-elevated border border-border-main text-text-secondary hover:text-turquoise hover:border-turquoise/40 font-semibold rounded-xl flex items-center justify-center transition-colors text-[13px] group">
+                <Mail size={14} className="mr-2 opacity-80" />
                 {t("hero.cta_news")}
               </a>
             </div>
@@ -332,22 +324,18 @@ export default function Hero() {
           </div>
 
           <div className="lg:col-span-5 relative hidden lg:block">
-            <motion.div
-              animate={{ y: [0, -12, 0], x: [0, 8, 0] }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-14 -left-36 z-0 opacity-20 pointer-events-none bg-bg-secondary/20 p-5 rounded-2xl border border-turquoise/20 backdrop-blur-sm shadow-2xl"
-            >
-              <div className="space-y-4 font-mono text-[9px] text-turquoise uppercase tracking-[0.2em]">
-                <div className="flex items-center space-x-2"><FileText size={12} /> <span>{statGuides}</span></div>
-                <div className="flex items-center space-x-2"><Layers size={12} /> <span>{statDomains}</span></div>
-                <div className="flex items-center space-x-2"><Calendar size={12} /> <span>{statUpdated}</span></div>
+            <div className="absolute -top-10 -left-28 z-0 opacity-30 pointer-events-none bg-bg-elevated/80 p-4 rounded-xl border border-border-main">
+              <div className="space-y-2.5 text-[11px] text-text-secondary font-medium">
+                <div className="flex items-center gap-2"><FileText size={12} className="text-turquoise" /> <span>{statGuides}</span></div>
+                <div className="flex items-center gap-2"><Layers size={12} className="text-turquoise" /> <span>{statDomains}</span></div>
+                <div className="flex items-center gap-2"><Calendar size={12} className="text-turquoise" /> <span>{statUpdated}</span></div>
               </div>
-            </motion.div>
+            </div>
 
             <motion.div
-              initial={{ opacity: 0, scale: 0.98 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.8 }}
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
               className="relative z-10"
             >
               <HeroDashboard {...dashboardProps} />

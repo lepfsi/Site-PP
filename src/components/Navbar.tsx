@@ -42,8 +42,8 @@ export default function Navbar() {
 
   return (
     <nav 
-      className={`fixed top-4 left-1/2 -translate-x-1/2 z-[100] transition-all duration-700 w-[95%] max-w-7xl px-6 py-2 rounded-2xl border liquid-glass shadow-2xl ${
-        scrolled ? "py-1.5" : "py-2.5"
+      className={`fixed top-4 left-1/2 -translate-x-1/2 z-[100] transition-all duration-500 w-[95%] max-w-7xl px-5 sm:px-6 py-2 rounded-2xl border liquid-glass ${
+        scrolled ? "py-1.5 shadow-lg" : "py-2 shadow-md"
       }`}
     >
       <div className="flex h-11 items-center justify-between relative">
@@ -55,15 +55,15 @@ export default function Navbar() {
 
         {/* CENTERED LINKS */}
         <div className="hidden lg:flex items-center space-x-1 absolute left-1/2 -translate-x-1/2 w-max">
-          <Link href="/" onClick={handleHomeClick} className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-turquoise">{t("nav.home")}</Link>
+          <Link href="/" onClick={handleHomeClick} className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-turquoise">{t("nav.home")}</Link>
           
           <div 
             className="relative"
             onMouseEnter={() => setIsCatOpen(true)}
             onMouseLeave={() => setIsCatOpen(false)}
           >
-            <button className="flex items-center px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">
-              {t("nav.categories")} <ChevronDown size={10} className={`ml-1 transition-transform ${isCatOpen ? 'rotate-180' : ''}`} />
+            <button className="flex items-center px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">
+              {t("nav.categories")} <ChevronDown size={12} className={`ml-1 opacity-70 transition-transform ${isCatOpen ? 'rotate-180' : ''}`} />
             </button>
             
             <AnimatePresence>
@@ -99,11 +99,11 @@ export default function Navbar() {
           </div>
 
           {/* Corrected paths to point to home page sections from anywhere */}
-          <Link href="/articles" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.articles")}</Link>
-          <Link href="/labs" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.labs")}</Link>
-          <Link href="/products" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.products")}</Link>
-          <Link href="/#experience" onClick={handleHashClick("/#experience")} className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.expertise")}</Link>
-          <Link href="/about" className="px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary hover:text-text-primary transition-all">{t("nav.about")}</Link>
+          <Link href="/articles" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.articles")}</Link>
+          <Link href="/labs" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.labs")}</Link>
+          <Link href="/products" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.products")}</Link>
+          <Link href="/#experience" onClick={handleHashClick("/#experience")} className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.expertise")}</Link>
+          <Link href="/about" className="px-3.5 py-2 text-[11px] font-semibold tracking-wide text-text-secondary hover:text-text-primary transition-colors">{t("nav.about")}</Link>
         </div>
 
         {/* RIGHT ACTIONS */}
@@ -139,24 +139,24 @@ export default function Navbar() {
             exit={{ opacity: 0, height: 0 }}
             className="lg:hidden mt-4 pt-4 border-t border-border-main/20 space-y-1 overflow-hidden pb-4"
           >
-            <Link href="/" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={handleHomeClick}>{t("nav.home")}</Link>
-            <div className="px-4 py-2 text-[9px] font-black uppercase tracking-[0.2em] text-text-secondary/50">{t("nav.categories")}</div>
+            <Link href="/" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={handleHomeClick}>{t("nav.home")}</Link>
+            <div className="px-4 py-2 text-[11px] font-semibold text-text-secondary/60">{t("nav.categories")}</div>
             {CATEGORIES.map((cat) => (
               <Link
                 key={cat.slug}
                 href={`/category/${cat.slug}`}
-                className="flex items-center px-6 py-2 text-[10px] font-bold uppercase tracking-widest text-text-secondary hover:text-turquoise border-b border-border-main/10"
+                className="flex items-center px-6 py-2 text-[12px] font-medium text-text-secondary hover:text-turquoise border-b border-border-main/10"
                 onClick={() => setIsOpen(false)}
               >
-                <cat.icon size={12} className="mr-2" />
+                <cat.icon size={14} className="mr-2 opacity-70" />
                 {t(cat.nameKey)}
               </Link>
             ))}
-            <Link href="/articles" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
-            <Link href="/labs" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.labs")}</Link>
-            <Link href="/products" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.products")}</Link>
-            <Link href="/#experience" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={handleHashClick("/#experience")}>{t("nav.expertise")}</Link>
-            <Link href="/about" className="block px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.2em] border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
+            <Link href="/articles" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.articles")}</Link>
+            <Link href="/labs" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.labs")}</Link>
+            <Link href="/products" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.products")}</Link>
+            <Link href="/#experience" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={handleHashClick("/#experience")}>{t("nav.expertise")}</Link>
+            <Link href="/about" className="block px-4 py-2.5 text-[13px] font-semibold border-b border-border-main/10" onClick={() => setIsOpen(false)}>{t("nav.about")}</Link>
             <div className="flex items-center justify-center gap-2 px-4 pt-4">
               <button onClick={() => setLang("FR")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>FR</button>
               <button onClick={() => setLang("EN")} className={`px-4 py-2 text-[9px] font-black rounded-full transition-all ${lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary border border-border-main"}`}>EN</button>
