@@ -5,6 +5,7 @@ export interface TranslationKeys {
   "nav.categories": string;
   "nav.articles": string;
   "nav.labs": string;
+  "nav.products": string;
   "nav.expertise": string;
   "nav.about": string;
   "nav.newsletter": string;
@@ -211,7 +212,38 @@ export interface TranslationKeys {
   "about.opsgate_desc": string;
   "about.opsgate_cta_article": string;
   "about.opsgate_cta_beta": string;
+  "about.opsgate_cta_products": string;
   "about.methodology_title": string;
+  "products.meta_title": string;
+  "products.meta_desc": string;
+  "products.kicker": string;
+  "products.title": string;
+  "products.subtitle": string;
+  "products.software_label": string;
+  "products.software_intro": string;
+  "products.platform_label": string;
+  "products.platform_intro": string;
+  "products.roadmap_label": string;
+  "products.roadmap_intro": string;
+  "products.closing_title": string;
+  "products.closing_desc": string;
+  "products.closing_cta": string;
+  "products.cta.access": string;
+  "products.cta.read": string;
+  "products.status.live": string;
+  "products.status.early": string;
+  "products.status.prototype": string;
+  "products.status.planned": string;
+  "products.opsgate.tagline": string;
+  "products.opsgate.desc": string;
+  "products.opsvault.tagline": string;
+  "products.opsvault.desc": string;
+  "products.hub.desc": string;
+  "products.labs.desc": string;
+  "products.opsmail.desc": string;
+  "products.opsaudit.desc": string;
+  "products.opsinsight.desc": string;
+  "footer.products": string;
   "about.methodology_desc": string;
   "about.contact_title": string;
   "about.contact_desc": string;
@@ -510,6 +542,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "nav.categories": "Categories",
     "nav.articles": "Articles",
     "nav.labs": "Labs",
+    "nav.products": "Products",
     "nav.expertise": "Expertise",
     "nav.about": "About",
     "nav.newsletter": "Ops Mail",
@@ -716,8 +749,39 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.opsgate_desc": "OpsGate is a lightweight browser extension that protects sensitive data before it reaches public GenAI tools — ChatGPT, Claude, Gemini, and others.\n\nIt detects PII, financial and legal documents, credentials, and network/security configs (Fortinet, Cisco, Juniper…) in prompts and small file uploads, then offers intelligent masking without blocking the user.\n\nPhase 1 is in active testing for text and small documents. We're extending coverage before a wider beta.",
     "about.opsgate_cta_article": "Read the article",
     "about.opsgate_cta_beta": "Request early access",
+    "about.opsgate_cta_products": "View all products",
     "about.methodology_title": "Our methodology",
     "about.methodology_desc": "We document what we deploy, break, and fix. Each guide follows a production-ready structure: context, architecture, step-by-step implementation, validation checks, and rollback procedures. Content is reviewed and updated as technologies evolve.",
+    "products.meta_title": "Products",
+    "products.meta_desc": "DailyOps products — knowledge for operators, and a growing security suite: OpsGate, OpsVault, and more.",
+    "products.kicker": "DailyOps · the house",
+    "products.title": "Knowledge first. Security products next.",
+    "products.subtitle": "DailyOps.Tech is where operators learn from production. From the same house, we build focused tools that grow into a security platform — without the noise.",
+    "products.software_label": "Software suite",
+    "products.software_intro": "Two viable prototypes today. Same design language, same ops mindset — protect what teams type, store, and share.",
+    "products.platform_label": "The knowledge house",
+    "products.platform_intro": "Free, always on. How DailyOps earns trust before you ever install an agent.",
+    "products.roadmap_label": "Toward a security platform",
+    "products.roadmap_intro": "Next pieces of the suite — not for sale yet, already shaping the architecture.",
+    "products.closing_title": "Early access is conversation, not a funnel.",
+    "products.closing_desc": "Tell us your stack and constraints. We'll reply like operators — not a sales sequence.",
+    "products.closing_cta": "Talk to us",
+    "products.cta.access": "Request early access",
+    "products.cta.read": "Read the article",
+    "products.status.live": "Live",
+    "products.status.early": "Early access",
+    "products.status.prototype": "Prototype",
+    "products.status.planned": "Planned",
+    "products.opsgate.tagline": "Use GenAI freely. Keep sensitive data local.",
+    "products.opsgate.desc": "Browser extension and control plane that detect secrets, configs, and PII before prompts reach ChatGPT, Claude, Gemini, and the rest — with Secure Rewrite, risk scores, and optional org policy.",
+    "products.opsvault.tagline": "A vault built the way sysadmins think.",
+    "products.opsvault.desc": "Zero-knowledge secrets store for passwords, SSH keys, certificates, API tokens, and OTP — local-first, self-hostable, with sealed backups and recovery keys.",
+    "products.hub.desc": "Production guides, runbooks, and field notes.",
+    "products.labs.desc": "Guided SOC, NOC, and cloud learning paths.",
+    "products.opsmail.desc": "A quiet ops newsletter — no noise.",
+    "products.opsaudit.desc": "Evidence and control trails for ops and security reviews.",
+    "products.opsinsight.desc": "Signals from the field — patterns across incidents and configs.",
+    "footer.products": "Products",
     "about.contact_title": "Contact us",
     "about.contact_desc": "Need expertise, spotted an error, or want to contribute? Send us a message — we respond within 48 hours.",
     "about.form_name": "Full name",
@@ -1010,6 +1074,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "nav.categories": "Catégories",
     "nav.articles": "Articles",
     "nav.labs": "Labs",
+    "nav.products": "Produits",
     "nav.expertise": "Expertise",
     "nav.about": "À propos",
     "nav.newsletter": "Ops Mail",
@@ -1216,8 +1281,39 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.opsgate_desc": "OpsGate est une extension navigateur légère qui protège les données sensibles avant qu'elles n'atteignent les outils d'IA générative publics — ChatGPT, Claude, Gemini, et autres.\n\nElle détecte les PII, documents financiers et juridiques, credentials et configurations réseau/sécurité (Fortinet, Cisco, Juniper…) dans les prompts et petits uploads, puis propose un masquage intelligent sans bloquer l'utilisateur.\n\nLa phase 1 est en test actif pour les textes et documents de petite taille. Nous étendons la couverture avant une beta plus large.",
     "about.opsgate_cta_article": "Lire l'article",
     "about.opsgate_cta_beta": "Demander un accès anticipé",
+    "about.opsgate_cta_products": "Voir tous les produits",
     "about.methodology_title": "Notre méthodologie",
     "about.methodology_desc": "Nous documentons ce que nous déployons, cassons et réparons. Chaque guide suit une structure production-ready : contexte, architecture, implémentation pas à pas, checks de validation et procédures de rollback. Le contenu est revu et mis à jour au fil de l'évolution des technologies.",
+    "products.meta_title": "Produits",
+    "products.meta_desc": "Les produits DailyOps — le savoir ops, et une suite sécurité qui grandit : OpsGate, OpsVault, et la suite.",
+    "products.kicker": "DailyOps · la maison",
+    "products.title": "D'abord le savoir. Ensuite les outils de sécurité.",
+    "products.subtitle": "DailyOps.Tech est l'endroit où les ops apprennent depuis la production. Depuis la même maison, on construit des outils ciblés qui deviennent une plateforme de sécurité — sans le bruit.",
+    "products.software_label": "Suite logicielle",
+    "products.software_intro": "Deux prototypes viables aujourd'hui. Même langage, même esprit ops — protéger ce que les équipes saisissent, stockent et partagent.",
+    "products.platform_label": "La maison du savoir",
+    "products.platform_intro": "Gratuit, toujours là. Comment DailyOps gagne la confiance avant même d'installer un agent.",
+    "products.roadmap_label": "Vers une plateforme de sécurité",
+    "products.roadmap_intro": "Prochaines briques de la suite — pas encore en vente, déjà dans l'architecture.",
+    "products.closing_title": "L'early access, c'est une conversation — pas un tunnel de vente.",
+    "products.closing_desc": "Parlez-nous de votre stack et de vos contraintes. On répond comme des ops, pas comme une séquence marketing.",
+    "products.closing_cta": "Nous écrire",
+    "products.cta.access": "Demander un accès anticipé",
+    "products.cta.read": "Lire l'article",
+    "products.status.live": "En ligne",
+    "products.status.early": "Accès anticipé",
+    "products.status.prototype": "Prototype",
+    "products.status.planned": "Prévu",
+    "products.opsgate.tagline": "Utilisez l'IA librement. Gardez les données sensibles en local.",
+    "products.opsgate.desc": "Extension navigateur et control plane qui détectent secrets, configs et PII avant que les prompts n'atteignent ChatGPT, Claude, Gemini et les autres — Secure Rewrite, risk scores, politiques org optionnelles.",
+    "products.opsvault.tagline": "Un coffre pensé comme un admin système.",
+    "products.opsvault.desc": "Coffre zero-knowledge pour mots de passe, clés SSH, certificats, tokens API et OTP — local-first, auto-hébergeable, backups scellés et recovery keys.",
+    "products.hub.desc": "Guides production, runbooks et notes de terrain.",
+    "products.labs.desc": "Parcours guidés SOC, NOC et cloud.",
+    "products.opsmail.desc": "Une newsletter ops discrète — sans bruit.",
+    "products.opsaudit.desc": "Preuves et pistes de contrôle pour revues ops et sécurité.",
+    "products.opsinsight.desc": "Signaux terrain — patterns d'incidents et de configs.",
+    "footer.products": "Produits",
     "about.contact_title": "Nous contacter",
     "about.contact_desc": "Besoin d'expertise, erreur repérée ou envie de contribuer ? Envoyez-nous un message — nous répondons sous 48 heures.",
     "about.form_name": "Nom complet",

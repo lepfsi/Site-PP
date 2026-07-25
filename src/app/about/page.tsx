@@ -110,37 +110,39 @@ export default function AboutPage() {
 
             <motion.div
               id="opsgate"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="scroll-mt-24 p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary border-l-4 border-l-purple-500/70"
+              className="scroll-mt-24 py-2"
             >
-              <div className="flex flex-wrap items-center gap-3 mb-5">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 flex items-center justify-center">
-                  <Shield size={18} className="text-purple-500" />
-                </div>
-                <h2 className="text-xl font-bold text-text-primary">{t("about.opsgate_title")}</h2>
-                <span className="px-2.5 py-1 rounded-lg bg-turquoise/10 border border-turquoise/30 text-turquoise text-[9px] font-black uppercase tracking-widest">
+              <div className="flex flex-wrap items-center gap-2 mb-3">
+                <Shield size={16} className="text-text-secondary" />
+                <h2 className="text-lg font-semibold text-text-primary tracking-tight">
+                  {t("about.opsgate_title")}
+                </h2>
+                <span className="rounded-full bg-black/[0.04] px-2.5 py-0.5 text-[11px] font-medium text-text-secondary dark:bg-white/[0.06]">
                   {t("about.opsgate_badge")}
                 </span>
               </div>
-              <div className="space-y-4">
-                {t("about.opsgate_desc").split("\n\n").map((paragraph, i) => (
-                  <p key={i} className="text-text-secondary text-sm sm:text-base leading-relaxed font-medium">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
-              <div className="mt-6 pt-5 border-t border-border-main/60 flex flex-wrap gap-3">
+              <p className="text-text-secondary text-sm leading-relaxed max-w-2xl">
+                {t("about.opsgate_desc").split("\n\n")[0]}
+              </p>
+              <div className="mt-4 flex flex-wrap gap-x-5 gap-y-2 text-[13px]">
+                <Link
+                  href="/products"
+                  className="font-medium text-turquoise hover:underline underline-offset-4"
+                >
+                  {t("about.opsgate_cta_products")}
+                </Link>
                 <Link
                   href="/articles/genai-dlp-sensitive-data-leaks"
-                  className="inline-flex items-center px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest bg-purple-500/10 border border-purple-500/30 text-purple-500 hover:bg-purple-500/20 transition-colors"
+                  className="text-text-secondary hover:text-turquoise hover:underline underline-offset-4"
                 >
                   {t("about.opsgate_cta_article")}
                 </Link>
                 <a
                   href="#contact"
-                  className="inline-flex items-center px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest bg-turquoise/10 border border-turquoise/30 text-turquoise hover:bg-turquoise/20 transition-colors"
+                  className="text-text-secondary hover:text-turquoise hover:underline underline-offset-4"
                 >
                   {t("about.opsgate_cta_beta")}
                 </a>
