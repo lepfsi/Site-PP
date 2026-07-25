@@ -20,36 +20,35 @@ function classifyLLMError(error?: string): string | undefined {
 function hintFor(provider: string | undefined, issue: string | undefined): string | undefined {
   if (!issue) return undefined;
   if (issue === "invalid_api_key") {
+    if (provider === "unikey") {
+      return "Check UNIKEY_API_KEY on Vercel (Bearer key from https://www.getunikey.ai/).";
+    }
     if (provider === "kimi") {
-      return "Check LOGFARE_API_KEY (or KIMI_API_KEY) on Vercel — Bearer token only, no quotes.";
+      return "Check LOGFARE_API_KEY / KIMI_API_KEY.";
     }
     if (provider === "xai") {
-      return "Check XAI_API_KEY on Vercel (no spaces, correct team key).";
+      return "Check XAI_API_KEY on Vercel.";
     }
     return "Check OPENAI_API_KEY on Vercel.";
   }
   if (issue === "no_credits") {
-    return provider === "kimi"
-      ? "Logfare/Kimi account may need credits — check your Logfare dashboard."
+    return provider === "unikey"
+      ? "Top up AI Credits on https://www.getunikey.ai/"
       : "Provider has no credits — check billing.";
   }
   if (issue === "quota_exceeded") {
     return "Provider quota exceeded — check billing or switch model.";
   }
   if (issue === "invalid_model") {
-    return "Set CHAT_MODEL to a model your key can use (e.g. kimi-k2.6 or kimi-k2.5).";
+    return "Set CHAT_MODEL to a model your UniKey account can use (e.g. gpt-5.6-sol). List models: GET https://www.getunikey.ai/v1/models";
   }
   return undefined;
 }
 
 function classifyEmpty(error?: string): string | undefined {
   if (!error) return undefined;
-  if (error.includes("max_tokens_too_low")) {
-    return "max_tokens_too_low";
-  }
-  if (error.startsWith("empty_completion")) {
-    return "empty_completion";
-  }
+  if (error.includes("max_tokens_too_low")) return "max_tokens_too_low";
+  if (error.startsWith("empty_completion")) return "empty_completion";
   return undefined;
 }
 
@@ -76,14 +75,10 @@ export async function GET(request: Request) {
     const issue = live.ok
       ? undefined
       : classifyLLMError(live.error) ?? classifyEmpty(live.error) ?? "unknown";
-    const emptyHint =
-      issue === "max_tokens_too_low" || issue === "empty_completion"
-        ? "Kimi reasoning models need higher max_tokens (fixed in chat-llm). Redeploy latest code, then retry. If still failing, try CHAT_MODEL=kimi-k2.5 (Logfare default)."
-        : undefined;
     return NextResponse.json({
       ...base,
       live: { ...live, issue },
-      hint: emptyHint ?? hintFor(config.provider, issue),
+      hint: hintFor(config.provider, issue),
     });
   }
 

@@ -1,4 +1,4 @@
-export type ChatProviderId = "openai" | "xai" | "kimi";
+export type ChatProviderId = "unikey" | "openai" | "xai" | "kimi";
 
 export interface LLMConfig {
   apiKey: string;
@@ -16,15 +16,17 @@ export function getLastLLMError(): string | undefined {
 /**
  * Resolve chat LLM config from env.
  *
- * Supported providers (OpenAI-compatible /chat/completions):
- * - kimi / logfare → LOGFARE_API_KEY or KIMI_API_KEY, default https://logfare.ai/v1, model kimi-k2.6
- * - xai → XAI_API_KEY, default https://api.x.ai/v1
- * - openai → OPENAI_API_KEY, default https://api.openai.com/v1
+ * Providers (OpenAI-compatible POST /chat/completions):
+ * - unikey  → UNIKEY_API_KEY, base https://www.getunikey.ai/v1, model gpt-5.6-sol (default)
+ * - openai  → OPENAI_API_KEY
+ * - xai     → XAI_API_KEY
+ * - kimi    → LOGFARE_API_KEY / KIMI_API_KEY (legacy free; not auto-selected)
  *
- * Force with CHAT_PROVIDER=kimi|logfare|xai|openai
- * Overrides: CHAT_MODEL, OPENAI_BASE_URL (or LOGFARE_BASE_URL / KIMI_BASE_URL)
+ * Force: CHAT_PROVIDER=unikey|openai|xai|kimi
+ * Overrides: CHAT_MODEL, UNIKEY_BASE_URL / OPENAI_BASE_URL
  */
 export function getLLMConfig(): LLMConfig | null {
+  const unikeyKey = (process.env.UNIKEY_API_KEY ?? process.env.GETUNIKEY_API_KEY ?? "").trim();
   const openaiKey = (process.env.OPENAI_API_KEY ?? "").trim();
   const xaiKey = (process.env.XAI_API_KEY ?? "").trim();
   const kimiKey = (
@@ -38,19 +40,40 @@ export function getLLMConfig(): LLMConfig | null {
 
   let provider: ChatProviderId | null = null;
 
-  if (providerRaw === "kimi" || providerRaw === "logfare" || providerRaw === "logafare") {
+  if (providerRaw === "unikey" || providerRaw === "getunikey") {
+    provider = unikeyKey ? "unikey" : null;
+  } else if (providerRaw === "kimi" || providerRaw === "logfare" || providerRaw === "logafare") {
     provider = kimiKey ? "kimi" : null;
   } else if (providerRaw === "xai") {
     provider = xaiKey ? "xai" : null;
   } else if (providerRaw === "openai") {
     provider = openaiKey ? "openai" : null;
   } else {
-    if (kimiKey) provider = "kimi";
+    // Auto: UniKey first (paid reliable), then OpenAI, xAI. Logfare/Kimi never auto.
+    if (unikeyKey) provider = "unikey";
     else if (openaiKey) provider = "openai";
     else if (xaiKey) provider = "xai";
   }
 
   if (!provider) return null;
+
+  if (provider === "unikey") {
+    const baseFromEnv = (
+      process.env.UNIKEY_BASE_URL ??
+      process.env.GETUNIKEY_BASE_URL ??
+      process.env.OPENAI_BASE_URL ??
+      ""
+    )
+      .trim()
+      .replace(/\/$/, "");
+
+    return {
+      provider: "unikey",
+      apiKey: unikeyKey,
+      baseUrl: baseFromEnv || "https://www.getunikey.ai/v1",
+      model: (process.env.CHAT_MODEL ?? process.env.UNIKEY_MODEL ?? "gpt-5.6-sol").trim(),
+    };
+  }
 
   if (provider === "kimi") {
     const baseFromEnv = (
@@ -66,8 +89,7 @@ export function getLLMConfig(): LLMConfig | null {
       provider: "kimi",
       apiKey: kimiKey,
       baseUrl: baseFromEnv || "https://logfare.ai/v1",
-      // Logfare docs default to kimi-k2.5; k2.6 also accepted when available
-      model: (process.env.CHAT_MODEL ?? "kimi-k2.6").trim(),
+      model: (process.env.CHAT_MODEL ?? "kimi-k2.5").trim(),
     };
   }
 
@@ -109,7 +131,6 @@ function extractMessageText(message: unknown): string {
   const direct = msg.content;
   if (typeof direct === "string" && direct.trim()) return direct.trim();
 
-  // Multimodal / parts array: [{ type: "text", text: "..." }]
   if (Array.isArray(direct)) {
     const joined = direct
       .map((part) => {
@@ -126,7 +147,6 @@ function extractMessageText(message: unknown): string {
     if (joined) return joined;
   }
 
-  // Safe secondary fields only (not raw "reasoning" dumps)
   for (const key of ["output_text", "text"]) {
     const value = msg[key];
     if (typeof value === "string" && value.trim()) return value.trim();
@@ -158,7 +178,6 @@ function extractCompletionText(data: unknown): {
   const fromMessage = extractMessageText(choice.message);
   if (fromMessage) return { text: fromMessage, finishReason };
 
-  // Some gateways put text on the choice itself
   if (typeof choice.text === "string" && choice.text.trim()) {
     return { text: choice.text.trim(), finishReason };
   }
@@ -184,8 +203,8 @@ async function requestCompletion(
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
 
-  // Kimi/Logfare reasoning models burn tokens on thought; never use tiny max_tokens
   const requested = options?.maxTokens ?? 1200;
+  // Reasoning-style gateways may burn tokens; keep a floor for kimi only
   const maxTokens =
     config.provider === "kimi" ? Math.max(requested, 256) : requested;
 
@@ -250,9 +269,19 @@ async function requestCompletion(
 }
 
 function modelFallbacks(config: LLMConfig): string[] {
+  if (config.provider === "unikey") {
+    return [
+      ...new Set([
+        config.model,
+        "gpt-5.6-sol",
+        "gpt-5.4",
+        "gpt-5.2",
+        "gpt-4o-mini",
+      ]),
+    ];
+  }
   if (config.provider === "kimi") {
-    // Logfare documents kimi-k2.5; keep k2.6 first when configured
-    return [...new Set([config.model, "kimi-k2.6", "kimi-k2.5", "kimi-k2"])];
+    return [...new Set([config.model, "kimi-k2.5", "kimi-k2.6", "kimi-k2"])];
   }
   if (config.provider === "xai") {
     return [...new Set([config.model, "grok-3-mini", "grok-4-1-fast-non-reasoning", "grok-4.5"])];
@@ -266,8 +295,19 @@ export function listAvailableLLMConfigs(): LLMConfig[] {
   const configs: LLMConfig[] = [];
   if (primary) configs.push(primary);
 
+  const unikeyKey = (process.env.UNIKEY_API_KEY ?? process.env.GETUNIKEY_API_KEY ?? "").trim();
   const openaiKey = (process.env.OPENAI_API_KEY ?? "").trim();
   const xaiKey = (process.env.XAI_API_KEY ?? "").trim();
+
+  if (unikeyKey && primary?.provider !== "unikey") {
+    const base = (process.env.UNIKEY_BASE_URL ?? "").trim().replace(/\/$/, "");
+    configs.push({
+      provider: "unikey",
+      apiKey: unikeyKey,
+      baseUrl: base || "https://www.getunikey.ai/v1",
+      model: (process.env.CHAT_MODEL ?? process.env.UNIKEY_MODEL ?? "gpt-5.6-sol").trim(),
+    });
+  }
 
   if (openaiKey && primary?.provider !== "openai") {
     const envBase = (process.env.OPENAI_FALLBACK_BASE_URL ?? "").trim().replace(/\/$/, "");
@@ -298,7 +338,6 @@ export async function callChatCompletions(
     maxTokens?: number;
     temperature?: number;
     timeoutMs?: number;
-    /** If set, try this config only (no multi-provider). */
     config?: LLMConfig;
   },
 ): Promise<LLMResult & { provider?: ChatProviderId }> {
@@ -321,22 +360,13 @@ export async function pingLLM(): Promise<{ ok: boolean; model?: string; error?: 
   const config = getLLMConfig();
   if (!config) return { ok: false, error: "missing_api_key" };
 
-  // Kimi needs enough tokens for a short answer (reasoning overhead)
   const result = await requestCompletion(
     config,
     config.model,
-    config.provider === "kimi" ? "" : "Reply with exactly: OK",
-    [
-      {
-        role: "user",
-        content:
-          config.provider === "kimi"
-            ? "Reply with exactly the two letters OK and nothing else."
-            : "ping",
-      },
-    ],
+    "Reply with exactly: OK",
+    [{ role: "user", content: "ping" }],
     {
-      maxTokens: config.provider === "kimi" ? 64 : 32,
+      maxTokens: 32,
       temperature: 0,
       timeoutMs: 30_000,
     },
