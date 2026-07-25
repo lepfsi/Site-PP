@@ -17,6 +17,31 @@ function classifyLLMError(error?: string): string | undefined {
   return "unknown";
 }
 
+function hintFor(provider: string | undefined, issue: string | undefined): string | undefined {
+  if (!issue) return undefined;
+  if (issue === "invalid_api_key") {
+    if (provider === "kimi") {
+      return "Check LOGFARE_API_KEY (or KIMI_API_KEY) on Vercel — Bearer token only, no quotes.";
+    }
+    if (provider === "xai") {
+      return "Check XAI_API_KEY on Vercel (no spaces, correct team key).";
+    }
+    return "Check OPENAI_API_KEY on Vercel.";
+  }
+  if (issue === "no_credits") {
+    return provider === "kimi"
+      ? "Logfare/Kimi account may need credits — check your Logfare dashboard."
+      : "Provider has no credits — check billing.";
+  }
+  if (issue === "quota_exceeded") {
+    return "Provider quota exceeded — check billing or switch model.";
+  }
+  if (issue === "invalid_model") {
+    return "Set CHAT_MODEL to a model your key can use (e.g. kimi-k2.6).";
+  }
+  return undefined;
+}
+
 export async function GET(request: Request) {
   const config = getLLMConfig();
   const tavily = Boolean(process.env.TAVILY_API_KEY?.trim());
@@ -28,7 +53,7 @@ export async function GET(request: Request) {
           configured: true,
           model: config.model,
           baseUrl: config.baseUrl,
-          provider: config.baseUrl.includes("api.x.ai") ? "xai" : "openai",
+          provider: config.provider,
         }
       : { configured: false },
     tavily,
@@ -41,14 +66,7 @@ export async function GET(request: Request) {
     return NextResponse.json({
       ...base,
       live: { ...live, issue },
-      hint:
-        issue === "no_credits"
-          ? "xAI team has no credits — purchase at https://console.x.ai/"
-          : issue === "invalid_api_key"
-            ? "Check XAI_API_KEY on Vercel (no spaces, correct team key)."
-            : issue === "quota_exceeded"
-              ? "Provider quota exceeded — check billing or switch model."
-              : undefined,
+      hint: hintFor(config.provider, issue),
     });
   }
 
