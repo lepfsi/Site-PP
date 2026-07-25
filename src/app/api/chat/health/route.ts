@@ -37,7 +37,18 @@ function hintFor(provider: string | undefined, issue: string | undefined): strin
     return "Provider quota exceeded — check billing or switch model.";
   }
   if (issue === "invalid_model") {
-    return "Set CHAT_MODEL to a model your key can use (e.g. kimi-k2.6).";
+    return "Set CHAT_MODEL to a model your key can use (e.g. kimi-k2.6 or kimi-k2.5).";
+  }
+  return undefined;
+}
+
+function classifyEmpty(error?: string): string | undefined {
+  if (!error) return undefined;
+  if (error.includes("max_tokens_too_low")) {
+    return "max_tokens_too_low";
+  }
+  if (error.startsWith("empty_completion")) {
+    return "empty_completion";
   }
   return undefined;
 }
@@ -62,11 +73,17 @@ export async function GET(request: Request) {
 
   if (ping && config) {
     const live = await pingLLM();
-    const issue = live.ok ? undefined : classifyLLMError(live.error);
+    const issue = live.ok
+      ? undefined
+      : classifyLLMError(live.error) ?? classifyEmpty(live.error) ?? "unknown";
+    const emptyHint =
+      issue === "max_tokens_too_low" || issue === "empty_completion"
+        ? "Kimi reasoning models need higher max_tokens (fixed in chat-llm). Redeploy latest code, then retry. If still failing, try CHAT_MODEL=kimi-k2.5 (Logfare default)."
+        : undefined;
     return NextResponse.json({
       ...base,
       live: { ...live, issue },
-      hint: hintFor(config.provider, issue),
+      hint: emptyHint ?? hintFor(config.provider, issue),
     });
   }
 
