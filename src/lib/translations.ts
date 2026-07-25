@@ -220,16 +220,20 @@ export interface TranslationKeys {
   "products.title": string;
   "products.subtitle": string;
   "products.software_label": string;
+  "products.software_heading": string;
   "products.software_intro": string;
   "products.platform_label": string;
+  "products.platform_heading": string;
   "products.platform_intro": string;
   "products.roadmap_label": string;
+  "products.roadmap_heading": string;
   "products.roadmap_intro": string;
   "products.closing_title": string;
   "products.closing_desc": string;
   "products.closing_cta": string;
   "products.cta.access": string;
   "products.cta.read": string;
+  "products.cta.open": string;
   "products.status.live": string;
   "products.status.early": string;
   "products.status.prototype": string;
@@ -758,16 +762,20 @@ export const translations: Record<Language, TranslationKeys> = {
     "products.title": "Knowledge first. Security products next.",
     "products.subtitle": "DailyOps.Tech is where operators learn from production. From the same house, we build focused tools that grow into a security platform — without the noise.",
     "products.software_label": "Software suite",
+    "products.software_heading": "Tools for the ops desk",
     "products.software_intro": "Two viable prototypes today. Same design language, same ops mindset — protect what teams type, store, and share.",
     "products.platform_label": "The knowledge house",
-    "products.platform_intro": "Free, always on. How DailyOps earns trust before you ever install an agent.",
-    "products.roadmap_label": "Toward a security platform",
+    "products.platform_heading": "Learn before you install",
+    "products.platform_intro": "Free, always on. How DailyOps earns trust before you ever deploy an agent.",
+    "products.roadmap_label": "Security platform",
+    "products.roadmap_heading": "What comes next",
     "products.roadmap_intro": "Next pieces of the suite — not for sale yet, already shaping the architecture.",
     "products.closing_title": "Early access is conversation, not a funnel.",
     "products.closing_desc": "Tell us your stack and constraints. We'll reply like operators — not a sales sequence.",
     "products.closing_cta": "Talk to us",
     "products.cta.access": "Request early access",
     "products.cta.read": "Read the article",
+    "products.cta.open": "Open",
     "products.status.live": "Live",
     "products.status.early": "Early access",
     "products.status.prototype": "Prototype",
@@ -1290,16 +1298,20 @@ export const translations: Record<Language, TranslationKeys> = {
     "products.title": "D'abord le savoir. Ensuite les outils de sécurité.",
     "products.subtitle": "DailyOps.Tech est l'endroit où les ops apprennent depuis la production. Depuis la même maison, on construit des outils ciblés qui deviennent une plateforme de sécurité — sans le bruit.",
     "products.software_label": "Suite logicielle",
+    "products.software_heading": "Des outils pour le bureau ops",
     "products.software_intro": "Deux prototypes viables aujourd'hui. Même langage, même esprit ops — protéger ce que les équipes saisissent, stockent et partagent.",
     "products.platform_label": "La maison du savoir",
-    "products.platform_intro": "Gratuit, toujours là. Comment DailyOps gagne la confiance avant même d'installer un agent.",
-    "products.roadmap_label": "Vers une plateforme de sécurité",
-    "products.roadmap_intro": "Prochaines briques de la suite — pas encore en vente, déjà dans l'architecture.",
+    "products.platform_heading": "Apprendre avant d'installer",
+    "products.platform_intro": "Gratuit, toujours là. Comment DailyOps gagne la confiance avant même de déployer un agent.",
+    "products.roadmap_label": "Plateforme sécurité",
+    "products.roadmap_heading": "La suite de la suite",
+    "products.roadmap_intro": "Prochaines briques — pas encore en vente, déjà dans l'architecture.",
     "products.closing_title": "L'early access, c'est une conversation — pas un tunnel de vente.",
     "products.closing_desc": "Parlez-nous de votre stack et de vos contraintes. On répond comme des ops, pas comme une séquence marketing.",
     "products.closing_cta": "Nous écrire",
     "products.cta.access": "Demander un accès anticipé",
     "products.cta.read": "Lire l'article",
+    "products.cta.open": "Ouvrir",
     "products.status.live": "En ligne",
     "products.status.early": "Accès anticipé",
     "products.status.prototype": "Prototype",
