@@ -18,12 +18,11 @@ export default function ResourcesSection() {
   const { t } = useLanguage();
 
   return (
-    <section className="py-16 md:py-20 bg-bg-primary section-band relative overflow-hidden">
-      <div className="absolute inset-0 tech-grid section-grid pointer-events-none" />
+    <section className="py-16 md:py-24 bg-bg-secondary section-band relative overflow-hidden">
       <div className="container-custom relative z-10">
         <SectionHeading
-          className="mb-10"
-          subtitle={<p className="text-text-secondary text-base font-medium">{t("res.subtitle")}</p>}
+          className="mb-10 md:mb-12"
+          subtitle={<p className="text-text-secondary text-sm sm:text-base font-normal max-w-2xl mx-auto leading-relaxed">{t("res.subtitle")}</p>}
         >
           {t("res.title")}
         </SectionHeading>

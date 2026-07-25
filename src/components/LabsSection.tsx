@@ -13,7 +13,7 @@ export default function LabsSection() {
   const paths = getAllLabPaths();
 
   return (
-    <section id="labs" className="py-16 md:py-24 bg-bg-secondary section-band relative overflow-hidden">
+    <section id="labs" className="py-16 md:py-24 bg-bg-primary section-band relative overflow-hidden">
       <div className="container-custom relative z-10">
         <SectionHeading
           className="mb-10 md:mb-12"

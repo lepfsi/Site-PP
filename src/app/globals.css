@@ -112,11 +112,17 @@
 }
 
 .hero-grid {
-  opacity: 0.055;
+  opacity: 0.04;
 }
 
 .dark .hero-grid {
-  opacity: 0.16;
+  opacity: 0.12;
+}
+
+/* Soft section depth without heavy grids */
+.home-glow {
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 0%, color-mix(in srgb, var(--accent) 8%, transparent), transparent 55%);
 }
 
 .heading-prefix {

@@ -67,12 +67,18 @@ function TypewriterTerminal() {
         </div>
       </motion.div>
 
-      <div className="flex flex-col w-full sm:w-48 bg-bg-elevated border border-border-main rounded-lg p-2.5 font-mono text-[9px] min-h-[40px]">
-        <div className="text-turquoise/90 leading-tight">
-          <div className="truncate">{t(activeTag.cmdKey)}</div>
-          <div className="flex items-center mt-0.5">
-            <span className="text-turquoise/50">_</span>
-            <span className="ml-1 truncate text-text-secondary opacity-80">{t(activeTag.logKey)}</span>
+      <div className="flex w-full sm:w-52 flex-col overflow-hidden rounded-lg border border-border-main bg-[#0c1222] shadow-md min-h-[52px]">
+        <div className="flex items-center gap-1.5 border-b border-white/10 px-2.5 py-1.5">
+          <span className="h-2 w-2 rounded-full bg-[#ff5f57]" />
+          <span className="h-2 w-2 rounded-full bg-[#febc2e]" />
+          <span className="h-2 w-2 rounded-full bg-[#28c840]" />
+          <span className="ml-1 text-[8px] font-medium text-slate-500">ops@dailyops</span>
+        </div>
+        <div className="px-2.5 py-2 font-mono text-[9px] leading-tight text-turquoise">
+          <div className="truncate text-emerald-400/90">{t(activeTag.cmdKey)}</div>
+          <div className="mt-0.5 flex items-center truncate text-slate-400">
+            <span className="text-turquoise/70">_</span>
+            <span className="ml-1 truncate">{t(activeTag.logKey)}</span>
           </div>
         </div>
       </div>
@@ -125,11 +131,11 @@ export default function CategoryGrid() {
                 <div className="p-6 sm:p-7 flex flex-col flex-grow relative">
                   <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-b-2xl" />
 
-                  <h3 className="text-lg font-bold text-text-primary mb-2 leading-tight group-hover:text-turquoise transition-colors relative z-10">
+                  <h3 className="text-base sm:text-lg font-semibold text-text-primary mb-2 leading-tight group-hover:text-turquoise transition-colors relative z-10">
                     {t(category.nameKey)}
                   </h3>
                   
-                  <p className="text-text-secondary text-xs leading-relaxed mb-5 flex-grow font-medium opacity-70 relative z-10">
+                  <p className="text-text-secondary text-sm leading-relaxed mb-5 flex-grow font-normal opacity-80 relative z-10">
                     {t(category.descKey)}
                   </p>
                   
@@ -137,13 +143,13 @@ export default function CategoryGrid() {
                     {category.tags.map((tag) => (
                       <span 
                         key={tag} 
-                        className={`px-2 py-0.5 rounded bg-bg-secondary border border-border-main text-[9px] font-bold uppercase tracking-wider ${category.color} opacity-70 group-hover:opacity-100 transition-opacity`}
+                        className="px-2 py-0.5 rounded-md bg-bg-secondary border border-border-main/70 text-[11px] font-medium text-text-secondary"
                       >
                         {tag}
                       </span>
                     ))}
-                    <div className="ml-auto w-6 h-6 rounded-full bg-bg-primary border border-border-main flex items-center justify-center text-text-secondary group-hover:text-turquoise group-hover:border-turquoise transition-all">
-                      <ArrowRight size={11} />
+                    <div className="ml-auto w-7 h-7 rounded-full bg-bg-primary border border-border-main flex items-center justify-center text-text-secondary group-hover:text-turquoise group-hover:border-turquoise transition-colors">
+                      <ArrowRight size={12} />
                     </div>
                   </div>
                 </div>

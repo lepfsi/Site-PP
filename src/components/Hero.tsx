@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
-import { ChevronRight, FileText, Layers, Calendar, Activity, ShieldAlert } from "lucide-react";
+import { ChevronRight, FileText, Layers, Calendar, Activity, ArrowRight } from "lucide-react";
 import { useLanguage, type Language } from "@/lib/LanguageContext";
 import { useState, useEffect, useRef, useMemo } from "react";
 import ArticleVisual from "@/components/article-visuals/ArticleVisual";
@@ -21,7 +21,7 @@ const LOG_LINES = [
   "[14:22:32] OPS: Baseline applied to CORE-SW-01",
 ];
 
-const MODE_TOGGLE_MS = 6000;
+const MODE_TOGGLE_MS = 7000;
 
 function formatHeroDate(date: string, lang: Language): string {
   return new Date(`${date}T00:00:00`).toLocaleDateString(lang === "FR" ? "fr-FR" : "en-US", {
@@ -43,6 +43,16 @@ function useHeroStats() {
   }, []);
 }
 
+function WindowDots() {
+  return (
+    <div className="flex items-center gap-1.5" aria-hidden>
+      <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57] shadow-sm" />
+      <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e] shadow-sm" />
+      <span className="h-2.5 w-2.5 rounded-full bg-[#28c840] shadow-sm" />
+    </div>
+  );
+}
+
 function HeroDashboard({
   dashboardMode,
   visibleLogs,
@@ -61,22 +71,27 @@ function HeroDashboard({
   return (
     <Link
       href={`/articles/${featured.slug}`}
-      className="group block relative aspect-square max-w-[360px] ml-auto w-full transition-opacity"
+      className="group block relative w-full max-w-[400px] ml-auto aspect-[4/5] sm:aspect-square"
     >
-      <div className="bg-bg-elevated border border-border-main group-hover:border-turquoise/35 border-b-0 px-4 py-3 rounded-t-2xl flex items-center justify-between transition-colors">
-        <div className="flex space-x-1.5">
-          <div className="w-2 h-2 rounded-full bg-border-main" />
-          <div className="w-2 h-2 rounded-full bg-border-main" />
-          <div className="w-2 h-2 rounded-full bg-border-main" />
-        </div>
-        <div className="text-[10px] text-text-secondary/70 font-medium tracking-wide">
-          {dashboardMode === "featured" ? t("hero.monitor_featured") : t("hero.monitor_terminal")}
-        </div>
-        <ChevronRight size={14} className="text-text-secondary/40 group-hover:text-turquoise transition-colors" />
-      </div>
+      {/* Soft glow behind card */}
+      <div
+        className="pointer-events-none absolute -inset-6 rounded-[2rem] bg-turquoise/10 blur-2xl dark:bg-turquoise/15"
+        aria-hidden
+      />
 
-      <div className="relative z-10 bg-bg-elevated border border-border-main group-hover:border-turquoise/25 border-t-0 rounded-b-2xl shadow-[var(--surface-shadow)] overflow-hidden flex flex-col h-[calc(100%-40px)] transition-colors">
-        <div className="flex-grow relative overflow-hidden bg-bg-primary/30 min-h-[180px]">
+      <div className="relative h-full flex flex-col rounded-2xl border border-border-main bg-bg-elevated shadow-[var(--surface-shadow)] overflow-hidden transition-colors group-hover:border-turquoise/35">
+        <div className="flex items-center justify-between px-4 py-3 border-b border-border-main bg-bg-secondary/80">
+          <WindowDots />
+          <span className="text-[10px] font-medium text-text-secondary/80 tracking-wide">
+            {dashboardMode === "featured" ? t("hero.monitor_featured") : t("hero.monitor_terminal")}
+          </span>
+          <ChevronRight
+            size={14}
+            className="text-text-secondary/40 group-hover:text-turquoise transition-colors"
+          />
+        </div>
+
+        <div className="relative flex-grow min-h-0 overflow-hidden bg-navy/5 dark:bg-black/20">
           <AnimatePresence mode="wait">
             {dashboardMode === "featured" ? (
               <motion.div
@@ -87,76 +102,78 @@ function HeroDashboard({
                 className="absolute inset-0"
               >
                 <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-primary/95 via-bg-primary/30 to-transparent pointer-events-none" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5 pointer-events-none">
-                  <span className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide border border-border-main/30 ${featured.bg} ${featured.color} mb-1.5`}>
+                <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated via-bg-elevated/40 to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                  <span
+                    className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide border border-border-main/30 ${featured.bg} ${featured.color} mb-2`}
+                  >
                     {t(featured.categoryLabelKey)}
                   </span>
-                  <p className="text-xs sm:text-sm font-semibold text-text-primary leading-snug line-clamp-2 mb-1.5">
+                  <p className="text-sm font-semibold text-text-primary leading-snug line-clamp-2 mb-2">
                     {t(featured.titleKey)}
                   </p>
-                  <span className="inline-flex items-center text-[11px] font-semibold text-turquoise">
-                    {t("hero.dashboard_cta")} <ChevronRight size={12} className="ml-0.5" />
+                  <span className="inline-flex items-center text-[12px] font-semibold text-turquoise">
+                    {t("hero.dashboard_cta")}
+                    <ChevronRight size={13} className="ml-0.5" />
                   </span>
                 </div>
               </motion.div>
             ) : (
               <motion.div
                 key="terminal-mode"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="absolute inset-0 p-6 font-mono text-[9px]"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="absolute inset-0 p-4 sm:p-5 font-mono text-[10px] bg-[#0c1222] text-slate-300"
               >
                 <div className="space-y-1.5">
                   {visibleLogs.map((log, idx) => (
-                    <div key={`${log}-${idx}`} className={log.includes("FW_BLOCK") ? "text-pink-500" : "text-turquoise/90"}>
-                      <span className="opacity-30 mr-2">{">"}</span> {log}
+                    <div
+                      key={`${log}-${idx}`}
+                      className={
+                        log.includes("FW_BLOCK")
+                          ? "text-rose-400"
+                          : log.includes("MONITOR")
+                            ? "text-amber-300/90"
+                            : "text-turquoise"
+                      }
+                    >
+                      <span className="text-slate-500 mr-1.5">{">"}</span>
+                      {log}
                     </div>
                   ))}
                 </div>
-                <motion.div animate={{ opacity: [1, 0] }} transition={{ duration: 0.6, repeat: Infinity }} className="w-1.5 h-3 bg-turquoise mt-2" />
+                <motion.div
+                  animate={{ opacity: [1, 0] }}
+                  transition={{ duration: 0.55, repeat: Infinity }}
+                  className="mt-2 h-3.5 w-1.5 bg-turquoise"
+                />
               </motion.div>
             )}
           </AnimatePresence>
         </div>
 
-        <div className="bg-bg-secondary/80 border-t border-border-main p-4 md:p-5">
-          <div className="flex justify-between items-center mb-3">
+        <div className="border-t border-border-main bg-bg-secondary/90 px-4 py-3.5">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
-              <div className="p-1.5 bg-turquoise/15 rounded-md text-turquoise">
-                <Activity size={12} />
-              </div>
-              <span className="text-[11px] font-semibold text-text-primary tracking-wide">{t("hero.monitor_live")}</span>
+              <Activity size={13} className="text-turquoise" />
+              <span className="text-[11px] font-semibold text-text-primary">
+                {t("hero.monitor_live")}
+              </span>
             </div>
-            <div className="flex items-center gap-1.5 bg-turquoise/10 px-2 py-1 rounded-md border border-turquoise/20">
-              <span className="h-1.5 w-1.5 rounded-full bg-turquoise" />
-              <span className="text-[10px] font-semibold text-turquoise tracking-wide">{t("hero.monitor_live_badge")}</span>
-            </div>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-turquoise/10 border border-turquoise/20 px-2 py-0.5 text-[10px] font-semibold text-turquoise">
+              <span className="h-1.5 w-1.5 rounded-full bg-turquoise animate-pulse" />
+              {t("hero.monitor_live_badge")}
+            </span>
           </div>
-
-          <div className="space-y-3">
+          <div className="grid grid-cols-2 gap-3 text-[11px]">
             <div>
-              <div className="flex justify-between text-[11px] font-medium text-text-secondary mb-1">
-                <span>{t("hero.monitor_guides")}</span>
-                <span className="text-turquoise tabular-nums">{articleCount}</span>
-              </div>
-              <div className="h-1 w-full bg-border-main/40 rounded-full overflow-hidden">
-                <div className="h-full w-full bg-turquoise/80 rounded-full" />
-              </div>
+              <div className="text-text-secondary mb-0.5">{t("hero.monitor_guides")}</div>
+              <div className="font-semibold text-text-primary tabular-nums">{articleCount}</div>
             </div>
-
             <div>
-              <div className="flex justify-between text-[11px] font-medium text-text-secondary mb-1">
-                <span>{t("hero.monitor_domains")}</span>
-                <span className="text-text-primary tabular-nums flex items-center gap-1">
-                  <ShieldAlert size={11} className="text-turquoise" />
-                  {domainCount}
-                </span>
-              </div>
-              <div className="h-1 w-full bg-border-main/40 rounded-full overflow-hidden">
-                <div className="h-full w-full bg-turquoise/50 rounded-full" />
-              </div>
+              <div className="text-text-secondary mb-0.5">{t("hero.monitor_domains")}</div>
+              <div className="font-semibold text-text-primary tabular-nums">{domainCount}</div>
             </div>
           </div>
         </div>
@@ -165,18 +182,38 @@ function HeroDashboard({
   );
 }
 
-function HeroStatCard({
-  icon: Icon,
-  label,
+function FloatingStats({
+  guides,
+  domains,
+  updated,
 }: {
-  icon: typeof FileText;
-  label: string;
+  guides: string;
+  domains: string;
+  updated: string;
 }) {
   return (
-    <div className="p-3 rounded-xl surface-card text-center">
-      <Icon size={14} className="mx-auto mb-1.5 text-turquoise" />
-      <div className="text-[10px] font-semibold text-text-primary leading-tight">{label}</div>
-    </div>
+    <motion.div
+      animate={{ y: [0, -10, 0] }}
+      transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute -left-6 top-8 z-20 hidden xl:block"
+    >
+      <div className="w-[168px] rounded-xl border border-border-main/80 bg-bg-elevated/95 p-3.5 shadow-[var(--surface-shadow)] backdrop-blur-md">
+        <div className="space-y-2.5 text-[11px] font-medium text-text-secondary">
+          <div className="flex items-center gap-2">
+            <FileText size={13} className="text-turquoise shrink-0" />
+            <span className="leading-snug">{guides}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Layers size={13} className="text-turquoise shrink-0" />
+            <span className="leading-snug">{domains}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Calendar size={13} className="text-turquoise shrink-0" />
+            <span className="leading-snug">{updated}</span>
+          </div>
+        </div>
+      </div>
+    </motion.div>
   );
 }
 
@@ -186,12 +223,14 @@ export default function Hero() {
   const [mounted, setMounted] = useState(false);
   const [dashboardMode, setDashboardMode] = useState<"featured" | "terminal">("featured");
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
-
   const logIndexRef = useRef(0);
 
   const statGuides = t("hero.stat_guides").replace("{count}", String(articleCount));
   const statDomains = t("hero.stat_domains").replace("{count}", String(domainCount));
-  const statUpdated = t("hero.stat_updated").replace("{date}", formatHeroDate(lastUpdated, lang));
+  const statUpdated = t("hero.stat_updated").replace(
+    "{date}",
+    formatHeroDate(lastUpdated, lang),
+  );
 
   useEffect(() => {
     setMounted(true);
@@ -222,19 +261,18 @@ export default function Hero() {
     return () => clearInterval(logInterval);
   }, [mounted, dashboardMode]);
 
-  if (!mounted) return <section className="min-h-[70vh]" />;
+  if (!mounted) {
+    return <section className="min-h-[80vh] bg-bg-primary" aria-hidden />;
+  }
 
   const staggeredContainer: Variants = {
     hidden: { opacity: 0 },
-    show: {
-      opacity: 1,
-      transition: { staggerChildren: 0.12 },
-    },
+    show: { opacity: 1, transition: { staggerChildren: 0.1 } },
   };
 
   const staggeredItem: Variants = {
-    hidden: { opacity: 0, x: -16 },
-    show: { opacity: 1, x: 0, transition: { duration: 0.45 } },
+    hidden: { opacity: 0, y: 8 },
+    show: { opacity: 1, y: 0, transition: { duration: 0.4 } },
   };
 
   const dashboardProps = {
@@ -247,25 +285,37 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative pt-28 pb-14 md:pt-36 md:pb-20 min-h-[72vh] lg:min-h-[90vh] flex items-center overflow-hidden border-b border-border-main/60">
-      <div className="absolute inset-0 noc-grid hero-grid pointer-events-none" aria-hidden />
+    <section className="relative flex min-h-[80vh] lg:min-h-[92vh] items-center overflow-hidden border-b border-border-main/50 pt-28 pb-16 md:pt-32 md:pb-24">
+      {/* Layered brand background */}
+      <div className="absolute inset-0 bg-bg-primary" aria-hidden />
+      <div
+        className="pointer-events-none absolute inset-0 opacity-90"
+        aria-hidden
+        style={{
+          background:
+            "radial-gradient(ellipse 70% 55% at 15% 20%, color-mix(in srgb, var(--accent) 18%, transparent), transparent 70%), radial-gradient(ellipse 50% 45% at 88% 70%, color-mix(in srgb, var(--accent) 10%, transparent), transparent 65%)",
+        }}
+      />
+      <div className="pointer-events-none absolute inset-0 noc-grid hero-grid opacity-[0.35] dark:opacity-100" aria-hidden />
+
       <div className="container-custom relative z-10 w-full">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
-          <div className="lg:col-span-7 flex flex-col justify-center gap-6 md:gap-7">
-            <div className="space-y-4 md:space-y-5">
-              <motion.h1
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-semibold tracking-tight text-text-primary leading-[1.12]"
-              >
+        <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-12 lg:gap-10 xl:gap-14">
+          <div className="lg:col-span-6 xl:col-span-7 flex flex-col justify-center">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.45 }}
+              className="max-w-xl"
+            >
+              <h1 className="text-[2rem] sm:text-4xl md:text-5xl xl:text-[3.35rem] font-semibold tracking-tight text-text-primary leading-[1.12]">
                 {t("hero.title_main")}
-              </motion.h1>
+              </h1>
 
               <motion.div
                 variants={staggeredContainer}
                 initial="hidden"
                 animate="show"
-                className="flex flex-wrap items-baseline gap-x-1.5 gap-y-1 text-base sm:text-lg md:text-xl font-medium text-text-primary"
+                className="mt-4 flex flex-wrap items-baseline gap-x-1 gap-y-1 text-lg sm:text-xl md:text-2xl font-medium text-text-primary"
               >
                 <motion.span variants={staggeredItem}>
                   {t("hero.sub_operate")}
@@ -280,41 +330,54 @@ export default function Hero() {
                   <span className="text-turquoise">.</span>
                 </motion.span>
               </motion.div>
-            </div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-sm md:text-[15px] text-text-secondary max-w-xl font-normal leading-relaxed"
-            >
-              {t("hero.desc")}
-            </motion.p>
+              <p className="mt-5 max-w-lg text-[15px] sm:text-base text-text-secondary leading-relaxed">
+                {t("hero.desc")}
+              </p>
 
-            <div className="lg:hidden grid grid-cols-3 gap-3 pt-2">
-              <HeroStatCard icon={FileText} label={statGuides} />
-              <HeroStatCard icon={Layers} label={statDomains} />
-              <HeroStatCard icon={Calendar} label={statUpdated} />
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 relative lg:hidden mt-2">
-            <HeroDashboard {...dashboardProps} />
-          </div>
-
-          <div className="lg:col-span-5 relative hidden lg:block">
-            <div className="absolute -top-10 -left-28 z-0 opacity-30 pointer-events-none bg-bg-elevated/80 p-4 rounded-xl border border-border-main">
-              <div className="space-y-2.5 text-[11px] text-text-secondary font-medium">
-                <div className="flex items-center gap-2"><FileText size={12} className="text-turquoise" /> <span>{statGuides}</span></div>
-                <div className="flex items-center gap-2"><Layers size={12} className="text-turquoise" /> <span>{statDomains}</span></div>
-                <div className="flex items-center gap-2"><Calendar size={12} className="text-turquoise" /> <span>{statUpdated}</span></div>
+              <div className="mt-8 flex flex-wrap items-center gap-3">
+                <Link
+                  href="#articles"
+                  className="inline-flex items-center gap-2 rounded-xl bg-navy px-5 py-3 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 dark:bg-turquoise dark:text-navy"
+                >
+                  {t("hero.cta_browse")}
+                  <ArrowRight size={15} />
+                </Link>
+                <Link
+                  href="/products"
+                  className="inline-flex items-center gap-1.5 rounded-xl border border-border-main bg-bg-elevated/80 px-5 py-3 text-[13px] font-semibold text-text-primary transition-colors hover:border-turquoise/40 hover:text-turquoise"
+                >
+                  {t("nav.products")}
+                </Link>
               </div>
-            </div>
 
+              {/* Mobile stats */}
+              <div className="mt-8 grid grid-cols-3 gap-2.5 lg:hidden">
+                {[
+                  { icon: FileText, label: statGuides },
+                  { icon: Layers, label: statDomains },
+                  { icon: Calendar, label: statUpdated },
+                ].map(({ icon: Icon, label }) => (
+                  <div
+                    key={label}
+                    className="rounded-xl border border-border-main bg-bg-elevated/90 px-2 py-3 text-center"
+                  >
+                    <Icon size={14} className="mx-auto mb-1.5 text-turquoise" />
+                    <div className="text-[10px] font-medium text-text-secondary leading-tight">
+                      {label}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </motion.div>
+          </div>
+
+          <div className="relative lg:col-span-6 xl:col-span-5">
+            <FloatingStats guides={statGuides} domains={statDomains} updated={statUpdated} />
             <motion.div
-              initial={{ opacity: 0, y: 8 }}
+              initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+              transition={{ duration: 0.55, delay: 0.12 }}
               className="relative z-10"
             >
               <HeroDashboard {...dashboardProps} />

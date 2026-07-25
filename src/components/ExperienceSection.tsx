@@ -30,7 +30,7 @@ function ExperienceCard({ exp, index }: { exp: ExperienceCase; index: number }) 
     >
       <Link
         href={`/experience/${exp.slug}`}
-        className="group flex flex-col h-full rounded-2xl border border-border-main bg-bg-elevated p-6 sm:p-7 transition-colors hover:border-turquoise/35"
+        className="group flex flex-col h-full rounded-2xl border border-border-main bg-bg-elevated/90 p-6 sm:p-7 shadow-sm transition-colors hover:border-turquoise/35 hover:shadow-[var(--surface-shadow)]"
       >
         {exp.tagKeys && exp.tagKeys.length > 0 && (
           <div className="flex flex-wrap gap-2 mb-4">
