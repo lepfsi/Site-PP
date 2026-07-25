@@ -195,10 +195,10 @@ function FloatingStats({
     <motion.div
       animate={{ y: [0, -10, 0] }}
       transition={{ duration: 7, repeat: Infinity, ease: "easeInOut" }}
-      className="pointer-events-none absolute -left-4 top-10 z-0 hidden xl:block"
+      className="pointer-events-none absolute -left-16 top-12 z-0 hidden xl:block"
       aria-hidden
     >
-      <div className="w-[160px] rounded-xl border border-border-main/60 bg-bg-elevated/75 p-3 shadow-md backdrop-blur-sm opacity-90">
+      <div className="w-[152px] rounded-xl border border-border-main/50 bg-bg-elevated/70 p-3 shadow-md backdrop-blur-sm opacity-80">
         <div className="space-y-2 text-[11px] font-medium text-text-secondary">
           <div className="flex items-center gap-2">
             <FileText size={12} className="text-turquoise shrink-0" />

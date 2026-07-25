@@ -41,17 +41,38 @@ Corps de l'article en markdown…
 > Citations / notes terrain
 ```
 
-### Callouts (compatibles react-markdown)
+### Callouts (pris en charge)
 
-Préférer les emojis (pas les callouts GitHub `[!NOTE]` qui ne sont pas rendus par défaut) :
+`react-markdown` **ne gère pas nativement** la syntaxe GitHub `> [!NOTE]`.  
+DailyOps prétraite ces alertes dans `src/lib/markdown-callouts.ts`.
+
+**Format recommandé (GitHub alerts)** :
 
 ```markdown
-⚠️ Attention : vérifie le MTU avant…
+> [!warning]
+> Une redondance jamais testée n'est pas de la redondance.
 
-💡 Astuce : garde un runbook de premier diagnostic.
+> [!tip]
+> Teste la bascule **avant** d'en avoir besoin.
 
-🔴 Critique : ne jamais coller de secrets dans un LLM public.
+> [!important]
+> La redondance, c'est aussi des process et des compétences.
+
+> [!note]
+> Note terrain : documente la procédure de bascule manuelle.
 ```
+
+Types : `NOTE` · `TIP` · `IMPORTANT` · `WARNING` · `CAUTION` · `INFO`
+
+**Format alternatif (emoji en blockquote)** :
+
+```markdown
+> ⚠️ **Attention** : vérifie le MTU avant.
+
+> 💡 **Astuce** : garde un runbook de premier diagnostic.
+```
+
+Les deux formats sont stylés (bandeau latéral turquoise / ambre / rose).
 
 ---
 
