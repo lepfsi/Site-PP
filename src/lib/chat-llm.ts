@@ -97,7 +97,10 @@ export interface LLMResult {
   model?: string;
 }
 
-/** Extract text from OpenAI-style or Kimi/reasoning variants. */
+/**
+ * Extract visible assistant text only.
+ * Do NOT fall back to reasoning_content — free/broken gateways often dump garbage there.
+ */
 function extractMessageText(message: unknown): string {
   if (!message || typeof message !== "object") return "";
 
@@ -123,8 +126,8 @@ function extractMessageText(message: unknown): string {
     if (joined) return joined;
   }
 
-  // Reasoning models sometimes put the visible answer here after internal thought
-  for (const key of ["reasoning_content", "reasoning", "output_text", "text"]) {
+  // Safe secondary fields only (not raw "reasoning" dumps)
+  for (const key of ["output_text", "text"]) {
     const value = msg[key];
     if (typeof value === "string" && value.trim()) return value.trim();
   }
@@ -257,19 +260,58 @@ function modelFallbacks(config: LLMConfig): string[] {
   return [...new Set([config.model, "gpt-4o-mini", "gpt-4o"])];
 }
 
+/** List configured providers in preference order (primary first). */
+export function listAvailableLLMConfigs(): LLMConfig[] {
+  const primary = getLLMConfig();
+  const configs: LLMConfig[] = [];
+  if (primary) configs.push(primary);
+
+  const openaiKey = (process.env.OPENAI_API_KEY ?? "").trim();
+  const xaiKey = (process.env.XAI_API_KEY ?? "").trim();
+
+  if (openaiKey && primary?.provider !== "openai") {
+    const envBase = (process.env.OPENAI_FALLBACK_BASE_URL ?? "").trim().replace(/\/$/, "");
+    configs.push({
+      provider: "openai",
+      apiKey: openaiKey,
+      baseUrl: envBase || "https://api.openai.com/v1",
+      model: (process.env.CHAT_FALLBACK_MODEL ?? process.env.OPENAI_FALLBACK_MODEL ?? "gpt-4o-mini").trim(),
+    });
+  }
+
+  if (xaiKey && primary?.provider !== "xai") {
+    configs.push({
+      provider: "xai",
+      apiKey: xaiKey,
+      baseUrl: "https://api.x.ai/v1",
+      model: (process.env.XAI_FALLBACK_MODEL ?? "grok-3-mini").trim(),
+    });
+  }
+
+  return configs;
+}
+
 export async function callChatCompletions(
   system: string,
   messages: { role: "user" | "assistant"; content: string }[],
-  options?: { maxTokens?: number; temperature?: number; timeoutMs?: number },
-): Promise<LLMResult> {
-  const config = getLLMConfig();
-  if (!config) {
+  options?: {
+    maxTokens?: number;
+    temperature?: number;
+    timeoutMs?: number;
+    /** If set, try this config only (no multi-provider). */
+    config?: LLMConfig;
+  },
+): Promise<LLMResult & { provider?: ChatProviderId }> {
+  const configs = options?.config ? [options.config] : listAvailableLLMConfigs();
+  if (!configs.length) {
     return { text: null, error: "missing_api_key" };
   }
 
-  for (const model of modelFallbacks(config)) {
-    const result = await requestCompletion(config, model, system, messages, options);
-    if (result.text) return result;
+  for (const config of configs) {
+    for (const model of modelFallbacks(config)) {
+      const result = await requestCompletion(config, model, system, messages, options);
+      if (result.text) return { ...result, provider: config.provider };
+    }
   }
 
   return { text: null, error: lastLLMError ?? "all_models_failed" };

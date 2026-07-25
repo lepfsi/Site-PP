@@ -1,5 +1,11 @@
 import { buildChatSiteContext } from "./chat-context";
-import { callChatCompletions, getLLMConfig } from "./chat-llm";
+import {
+  callChatCompletions,
+  getLLMConfig,
+  listAvailableLLMConfigs,
+  type ChatProviderId,
+} from "./chat-llm";
+import { assessReplyQuality } from "./chat-quality";
 import { classifyQuery, buildRouteContext, type QuestionType, type RoutePlan } from "./chat-router";
 import { detectVendors, gatherSourceContext, sourcesForReply, type ChatSource, type SourceTier } from "./chat-sources";
 import type { Language } from "./translations";
@@ -69,6 +75,8 @@ Personality: senior NOC/SOC engineer — warm, direct, you reason through proble
 
 Conversation rules:
 - Answer the user's LATEST message first. Follow the thread naturally.
+- Always write in ${language} only. Do not reply in Chinese, Japanese, or Korean unless the user wrote in that language.
+- Never use insults, slurs, or abusive language. Never spam or loop the same phrase.
 - Never repeat a previous answer verbatim. Never re-introduce DailyOps if already discussed.
 - Synthesize — do not paste knowledge blocks. No markdown bold (**).
 - Use vendor/web context below for technical questions (Fortinet, Cisco, etc.).
@@ -96,22 +104,59 @@ async function generateReplyText(
   knowledge: string,
   retrievalContext: string,
   route: RoutePlan,
-): Promise<{ text: string | null; error?: string }> {
+): Promise<{ text: string | null; error?: string; provider?: ChatProviderId }> {
   const system = buildPersonaPrompt(lang, knowledge, retrievalContext, route);
   const history = buildHistory(messages);
+  const configs = listAvailableLLMConfigs();
 
-  const result = await callChatCompletions(system, history, {
-    temperature: 0.7,
-    maxTokens: 1200,
-    timeoutMs: 55_000,
-  });
+  if (!configs.length) {
+    return { text: null, error: "missing_api_key" };
+  }
 
-  return { text: result.text, error: result.error };
+  let lastQualityReject: string | undefined;
+
+  for (const config of configs) {
+    const result = await callChatCompletions(system, history, {
+      temperature: 0.55,
+      maxTokens: 1200,
+      timeoutMs: 55_000,
+      config,
+    });
+
+    if (!result.text) {
+      console.error(`Chat empty from ${config.provider}:`, result.error);
+      continue;
+    }
+
+    const quality = assessReplyQuality(result.text, lang);
+    if (!quality.ok) {
+      console.error(
+        `Chat quality reject (${config.provider}/${result.model}):`,
+        quality.reason,
+        result.text.slice(0, 120),
+      );
+      lastQualityReject = quality.reason;
+      continue;
+    }
+
+    return { text: result.text, provider: config.provider };
+  }
+
+  return {
+    text: null,
+    error: lastQualityReject
+      ? `quality_reject:${lastQualityReject}`
+      : "all_models_failed",
+  };
 }
 
 function buildErrorReply(lang: Language, route: RoutePlan, error?: string): ChatReply {
-  const hint =
-    lang === "FR"
+  const qualityFail = error?.startsWith("quality_reject");
+  const hint = qualityFail
+    ? lang === "FR"
+      ? "L'assistant a reçu une réponse invalide du fournisseur IA. Réessayez — ou contactez-nous si ça continue."
+      : "The AI provider returned an invalid reply. Please try again — or contact us if it continues."
+    : lang === "FR"
       ? "L'assistant IA n'a pas pu répondre. Réessayez dans un instant."
       : "The AI assistant could not respond. Please try again shortly.";
 
