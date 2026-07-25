@@ -80,6 +80,8 @@ Conversation rules:
 - Never repeat a previous answer verbatim. Never re-introduce DailyOps if already discussed.
 - Synthesize — do not paste knowledge blocks. No markdown bold (**).
 - Use vendor/web context below for technical questions (Fortinet, Cisco, etc.).
+- When the user asks about OpsGate, OpsVault, Ops Labs, Ops Mail, or DailyOps products: answer ONLY from DailyOps knowledge below. Never invent AppGate, OPSWAT, SecurityGate, or Gatewatcher as if they were OpsGate.
+- Keep answers concise (prefer under ~180 words unless a deep technical walkthrough is requested).
 - Plain text only, ${language}.
 
 DailyOps knowledge (internal reference):
@@ -94,8 +96,12 @@ ${retrievalContext || "(none)"}`;
 function buildHistory(messages: ChatMessage[]): { role: "user" | "assistant"; content: string }[] {
   return messages
     .filter((m) => m.content.trim())
-    .slice(-14)
-    .map((m) => ({ role: m.role, content: m.content }));
+    .slice(-8)
+    .map((m) => ({
+      role: m.role,
+      // Cap length — shorter prompts = faster UniKey responses
+      content: m.content.slice(0, 1500),
+    }));
 }
 
 async function generateReplyText(
@@ -117,9 +123,9 @@ async function generateReplyText(
 
   for (const config of configs) {
     const result = await callChatCompletions(system, history, {
-      temperature: 0.55,
-      maxTokens: 1200,
-      timeoutMs: 55_000,
+      temperature: 0.45,
+      maxTokens: 700,
+      timeoutMs: 35_000,
       config,
     });
 
@@ -157,8 +163,8 @@ function buildErrorReply(lang: Language, route: RoutePlan, error?: string): Chat
       ? "L'assistant a reçu une réponse invalide du fournisseur IA. Réessayez — ou contactez-nous si ça continue."
       : "The AI provider returned an invalid reply. Please try again — or contact us if it continues."
     : lang === "FR"
-      ? "L'assistant IA n'a pas pu répondre. Réessayez dans un instant."
-      : "The AI assistant could not respond. Please try again shortly.";
+      ? "L'assistant n'a pas pu répondre (délai ou service IA). Réessayez dans un instant, ou utilisez le formulaire de contact."
+      : "The assistant could not respond (timeout or AI service). Please try again shortly, or use the contact form.";
 
   console.error("Chat reply failed:", error);
 

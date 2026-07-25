@@ -43,7 +43,11 @@ export interface SourceContext {
 }
 
 const VENDOR_DOCS: Record<string, { name: string; domain: string; aliases: string[] }> = {
-  fortinet: { name: "Fortinet", domain: "docs.fortinet.com", aliases: ["fortigate", "fortios", "fortianalyzer"] },
+  fortinet: {
+    name: "Fortinet",
+    domain: "docs.fortinet.com",
+    aliases: ["fortigate", "fortios", "fortianalyzer", "fortibeed", "fortibeeds", "forticlient", "fortimanager"],
+  },
   cisco: { name: "Cisco", domain: "cisco.com", aliases: ["ios", "nx-os", "asa", "meraki"] },
   microsoft: { name: "Microsoft", domain: "learn.microsoft.com", aliases: ["azure", "windows server", "entra", "intune", "powershell"] },
   vmware: { name: "VMware", domain: "docs.vmware.com", aliases: ["vsphere", "esxi", "vcenter", "nsx"] },
@@ -137,18 +141,26 @@ export function matchDailyOpsArticles(query: string, lang: Language): DailyOpsMa
     const score = scoreArticle(queryTokens, title, excerpt, article.slug, cat?.tags ?? []);
 
     if (score >= 2) {
-      const body = article.format === "markdown" ? getMarkdownBody(article.slug, lang) : null;
+      // Defer heavy markdown read until after ranking (top hits only)
       scored.push({
         slug: article.slug,
         title,
         href: `/articles/${article.slug}`,
         score,
-        excerpt: body ? body.slice(0, 1200) : excerpt,
+        excerpt,
       });
     }
   }
 
-  return scored.sort((a, b) => b.score - a.score).slice(0, 3);
+  const top = scored.sort((a, b) => b.score - a.score).slice(0, 2);
+  for (const match of top) {
+    const article = getAllArticles().find((a) => a.slug === match.slug);
+    if (article?.format === "markdown") {
+      const body = getMarkdownBody(article.slug, lang);
+      if (body) match.excerpt = body.slice(0, 700);
+    }
+  }
+  return top;
 }
 
 export function matchDailyOpsExperiences(query: string, lang: Language): ExperienceMatch[] {
@@ -192,17 +204,23 @@ async function searchTavily(
   if (!apiKey) return [];
 
   try {
+    const controller = new AbortController();
+    const timer = setTimeout(() => controller.abort(), 8_000);
+
     const res = await fetch("https://api.tavily.com/search", {
       method: "POST",
+      signal: controller.signal,
+      cache: "no-store",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         api_key: apiKey,
         query,
         search_depth: "basic",
-        max_results: options?.maxResults ?? 4,
+        max_results: options?.maxResults ?? 3,
         include_domains: options?.includeDomains,
       }),
     });
+    clearTimeout(timer);
 
     if (!res.ok) return [];
 
@@ -210,7 +228,7 @@ async function searchTavily(
     return (data.results ?? []).map((r: { title?: string; url?: string; content?: string }) => ({
       title: r.title ?? "",
       url: r.url ?? "",
-      snippet: r.content?.slice(0, 300),
+      snippet: r.content?.slice(0, 280),
     }));
   } catch {
     return [];
@@ -254,26 +272,27 @@ async function webSearch(query: string, includeDomains?: string[]): Promise<Sear
 }
 
 async function searchVendorDocs(query: string, vendorKeys: string[]): Promise<ChatSource[]> {
-  const sources: ChatSource[] = [];
-
-  for (const key of vendorKeys.slice(0, 2)) {
-    const vendor = VENDOR_DOCS[key];
-    if (!vendor) continue;
-
-    const results = await webSearch(`${query} ${vendor.name}`, [vendor.domain]);
-    for (const r of results.slice(0, 2)) {
-      if (r.url && r.title) {
-        sources.push({
-          tier: "vendor",
-          label: `${vendor.name}: ${r.title}`,
-          url: r.url,
-          snippet: r.snippet,
-        });
-      }
-    }
-  }
-
-  return sources;
+  const keys = vendorKeys.slice(0, 1); // one vendor max per turn (latency)
+  const batches = await Promise.all(
+    keys.map(async (key) => {
+      const vendor = VENDOR_DOCS[key];
+      if (!vendor) return [] as ChatSource[];
+      const results = await webSearch(`${query} ${vendor.name}`, [vendor.domain]);
+      return results.slice(0, 2).flatMap((r) =>
+        r.url && r.title
+          ? [
+              {
+                tier: "vendor" as const,
+                label: `${vendor.name}: ${r.title}`,
+                url: r.url,
+                snippet: r.snippet,
+              },
+            ]
+          : [],
+      );
+    }),
+  );
+  return batches.flat();
 }
 
 async function searchWebNews(query: string): Promise<ChatSource[]> {
@@ -393,31 +412,35 @@ export async function gatherSourceContext(
   let vendorSources: ChatSource[] = [];
   let webSources: ChatSource[] = [];
 
+  // Brand/product questions: never hit external search (avoids AppGate confusions + latency)
   const skipExternalSearch =
-    (route.type === "about_brand" || route.type === "site_navigation") && detectedVendors.length === 0;
+    route.type === "about_brand" ||
+    (route.type === "site_navigation" && detectedVendors.length === 0);
 
-  if (hasSearchApi && route.tiers.vendor && !skipExternalSearch) {
-    const vendorNeeded =
-      detectedVendors.length > 0 &&
-      (route.type === "vendor_howto" ||
-        route.type === "cve_security" ||
-        route.type === "validation" ||
-        !dailyOpsCovered ||
-        dailyOpsMatches.length < 2);
+  const vendorNeeded =
+    hasSearchApi &&
+    route.tiers.vendor &&
+    !skipExternalSearch &&
+    detectedVendors.length > 0 &&
+    (route.type === "vendor_howto" ||
+      route.type === "cve_security" ||
+      route.type === "validation" ||
+      !dailyOpsCovered ||
+      dailyOpsMatches.length < 2);
 
-    if (vendorNeeded) {
-      vendorSources = await searchVendorDocs(lastQuery, detectedVendors);
-    }
-  }
+  const webSearchNeeded =
+    hasSearchApi &&
+    route.tiers.web &&
+    !skipExternalSearch &&
+    (webNeeded || route.type === "cve_security" || route.type === "validation");
 
-  if (hasSearchApi && route.tiers.web && !skipExternalSearch) {
-    const webSearchNeeded =
-      webNeeded || route.type === "cve_security" || route.type === "validation";
-
-    if (webSearchNeeded) {
-      webSources = await searchWebNews(lastQuery);
-    }
-  }
+  // Parallelize external calls (biggest latency win)
+  const [vendorResult, webResult] = await Promise.all([
+    vendorNeeded ? searchVendorDocs(lastQuery, detectedVendors) : Promise.resolve([] as ChatSource[]),
+    webSearchNeeded ? searchWebNews(lastQuery) : Promise.resolve([] as ChatSource[]),
+  ]);
+  vendorSources = vendorResult;
+  webSources = webResult;
 
   const contextBlock = buildContextBlock(
     lang,

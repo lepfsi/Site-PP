@@ -1,0 +1,76 @@
+# Variables d’environnement & déploiement
+
+## Fichier modèle
+
+Voir `.env.example` à la racine du repo.  
+En local : créer `.env.local` (gitignored).  
+En prod : **Vercel → Settings → Environment Variables**.
+
+## Groupes essentiels
+
+### Email (Resend)
+
+| Variable | Rôle |
+|----------|------|
+| `RESEND_API_KEY` | Envoi + contacts |
+| `RESEND_FROM_EMAIL` | Expéditeur vérifié |
+| `RESEND_DOMAIN` | Domaine (ex. news.dailyops.tech) |
+| `RESEND_SEGMENT_ID` | Segment newsletter |
+| `CONTACT_EMAIL` | Affiché public |
+| `NOTIFY_EMAIL` | Boîte qui reçoit les notifs |
+
+### Chat (UniKey)
+
+| Variable | Rôle |
+|----------|------|
+| `UNIKEY_API_KEY` | Clé UniKey |
+| `CHAT_PROVIDER` | `unikey` |
+| `CHAT_MODEL` | `gpt-5.6-sol` (ou id exact de ton compte) |
+| `UNIKEY_BASE_URL` | défaut `https://www.getunikey.ai/v1` |
+| `TAVILY_API_KEY` | Recherche web (CVE, docs) |
+
+### Labs
+
+| Variable | Rôle |
+|----------|------|
+| `UPSTASH_REDIS_REST_URL` | Redis |
+| `UPSTASH_REDIS_REST_TOKEN` | Redis |
+| `LABS_AUTH_SECRET` | JWT magic link |
+| `LABS_ADMIN_SECRET` | Admin stats + newsletter setup |
+
+## Déploiement
+
+1. Repo GitHub `lepfsi/Site-PP` branch `main`
+2. Projet Vercel lié à ce repo
+3. Domaine `dailyops.tech` / `www.dailyops.tech`
+4. Push sur `main` → build Next.js → deploy
+
+### Commandes locales
+
+```bash
+npm run build    # vérifie la compile
+npm run lint
+```
+
+### Remote en avance (push rejected)
+
+```bash
+git pull --rebase origin main
+# résoudre conflits si besoin
+git push origin main
+```
+
+## Health checks prod
+
+| URL | Attendu |
+|-----|---------|
+| `/api/chat/health?ping=1` | `provider: unikey`, `live.ok: true` |
+| `/api/email/health` | `configured: true`, segment non null |
+| `/products` | Page produits |
+| `/newsletter/preview` | HTML brandé |
+
+## Sécurité
+
+- Jamais de clé dans le code client (`NEXT_PUBLIC_*` sauf URLs publiques).
+- Secrets admin : header `Authorization: Bearer …` ou query protégée.
+- Après fuite d’un secret (chat, screenshot) : **régénérer** sur le provider + Vercel.

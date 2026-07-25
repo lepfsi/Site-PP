@@ -55,6 +55,9 @@ const TYPE_RULES: TypeRule[] = [
     patterns: [
       /\b(parle[- ]moi (de |d[''])?daily\s*ops|tell me about daily\s*ops|what is daily\s*ops|what'?s daily\s*ops|qu['']est[- ]ce que daily\s*ops|c['']est quoi daily\s*ops|who are you|qui êtes[- ]vous|présent(e|ez)[- ]?(moi )?daily\s*ops|present daily\s*ops|about daily\s*ops|à propos de daily\s*ops|dailyops\.tech|what do you do|que faites[- ]vous|your mission|votre mission|connais[- ]tu daily\s*ops|know daily\s*ops)\b/i,
       /\b(c['']est quoi ce site|what is this site|what is this platform|c['']est quoi cette plateforme|présente[- ]?moi (le site|la plateforme)|present (the site|the platform))\b/i,
+      // First-party products (must beat generic web confusions like AppGate)
+      /\b(ops\s*gate|opsgate|ops\s*vault|opsvault|ops\s*mail|opsmail|ops\s*labs|opslabs|ops\s*audit|opsaudit|ops\s*insight|opsinsight)\b/i,
+      /\b(parle[- ]moi (de |d[''])?(ops\s*gate|opsgate|ops\s*vault|opsvault)|tell me about (ops\s*gate|opsgate|ops\s*vault|opsvault)|c['']est quoi (ops\s*gate|opsgate|ops\s*vault|opsvault)|what is (ops\s*gate|opsgate|ops\s*vault|opsvault)|your products|vos produits|suite (produit|logicielle)|product suite)\b/i,
     ],
   },
   {
@@ -63,6 +66,8 @@ const TYPE_RULES: TypeRule[] = [
     patterns: [
       /\bcve-\d{4}-\d+/i,
       /\b(vulnerability|vulnérabilité|exploit|zero[- ]day|0-day|security advisory|advisory|bulletin|patch tuesday|cvss)\b/i,
+      // French/English "recent flaws / failles" + vendor context handled by vendor detection
+      /\b(faille[s]?|vulnerabilit(y|ies)|security (issue|bug|hole)|bug critique)\b/i,
     ],
   },
   {

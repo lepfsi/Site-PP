@@ -270,15 +270,8 @@ async function requestCompletion(
 
 function modelFallbacks(config: LLMConfig): string[] {
   if (config.provider === "unikey") {
-    return [
-      ...new Set([
-        config.model,
-        "gpt-5.6-sol",
-        "gpt-5.4",
-        "gpt-5.2",
-        "gpt-4o-mini",
-      ]),
-    ];
+    // Paid UniKey: one model only — cascading alternatives multiplies latency on failure
+    return [config.model];
   }
   if (config.provider === "kimi") {
     return [...new Set([config.model, "kimi-k2.5", "kimi-k2.6", "kimi-k2"])];

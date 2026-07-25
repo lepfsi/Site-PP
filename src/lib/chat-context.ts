@@ -2,8 +2,54 @@ import { getAllArticles } from "./articles";
 import { CATEGORIES } from "./categories";
 import { getAllExperiences } from "./experiences";
 import { getAllLabPaths } from "./labs";
-import { translations, type Language } from "./translations";
+import {
+  PLATFORM_PRODUCTS,
+  ROADMAP_PRODUCTS,
+  SOFTWARE_PRODUCTS,
+} from "./products";
+import { translations, type Language, type TranslationKeys } from "./translations";
 import { SITE } from "./site";
+
+function tr(lang: Language, key: keyof TranslationKeys): string {
+  return translations[lang][key] ?? String(key);
+}
+
+/** Products catalog for the chat (OpsGate, OpsVault, platform, roadmap). */
+export function getProductsKnowledge(lang: Language): string {
+  const software = SOFTWARE_PRODUCTS.map((p) => {
+    const tagline = tr(lang, `products.${p.id}.tagline` as keyof TranslationKeys);
+    const desc = tr(lang, `products.${p.id}.desc` as keyof TranslationKeys);
+    const article = p.articleSlug ? ` Related article: /articles/${p.articleSlug}` : "";
+    const gh = p.github ? ` GitHub: ${p.github}` : "";
+    return `• ${p.name} (${p.status}) — ${tagline}. ${desc} Page: ${p.href}.${article}${gh}`;
+  }).join("\n");
+
+  const platform = PLATFORM_PRODUCTS.map((p) => {
+    const desc = tr(lang, `products.${p.id}.desc` as keyof TranslationKeys);
+    return `• ${p.name} — ${desc} → ${p.ctaHref}`;
+  }).join("\n");
+
+  const roadmap = ROADMAP_PRODUCTS.map((p) => {
+    const desc = tr(lang, `products.${p.id}.desc` as keyof TranslationKeys);
+    return `• ${p.name} (planned) — ${desc}`;
+  }).join("\n");
+
+  return `
+## DailyOps products (FIRST-PARTY — do not confuse with AppGate, OPSWAT, etc.)
+OpsGate and OpsVault are DailyOps.Tech software products. They are NOT AppGate, OPSWAT, SecurityGate, or Gatewatcher.
+
+Software suite:
+${software}
+
+Knowledge platform:
+${platform}
+
+Roadmap (not released):
+${roadmap}
+
+Products page: /products
+`.trim();
+}
 
 export function getDailyOpsBrandKnowledge(lang: Language): string {
   const t = translations[lang];
@@ -17,6 +63,8 @@ Founder: ${t["about.author_name"]} — ${t["about.author_role"]}
 Founder background: ${t["about.author_bio"]}
 Editorial line: ${t["about.mission"]}
 Domains covered: ${domains}
+
+${getProductsKnowledge(lang)}
 `.trim();
 }
 
@@ -27,7 +75,9 @@ export function buildCompactKnowledge(lang: Language): string {
     return `${name} (/category/${c.slug})`;
   }).join(", ");
 
+  // Keep list short for latency — full titles only for recent slice
   const articleTitles = getAllArticles()
+    .slice(0, 12)
     .map((a) => `${t[a.titleKey as keyof typeof t]} (/articles/${a.slug})`)
     .join("; ");
 
@@ -43,11 +93,13 @@ export function buildCompactKnowledge(lang: Language): string {
 Identity: DailyOps.Tech — production-first ops knowledge platform. ${t["hero.desc"]}
 Founder: ${t["about.author_name"]}, ${t["about.author_role"]}. ${t["about.mission"]}
 Domains: ${domains}
-Articles: ${articleTitles}
+Articles (sample): ${articleTitles}
 Field experience: ${expTitles}
 Ops labs (learning paths): ${labTitles}
-Pages: /about /articles /labs /experience /resources /about#contact
+Pages: /about /articles /labs /products /experience /resources /about#contact
 Contact: ${SITE.contactEmail}
+
+${getProductsKnowledge(lang)}
 `.trim();
 }
 
