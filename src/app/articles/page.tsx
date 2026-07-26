@@ -13,9 +13,10 @@ import { useState } from "react";
 import type { CategorySlug } from "@/lib/categories";
 
 export default function ArticlesPage() {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const allArticles = getAllArticles();
   const [filter, setFilter] = useState<CategorySlug | "all">("all");
+  const articleBase = lang === "FR" ? "/fr/articles" : "/articles";
 
   const filtered =
     filter === "all"
@@ -88,7 +89,7 @@ export default function ArticlesPage() {
                   transition={{ delay: i * 0.03 }}
                 >
                   <Link
-                    href={`/articles/${article.slug}`}
+                    href={`${articleBase}/${article.slug}`}
                     className="flex flex-col h-full p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise/40 transition-all group"
                   >
                     <div className="flex items-center justify-between mb-4">

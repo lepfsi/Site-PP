@@ -30,6 +30,8 @@ export default function Navbar() {
     const enLab = pathname.match(/^\/labs\/([^/?#]+)/);
     const onFrLabsIndex = pathname === "/fr/labs" || pathname === "/fr/labs/";
     const onEnLabsIndex = pathname === "/labs" || pathname === "/labs/";
+    const onFrArticlesIndex = pathname === "/fr/articles" || pathname === "/fr/articles/";
+    const onEnArticlesIndex = pathname === "/articles" || pathname === "/articles/";
 
     if (next === "FR") {
       if (enArticle && !pathname.startsWith("/fr/")) {
@@ -44,6 +46,10 @@ export default function Navbar() {
         router.push("/fr/labs");
         return;
       }
+      if (onEnArticlesIndex) {
+        router.push("/fr/articles");
+        return;
+      }
     }
     if (next === "EN") {
       if (frArticle) {
@@ -56,6 +62,10 @@ export default function Navbar() {
       }
       if (onFrLabsIndex) {
         router.push("/labs");
+        return;
+      }
+      if (onFrArticlesIndex) {
+        router.push("/articles");
         return;
       }
     }

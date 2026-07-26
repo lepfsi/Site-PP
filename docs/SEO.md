@@ -43,8 +43,8 @@ Doit correspondre au domaine principal Vercel (redirection apex → www ou l’i
 
 | Langue | URL |
 |--------|-----|
-| EN | `/articles/<slug>` |
-| FR | `/fr/articles/<slug>` |
+| EN | `/articles`, `/articles/<slug>` |
+| FR | `/fr/articles`, `/fr/articles/<slug>` |
 
 ### Labs
 
