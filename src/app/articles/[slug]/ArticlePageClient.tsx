@@ -285,8 +285,8 @@ export default function ArticlePageClient({
               {!readingMode && (
                 <StickySidebar className="lg:col-span-4 space-y-8 print:hidden">
                   {relatedArticles.length > 0 && (
-                    <div className="p-6 sm:p-8 rounded-2xl border border-turquoise/25 bg-bg-secondary">
-                      <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-turquoise mb-6 border-b border-border-main pb-4">
+                    <div className="p-6 sm:p-8 rounded-2xl border border-teal-200 dark:border-turquoise/30 bg-white dark:bg-bg-secondary shadow-sm">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-teal-800 dark:text-turquoise mb-6 border-b border-slate-200 dark:border-border-main pb-4">
                         {t("article.related")}
                       </h3>
                       <ul className="space-y-4">

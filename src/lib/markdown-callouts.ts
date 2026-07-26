@@ -91,48 +91,50 @@ export function calloutVisual(kind: CalloutKind): {
   ring: string;
 } {
   switch (kind) {
+    // Original framed styles (tip / important / warning / caution)
     case "tip":
       return {
         border: "border-l-turquoise",
-        bg: "bg-turquoise/[0.07]",
+        bg: "bg-turquoise/[0.08]",
         labelColor: "text-turquoise",
         ring: "border-turquoise/25",
       };
     case "important":
       return {
-        border: "border-l-rose-500",
-        bg: "bg-rose-500/[0.07]",
+        border: "border-l-rose-500/70",
+        bg: "bg-rose-500/[0.08]",
         labelColor: "text-rose-400",
         ring: "border-rose-500/25",
       };
     case "warning":
       return {
-        border: "border-l-amber-500",
+        border: "border-l-amber-500/70",
         bg: "bg-amber-500/[0.08]",
         labelColor: "text-amber-400",
         ring: "border-amber-500/25",
       };
     case "caution":
       return {
-        border: "border-l-orange-500",
-        bg: "bg-orange-500/[0.08]",
-        labelColor: "text-orange-400",
-        ring: "border-orange-500/25",
+        border: "border-l-amber-500/70",
+        bg: "bg-amber-500/[0.08]",
+        labelColor: "text-amber-400",
+        ring: "border-amber-500/25",
       };
+    // note / info keep current light+dark readable styles
     case "info":
       return {
-        border: "border-l-sky-500",
-        bg: "bg-sky-500/[0.07]",
-        labelColor: "text-sky-400",
-        ring: "border-sky-500/25",
+        border: "border-l-sky-600 dark:border-l-sky-400",
+        bg: "bg-sky-50 dark:bg-sky-400/10",
+        labelColor: "text-sky-900 dark:text-sky-300",
+        ring: "border-sky-200 dark:border-sky-400/20",
       };
     case "note":
     default:
       return {
-        border: "border-l-text-secondary/50",
-        bg: "bg-bg-secondary/50",
-        labelColor: "text-text-secondary",
-        ring: "border-border-main",
+        border: "border-l-slate-500 dark:border-l-slate-400",
+        bg: "bg-slate-100 dark:bg-slate-400/10",
+        labelColor: "text-slate-800 dark:text-slate-300",
+        ring: "border-slate-300 dark:border-slate-400/20",
       };
   }
 }

@@ -161,6 +161,7 @@ export const ARTICLES: Article[] = [
     color: "text-blue-500",
     bg: "bg-blue-500/10",
     format: "markdown",
+    featured: true,
   },
   {
     slug: "soc-incident-response-playbook",
@@ -221,7 +222,6 @@ export const ARTICLES: Article[] = [
     date: "2025-01-15",
     color: "text-blue-500",
     bg: "bg-blue-500/20",
-    featured: true,
   },
   {
     slug: "zero-trust-freeipa-vault",

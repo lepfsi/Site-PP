@@ -191,6 +191,7 @@ export interface TranslationKeys {
   "article.exit_focus": string;
   "article.font_smaller": string;
   "article.font_larger": string;
+
   "article.back_to_top": string;
   "article.updated": string;
   "article.cta_default": string;

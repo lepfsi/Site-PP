@@ -25,6 +25,8 @@ Site-PP/
 │   ├── components/                      # UI React
 │   │   ├── ChatAssistant.tsx
 │   │   ├── Navbar.tsx, Footer.tsx, Hero.tsx, …
+│   │   ├── article-visuals/             # Illustrations animées par slug article
+│   │   ├── category-visuals/            # Fallback visuel par catégorie
 │   │   └── …
 │   └── lib/                             # Logique métier (serveur / partagé)
 │       ├── articles.ts                  # Registre articles
@@ -47,6 +49,7 @@ Site-PP/
 | Tu veux… | Fichiers |
 |----------|----------|
 | Nouvel article | `content/articles/…`, `articles.ts`, `translations.ts` |
+| Animation / illustration article | `article-visuals/ArticleVisual.tsx` → [ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md) |
 | Texte UI (bouton, hero) | `translations.ts` + éventuellement le composant |
 | Page produits | `products.ts`, `app/products/page.tsx`, `translations` `products.*` |
 | Nav / footer liens | `Navbar.tsx`, `Footer.tsx` |

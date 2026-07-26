@@ -30,8 +30,8 @@ Les features ci-dessous ciblent quatre jobs:
 
 | Job | Features |
 |-----|----------|
-| **Orientation** | TOC, progress bar, ancres, back-to-top |
-| **Confort** | Largeur lecture, A±, mode Focus, rythme typo |
+| **Orientation** | TOC, progress bar, ancres (`#section`), back-to-top |
+| **Confort** | Largeur lecture, A±, mode Focus, rythme typo, police Inter |
 | **Action terrain** | Code + copy, checklists, tables, callouts |
 | **Continuité** | Takeaways, see-also, footnotes, CTA, updated |
 
@@ -94,15 +94,54 @@ Ces features s’appliquent à **tous** les articles markdown (pas besoin de syn
 | **Condition** | Affichée si ≥ 2 titres |
 | **Statut** | ✅ Fait |
 
-### 3.3 Ancres sur titres (sans bouton copy sur chaque titre)
+### 3.3 Ancres sur titres (sans copy link par défaut)
 
 | | |
 |--|--|
-| **Quoi** | `id` stable sur H2/H3 pour TOC et URL `#section` (pas d’icône copy sur chaque titre) |
-| **Pourquoi** | Partage précis via TOC / URL manuelle, sans bruit visuel |
+| **Quoi** | `id` stable sur H2/H3 pour TOC et URL `#section` |
+| **Pourquoi** | Partage précis via TOC / URL manuelle, sans bruit visuel sur chaque titre |
 | **Où** | `ArticleMarkdown` h2/h3 + `extractToc` |
 | **Implémentation** | Même `slugifyHeading` que la TOC; `scroll-mt-28` pour le sticky header |
-| **Statut** | ✅ Fait (bouton copy retiré des titres) |
+| **Copy link** | **Désactivé** (retiré volontairement). Pour le réactiver, voir ci-dessous. |
+| **Statut** | ✅ Ancres faites ; copy link optionnel |
+
+#### Réactiver un bouton « copy link » sur les titres (optionnel)
+
+Le copy link a été retiré pour alléger l’UI. Les `#id` restent valides pour la TOC et les URLs manuelles.
+
+Pour le remettre (ex. sur les H2 seulement) dans `src/components/ArticleMarkdown.tsx` :
+
+1. Importer une icône (`Link` de `lucide-react`).
+2. Dans le rendu `h2` (ou `h3`), envelopper le titre et ajouter un bouton :
+
+```tsx
+// Exemple minimal — coller dans le composant h2 existant
+function HeadingWithCopy({ id, children, className }: { id: string; children: React.ReactNode; className: string }) {
+  const copy = async () => {
+    const url = `${window.location.origin}${window.location.pathname}#${id}`;
+    await navigator.clipboard.writeText(url);
+  };
+  return (
+    <h2 id={id} className={`group scroll-mt-28 ${className}`}>
+      {children}
+      <button
+        type="button"
+        onClick={copy}
+        className="ml-2 opacity-0 group-hover:opacity-100 text-text-secondary/40 hover:text-turquoise print:hidden"
+        aria-label="Copy link to section"
+        title="Copy link"
+      >
+        {/* <LinkIcon size={14} /> */}
+      </button>
+    </h2>
+  );
+}
+```
+
+3. Remplacer le `return <h2 id={id} …>` par `<HeadingWithCopy id={id} …>`.
+4. Optionnel : feedback « Copied » (state + timeout) comme sur `CodeBlock.tsx`.
+
+Ne pas mettre le bouton sur **chaque** H3 si tu veux éviter le bruit — souvent H2 seul suffit.
 
 ### 3.4 Largeur de lecture contrôlée
 

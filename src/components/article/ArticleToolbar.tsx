@@ -61,8 +61,8 @@ export default function ArticleToolbar({
         onClick={() => onReadingMode(!readingMode)}
         className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border text-[10px] font-black uppercase tracking-widest transition-colors ${
           readingMode
-            ? "border-turquoise/50 bg-turquoise/10 text-turquoise"
-            : "border-border-main bg-bg-secondary/60 text-text-secondary hover:text-turquoise"
+            ? "border-teal-300 bg-teal-50 text-teal-800 dark:border-turquoise/20 dark:bg-turquoise/10 dark:text-turquoise"
+            : "border-border-main bg-bg-secondary/60 text-text-secondary hover:text-teal-700 dark:hover:text-turquoise"
         }`}
       >
         <BookOpen size={14} />

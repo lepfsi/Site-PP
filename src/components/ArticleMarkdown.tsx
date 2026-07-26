@@ -17,6 +17,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 import CodeBlock from "@/components/article/CodeBlock";
 import ImageWithCaption from "@/components/article/ImageWithCaption";
 import { useState } from "react";
+import { ARTICLE_BODY_FONT } from "@/lib/article-fonts";
 
 function stripFrontmatterClient(raw: string): string {
   const text = raw.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n");
@@ -114,9 +115,22 @@ function buildComponents(
         </h3>
       );
     },
-    p: ({ children }) => (
-      <p className="text-text-secondary font-normal mb-4 article-body-text">{children}</p>
-    ),
+    p: ({ children }) => {
+      // react-markdown wraps images in <p>; block media cannot live inside <p> (hydration errors).
+      const kids = Children.toArray(children);
+      const hasBlockMedia = kids.some((child) => {
+        if (!isValidElement(child)) return false;
+        if (child.type === ImageWithCaption) return true;
+        const props = child.props as { "data-article-figure"?: unknown };
+        return props["data-article-figure"] != null;
+      });
+      if (hasBlockMedia) {
+        return <div className="my-4">{children}</div>;
+      }
+      return (
+        <p className="text-text-secondary font-normal mb-4 article-body-text">{children}</p>
+      );
+    },
     ul: ({ children, className }) => (
       <ul
         className={`mb-4 space-y-2 text-text-secondary font-normal ${className?.includes("contains-task-list") ? "list-none pl-0" : ""}`}
@@ -151,12 +165,14 @@ function buildComponents(
     ),
     a: ({ href, children }) => {
       const h = href || "#";
+      const linkCls =
+        "text-teal-700 dark:text-turquoise underline decoration-teal-600/40 dark:decoration-turquoise/30 underline-offset-2 hover:decoration-teal-700 dark:hover:decoration-turquoise";
       // Footnote ref: [1](#fn-id)
       if (h.startsWith("#fn-")) {
         return (
           <a
             href={h}
-            className="text-turquoise font-semibold no-underline align-super text-[0.7em] ml-0.5 hover:underline"
+            className="text-teal-700 dark:text-turquoise font-semibold no-underline align-super text-[0.7em] ml-0.5 hover:underline"
           >
             {children}
           </a>
@@ -164,43 +180,37 @@ function buildComponents(
       }
       if (/^https?:\/\//i.test(h)) {
         return (
-          <a
-            href={h}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="text-turquoise underline decoration-turquoise/30 underline-offset-2 hover:decoration-turquoise"
-          >
+          <a href={h} target="_blank" rel="noopener noreferrer" className={linkCls}>
             {children}
           </a>
         );
       }
       return (
-        <Link
-          href={h}
-          className="text-turquoise underline decoration-turquoise/30 underline-offset-2 hover:decoration-turquoise"
-        >
+        <Link href={h} className={linkCls}>
           {children}
         </Link>
       );
     },
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-turquoise/50 bg-turquoise/5 rounded-r-xl px-4 py-3 mb-4 text-sm text-text-secondary font-medium">
+      <blockquote className="border-l-4 border-teal-600 dark:border-l-turquoise bg-teal-50 dark:bg-turquoise/10 rounded-r-xl border border-teal-200 dark:border-turquoise/20 px-4 py-3 mb-4 text-sm text-text-secondary font-medium">
         {children}
       </blockquote>
     ),
     hr: () => <hr className="border-border-main my-8" />,
     table: ({ children }) => (
-      <div className="my-6 overflow-x-auto rounded-xl border border-border-main shadow-sm">
+      <div className="my-6 overflow-x-auto rounded-xl border border-slate-300 dark:border-border-main bg-white dark:bg-transparent shadow-sm">
         <table className="w-full min-w-[280px] border-collapse text-sm">{children}</table>
       </div>
     ),
     thead: ({ children }) => (
-      <thead className="bg-bg-secondary/90 text-text-primary border-b border-border-main">
+      <thead className="bg-slate-100 dark:bg-bg-secondary/90 text-text-primary border-b border-slate-300 dark:border-border-main">
         {children}
       </thead>
     ),
     tbody: ({ children }) => (
-      <tbody className="divide-y divide-border-main/80 bg-bg-elevated/40">{children}</tbody>
+      <tbody className="divide-y divide-slate-200 dark:divide-border-main/80 bg-white dark:bg-bg-elevated/40">
+        {children}
+      </tbody>
     ),
     tr: ({ children }) => (
       <tr className="transition-colors hover:bg-turquoise/[0.04]">{children}</tr>
@@ -225,7 +235,7 @@ function buildComponents(
         return <code className={className}>{children}</code>;
       }
       return (
-        <code className="px-1.5 py-0.5 rounded bg-bg-secondary border border-border-main font-mono text-[13px] text-turquoise">
+        <code className="px-1.5 py-0.5 rounded bg-[#0b1220] border border-slate-700/70 font-mono text-[12.5px] text-emerald-300/90 dark:text-emerald-300/85">
           {children}
         </code>
       );
@@ -277,7 +287,11 @@ export default function ArticleMarkdown({ content }: ArticleMarkdownProps) {
   const components = buildComponents(lang, labels, nextHeadingId);
 
   return (
-    <div className="prose-custom article-md">
+    <div
+      className="prose-custom article-md"
+      data-article-body
+      style={{ fontFamily: ARTICLE_BODY_FONT }}
+    >
       {segments.map((seg, i) => {
         if (seg.type === "callout") {
           return (
@@ -295,15 +309,15 @@ export default function ArticleMarkdown({ content }: ArticleMarkdownProps) {
           return (
             <aside
               key={`t-${i}`}
-              className="my-8 rounded-xl border border-turquoise/30 bg-turquoise/[0.06] px-5 py-4 sm:px-6 sm:py-5 not-prose"
+              className="my-8 rounded-xl border border-teal-200 dark:border-turquoise/20 border-l-4 border-l-teal-600 dark:border-l-turquoise bg-teal-50 dark:bg-turquoise/10 px-5 py-4 sm:px-6 sm:py-5 not-prose shadow-sm"
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-turquoise mb-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-teal-800 dark:text-turquoise mb-3">
                 {t("article.takeaways")}
               </p>
               <ul className="space-y-2">
                 {seg.items.map((item, j) => (
                   <li key={j} className="flex gap-2.5 text-sm sm:text-[15px] text-text-secondary leading-relaxed">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-sm bg-turquoise shrink-0" />
+                    <span className="mt-2 h-1.5 w-1.5 rounded-sm bg-teal-600 dark:bg-turquoise shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -317,15 +331,18 @@ export default function ArticleMarkdown({ content }: ArticleMarkdownProps) {
             <aside
               key={`s-${i}`}
               id="see-also-internal-links"
-              className="my-8 scroll-mt-28 rounded-xl border border-border-main bg-bg-secondary/60 px-5 py-4 sm:px-6 not-prose"
+              className="my-8 scroll-mt-28 rounded-xl border border-slate-300 dark:border-border-main bg-white dark:bg-bg-secondary/80 px-5 py-4 sm:px-6 not-prose shadow-sm"
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-secondary/70 mb-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600 dark:text-text-secondary/70 mb-3">
                 {t("article.see_also")}
               </p>
               <ul className="space-y-3">
                 {seg.items.map((item, j) => (
                   <li key={j}>
-                    <Link href={item.href} className="text-sm font-semibold text-turquoise hover:underline">
+                    <Link
+                      href={item.href}
+                      className="text-sm font-semibold text-teal-700 dark:text-turquoise hover:underline"
+                    >
                       {item.label}
                     </Link>
                     {item.reason ? (

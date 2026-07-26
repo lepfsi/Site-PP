@@ -9,6 +9,11 @@ interface ImageWithCaptionProps {
   title?: string;
 }
 
+/**
+ * Block-level image with caption + lightbox.
+ * Uses <div> (not <figure>) so react-markdown can nest it without invalid <p><figure>.
+ * Still mark role="group" for accessibility.
+ */
 export default function ImageWithCaption({ src, alt, title }: ImageWithCaptionProps) {
   const [open, setOpen] = useState(false);
   const caption = title || alt;
@@ -28,7 +33,7 @@ export default function ImageWithCaption({ src, alt, title }: ImageWithCaptionPr
 
   return (
     <>
-      <figure className="my-8">
+      <div className="my-8 not-prose" role="group" data-article-figure>
         <button
           type="button"
           onClick={() => setOpen(true)}
@@ -38,11 +43,11 @@ export default function ImageWithCaption({ src, alt, title }: ImageWithCaptionPr
           <img src={src} alt={alt} className="w-full h-auto max-h-[28rem] object-contain mx-auto" loading="lazy" />
         </button>
         {caption ? (
-          <figcaption className="mt-2.5 text-center text-xs sm:text-sm text-text-secondary/80 font-medium leading-relaxed">
+          <p className="mt-2.5 text-center text-xs sm:text-sm text-text-secondary/80 font-medium leading-relaxed">
             {caption}
-          </figcaption>
+          </p>
         ) : null}
-      </figure>
+      </div>
 
       {open && (
         <div

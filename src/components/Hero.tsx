@@ -21,6 +21,13 @@ const LOG_LINES = [
   "[14:22:32] OPS: Baseline applied to CORE-SW-01",
 ];
 
+/** Classic ops terminal palette: green default, red blocks, amber warnings. */
+function terminalLineClass(log: string): string {
+  if (log.includes("FW_BLOCK")) return "text-rose-400";
+  if (log.includes("MONITOR") || log.includes("SSL_CERT")) return "text-amber-300/90";
+  return "text-turquoise";
+}
+
 const MODE_TOGGLE_MS = 7000;
 
 function formatHeroDate(date: string, lang: Language): string {
@@ -99,17 +106,25 @@ function HeroDashboard({
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="absolute inset-0"
+                className="absolute inset-0 flex flex-col"
               >
-                <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
-                <div className="absolute inset-0 bg-gradient-to-t from-bg-elevated via-bg-elevated/40 to-transparent pointer-events-none" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 sm:p-5">
+                {/* Visual stays in the upper band only — never under the title */}
+                <div className="relative flex-1 min-h-0 overflow-hidden">
+                  <div className="absolute inset-0 scale-[0.92] origin-center">
+                    <ArticleVisual slug={featured.slug} category={featured.category} variant="card" />
+                  </div>
+                  <div
+                    className="pointer-events-none absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-bg-elevated to-transparent"
+                    aria-hidden
+                  />
+                </div>
+                <div className="relative z-10 shrink-0 border-t border-border-main/50 bg-bg-elevated px-4 py-3 sm:px-5 sm:py-3.5">
                   <span
-                    className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide border border-border-main/30 ${featured.bg} ${featured.color} mb-2`}
+                    className={`inline-block px-2 py-0.5 rounded-md text-[10px] font-semibold tracking-wide border border-border-main/30 ${featured.bg} ${featured.color} mb-1.5`}
                   >
                     {t(featured.categoryLabelKey)}
                   </span>
-                  <p className="text-sm font-semibold text-text-primary leading-snug line-clamp-2 mb-2">
+                  <p className="text-sm font-semibold text-text-primary leading-snug line-clamp-2 mb-1.5">
                     {t(featured.titleKey)}
                   </p>
                   <span className="inline-flex items-center text-[12px] font-semibold text-turquoise">
@@ -128,16 +143,7 @@ function HeroDashboard({
               >
                 <div className="space-y-1.5">
                   {visibleLogs.map((log, idx) => (
-                    <div
-                      key={`${log}-${idx}`}
-                      className={
-                        log.includes("FW_BLOCK")
-                          ? "text-rose-400"
-                          : log.includes("MONITOR")
-                            ? "text-amber-300/90"
-                            : "text-turquoise"
-                      }
-                    >
+                    <div key={`${log}-${idx}`} className={terminalLineClass(log)}>
                       <span className="text-slate-500 mr-1.5">{">"}</span>
                       {log}
                     </div>
@@ -198,18 +204,18 @@ function FloatingStats({
       className="pointer-events-none absolute -left-16 top-12 z-0 hidden xl:block"
       aria-hidden
     >
-      <div className="w-[152px] rounded-xl border border-border-main/50 bg-bg-elevated/70 p-3 shadow-md backdrop-blur-sm opacity-80">
-        <div className="space-y-2 text-[11px] font-medium text-text-secondary">
+      <div className="w-[148px] rounded-xl border border-border-main/25 bg-bg-elevated/35 p-3 shadow-none backdrop-blur-[2px] opacity-45">
+        <div className="space-y-2 text-[11px] font-medium text-text-secondary/80">
           <div className="flex items-center gap-2">
-            <FileText size={12} className="text-turquoise shrink-0" />
+            <FileText size={12} className="text-turquoise/70 shrink-0" />
             <span className="leading-snug">{guides}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Layers size={12} className="text-turquoise shrink-0" />
+            <Layers size={12} className="text-turquoise/70 shrink-0" />
             <span className="leading-snug">{domains}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Calendar size={12} className="text-turquoise shrink-0" />
+            <Calendar size={12} className="text-turquoise/70 shrink-0" />
             <span className="leading-snug">{updated}</span>
           </div>
         </div>

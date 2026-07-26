@@ -10,6 +10,7 @@ Un article apparaît sur le site seulement s’il est **enregistré** dans le co
 4. Ajouter l’entrée en **haut** de `ARTICLES` dans `src/lib/articles.ts`
 5. Ajouter les clés i18n EN + FR dans `src/lib/translations.ts`
 6. Commit + push → vérifier `/articles/<slug>` et `/category/<catégorie>`
+7. (Optionnel) Illustration animée pour cartes / hero → [ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md)
 
 ---
 
@@ -176,6 +177,20 @@ npm run dev
 - http://localhost:3000/articles (liste)
 
 Le sitemap (`src/app/sitemap.ts`) reprend automatiquement `getAllArticles()`.
+
+---
+
+## Illustrations animées (hero, cartes, featured)
+
+Les titres / cartes d’articles peuvent avoir une **illustration animée** (SVG + Framer Motion), pas une animation du texte markdown.
+
+1. Créer un composant dans `src/components/article-visuals/ArticleVisual.tsx`
+2. L’enregistrer dans le map `ARTICLE_VISUALS` avec le **même slug** que l’article
+3. Sans entrée : fallback = visuel de la **catégorie**
+
+Doc complète (template, variants `card`/`article`/`hero`, piège chevauchement hero, featured) :
+
+→ **[ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md)**
 
 ---
 

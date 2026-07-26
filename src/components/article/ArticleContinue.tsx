@@ -21,8 +21,8 @@ export default function ArticleContinue({
   resolveCategory,
 }: ArticleContinueProps) {
   return (
-    <aside className="mt-12 mb-4 rounded-2xl border border-turquoise/30 bg-turquoise/[0.06] p-5 sm:p-6 not-prose print:hidden">
-      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-turquoise mb-2">
+    <aside className="mt-12 mb-4 rounded-2xl border border-teal-200 dark:border-turquoise/20 border-l-4 border-l-teal-600 dark:border-l-turquoise bg-teal-50 dark:bg-turquoise/10 p-5 sm:p-6 not-prose print:hidden shadow-sm">
+      <p className="text-[10px] font-black uppercase tracking-[0.25em] text-teal-800 dark:text-turquoise mb-2">
         {titleLabel}
       </p>
       <p className="text-[11px] font-bold uppercase tracking-wider text-text-secondary/50 mb-1">

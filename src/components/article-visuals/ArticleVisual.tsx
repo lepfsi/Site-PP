@@ -400,22 +400,41 @@ function AnsibleCicdVisual() {
 
 function VlanTrunkVisual() {
   const accent = ACCENTS.networking;
+  const compact = useCompact();
   const vlans = ["10", "20", "30"];
+  // Keep tags in the upper-middle band so they never collide with hero title overlays
   return (
     <VisualShell category="networking">
-      <svg className="w-[88%] h-[80%]" viewBox="0 0 100 80">
-        <rect x="10" y="30" width="12" height="20" rx="1" fill="#111C44" stroke={accent} strokeWidth="0.5" />
-        <rect x="78" y="30" width="12" height="20" rx="1" fill="#111C44" stroke={accent} strokeWidth="0.5" />
-        <line x1="22" y1="40" x2="78" y2="40" stroke={accent} strokeWidth="0.8" opacity="0.3" />
+      <svg className={compact ? "w-[92%] h-[70%]" : "w-[88%] h-[72%]"} viewBox="0 0 100 70">
+        <rect x="8" y="22" width="14" height="22" rx="1.5" fill="#111C44" stroke={accent} strokeWidth="0.5" />
+        <rect x="78" y="22" width="14" height="22" rx="1.5" fill="#111C44" stroke={accent} strokeWidth="0.5" />
+        <line x1="22" y1="33" x2="78" y2="33" stroke={accent} strokeWidth="0.8" opacity="0.35" />
         {vlans.map((vlan, i) => (
-          <motion.g key={vlan} animate={{ x: [0, 50, 0] }} transition={{ duration: 3, repeat: Infinity, delay: i * 0.8 }}>
-            <rect x="30" y={32 + i * 8} width="40" height="6" rx="1" fill={`${accent}20`} stroke={accent} strokeWidth="0.4" />
-            <text x="33" y={37 + i * 8} fill={accent} fontSize="3.5" fontFamily="monospace">802.1Q · VLAN {vlan}</text>
+          <motion.g
+            key={vlan}
+            animate={{ x: [0, 42, 0] }}
+            transition={{ duration: 3, repeat: Infinity, delay: i * 0.8, ease: "easeInOut" }}
+          >
+            <rect
+              x="28"
+              y={24 + i * 7}
+              width="36"
+              height="5.5"
+              rx="1"
+              fill={`${accent}22`}
+              stroke={accent}
+              strokeWidth="0.4"
+            />
+            <text x="30.5" y={28 + i * 7} fill={accent} fontSize="3.2" fontFamily="monospace">
+              802.1Q · VLAN {vlan}
+            </text>
           </motion.g>
         ))}
-        <foreignObject x="12" y="34" width="8" height="8">
-          <Layers size={8} className="text-blue-400" />
-        </foreignObject>
+        {!compact && (
+          <text x="30" y="58" fill={accent} fontSize="3" fontFamily="monospace" opacity="0.45">
+            trunk · tagged frames
+          </text>
+        )}
       </svg>
     </VisualShell>
   );
