@@ -31,7 +31,39 @@ Doit correspondre au domaine principal Vercel (redirection apex → www ou l’i
 3. `publishedTime` / `section` sur les articles OG  
 4. Metadata catégories  
 5. Canonical products via `pageMetadata`  
-6. Alignement URL sur **www**
+6. Alignement URL sur **www**  
+7. **hreflang + routes FR articles** (voir ci-dessous)  
+8. **FAQPage + Course JSON-LD** sur les labs  
+
+---
+
+## hreflang & routes FR (articles)
+
+| Langue | URL | Meta + JSON-LD | UI |
+|--------|-----|----------------|-----|
+| EN (défaut) | `/articles/<slug>` | EN | Lang libre (localStorage) |
+| FR | `/fr/articles/<slug>` | FR | Forcée FR (`LanguageProvider forceLang`) |
+
+- `alternates.languages` : `en`, `fr`, `x-default` → EN  
+- Sitemap : les **deux** URLs par article  
+- Navbar FR/EN sur une page article **navigue** entre les deux routes  
+
+Fichiers : `src/app/fr/layout.tsx`, `src/app/fr/articles/[slug]/page.tsx`, `src/lib/seo.ts` (`articleHreflang`).
+
+Les autres pages (home, labs, products) restent mono-URL + switch client pour l’instant.
+
+---
+
+## FAQ schema (labs / runbooks)
+
+Sur chaque `/labs/<slug>` :
+
+- **Course** : titre, description, provider DailyOps  
+- **FAQPage** : questions = titres des steps `quiz` / `checklist` / `lab`, réponses = descriptions (EN)
+
+Implémentation : `labFaqJsonLd` + `labCourseJsonLd` dans `src/lib/jsonld.ts`, injectés dans `src/app/labs/[slug]/page.tsx`.
+
+Vérifier en view-source : `application/ld+json` avec `"@type":"FAQPage"`.
 
 ---
 
@@ -55,13 +87,8 @@ Ces points impactent autant (ou plus) que le code :
 - Articles longs structurés (H2, listes, tableaux) — déjà le cas
 
 ### 4. FR / EN
-Aujourd’hui le switch langue est **client** (même URL). Google voit surtout la version EN des meta (`tEn`).
-
-Améliorations possibles plus tard :
-- Routes `/fr/...` + `hreflang` (gros chantier)
-- Ou meta `alternates.languages` si un jour deux URLs distinctes
-
-En attendant : soigner les **titres/excerpts EN** (ce sont les meta), garder le FR excellent pour les lecteurs.
+- **Articles** : URLs distinctes + hreflang (fait). Soigner titres/excerpts **EN et FR**.  
+- **Reste du site** : encore switch client (même URL). Évolution possible : `/fr/labs/...` plus tard.
 
 ### 5. Partage social
 Tester un article avec [Facebook Sharing Debugger](https://developers.facebook.com/tools/debug/) et [Twitter Card Validator](https://cards-dev.twitter.com/validator) après deploy — forcer le re-scrape de l’OG image.
@@ -95,8 +122,8 @@ Tester un article avec [Facebook Sharing Debugger](https://developers.facebook.c
 |----------|------|
 | Haute | GSC + sitemap soumis |
 | Haute | Redirect domaine unique |
-| Moyenne | `hreflang` / routes i18n |
-| Moyenne | FAQ schema sur pages labs / SOC |
+| Moyenne | Routes `/fr/` pour labs, products, home |
+| Moyenne | FAQ frontmatter dans les articles runbook |
 | Basse | `llms.txt` pour assistants IA |
 | Basse | Sitemap index si > 50k URLs (loin d’être le cas) |
 

@@ -1,7 +1,8 @@
 import { SITE } from "./site";
-import { absoluteUrl, tEn } from "./seo";
+import { absoluteUrl, articleLocalePaths, tEn, tLang } from "./seo";
 import type { Article } from "./articles";
-import type { TranslationKeys } from "./translations";
+import type { LabPath } from "./labs";
+import type { Language, TranslationKeys } from "./translations";
 
 export function organizationJsonLd() {
   return {
@@ -44,11 +45,13 @@ export function websiteJsonLd() {
   };
 }
 
-export function articleJsonLd(article: Article) {
-  const title = tEn(article.titleKey as keyof TranslationKeys);
-  const description = tEn(article.excerptKey as keyof TranslationKeys);
-  const url = absoluteUrl(`/articles/${article.slug}`);
-  const category = tEn(article.categoryLabelKey as keyof TranslationKeys);
+export function articleJsonLd(article: Article, lang: Language = "EN") {
+  const title = tLang(lang, article.titleKey as keyof TranslationKeys);
+  const description = tLang(lang, article.excerptKey as keyof TranslationKeys);
+  const paths = articleLocalePaths(article.slug);
+  const path = lang === "FR" ? paths.fr : paths.en;
+  const url = absoluteUrl(path);
+  const category = tLang(lang, article.categoryLabelKey as keyof TranslationKeys);
 
   return {
     "@context": "https://schema.org",
@@ -59,7 +62,7 @@ export function articleJsonLd(article: Article) {
     mainEntityOfPage: url,
     datePublished: article.date,
     dateModified: article.date,
-    inLanguage: ["en", "fr"],
+    inLanguage: lang === "FR" ? "fr" : "en",
     author: {
       "@type": "Organization",
       name: SITE.name,
@@ -89,5 +92,63 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
       name: item.name,
       item: absoluteUrl(item.path),
     })),
+  };
+}
+
+/**
+ * FAQPage from lab steps (quiz + checklist + lab descriptions).
+ * Uses EN for stable crawler-facing structured data.
+ */
+export function labFaqJsonLd(path: LabPath) {
+  const entities = path.steps
+    .filter((s) => s.type === "quiz" || s.type === "checklist" || s.type === "lab")
+    .map((s) => {
+      const question = tEn(s.titleKey as keyof TranslationKeys);
+      const answer = tEn(s.descKey as keyof TranslationKeys)
+        .replace(/\n+/g, " ")
+        .trim();
+      return {
+        "@type": "Question" as const,
+        name: question,
+        acceptedAnswer: {
+          "@type": "Answer" as const,
+          text: answer,
+        },
+      };
+    })
+    .filter((q) => q.name && q.acceptedAnswer.text);
+
+  if (entities.length === 0) return null;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: entities,
+    name: tEn(path.titleKey as keyof TranslationKeys),
+    description: tEn(path.descKey as keyof TranslationKeys),
+    url: absoluteUrl(`/labs/${path.slug}`),
+    inLanguage: "en",
+  };
+}
+
+/** Course/LearningResource wrapper for a lab path (complements FAQ). */
+export function labCourseJsonLd(path: LabPath) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    name: tEn(path.titleKey as keyof TranslationKeys),
+    description: tEn(path.descKey as keyof TranslationKeys),
+    provider: {
+      "@type": "Organization",
+      name: SITE.name,
+      url: SITE.url,
+    },
+    url: absoluteUrl(`/labs/${path.slug}`),
+    inLanguage: ["en", "fr"],
+    hasCourseInstance: {
+      "@type": "CourseInstance",
+      courseMode: "online",
+      courseWorkload: tEn(path.durationKey as keyof TranslationKeys),
+    },
   };
 }

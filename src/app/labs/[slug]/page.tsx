@@ -2,7 +2,9 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LAB_PATHS, getLabPathBySlug } from "@/lib/labs";
 import { pageMetadata, tEn } from "@/lib/seo";
+import { labCourseJsonLd, labFaqJsonLd } from "@/lib/jsonld";
 import type { TranslationKeys } from "@/lib/translations";
+import JsonLd from "@/components/JsonLd";
 import LabPathClient from "./LabPathClient";
 
 export function generateStaticParams() {
@@ -23,7 +25,16 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function LabPathPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  if (!getLabPathBySlug(slug)) notFound();
+  const path = getLabPathBySlug(slug);
+  if (!path) notFound();
 
-  return <LabPathClient />;
+  const faq = labFaqJsonLd(path);
+
+  return (
+    <>
+      <JsonLd data={labCourseJsonLd(path)} />
+      {faq ? <JsonLd data={faq} /> : null}
+      <LabPathClient />
+    </>
+  );
 }

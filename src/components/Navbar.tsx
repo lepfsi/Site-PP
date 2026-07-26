@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Menu, X, Moon, Sun, ChevronDown } from "lucide-react";
 import { CATEGORIES } from "@/lib/categories";
 import { useState, useEffect } from "react";
 import { useTheme } from "next-themes";
-import { useLanguage } from "@/lib/LanguageContext";
+import { useLanguage, type Language } from "@/lib/LanguageContext";
 import { navigateHomePath } from "@/lib/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import CommandSearch from "./CommandSearch";
@@ -14,12 +14,28 @@ import Logo from "./Logo";
 
 export default function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isCatOpen, setIsCatOpen] = useState(false);
   const { theme, setTheme } = useTheme();
   const { lang, setLang, t } = useLanguage();
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  /** Prefer locale routes for articles (hreflang SEO); otherwise client lang only. */
+  const switchLang = (next: Language) => {
+    const frMatch = pathname.match(/^\/fr\/articles\/([^/?#]+)/);
+    const enMatch = pathname.match(/^\/articles\/([^/?#]+)/);
+    if (next === "FR" && enMatch && !pathname.startsWith("/fr/")) {
+      router.push(`/fr/articles/${enMatch[1]}`);
+      return;
+    }
+    if (next === "EN" && frMatch) {
+      router.push(`/articles/${frMatch[1]}`);
+      return;
+    }
+    setLang(next);
+  };
 
   const handleHomeClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
     navigateHomePath(pathname, event);
@@ -109,7 +125,7 @@ export default function Navbar() {
           <div className="flex bg-bg-secondary/60 border border-border-main rounded-full p-0.5 shadow-sm">
             <button
               type="button"
-              onClick={() => setLang("FR")}
+              onClick={() => switchLang("FR")}
               className={`min-w-[2rem] px-2 py-1 text-[10px] font-semibold rounded-full transition-colors ${
                 lang === "FR" ? "bg-text-primary text-bg-primary" : "text-text-secondary"
               }`}
@@ -119,7 +135,7 @@ export default function Navbar() {
             </button>
             <button
               type="button"
-              onClick={() => setLang("EN")}
+              onClick={() => switchLang("EN")}
               className={`min-w-[2rem] px-2 py-1 text-[10px] font-semibold rounded-full transition-colors ${
                 lang === "EN" ? "bg-text-primary text-bg-primary" : "text-text-secondary"
               }`}

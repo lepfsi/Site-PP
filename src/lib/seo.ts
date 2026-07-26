@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { SITE } from "./site";
 import { translations } from "./translations";
-import type { TranslationKeys } from "./translations";
+import type { Language, TranslationKeys } from "./translations";
 
 export function tEn(key: keyof TranslationKeys): string {
   return translations.EN[key];
+}
+
+export function tLang(lang: Language, key: keyof TranslationKeys): string {
+  return translations[lang][key];
 }
 
 export function absoluteUrl(path: string): string {
@@ -17,6 +21,23 @@ export const DEFAULT_DESCRIPTION =
   "Production-ready guides for IT infrastructure professionals: networking, cybersecurity, cloud, automation, and operations.";
 
 export const DEFAULT_OG_IMAGE = "/opengraph-image";
+
+/** EN + FR article URLs for hreflang */
+export function articleLocalePaths(slug: string) {
+  return {
+    en: `/articles/${slug}`,
+    fr: `/fr/articles/${slug}`,
+  };
+}
+
+export function articleHreflang(slug: string) {
+  const paths = articleLocalePaths(slug);
+  return {
+    en: absoluteUrl(paths.en),
+    fr: absoluteUrl(paths.fr),
+    "x-default": absoluteUrl(paths.en),
+  };
+}
 
 export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -95,24 +116,32 @@ export function articleMetadata(
   slug: string,
   titleKey: keyof TranslationKeys,
   excerptKey: keyof TranslationKeys,
-  options?: { date?: string; category?: string }
+  options?: { date?: string; category?: string; lang?: Language }
 ): Metadata {
-  const title = tEn(titleKey);
-  const description = tEn(excerptKey);
-  const url = absoluteUrl(`/articles/${slug}`);
+  const lang = options?.lang ?? "EN";
+  const title = tLang(lang, titleKey);
+  const description = tLang(lang, excerptKey);
+  const paths = articleLocalePaths(slug);
+  const path = lang === "FR" ? paths.fr : paths.en;
+  const url = absoluteUrl(path);
   const ogImage = `/articles/${slug}/opengraph-image`;
+  const hreflang = articleHreflang(slug);
 
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      languages: hreflang,
+    },
     openGraph: {
       type: "article",
       url,
       title,
       description,
       siteName: SITE.name,
-      locale: "en_US",
+      locale: lang === "FR" ? "fr_FR" : "en_US",
+      alternateLocale: lang === "FR" ? "en_US" : "fr_FR",
       publishedTime: options?.date ? `${options.date}T12:00:00.000Z` : undefined,
       modifiedTime: options?.date ? `${options.date}T12:00:00.000Z` : undefined,
       section: options?.category,

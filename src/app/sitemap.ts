@@ -20,12 +20,24 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: absoluteUrl("/privacy"), lastModified: now, changeFrequency: "yearly", priority: 0.3 },
   ];
 
-  const articlePages: MetadataRoute.Sitemap = getAllArticles().map((article) => ({
-    url: absoluteUrl(`/articles/${article.slug}`),
-    lastModified: new Date(`${article.date}T12:00:00Z`),
-    changeFrequency: "monthly",
-    priority: article.featured ? 0.9 : 0.8,
-  }));
+  const articlePages: MetadataRoute.Sitemap = getAllArticles().flatMap((article) => {
+    const lastModified = new Date(`${article.date}T12:00:00Z`);
+    const priority = article.featured ? 0.9 : 0.8;
+    return [
+      {
+        url: absoluteUrl(`/articles/${article.slug}`),
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority,
+      },
+      {
+        url: absoluteUrl(`/fr/articles/${article.slug}`),
+        lastModified,
+        changeFrequency: "monthly" as const,
+        priority: priority - 0.05,
+      },
+    ];
+  });
 
   const categoryPages: MetadataRoute.Sitemap = CATEGORIES.map((cat) => ({
     url: absoluteUrl(`/category/${cat.slug}`),
