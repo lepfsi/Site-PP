@@ -53,12 +53,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.6,
   }));
 
-  const labPages: MetadataRoute.Sitemap = LAB_PATHS.map((path) => ({
-    url: absoluteUrl(`/labs/${path.slug}`),
-    lastModified: now,
-    changeFrequency: "monthly",
-    priority: 0.75,
-  }));
+  const labPages: MetadataRoute.Sitemap = LAB_PATHS.flatMap((path) => [
+    {
+      url: absoluteUrl(`/labs/${path.slug}`),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.75,
+    },
+    {
+      url: absoluteUrl(`/fr/labs/${path.slug}`),
+      lastModified: now,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    },
+  ]);
 
-  return [...staticPages, ...articlePages, ...categoryPages, ...experiencePages, ...labPages];
+  const labsIndex: MetadataRoute.Sitemap = [
+    { url: absoluteUrl("/labs"), lastModified: now, changeFrequency: "weekly", priority: 0.8 },
+    { url: absoluteUrl("/fr/labs"), lastModified: now, changeFrequency: "weekly", priority: 0.75 },
+  ];
+
+  // staticPages already includes /labs once — avoid duplicate EN index
+  const staticWithoutLabs = staticPages.filter((p) => p.url !== absoluteUrl("/labs"));
+
+  return [
+    ...staticWithoutLabs,
+    ...labsIndex,
+    ...articlePages,
+    ...categoryPages,
+    ...experiencePages,
+    ...labPages,
+  ];
 }

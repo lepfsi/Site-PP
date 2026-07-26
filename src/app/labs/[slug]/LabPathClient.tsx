@@ -38,8 +38,9 @@ const STEP_META: Record<LabStepType, { icon: typeof BookOpen; labelKey: string; 
 
 export default function LabPathClient() {
   const params = useParams();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const slug = params.slug as string;
+  const labsHome = lang === "FR" ? "/fr/labs" : "/labs";
   const path = getLabPathBySlug(slug);
   const { hydrated, getStats, stepDone, toggleStep, resetPath, authenticated, syncState } = useLabProgress();
 
@@ -59,7 +60,7 @@ export default function LabPathClient() {
         <div className="flex-grow flex items-center justify-center pt-28">
           <div className="text-center">
             <h1 className="text-2xl font-bold text-text-primary mb-4">404</h1>
-            <Link href="/labs" className="text-turquoise hover:underline text-sm font-bold uppercase tracking-widest">
+            <Link href={labsHome} className="text-turquoise hover:underline text-sm font-bold uppercase tracking-widest">
               {t("labs.page.back")}
             </Link>
           </div>
@@ -89,7 +90,7 @@ export default function LabPathClient() {
             <nav className="flex flex-wrap items-center mb-5 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em]">
               <Link href="/" className="hover:text-turquoise transition-colors">{t("catpage.breadcrumb")}</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
-              <Link href="/labs" className="hover:text-turquoise transition-colors">{t("labs.page.title")}</Link>
+              <Link href={labsHome} className="hover:text-turquoise transition-colors">{t("labs.page.title")}</Link>
               <ChevronRight className="mx-2 h-3 w-3" />
               <span className="text-text-primary truncate max-w-[200px] sm:max-w-none">{t(path.titleKey)}</span>
             </nav>
@@ -233,7 +234,7 @@ export default function LabPathClient() {
                             </p>
                             {article && (
                               <Link
-                                href={buildLabArticleHref(path.slug, step.id, article.slug)}
+                                href={buildLabArticleHref(path.slug, step.id, article.slug, lang)}
                                 className="inline-flex items-center px-4 py-2.5 rounded-xl text-[10px] font-black uppercase tracking-widest bg-turquoise/10 border border-turquoise/30 text-turquoise hover:bg-turquoise/20 transition-all mb-4"
                               >
                                 {t("article.lab_open_chapter")}

@@ -16,18 +16,18 @@ interface LabArticleNavProps {
 }
 
 export default function LabArticleNav({ pathSlug, stepId, variant = "inline" }: LabArticleNavProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const nav = getLabStepNavigation(pathSlug, stepId);
 
   if (!nav) return null;
 
   const { path, stepIndex, nextStep } = nav;
-  const pathHref = buildLabPathStepHref(path.slug, nav.step.id);
+  const pathHref = buildLabPathStepHref(path.slug, nav.step.id, lang);
 
   const nextHref = nextStep
     ? nextStep.articleSlug
-      ? buildLabArticleHref(path.slug, nextStep.id, nextStep.articleSlug)
-      : buildLabPathStepHref(path.slug, nextStep.id)
+      ? buildLabArticleHref(path.slug, nextStep.id, nextStep.articleSlug, lang)
+      : buildLabPathStepHref(path.slug, nextStep.id, lang)
     : null;
 
   const wrapperClass =
@@ -67,7 +67,7 @@ export default function LabArticleNav({ pathSlug, stepId, variant = "inline" }: 
             </Link>
           ) : (
             <Link
-              href={buildLabPathStepHref(path.slug, nav.step.id)}
+              href={buildLabPathStepHref(path.slug, nav.step.id, lang)}
               className="inline-flex items-center px-4 py-2.5 rounded-xl bg-turquoise text-navy text-[10px] font-black uppercase tracking-widest hover:bg-turquoise-dark transition-all"
             >
               <ListOrdered size={12} className="mr-2" />

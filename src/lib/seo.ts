@@ -39,6 +39,23 @@ export function articleHreflang(slug: string) {
   };
 }
 
+/** EN + FR lab path URLs */
+export function labLocalePaths(slug: string) {
+  return {
+    en: `/labs/${slug}`,
+    fr: `/fr/labs/${slug}`,
+  };
+}
+
+export function labHreflang(slug: string) {
+  const paths = labLocalePaths(slug);
+  return {
+    en: absoluteUrl(paths.en),
+    fr: absoluteUrl(paths.fr),
+    "x-default": absoluteUrl(paths.en),
+  };
+}
+
 export const siteMetadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {
@@ -164,12 +181,20 @@ export function articleMetadata(
   };
 }
 
-export function pageMetadata(title: string, description: string, path: string): Metadata {
+export function pageMetadata(
+  title: string,
+  description: string,
+  path: string,
+  options?: { languages?: Record<string, string> }
+): Metadata {
   const url = absoluteUrl(path);
   return {
     title,
     description,
-    alternates: { canonical: url },
+    alternates: {
+      canonical: url,
+      ...(options?.languages ? { languages: options.languages } : {}),
+    },
     openGraph: {
       url,
       title,
@@ -184,6 +209,22 @@ export function pageMetadata(title: string, description: string, path: string): 
       images: [DEFAULT_OG_IMAGE],
     },
   };
+}
+
+export function labPathMetadata(
+  slug: string,
+  titleKey: keyof TranslationKeys,
+  descKey: keyof TranslationKeys,
+  lang: Language = "EN"
+): Metadata {
+  const title = tLang(lang, titleKey);
+  const description = tLang(lang, descKey);
+  const paths = labLocalePaths(slug);
+  const path = lang === "FR" ? paths.fr : paths.en;
+
+  return pageMetadata(title, description, path, {
+    languages: labHreflang(slug),
+  });
 }
 
 export function escapeXml(value: string): string {

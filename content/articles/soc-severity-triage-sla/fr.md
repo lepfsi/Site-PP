@@ -1,6 +1,13 @@
 ---
 title: "Triage SOC et SLA: classer les alertes sans noyer l'équipe"
 excerpt: "Matrice P1-P3, critères de sévérité et callouts opérationnels pour un premier triage SOC réaliste."
+faq:
+  - q: "Quel SLA de triage P1 est réaliste ?"
+    a: "Pour exfiltration active, domain admin compromis ou ransomware en cours, viser environ 15 minutes pour le premier triage et l'escalade, adapté à la capacité réelle de l'équipe."
+  - q: "Faut-il tout classer en P1 pour être sûr ?"
+    a: "Non. La sur-classification crée de la fatigue d'alertes et noie les vrais incidents. Utilise des critères P1–P3 clairs et documente la décision en une phrase."
+  - q: "Quand contenir avant la forensics complète ?"
+    a: "Dès que la sévérité est posée et l'impact plausible. La contenance précoce gagne du temps ; forensics avant classification fait souvent sauter le SLA."
 ---
 
 ## Pourquoi le triage est un métier

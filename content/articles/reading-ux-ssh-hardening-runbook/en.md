@@ -2,6 +2,13 @@
 title: "SSH Hardening Runbook: Code, Checklists, Tables"
 excerpt: "Demo article for copyable code blocks, interactive checklists, callouts, and operational tables."
 updated: "2026-07-25"
+faq:
+  - q: "Should you disable password authentication before deploying keys?"
+    a: "No. Deploy admin SSH keys and validate a second session first, then disable PasswordAuthentication to avoid lockout."
+  - q: "What is a safe sshd reload procedure?"
+    a: "Keep a root or out-of-band console session open, run sshd -t to validate config, then systemctl reload sshd."
+  - q: "Is fail2ban enough for an internet-facing bastion?"
+    a: "It is a layer, not a complete control. Prefer keys-only auth, restricted AllowUsers, and network filtering in addition to fail2ban."
 ---
 
 ## Goal

@@ -18,10 +18,30 @@ export function hasMarkdownContent(slug: string): boolean {
   return fs.existsSync(path.join(CONTENT_DIR, slug, "en.md"));
 }
 
+export interface FaqItem {
+  q: string;
+  a: string;
+}
+
 export interface MarkdownMeta {
   updated?: string;
   title?: string;
   excerpt?: string;
+  /** Optional FAQ for JSON-LD FAQPage (runbooks). */
+  faq?: FaqItem[];
+}
+
+function parseFaq(raw: unknown): FaqItem[] | undefined {
+  if (!Array.isArray(raw) || raw.length === 0) return undefined;
+  const items: FaqItem[] = [];
+  for (const row of raw) {
+    if (!row || typeof row !== "object") continue;
+    const r = row as Record<string, unknown>;
+    const q = r.q != null ? String(r.q).trim() : r.question != null ? String(r.question).trim() : "";
+    const a = r.a != null ? String(r.a).trim() : r.answer != null ? String(r.answer).trim() : "";
+    if (q && a) items.push({ q, a });
+  }
+  return items.length > 0 ? items : undefined;
 }
 
 export function getMarkdownMeta(slug: string, lang: "EN" | "FR"): MarkdownMeta | null {
@@ -35,7 +55,8 @@ export function getMarkdownMeta(slug: string, lang: "EN" | "FR"): MarkdownMeta |
     const updated = data.updated != null ? String(data.updated) : undefined;
     const title = data.title != null ? String(data.title) : undefined;
     const excerpt = data.excerpt != null ? String(data.excerpt) : undefined;
-    return { updated, title, excerpt };
+    const faq = parseFaq(data.faq);
+    return { updated, title, excerpt, faq };
   } catch {
     return {};
   }

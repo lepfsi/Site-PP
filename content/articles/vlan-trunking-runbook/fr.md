@@ -1,6 +1,13 @@
 ---
 title: Runbook VLAN Trunking pour switches de production
 excerpt: Standardiser la config 802.1Q, la native VLAN et les checks de validation sur parcs Cisco et Arista.
+faq:
+  - q: "Pourquoi une native VLAN dédiée sur les trunks ?"
+    a: "Une native VLAN inutilisée ailleurs limite le risque de double-tagging et évite de laisser fuir une VLAN de production via des trames non taguées."
+  - q: "Faut-il laisser le DTP actif en production ?"
+    a: "Non. Préfère des trunks statiques avec nonegotiate (ou équivalent) pour empêcher une renégociation access/trunk non désirée."
+  - q: "Que valider après un changement de trunk ?"
+    a: "Liste des VLAN autorisés, native VLAN identique des deux côtés, rôle/état STP, et uniquement les VLAN nécessaires tagués sur le lien."
 ---
 
 ## Contexte

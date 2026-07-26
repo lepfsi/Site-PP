@@ -224,11 +224,25 @@ export function getLabStepNavigation(pathSlug: string, stepId: string): LabStepN
   };
 }
 
-export function buildLabArticleHref(pathSlug: string, stepId: string, articleSlug: string): string {
+export function buildLabArticleHref(
+  pathSlug: string,
+  stepId: string,
+  articleSlug: string,
+  lang: "EN" | "FR" = "EN"
+): string {
   const params = new URLSearchParams({ fromLab: pathSlug, step: stepId });
-  return `/articles/${articleSlug}?${params.toString()}`;
+  const base = lang === "FR" ? `/fr/articles/${articleSlug}` : `/articles/${articleSlug}`;
+  return `${base}?${params.toString()}`;
 }
 
-export function buildLabPathStepHref(pathSlug: string, stepId: string): string {
-  return `/labs/${pathSlug}#step-${stepId}`;
+export function buildLabPathHref(pathSlug: string, lang: "EN" | "FR" = "EN"): string {
+  return lang === "FR" ? `/fr/labs/${pathSlug}` : `/labs/${pathSlug}`;
+}
+
+export function buildLabPathStepHref(
+  pathSlug: string,
+  stepId: string,
+  lang: "EN" | "FR" = "EN"
+): string {
+  return `${buildLabPathHref(pathSlug, lang)}#step-${stepId}`;
 }

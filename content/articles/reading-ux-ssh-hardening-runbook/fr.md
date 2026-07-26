@@ -2,6 +2,13 @@
 title: "Runbook durcissement SSH: code, checklists, tableaux"
 excerpt: "Article démo pour blocs de code copiables, checklists interactives, callouts et tableaux ops."
 updated: "2026-07-25"
+faq:
+  - q: "Faut-il désactiver les mots de passe avant de déployer les clés ?"
+    a: "Non. Déploie d'abord les clés admin, valide une seconde session, puis désactive PasswordAuthentication pour éviter le lockout."
+  - q: "Quelle procédure de reload sshd est sûre ?"
+    a: "Garde une session root ou console hors bande, valide avec sshd -t, puis systemctl reload sshd."
+  - q: "fail2ban suffit-il pour un bastion exposé Internet ?"
+    a: "C'est une couche, pas un contrôle complet. Préfère clés only, AllowUsers restreint et filtrage réseau en plus de fail2ban."
 ---
 
 ## Objectif

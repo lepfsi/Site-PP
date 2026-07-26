@@ -1,7 +1,8 @@
 import { SITE } from "./site";
-import { absoluteUrl, articleLocalePaths, tEn, tLang } from "./seo";
+import { absoluteUrl, articleLocalePaths, labLocalePaths, tEn, tLang } from "./seo";
 import type { Article } from "./articles";
 import type { LabPath } from "./labs";
+import type { FaqItem } from "./markdown";
 import type { Language, TranslationKeys } from "./translations";
 
 export function organizationJsonLd() {
@@ -95,60 +96,78 @@ export function breadcrumbJsonLd(items: { name: string; path: string }[]) {
   };
 }
 
-/**
- * FAQPage from lab steps (quiz + checklist + lab descriptions).
- * Uses EN for stable crawler-facing structured data.
- */
-export function labFaqJsonLd(path: LabPath) {
-  const entities = path.steps
-    .filter((s) => s.type === "quiz" || s.type === "checklist" || s.type === "lab")
-    .map((s) => {
-      const question = tEn(s.titleKey as keyof TranslationKeys);
-      const answer = tEn(s.descKey as keyof TranslationKeys)
-        .replace(/\n+/g, " ")
-        .trim();
-      return {
-        "@type": "Question" as const,
-        name: question,
-        acceptedAnswer: {
-          "@type": "Answer" as const,
-          text: answer,
-        },
-      };
-    })
-    .filter((q) => q.name && q.acceptedAnswer.text);
-
-  if (entities.length === 0) return null;
-
+export function faqPageJsonLd(
+  items: FaqItem[],
+  options: { name: string; description?: string; url: string; lang?: Language }
+) {
+  if (!items.length) return null;
+  const lang = options.lang ?? "EN";
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: entities,
-    name: tEn(path.titleKey as keyof TranslationKeys),
-    description: tEn(path.descKey as keyof TranslationKeys),
-    url: absoluteUrl(`/labs/${path.slug}`),
-    inLanguage: "en",
+    name: options.name,
+    description: options.description,
+    url: options.url,
+    inLanguage: lang === "FR" ? "fr" : "en",
+    mainEntity: items.map((item) => ({
+      "@type": "Question" as const,
+      name: item.q,
+      acceptedAnswer: {
+        "@type": "Answer" as const,
+        text: item.a,
+      },
+    })),
   };
 }
 
-/** Course/LearningResource wrapper for a lab path (complements FAQ). */
-export function labCourseJsonLd(path: LabPath) {
+/**
+ * FAQPage from lab steps (quiz + checklist + lab descriptions).
+ */
+export function labFaqJsonLd(path: LabPath, lang: Language = "EN") {
+  const entities = path.steps
+    .filter((s) => s.type === "quiz" || s.type === "checklist" || s.type === "lab")
+    .map((s) => {
+      const question = tLang(lang, s.titleKey as keyof TranslationKeys);
+      const answer = tLang(lang, s.descKey as keyof TranslationKeys)
+        .replace(/\n+/g, " ")
+        .trim();
+      return { q: question, a: answer };
+    })
+    .filter((q) => q.q && q.a);
+
+  if (entities.length === 0) return null;
+
+  const paths = labLocalePaths(path.slug);
+  const urlPath = lang === "FR" ? paths.fr : paths.en;
+
+  return faqPageJsonLd(entities, {
+    name: tLang(lang, path.titleKey as keyof TranslationKeys),
+    description: tLang(lang, path.descKey as keyof TranslationKeys),
+    url: absoluteUrl(urlPath),
+    lang,
+  });
+}
+
+/** Course wrapper for a lab path (complements FAQ). */
+export function labCourseJsonLd(path: LabPath, lang: Language = "EN") {
+  const paths = labLocalePaths(path.slug);
+  const urlPath = lang === "FR" ? paths.fr : paths.en;
   return {
     "@context": "https://schema.org",
     "@type": "Course",
-    name: tEn(path.titleKey as keyof TranslationKeys),
-    description: tEn(path.descKey as keyof TranslationKeys),
+    name: tLang(lang, path.titleKey as keyof TranslationKeys),
+    description: tLang(lang, path.descKey as keyof TranslationKeys),
     provider: {
       "@type": "Organization",
       name: SITE.name,
       url: SITE.url,
     },
-    url: absoluteUrl(`/labs/${path.slug}`),
-    inLanguage: ["en", "fr"],
+    url: absoluteUrl(urlPath),
+    inLanguage: lang === "FR" ? "fr" : "en",
     hasCourseInstance: {
       "@type": "CourseInstance",
       courseMode: "online",
-      courseWorkload: tEn(path.durationKey as keyof TranslationKeys),
+      courseWorkload: tLang(lang, path.durationKey as keyof TranslationKeys),
     },
   };
 }

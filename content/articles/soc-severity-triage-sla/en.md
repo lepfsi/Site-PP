@@ -1,6 +1,13 @@
 ---
 title: "SOC triage and SLAs: ranking alerts without drowning the team"
 excerpt: "A practical P1-P3 matrix, severity criteria, and operational callouts for realistic first-line SOC triage."
+faq:
+  - q: "What is a realistic P1 triage SLA?"
+    a: "For active exfiltration, domain admin compromise, or ransomware in progress, aim for about 15 minutes to first triage and escalation, adapted to real team capacity."
+  - q: "Should everything be classified as P1 to be safe?"
+    a: "No. Over-classifying creates alert fatigue, burns the on-call team, and hides true incidents. Use clear P1–P3 criteria and document the decision in one line."
+  - q: "When should you contain before full forensics?"
+    a: "As soon as severity is set and impact is plausible. Early containment buys time; deep forensics before classification often blows the SLA clock."
 ---
 
 ## Why triage is a craft

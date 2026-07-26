@@ -14,11 +14,12 @@ interface LabPathCardProps {
 }
 
 export default function LabPathCard({ path, variant = "grid" }: LabPathCardProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { hydrated, getStats } = useLabProgress();
   const stats = hydrated ? getStats(path.slug, path.steps.length) : null;
   const category = getCategoryBySlug(path.category);
   const Icon = path.icon;
+  const pathHref = lang === "FR" ? `/fr/labs/${path.slug}` : `/labs/${path.slug}`;
 
   const ctaLabel = stats?.isComplete
     ? t("labs.page.review")
@@ -29,7 +30,7 @@ export default function LabPathCard({ path, variant = "grid" }: LabPathCardProps
   if (variant === "home") {
     return (
       <Link
-        href={`/labs/${path.slug}`}
+        href={pathHref}
         className={`group flex flex-col h-full p-6 sm:p-7 rounded-2xl border border-border-main bg-bg-primary transition-all hover:border-turquoise/40 hover:shadow-lg hover:shadow-turquoise/5 ${
           path.featured ? "ring-1 ring-turquoise/20" : ""
         }`}
@@ -118,7 +119,7 @@ export default function LabPathCard({ path, variant = "grid" }: LabPathCardProps
       </div>
 
       <Link
-        href={`/labs/${path.slug}`}
+        href={pathHref}
         className={`inline-flex items-center justify-center px-5 py-3 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all group ${
           stats?.isComplete
             ? "bg-green-500/10 border border-green-500/30 text-green-500 hover:bg-green-500/15"

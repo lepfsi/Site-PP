@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMarkdownBodies, getMarkdownMetas } from "@/lib/markdown";
 import { ARTICLES, getArticleBySlug } from "@/lib/articles";
-import { articleMetadata, tLang } from "@/lib/seo";
-import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
+import { absoluteUrl, articleLocalePaths, articleMetadata, tLang } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/jsonld";
 import type { TranslationKeys } from "@/lib/translations";
 import JsonLd from "@/components/JsonLd";
 import ArticlePageClient from "@/app/articles/[slug]/ArticlePageClient";
@@ -52,6 +52,8 @@ export default async function FrenchArticlePage({
 
   const categoryName = tLang("FR", article.categoryLabelKey as keyof TranslationKeys);
   const title = tLang("FR", article.titleKey as keyof TranslationKeys);
+  const faq = markdownMeta?.FR?.faq ?? markdownMeta?.EN?.faq;
+  const articlePath = articleLocalePaths(article.slug).fr;
 
   return (
     <>
@@ -61,9 +63,21 @@ export default async function FrenchArticlePage({
           { name: "Accueil", path: "/" },
           { name: "Articles", path: "/articles" },
           { name: categoryName, path: `/category/${article.category}` },
-          { name: title, path: `/fr/articles/${article.slug}` },
+          { name: title, path: articlePath },
         ])}
       />
+      {faq && faq.length > 0 ? (
+        <JsonLd
+          data={
+            faqPageJsonLd(faq, {
+              name: title,
+              description: tLang("FR", article.excerptKey as keyof TranslationKeys),
+              url: absoluteUrl(articlePath),
+              lang: "FR",
+            })!
+          }
+        />
+      ) : null}
       <ArticlePageClient
         markdownBodies={markdownBodies}
         markdownMeta={markdownMeta}

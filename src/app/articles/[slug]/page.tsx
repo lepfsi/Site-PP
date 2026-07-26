@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMarkdownBodies, getMarkdownMetas } from "@/lib/markdown";
 import { ARTICLES, getArticleBySlug } from "@/lib/articles";
-import { articleMetadata, tEn } from "@/lib/seo";
-import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
+import { absoluteUrl, articleLocalePaths, articleMetadata, tEn } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd, faqPageJsonLd } from "@/lib/jsonld";
 import type { TranslationKeys } from "@/lib/translations";
 import JsonLd from "@/components/JsonLd";
 import ArticlePageClient from "./ArticlePageClient";
@@ -48,6 +48,8 @@ export default async function ArticlePage({
 
   const categoryName = tEn(article.categoryLabelKey as keyof TranslationKeys);
   const title = tEn(article.titleKey as keyof TranslationKeys);
+  const faq = markdownMeta?.EN?.faq;
+  const articlePath = articleLocalePaths(article.slug).en;
 
   return (
     <>
@@ -57,9 +59,21 @@ export default async function ArticlePage({
           { name: "Home", path: "/" },
           { name: "Articles", path: "/articles" },
           { name: categoryName, path: `/category/${article.category}` },
-          { name: title, path: `/articles/${article.slug}` },
+          { name: title, path: articlePath },
         ])}
       />
+      {faq && faq.length > 0 ? (
+        <JsonLd
+          data={
+            faqPageJsonLd(faq, {
+              name: title,
+              description: tEn(article.excerptKey as keyof TranslationKeys),
+              url: absoluteUrl(articlePath),
+              lang: "EN",
+            })!
+          }
+        />
+      ) : null}
       <ArticlePageClient
         markdownBodies={markdownBodies}
         markdownMeta={markdownMeta}

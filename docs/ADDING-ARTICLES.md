@@ -42,6 +42,28 @@ Corps de l'article en markdown…
 > Citations / notes terrain
 ```
 
+### FAQ (SEO JSON-LD, optionnel)
+
+Pour un runbook / guide Q&A, ajoute un bloc `faq` dans le frontmatter (EN **et** FR) :
+
+```yaml
+---
+title: "Mon runbook"
+excerpt: "Résumé."
+faq:
+  - q: "Question en langage naturel ?"
+    a: "Réponse courte et factuelle (1–3 phrases)."
+  - q: "Autre question ?"
+    a: "Autre réponse."
+---
+```
+
+- Alias acceptés : `question` / `answer` à la place de `q` / `a`  
+- Génère un schéma **FAQPage** sur `/articles/<slug>` et `/fr/articles/<slug>`  
+- 2–5 questions max recommandées ; pas de marketing vide  
+
+Détail SEO : [SEO.md](./SEO.md).
+
 ### Callouts (pris en charge)
 
 `react-markdown` **ne gère pas nativement** la syntaxe GitHub `> [!NOTE]`.  

@@ -37,33 +37,59 @@ Doit correspondre au domaine principal Vercel (redirection apex → www ou l’i
 
 ---
 
-## hreflang & routes FR (articles)
+## hreflang & routes FR
 
-| Langue | URL | Meta + JSON-LD | UI |
-|--------|-----|----------------|-----|
-| EN (défaut) | `/articles/<slug>` | EN | Lang libre (localStorage) |
-| FR | `/fr/articles/<slug>` | FR | Forcée FR (`LanguageProvider forceLang`) |
+### Articles
+
+| Langue | URL |
+|--------|-----|
+| EN | `/articles/<slug>` |
+| FR | `/fr/articles/<slug>` |
+
+### Labs
+
+| Langue | URL |
+|--------|-----|
+| EN | `/labs`, `/labs/<slug>` |
+| FR | `/fr/labs`, `/fr/labs/<slug>` |
 
 - `alternates.languages` : `en`, `fr`, `x-default` → EN  
-- Sitemap : les **deux** URLs par article  
-- Navbar FR/EN sur une page article **navigue** entre les deux routes  
+- Sitemap : URLs EN + FR  
+- Navbar FR/EN **navigue** entre les routes localisées (articles + labs)  
+- Sous `/fr/*` : `LanguageProvider forceLang="FR"`
 
-Fichiers : `src/app/fr/layout.tsx`, `src/app/fr/articles/[slug]/page.tsx`, `src/lib/seo.ts` (`articleHreflang`).
+Fichiers : `src/app/fr/**`, `src/lib/seo.ts` (`articleHreflang`, `labHreflang`).
 
-Les autres pages (home, labs, products) restent mono-URL + switch client pour l’instant.
+Home, products, experience restent mono-URL + switch client pour l’instant.
 
 ---
 
-## FAQ schema (labs / runbooks)
+## FAQ schema
 
-Sur chaque `/labs/<slug>` :
+### Labs (`/labs/<slug>` et `/fr/labs/<slug>`)
 
-- **Course** : titre, description, provider DailyOps  
-- **FAQPage** : questions = titres des steps `quiz` / `checklist` / `lab`, réponses = descriptions (EN)
+- **Course** + **FAQPage** depuis les steps `quiz` / `checklist` / `lab`  
+- Langue du JSON-LD = locale de l’URL  
 
-Implémentation : `labFaqJsonLd` + `labCourseJsonLd` dans `src/lib/jsonld.ts`, injectés dans `src/app/labs/[slug]/page.tsx`.
+### Articles runbook (frontmatter)
 
-Vérifier en view-source : `application/ld+json` avec `"@type":"FAQPage"`.
+```yaml
+---
+title: "..."
+excerpt: "..."
+faq:
+  - q: "Question visible pour Google ?"
+    a: "Réponse claire en 1–3 phrases."
+  - q: "Deuxième question ?"
+    a: "Deuxième réponse."
+---
+```
+
+- Parsé par `getMarkdownMeta` → `faq?: { q, a }[]`  
+- Injecté en `FAQPage` sur la page article (EN et FR)  
+- Exemples : `vlan-trunking-runbook`, `soc-severity-triage-sla`, `reading-ux-ssh-hardening-runbook`
+
+Voir aussi [ADDING-ARTICLES.md](./ADDING-ARTICLES.md).
 
 ---
 
@@ -122,8 +148,8 @@ Tester un article avec [Facebook Sharing Debugger](https://developers.facebook.c
 |----------|------|
 | Haute | GSC + sitemap soumis |
 | Haute | Redirect domaine unique |
-| Moyenne | Routes `/fr/` pour labs, products, home |
-| Moyenne | FAQ frontmatter dans les articles runbook |
+| Moyenne | Routes `/fr/` pour products, home, experience |
+| Basse | FAQ frontmatter sur tous les runbooks restants |
 | Basse | `llms.txt` pour assistants IA |
 | Basse | Sitemap index si > 50k URLs (loin d’être le cas) |
 

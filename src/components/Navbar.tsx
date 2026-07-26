@@ -22,17 +22,42 @@ export default function Navbar() {
   const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  /** Prefer locale routes for articles (hreflang SEO); otherwise client lang only. */
+  /** Prefer locale routes for articles + labs (hreflang SEO); otherwise client lang only. */
   const switchLang = (next: Language) => {
-    const frMatch = pathname.match(/^\/fr\/articles\/([^/?#]+)/);
-    const enMatch = pathname.match(/^\/articles\/([^/?#]+)/);
-    if (next === "FR" && enMatch && !pathname.startsWith("/fr/")) {
-      router.push(`/fr/articles/${enMatch[1]}`);
-      return;
+    const frArticle = pathname.match(/^\/fr\/articles\/([^/?#]+)/);
+    const enArticle = pathname.match(/^\/articles\/([^/?#]+)/);
+    const frLab = pathname.match(/^\/fr\/labs\/([^/?#]+)/);
+    const enLab = pathname.match(/^\/labs\/([^/?#]+)/);
+    const onFrLabsIndex = pathname === "/fr/labs" || pathname === "/fr/labs/";
+    const onEnLabsIndex = pathname === "/labs" || pathname === "/labs/";
+
+    if (next === "FR") {
+      if (enArticle && !pathname.startsWith("/fr/")) {
+        router.push(`/fr/articles/${enArticle[1]}`);
+        return;
+      }
+      if (enLab && !pathname.startsWith("/fr/")) {
+        router.push(`/fr/labs/${enLab[1]}`);
+        return;
+      }
+      if (onEnLabsIndex) {
+        router.push("/fr/labs");
+        return;
+      }
     }
-    if (next === "EN" && frMatch) {
-      router.push(`/articles/${frMatch[1]}`);
-      return;
+    if (next === "EN") {
+      if (frArticle) {
+        router.push(`/articles/${frArticle[1]}`);
+        return;
+      }
+      if (frLab) {
+        router.push(`/labs/${frLab[1]}`);
+        return;
+      }
+      if (onFrLabsIndex) {
+        router.push("/labs");
+        return;
+      }
     }
     setLang(next);
   };
