@@ -1,4 +1,4 @@
-export type ChatProviderId = "unikey" | "openai" | "xai" | "kimi";
+export type ChatProviderId = "gemini" | "unikey" | "openai" | "xai" | "kimi";
 
 export interface LLMConfig {
   apiKey: string;
@@ -13,19 +13,29 @@ export function getLastLLMError(): string | undefined {
   return lastLLMError;
 }
 
+const GEMINI_DEFAULT_BASE = "https://generativelanguage.googleapis.com/v1beta/openai";
+const GEMINI_DEFAULT_MODEL = "gemini-2.5-flash";
+
 /**
  * Resolve chat LLM config from env.
  *
  * Providers (OpenAI-compatible POST /chat/completions):
- * - unikey  → UNIKEY_API_KEY, base https://www.getunikey.ai/v1, model gpt-5.6-sol (default)
+ * - gemini  → GEMINI_API_KEY / GOOGLE_GENERATIVE_AI_API_KEY (priority)
+ * - unikey  → UNIKEY_API_KEY
  * - openai  → OPENAI_API_KEY
  * - xai     → XAI_API_KEY
- * - kimi    → LOGFARE_API_KEY / KIMI_API_KEY (legacy free; not auto-selected)
+ * - kimi    → LOGFARE_API_KEY / KIMI_API_KEY (legacy; not auto-selected)
  *
- * Force: CHAT_PROVIDER=unikey|openai|xai|kimi
- * Overrides: CHAT_MODEL, UNIKEY_BASE_URL / OPENAI_BASE_URL
+ * Force: CHAT_PROVIDER=gemini|unikey|openai|xai|kimi
+ * Overrides: CHAT_MODEL, GEMINI_BASE_URL, GEMINI_MODEL, UNIKEY_BASE_URL, OPENAI_BASE_URL
  */
 export function getLLMConfig(): LLMConfig | null {
+  const geminiKey = (
+    process.env.GEMINI_API_KEY ??
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY ??
+    process.env.GOOGLE_API_KEY ??
+    ""
+  ).trim();
   const unikeyKey = (process.env.UNIKEY_API_KEY ?? process.env.GETUNIKEY_API_KEY ?? "").trim();
   const openaiKey = (process.env.OPENAI_API_KEY ?? "").trim();
   const xaiKey = (process.env.XAI_API_KEY ?? "").trim();
@@ -40,7 +50,9 @@ export function getLLMConfig(): LLMConfig | null {
 
   let provider: ChatProviderId | null = null;
 
-  if (providerRaw === "unikey" || providerRaw === "getunikey") {
+  if (providerRaw === "gemini" || providerRaw === "google") {
+    provider = geminiKey ? "gemini" : null;
+  } else if (providerRaw === "unikey" || providerRaw === "getunikey") {
     provider = unikeyKey ? "unikey" : null;
   } else if (providerRaw === "kimi" || providerRaw === "logfare" || providerRaw === "logafare") {
     provider = kimiKey ? "kimi" : null;
@@ -49,13 +61,24 @@ export function getLLMConfig(): LLMConfig | null {
   } else if (providerRaw === "openai") {
     provider = openaiKey ? "openai" : null;
   } else {
-    // Auto: UniKey first (paid reliable), then OpenAI, xAI. Logfare/Kimi never auto.
-    if (unikeyKey) provider = "unikey";
+    // Auto: Gemini first, then UniKey, OpenAI, xAI. Logfare/Kimi never auto.
+    if (geminiKey) provider = "gemini";
+    else if (unikeyKey) provider = "unikey";
     else if (openaiKey) provider = "openai";
     else if (xaiKey) provider = "xai";
   }
 
   if (!provider) return null;
+
+  if (provider === "gemini") {
+    const baseFromEnv = (process.env.GEMINI_BASE_URL ?? "").trim().replace(/\/$/, "");
+    return {
+      provider: "gemini",
+      apiKey: geminiKey,
+      baseUrl: baseFromEnv || GEMINI_DEFAULT_BASE,
+      model: (process.env.CHAT_MODEL ?? process.env.GEMINI_MODEL ?? GEMINI_DEFAULT_MODEL).trim(),
+    };
+  }
 
   if (provider === "unikey") {
     const baseFromEnv = (
@@ -269,6 +292,16 @@ async function requestCompletion(
 }
 
 function modelFallbacks(config: LLMConfig): string[] {
+  if (config.provider === "gemini") {
+    return [
+      ...new Set([
+        config.model,
+        "gemini-2.5-flash",
+        "gemini-2.0-flash",
+        "gemini-2.5-pro",
+      ]),
+    ];
+  }
   if (config.provider === "unikey") {
     // Paid UniKey: one model only — cascading alternatives multiplies latency on failure
     return [config.model];
@@ -288,9 +321,26 @@ export function listAvailableLLMConfigs(): LLMConfig[] {
   const configs: LLMConfig[] = [];
   if (primary) configs.push(primary);
 
+  const geminiKey = (
+    process.env.GEMINI_API_KEY ??
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY ??
+    process.env.GOOGLE_API_KEY ??
+    ""
+  ).trim();
   const unikeyKey = (process.env.UNIKEY_API_KEY ?? process.env.GETUNIKEY_API_KEY ?? "").trim();
   const openaiKey = (process.env.OPENAI_API_KEY ?? "").trim();
   const xaiKey = (process.env.XAI_API_KEY ?? "").trim();
+
+  if (geminiKey && primary?.provider !== "gemini") {
+    const base = (process.env.GEMINI_BASE_URL ?? "").trim().replace(/\/$/, "");
+    configs.push({
+      provider: "gemini",
+      apiKey: geminiKey,
+      baseUrl: base || GEMINI_DEFAULT_BASE,
+      // Do not reuse CHAT_MODEL if primary is another provider (e.g. UniKey model id)
+      model: (process.env.GEMINI_MODEL ?? GEMINI_DEFAULT_MODEL).trim(),
+    });
+  }
 
   if (unikeyKey && primary?.provider !== "unikey") {
     const base = (process.env.UNIKEY_BASE_URL ?? "").trim().replace(/\/$/, "");
@@ -298,7 +348,7 @@ export function listAvailableLLMConfigs(): LLMConfig[] {
       provider: "unikey",
       apiKey: unikeyKey,
       baseUrl: base || "https://www.getunikey.ai/v1",
-      model: (process.env.CHAT_MODEL ?? process.env.UNIKEY_MODEL ?? "gpt-5.6-sol").trim(),
+      model: (process.env.UNIKEY_MODEL ?? "gpt-5.6-sol").trim(),
     });
   }
 

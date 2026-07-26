@@ -20,6 +20,9 @@ function classifyLLMError(error?: string): string | undefined {
 function hintFor(provider: string | undefined, issue: string | undefined): string | undefined {
   if (!issue) return undefined;
   if (issue === "invalid_api_key") {
+    if (provider === "gemini") {
+      return "Check GEMINI_API_KEY on Vercel (Google AI Studio → Get API key).";
+    }
     if (provider === "unikey") {
       return "Check UNIKEY_API_KEY on Vercel (Bearer key from https://www.getunikey.ai/).";
     }
@@ -32,6 +35,9 @@ function hintFor(provider: string | undefined, issue: string | undefined): strin
     return "Check OPENAI_API_KEY on Vercel.";
   }
   if (issue === "no_credits") {
+    if (provider === "gemini") {
+      return "Check Gemini API quotas / billing in Google AI Studio.";
+    }
     return provider === "unikey"
       ? "Top up AI Credits on https://www.getunikey.ai/"
       : "Provider has no credits — check billing.";
@@ -40,7 +46,10 @@ function hintFor(provider: string | undefined, issue: string | undefined): strin
     return "Provider quota exceeded — check billing or switch model.";
   }
   if (issue === "invalid_model") {
-    return "Set CHAT_MODEL to a model your UniKey account can use (e.g. gpt-5.6-sol). List models: GET https://www.getunikey.ai/v1/models";
+    if (provider === "gemini") {
+      return "Set CHAT_MODEL or GEMINI_MODEL (e.g. gemini-2.5-flash). See https://ai.google.dev/gemini-api/docs/models";
+    }
+    return "Set CHAT_MODEL to a model your provider supports (e.g. gpt-5.6-sol for UniKey).";
   }
   return undefined;
 }

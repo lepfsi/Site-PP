@@ -19,15 +19,21 @@ En prod : **Vercel → Settings → Environment Variables**.
 | `CONTACT_EMAIL` | Affiché public |
 | `NOTIFY_EMAIL` | Boîte qui reçoit les notifs |
 
-### Chat (UniKey)
+### Chat (Gemini en priorité)
 
 | Variable | Rôle |
 |----------|------|
-| `UNIKEY_API_KEY` | Clé UniKey |
-| `CHAT_PROVIDER` | `unikey` |
-| `CHAT_MODEL` | `gpt-5.6-sol` (ou id exact de ton compte) |
-| `UNIKEY_BASE_URL` | défaut `https://www.getunikey.ai/v1` |
+| `GEMINI_API_KEY` | Clé Google AI Studio (recommandé) |
+| `CHAT_PROVIDER` | `gemini` (optionnel si seule clé Gemini) |
+| `CHAT_MODEL` | `gemini-2.5-flash` (défaut) |
+| `GEMINI_MODEL` | Alias modèle Gemini |
+| `GOOGLE_GENERATIVE_AI_API_KEY` | Alias de `GEMINI_API_KEY` |
+| `GEMINI_BASE_URL` | Défaut OpenAI-compat Google |
+| `UNIKEY_API_KEY` / `OPENAI_API_KEY` / `XAI_API_KEY` | Fallbacks |
 | `TAVILY_API_KEY` | Recherche web (CVE, docs) |
+
+Clé : [aistudio.google.com/apikey](https://aistudio.google.com/apikey).  
+Auto si `CHAT_PROVIDER` vide : **gemini → unikey → openai → xai**.
 
 ### Labs
 
@@ -64,7 +70,7 @@ git push origin main
 
 | URL | Attendu |
 |-----|---------|
-| `/api/chat/health?ping=1` | `provider: unikey`, `live.ok: true` |
+| `/api/chat/health?ping=1` | `provider: gemini`, `live.ok: true` |
 | `/api/email/health` | `configured: true`, segment non null |
 | `/products` | Page produits |
 | `/newsletter/preview` | HTML brandé |

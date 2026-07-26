@@ -9,40 +9,43 @@ Navigateur (ChatAssistant.tsx)
             → chat-router.ts     # type de question
             → chat-sources.ts    # articles + Tavily/Serper
             → chat-context.ts    # identité DailyOps + produits
-            → chat-llm.ts        # appel UniKey / OpenAI / xAI
+            → chat-llm.ts        # appel Gemini / UniKey / OpenAI / xAI
             → chat-quality.ts    # filtre réponses pourries
 ```
 
-## Provider actuel (prod)
+## Provider actuel (priorité)
 
-**UniKey** — OpenAI-compatible.
+**Gemini (Google)** — via endpoint OpenAI-compatible.
 
 ```env
-UNIKEY_API_KEY=sk-...
-CHAT_PROVIDER=unikey
-CHAT_MODEL=gpt-5.6-sol
-# UNIKEY_BASE_URL=https://www.getunikey.ai/v1
+GEMINI_API_KEY=AIza...
+CHAT_PROVIDER=gemini
+CHAT_MODEL=gemini-2.5-flash
 ```
 
-Docs UniKey : https://docs.getunikey.ai/docs/api-reference/
+- Clé : https://aistudio.google.com/apikey  
+- Docs OpenAI compat : https://ai.google.dev/gemini-api/docs/openai  
+- Base par défaut : `https://generativelanguage.googleapis.com/v1beta/openai`
 
 ### Changer de modèle / provider
 
 1. Mettre les variables sur **Vercel** (jamais dans le repo).
 2. Optionnel : adapter les defaults dans `src/lib/chat-llm.ts` (`getLLMConfig`).
 3. Redeploy.
-4. Tester : `GET /api/chat/health?ping=1`
+4. Tester : `GET /api/chat/health?ping=1`  
+   → `llm.provider` doit être `"gemini"`.
 
 ### Providers supportés
 
 | Provider | Env clé | Auto-sélection |
 |----------|---------|----------------|
-| **unikey** | `UNIKEY_API_KEY` | Oui (prioritaire) |
-| openai | `OPENAI_API_KEY` | Si pas UniKey |
-| xai | `XAI_API_KEY` | Si pas UniKey/OpenAI |
+| **gemini** | `GEMINI_API_KEY` (ou `GOOGLE_GENERATIVE_AI_API_KEY`) | **Oui (prioritaire)** |
+| unikey | `UNIKEY_API_KEY` | Si pas Gemini |
+| openai | `OPENAI_API_KEY` | Si pas Gemini/UniKey |
+| xai | `XAI_API_KEY` | Ensuite |
 | kimi/logfare | `LOGFARE_API_KEY` | **Non** (explicit `CHAT_PROVIDER=kimi` only) |
 
-Fallback multi-provider : si le primaire échoue ou est rejeté par `chat-quality`, on tente OpenAI/xAI s’ils sont configurés (`listAvailableLLMConfigs`).
+Fallback multi-provider : si le primaire échoue ou est rejeté par `chat-quality`, on tente UniKey → OpenAI → xAI s’ils sont configurés (`listAvailableLLMConfigs`).
 
 ## Ajouter un « agent » / un autre LLM
 
@@ -90,7 +93,7 @@ Chaîne typique d’un message :
 1. Routing (ms)
 2. Match articles locaux (ms)
 3. **Recherche web** Tavily (0,5–3 s) si CVE / vendor / « récent »
-4. **Appel LLM** UniKey (1–8 s selon modèle)
+4. **Appel LLM** Gemini (ou fallback UniKey/OpenAI)
 5. Filtre qualité
 
 ### Leviers déjà / à garder
@@ -119,9 +122,9 @@ Chaîne typique d’un message :
 
 ```bash
 # .env.local
-UNIKEY_API_KEY=sk-...
-CHAT_PROVIDER=unikey
-CHAT_MODEL=gpt-5.6-sol
+GEMINI_API_KEY=AIza...
+CHAT_PROVIDER=gemini
+CHAT_MODEL=gemini-2.5-flash
 # TAVILY_API_KEY=...   # optionnel
 
 npm run dev
