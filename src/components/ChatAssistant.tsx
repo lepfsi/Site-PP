@@ -25,6 +25,7 @@ const NUDGE_DELAY_MIN_MS = 8_000;
 const NUDGE_DELAY_JITTER_MS = 4_000;
 
 const NUDGE_KEYS = ["chat.nudge_1", "chat.nudge_2", "chat.nudge_3"] as const;
+type NudgeKey = (typeof NUDGE_KEYS)[number];
 
 function isNudgeDismissed(): boolean {
   if (typeof window === "undefined") return false;
@@ -94,7 +95,7 @@ export default function ChatAssistant() {
   const [escalateDone, setEscalateDone] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
   // Fixed first key on SSR; randomize after mount to avoid hydration mismatch
-  const [nudgeMessageKey, setNudgeMessageKey] = useState(NUDGE_KEYS[0]);
+  const [nudgeMessageKey, setNudgeMessageKey] = useState<NudgeKey>(NUDGE_KEYS[0]);
   const bottomRef = useRef<HTMLDivElement>(null);
   const dragBoundsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
