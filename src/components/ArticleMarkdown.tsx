@@ -192,23 +192,23 @@ function buildComponents(
       );
     },
     blockquote: ({ children }) => (
-      <blockquote className="border-l-4 border-teal-600 dark:border-l-turquoise bg-teal-50 dark:bg-turquoise/10 rounded-r-xl border border-teal-200 dark:border-turquoise/20 px-4 py-3 mb-4 text-sm text-text-secondary font-medium">
+      <blockquote className="border-l-4 border-turquoise/50 bg-turquoise/[0.08] rounded-r-xl px-4 py-3 mb-4 text-sm text-text-secondary font-medium">
         {children}
       </blockquote>
     ),
     hr: () => <hr className="border-border-main my-8" />,
     table: ({ children }) => (
-      <div className="my-6 overflow-x-auto rounded-xl border border-slate-300 dark:border-border-main bg-white dark:bg-transparent shadow-sm">
+      <div className="my-6 overflow-x-auto rounded-xl border border-border-main bg-bg-elevated shadow-sm">
         <table className="w-full min-w-[280px] border-collapse text-sm">{children}</table>
       </div>
     ),
     thead: ({ children }) => (
-      <thead className="bg-slate-100 dark:bg-bg-secondary/90 text-text-primary border-b border-slate-300 dark:border-border-main">
+      <thead className="bg-bg-secondary text-text-primary border-b border-border-main">
         {children}
       </thead>
     ),
     tbody: ({ children }) => (
-      <tbody className="divide-y divide-slate-200 dark:divide-border-main/80 bg-white dark:bg-bg-elevated/40">
+      <tbody className="divide-y divide-border-main/80 bg-bg-elevated">
         {children}
       </tbody>
     ),
@@ -309,15 +309,15 @@ export default function ArticleMarkdown({ content }: ArticleMarkdownProps) {
           return (
             <aside
               key={`t-${i}`}
-              className="my-8 rounded-xl border border-teal-200 dark:border-turquoise/20 border-l-4 border-l-teal-600 dark:border-l-turquoise bg-teal-50 dark:bg-turquoise/10 px-5 py-4 sm:px-6 sm:py-5 not-prose shadow-sm"
+              className="my-8 rounded-xl border border-turquoise/30 border-l-4 border-l-turquoise bg-turquoise/[0.08] px-5 py-4 sm:px-6 sm:py-5 not-prose"
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-teal-800 dark:text-turquoise mb-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-turquoise mb-3">
                 {t("article.takeaways")}
               </p>
               <ul className="space-y-2">
                 {seg.items.map((item, j) => (
                   <li key={j} className="flex gap-2.5 text-sm sm:text-[15px] text-text-secondary leading-relaxed">
-                    <span className="mt-2 h-1.5 w-1.5 rounded-sm bg-teal-600 dark:bg-turquoise shrink-0" />
+                    <span className="mt-2 h-1.5 w-1.5 rounded-sm bg-turquoise shrink-0" />
                     <span>{item}</span>
                   </li>
                 ))}
@@ -331,18 +331,15 @@ export default function ArticleMarkdown({ content }: ArticleMarkdownProps) {
             <aside
               key={`s-${i}`}
               id="see-also-internal-links"
-              className="my-8 scroll-mt-28 rounded-xl border border-slate-300 dark:border-border-main bg-white dark:bg-bg-secondary/80 px-5 py-4 sm:px-6 not-prose shadow-sm"
+              className="my-8 scroll-mt-28 rounded-xl border border-border-main bg-bg-secondary px-5 py-4 sm:px-6 not-prose"
             >
-              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-slate-600 dark:text-text-secondary/70 mb-3">
+              <p className="text-[11px] font-semibold uppercase tracking-[0.16em] text-text-secondary/70 mb-3">
                 {t("article.see_also")}
               </p>
               <ul className="space-y-3">
                 {seg.items.map((item, j) => (
                   <li key={j}>
-                    <Link
-                      href={item.href}
-                      className="text-sm font-semibold text-teal-700 dark:text-turquoise hover:underline"
-                    >
+                    <Link href={item.href} className="text-sm font-semibold text-turquoise hover:underline">
                       {item.label}
                     </Link>
                     {item.reason ? (

@@ -32,10 +32,8 @@ export default function ArticleShareButton({ slug, title }: ArticleShareButtonPr
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  const articleUrl =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/articles/${slug}`
-      : `${SITE.url}/articles/${slug}`;
+  // Always use site canonical URL on SSR + client first paint (hydration-safe)
+  const articleUrl = `${SITE.url}/articles/${slug}`;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

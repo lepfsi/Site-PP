@@ -8,7 +8,7 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useLanguage } from "@/lib/LanguageContext";
 import { getCategoryBySlug, CATEGORIES } from "@/lib/categories";
-import { getArticlesByCategory } from "@/lib/articles";
+import { getArticlesByCategory, getCategoryArticleCount } from "@/lib/articles";
 import CategoryVisual from "@/components/category-visuals/CategoryVisual";
 import CategoryFeaturedArticle from "@/components/CategoryFeaturedArticle";
 import ArticleCategoryCard from "@/components/ArticleCategoryCard";
@@ -199,8 +199,8 @@ export default function CategoryPage() {
                             <cat.icon size={14} className="mr-2 opacity-60" />
                             {t(cat.nameKey)}
                           </span>
-                          <span className="text-[10px] font-black bg-bg-primary px-2 py-1 rounded border border-border-main text-text-secondary/50 group-hover:border-turquoise group-hover:text-turquoise transition-all">
-                            {cat.count}
+                          <span className="text-[10px] font-black bg-bg-elevated dark:bg-bg-primary px-2 py-1 rounded border border-border-main text-text-secondary group-hover:border-turquoise group-hover:text-turquoise transition-all">
+                            {getCategoryArticleCount(cat.slug)}
                           </span>
                         </Link>
                       </li>

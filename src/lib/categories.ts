@@ -32,7 +32,6 @@ export interface CategoryConfig {
   bg: string;
   border: string;
   tags: string[];
-  count: number;
 }
 
 export const CATEGORIES: CategoryConfig[] = [
@@ -48,7 +47,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-blue-500/10",
     border: "group-hover:border-blue-500/50",
     tags: ["BGP", "OSPF", "VLAN", "VPN"],
-    count: 124,
   },
   {
     slug: "cybersecurity",
@@ -62,7 +60,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-purple-500/10",
     border: "group-hover:border-purple-500/50",
     tags: ["Zero Trust", "SIEM", "Pentest"],
-    count: 98,
   },
   {
     slug: "infrastructure",
@@ -76,7 +73,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-emerald-500/10",
     border: "group-hover:border-emerald-500/50",
     tags: ["HA", "Proxmox", "DevOps"],
-    count: 156,
   },
   {
     slug: "cloud",
@@ -90,7 +86,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-blue-400/10",
     border: "group-hover:border-blue-400/50",
     tags: ["K8s", "Docker", "Terraform"],
-    count: 132,
   },
   {
     slug: "observability",
@@ -104,7 +99,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-cyan-500/10",
     border: "group-hover:border-cyan-500/50",
     tags: ["Prometheus", "Grafana", "SLO"],
-    count: 1,
   },
   {
     slug: "automation",
@@ -118,7 +112,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-pink-500/10",
     border: "group-hover:border-pink-500/50",
     tags: ["Ansible", "Python", "CI/CD"],
-    count: 64,
   },
   {
     slug: "ai",
@@ -132,7 +125,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-violet-500/10",
     border: "group-hover:border-violet-500/50",
     tags: ["LLM", "AI-Ops", "Copilots"],
-    count: 1,
   },
   {
     slug: "troubleshooting",
@@ -146,7 +138,6 @@ export const CATEGORIES: CategoryConfig[] = [
     bg: "bg-orange-500/10",
     border: "group-hover:border-orange-500/50",
     tags: ["Methodology", "RCA", "Packet Analysis"],
-    count: 87,
   },
 ];
 

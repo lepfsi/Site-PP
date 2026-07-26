@@ -93,9 +93,8 @@ export default function ChatAssistant() {
   const [escalateSending, setEscalateSending] = useState(false);
   const [escalateDone, setEscalateDone] = useState(false);
   const [showNudge, setShowNudge] = useState(false);
-  const [nudgeMessageKey] = useState(
-    () => NUDGE_KEYS[Math.floor(Math.random() * NUDGE_KEYS.length)],
-  );
+  // Fixed first key on SSR; randomize after mount to avoid hydration mismatch
+  const [nudgeMessageKey, setNudgeMessageKey] = useState(NUDGE_KEYS[0]);
   const bottomRef = useRef<HTMLDivElement>(null);
   const dragBoundsRef = useRef<HTMLDivElement>(null);
   const dragControls = useDragControls();
@@ -130,11 +129,14 @@ export default function ChatAssistant() {
   };
 
   useEffect(() => {
+    setNudgeMessageKey(NUDGE_KEYS[Math.floor(Math.random() * NUDGE_KEYS.length)]);
+  }, []);
+
+  useEffect(() => {
     if (open) {
       setShowNudge(false);
       return;
     }
-    if (typeof window === "undefined") return;
     if (isNudgeDismissed()) return;
 
     const delay = NUDGE_DELAY_MIN_MS + Math.random() * NUDGE_DELAY_JITTER_MS;

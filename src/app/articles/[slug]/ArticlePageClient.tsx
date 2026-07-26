@@ -114,11 +114,11 @@ export default function ArticlePageClient({
       <ReadingProgressBar targetId="article-body" />
       <Navbar />
       <div className="flex-grow pt-28">
-        <header className="relative py-10 sm:py-12 border-b border-border-main surface-header overflow-hidden print:border-0">
+        <header className="relative py-5 sm:py-6 border-b border-border-main surface-header overflow-hidden print:border-0">
           <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none print:hidden" />
           <div className="scanline print:hidden" />
           <div className="container-custom relative z-10">
-            <nav className="flex flex-wrap items-center mb-5 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em] print:hidden">
+            <nav className="flex flex-wrap items-center mb-3 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em] print:hidden">
               <Link href="/" className="hover:text-turquoise transition-colors">
                 {t("catpage.breadcrumb")}
               </Link>
@@ -155,7 +155,7 @@ export default function ArticlePageClient({
               animate={{ opacity: 1, y: 0 }}
               className="max-w-4xl"
             >
-              <div className="flex flex-wrap items-center gap-3 mb-4">
+              <div className="flex flex-wrap items-center gap-3 mb-2.5">
                 <span
                   className={`px-3 py-1 rounded-lg ${article.bg} ${article.color} text-[10px] font-black uppercase tracking-[0.2em] border border-border-main/40`}
                 >
@@ -174,11 +174,11 @@ export default function ArticlePageClient({
                 ) : null}
               </div>
 
-              <h1 className="text-2xl sm:text-3xl md:text-[2rem] font-black text-text-primary tracking-tight code-font leading-snug mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-[2rem] font-black text-text-primary tracking-tight code-font leading-snug mb-2">
                 {t(article.titleKey)}
               </h1>
 
-              <p className="text-text-secondary text-sm sm:text-base font-medium leading-relaxed mb-6 max-w-3xl">
+              <p className="text-text-secondary text-sm sm:text-base font-medium leading-relaxed mb-4 max-w-3xl">
                 {t(article.excerptKey)}
               </p>
 
@@ -201,7 +201,7 @@ export default function ArticlePageClient({
           </div>
         </header>
 
-        <section className="py-12 sm:py-16 bg-bg-primary border-b border-border-main">
+        <section className="py-8 sm:py-12 bg-bg-primary border-b border-border-main">
           <div className="container-custom">
             <div
               className={`grid grid-cols-1 gap-12 lg:gap-16 lg:items-start ${
@@ -285,8 +285,8 @@ export default function ArticlePageClient({
               {!readingMode && (
                 <StickySidebar className="lg:col-span-4 space-y-8 print:hidden">
                   {relatedArticles.length > 0 && (
-                    <div className="p-6 sm:p-8 rounded-2xl border border-teal-200 dark:border-turquoise/30 bg-white dark:bg-bg-secondary shadow-sm">
-                      <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-teal-800 dark:text-turquoise mb-6 border-b border-slate-200 dark:border-border-main pb-4">
+                    <div className="p-6 sm:p-8 rounded-2xl border border-border-main bg-bg-secondary">
+                      <h3 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary/50 mb-6 border-b border-border-main pb-4">
                         {t("article.related")}
                       </h3>
                       <ul className="space-y-4">

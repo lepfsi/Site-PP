@@ -6,6 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/lib/LanguageContext";
 import { useState, useEffect } from "react";
 import { CATEGORIES } from "@/lib/categories";
+import { getCategoryArticleCount } from "@/lib/articles";
 import CategoryVisual from "@/components/category-visuals/CategoryVisual";
 
 const TYPING_TAGS = [
@@ -123,8 +124,8 @@ export default function CategoryGrid() {
                   <div className={`absolute top-3 left-3 p-1.5 rounded-lg ${category.bg} ${category.color} border border-border-main/40 shadow-sm`}>
                     <category.icon size={14} />
                   </div>
-                  <span className="absolute top-3 right-3 text-[8px] font-mono text-text-secondary/50 uppercase tracking-widest bg-bg-primary/60 px-2 py-0.5 rounded border border-border-main/50">
-                    {category.count} {t("cat.articles")}
+                  <span className="absolute top-3 right-3 text-[8px] font-mono text-text-primary/80 dark:text-text-secondary uppercase tracking-widest bg-bg-elevated/90 dark:bg-bg-primary/70 px-2 py-0.5 rounded border border-border-main shadow-sm">
+                    {getCategoryArticleCount(category.slug)} {t("cat.articles")}
                   </span>
                 </div>
 

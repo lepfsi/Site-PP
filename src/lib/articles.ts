@@ -317,6 +317,11 @@ export function getArticlesByCategory(category: CategorySlug): Article[] {
   return ARTICLES.filter((a) => a.category === category);
 }
 
+/** Live count of articles in a category (use instead of hardcoded stats). */
+export function getCategoryArticleCount(category: CategorySlug): number {
+  return ARTICLES.filter((a) => a.category === category).length;
+}
+
 export function getFeaturedArticle(): Article {
   return ARTICLES.find((a) => a.featured) ?? ARTICLES[0];
 }

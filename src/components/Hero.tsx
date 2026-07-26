@@ -167,8 +167,8 @@ function HeroDashboard({
                 {t("hero.monitor_live")}
               </span>
             </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-turquoise/10 border border-turquoise/20 px-1.5 py-0.5 text-[9px] font-semibold text-turquoise">
-              <span className="h-1.5 w-1.5 rounded-full bg-turquoise animate-pulse" />
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-bg-primary/50 border border-border-main px-1.5 py-0.5 text-[9px] font-medium text-text-secondary">
+              <span className="h-1.5 w-1.5 rounded-full bg-emerald-500/80" />
               {t("hero.monitor_live_badge")}
             </span>
           </div>
@@ -232,12 +232,11 @@ export default function Hero() {
   const [visibleLogs, setVisibleLogs] = useState<string[]>([]);
   const logIndexRef = useRef(0);
 
+  // Locale dates only after mount — avoids SSR/client hydration mismatch
+  const dateLabel = mounted ? formatHeroDate(lastUpdated, lang) : lastUpdated;
   const statGuides = t("hero.stat_guides").replace("{count}", String(articleCount));
   const statDomains = t("hero.stat_domains").replace("{count}", String(domainCount));
-  const statUpdated = t("hero.stat_updated").replace(
-    "{date}",
-    formatHeroDate(lastUpdated, lang),
-  );
+  const statUpdated = t("hero.stat_updated").replace("{date}", dateLabel);
 
   useEffect(() => {
     setMounted(true);
