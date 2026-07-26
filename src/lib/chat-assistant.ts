@@ -61,6 +61,41 @@ function sourcesToLinks(sources: ChatSource[]): ChatLink[] {
   return sources.slice(0, 4).map((s) => ({ label: s.label, href: s.url }));
 }
 
+/** Static UI welcome — do not feed it to the LLM (it triggers ritual "Salut" every turn). */
+function isCannedWelcome(content: string): boolean {
+  const t = content.trim();
+  return (
+    t.startsWith("Salut. Je fais partie de l'équipe DailyOps") ||
+    t.startsWith("Hey. I'm on the DailyOps team")
+  );
+}
+
+/**
+ * Models often open every turn with Salut/Hello because the UI welcome is in history.
+ * Strip one ritual greeting (+ optional short social filler) at the start only.
+ */
+export function stripLeadingGreeting(text: string): string {
+  let t = text.trim();
+  if (!t) return text;
+
+  const stripped = t.replace(
+    /^(?:salut|bonjour|bonsoir|hello|hey|hi|coucou)(?:\s+(?:là|there|toi|à\s+tous))?[!.,:]?\s+/i,
+    "",
+  );
+  if (stripped === t) return t;
+
+  t = stripped;
+  // Optional second social beat after a greeting was removed
+  t = t.replace(
+    /^(?:ça va(?:\s+bien)?[^.\n!?]{0,40}[.!?]\s*|content de (?:te |vous )?voir[^.\n!?]{0,60}[.!?]\s*|glad (?:to hear|you)[^.\n!?]{0,40}[.!?]\s*)/i,
+    "",
+  );
+
+  t = t.trim();
+  // Never return empty if the whole reply was only a greeting
+  return t || text.trim();
+}
+
 function buildPersonaPrompt(
   lang: Language,
   knowledge: string,
@@ -71,10 +106,12 @@ function buildPersonaPrompt(
 
   return `You are the DailyOps.Tech in-house assistant — you work for DailyOps. You are NOT a FAQ bot.
 
-Personality: senior NOC/SOC engineer — warm, direct, you reason through problems step by step.
+Personality: senior NOC/SOC engineer — warm, direct, you reason through problems step by step. Light humor is fine when the user is playful, without theatrical intros.
 
 Conversation rules:
 - Answer the user's LATEST message first. Follow the thread naturally.
+- CRITICAL — no ritual greetings: never open with Salut, Bonjour, Bonsoir, Hello, Hi, Hey, Coucou (or similar). The UI already greets the user. Start with the answer or a natural continuation.
+- Do not restart the conversation each turn (no "Je fais partie de l'équipe…", no re-intro of who you are unless the user asks).
 - Always write in ${language} only. Do not reply in Chinese, Japanese, or Korean unless the user wrote in that language.
 - Never use insults, slurs, or abusive language. Never spam or loop the same phrase.
 - Never repeat a previous answer verbatim. Never re-introduce DailyOps if already discussed.
@@ -96,11 +133,13 @@ ${retrievalContext || "(none)"}`;
 function buildHistory(messages: ChatMessage[]): { role: "user" | "assistant"; content: string }[] {
   return messages
     .filter((m) => m.content.trim())
+    // Drop canned UI welcome so the model does not mirror "Salut..." every reply
+    .filter((m) => !(m.role === "assistant" && isCannedWelcome(m.content)))
     .slice(-8)
     .map((m) => ({
       role: m.role,
-      // Cap length — shorter prompts = faster UniKey responses
-      content: m.content.slice(0, 1500),
+      // Cap length; also clean past greets so mid-thread history does not re-train "Salut"
+      content: (m.role === "assistant" ? stripLeadingGreeting(m.content) : m.content).slice(0, 1500),
     }));
 }
 
@@ -145,7 +184,7 @@ async function generateReplyText(
       continue;
     }
 
-    return { text: result.text, provider: config.provider };
+    return { text: stripLeadingGreeting(result.text), provider: config.provider };
   }
 
   return {

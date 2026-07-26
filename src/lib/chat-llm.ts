@@ -14,7 +14,7 @@ export function getLastLLMError(): string | undefined {
 }
 
 const GEMINI_DEFAULT_BASE = "https://generativelanguage.googleapis.com/v1beta/openai";
-const GEMINI_DEFAULT_MODEL = "gemini-2.5-flash";
+const GEMINI_DEFAULT_MODEL = "gemini-3.5-flash-lite";
 
 /**
  * Resolve chat LLM config from env.
