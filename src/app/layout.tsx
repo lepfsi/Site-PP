@@ -5,6 +5,8 @@ import { LanguageProvider } from "@/lib/LanguageContext";
 import { LabAccountProvider } from "@/contexts/LabAccountContext";
 import { cn } from "@/lib/utils";
 import { siteMetadata } from "@/lib/seo";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
+import JsonLd from "@/components/JsonLd";
 import CookieNotice from "@/components/CookieNotice";
 import ChatAssistant from "@/components/ChatAssistant";
 
@@ -37,6 +39,8 @@ export default function RootLayout({
           "min-h-screen antialiased"
         )}
       >
+        <JsonLd data={organizationJsonLd()} />
+        <JsonLd data={websiteJsonLd()} />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

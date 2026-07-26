@@ -2,8 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMarkdownBodies, getMarkdownMetas } from "@/lib/markdown";
 import { ARTICLES, getArticleBySlug } from "@/lib/articles";
-import { articleMetadata } from "@/lib/seo";
+import { articleMetadata, tEn } from "@/lib/seo";
+import { articleJsonLd, breadcrumbJsonLd } from "@/lib/jsonld";
 import type { TranslationKeys } from "@/lib/translations";
+import JsonLd from "@/components/JsonLd";
 import ArticlePageClient from "./ArticlePageClient";
 
 export function generateStaticParams() {
@@ -18,7 +20,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   return articleMetadata(
     article.slug,
     article.titleKey as keyof TranslationKeys,
-    article.excerptKey as keyof TranslationKeys
+    article.excerptKey as keyof TranslationKeys,
+    {
+      date: article.date,
+      category: tEn(article.categoryLabelKey as keyof TranslationKeys),
+    }
   );
 }
 
@@ -39,11 +45,25 @@ export default async function ArticlePage({
   const labContext =
     fromLab && step ? { pathSlug: fromLab, stepId: step } : null;
 
+  const categoryName = tEn(article.categoryLabelKey as keyof TranslationKeys);
+  const title = tEn(article.titleKey as keyof TranslationKeys);
+
   return (
-    <ArticlePageClient
-      markdownBodies={markdownBodies}
-      markdownMeta={markdownMeta}
-      labContext={labContext}
-    />
+    <>
+      <JsonLd data={articleJsonLd(article)} />
+      <JsonLd
+        data={breadcrumbJsonLd([
+          { name: "Home", path: "/" },
+          { name: "Articles", path: "/articles" },
+          { name: categoryName, path: `/category/${article.category}` },
+          { name: title, path: `/articles/${article.slug}` },
+        ])}
+      />
+      <ArticlePageClient
+        markdownBodies={markdownBodies}
+        markdownMeta={markdownMeta}
+        labContext={labContext}
+      />
+    </>
   );
 }

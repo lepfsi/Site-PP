@@ -13,6 +13,7 @@ Guide pour faire évoluer le site sans casser la prod. Tout le code vit dans ce 
 | [CODE-MAP.md](./CODE-MAP.md) | Carte des dossiers et responsabilités |
 | [CHAT-AND-AI.md](./CHAT-AND-AI.md) | Chatbot, UniKey, providers, qualité, recherche web |
 | [ENV-AND-DEPLOY.md](./ENV-AND-DEPLOY.md) | Variables Vercel, deploy, health checks |
+| [SEO.md](./SEO.md) | SEO technique, OG, JSON-LD, checklist référencement |
 
 ## Stack en une phrase
 

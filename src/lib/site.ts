@@ -1,6 +1,7 @@
 export const SITE = {
   name: "DailyOps.Tech",
-  url: "https://dailyops.tech",
+  /** Canonical production host (must match Vercel primary domain / www). */
+  url: "https://www.dailyops.tech",
   contactEmail: "contact@dailyops.tech",
   github: "https://github.com/lepfsi/Site-PP",
   linkedin: "https://www.linkedin.com/company/dailyops-tech/",
