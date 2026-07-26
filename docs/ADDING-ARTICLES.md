@@ -9,8 +9,10 @@ Un article apparaît sur le site seulement s’il est **enregistré** dans le co
 3. Créer `content/articles/<slug>/fr.md` et `en.md`
 4. Ajouter l’entrée en **haut** de `ARTICLES` dans `src/lib/articles.ts`
 5. Ajouter les clés i18n EN + FR dans `src/lib/translations.ts`
-6. Commit + push → vérifier `/articles/<slug>` et `/category/<catégorie>`
-7. (Optionnel) Illustration animée pour cartes / hero → [ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md)
+6. Commit + push → vérifier `/en/articles/<slug>` **et** `/fr/articles/<slug>`  
+7. (Optionnel) Illustration animée → [ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md)  
+8. **Liens** : toujours `lp("/articles/...")` — **obligatoire** (voir [I18N.md](./I18N.md))  
+9. (Optionnel) FAQ frontmatter pour SEO — section ci-dessous
 
 ---
 

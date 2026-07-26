@@ -67,6 +67,7 @@ function HeroDashboard({
   articleCount,
   domainCount,
   t,
+  featuredHref,
 }: {
   dashboardMode: "featured" | "terminal";
   visibleLogs: string[];
@@ -74,10 +75,11 @@ function HeroDashboard({
   articleCount: number;
   domainCount: number;
   t: (key: string) => string;
+  featuredHref: string;
 }) {
   return (
     <Link
-      href={`/articles/${featured.slug}`}
+      href={featuredHref}
       className="group block relative w-full max-w-[340px] ml-auto aspect-[4/5] sm:aspect-[5/5.2]"
     >
       {/* Soft glow behind card */}
@@ -225,7 +227,7 @@ function FloatingStats({
 }
 
 export default function Hero() {
-  const { t, lang } = useLanguage();
+  const { t, lang, lp } = useLanguage();
   const { articleCount, domainCount, lastUpdated, featured } = useHeroStats();
   const [mounted, setMounted] = useState(false);
   const [dashboardMode, setDashboardMode] = useState<"featured" | "terminal">("featured");
@@ -288,6 +290,7 @@ export default function Hero() {
     articleCount,
     domainCount,
     t,
+    featuredHref: lp(`/articles/${featured.slug}`),
   };
 
   return (
@@ -343,14 +346,14 @@ export default function Hero() {
 
               <div className="mt-6 sm:mt-8 flex flex-wrap items-center gap-3">
                 <Link
-                  href="/articles"
+                  href={lp("/articles")}
                   className="inline-flex items-center gap-2 rounded-xl bg-navy px-5 py-2.5 text-[13px] font-semibold text-white transition-opacity hover:opacity-90 dark:bg-turquoise dark:text-navy"
                 >
                   {t("hero.cta_browse")}
                   <ArrowRight size={15} />
                 </Link>
                 <Link
-                  href="/products"
+                  href={lp("/products")}
                   className="inline-flex items-center gap-1.5 rounded-xl border border-border-main bg-bg-elevated/80 px-5 py-2.5 text-[13px] font-semibold text-text-primary transition-colors hover:border-turquoise/40 hover:text-turquoise"
                 >
                   {t("nav.products")}

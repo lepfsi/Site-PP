@@ -15,7 +15,7 @@ interface ArticleCategoryCardProps {
 }
 
 export default function ArticleCategoryCard({ article, category, index }: ArticleCategoryCardProps) {
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
 
   return (
     <motion.article
@@ -25,7 +25,7 @@ export default function ArticleCategoryCard({ article, category, index }: Articl
       transition={{ delay: index * 0.05 }}
     >
       <Link
-        href={`/articles/${article.slug}`}
+        href={lp(`/articles/${article.slug}`)}
         className="block rounded-2xl border border-border-main bg-bg-secondary hover:border-turquoise/40 transition-all group overflow-hidden"
       >
         <div className="relative h-24 sm:h-28 border-b border-border-main/50 overflow-hidden">

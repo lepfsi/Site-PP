@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { pageMetadata, tEn } from "@/lib/seo";
+import { getRequestLanguage, pageMetadata, tLang } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata(
-  tEn("products.meta_title"),
-  tEn("products.meta_desc"),
-  "/products"
-);
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await getRequestLanguage();
+  return pageMetadata(
+    tLang(lang, "products.meta_title"),
+    tLang(lang, "products.meta_desc"),
+    "/products",
+    { lang }
+  );
+}
 
 export default function ProductsLayout({ children }: { children: React.ReactNode }) {
   return children;

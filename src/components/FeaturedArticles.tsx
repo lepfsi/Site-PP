@@ -9,7 +9,7 @@ import ArticleVisual from "@/components/article-visuals/ArticleVisual";
 import SectionHeading from "@/components/SectionHeading";
 
 export default function FeaturedArticles() {
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
   const featured = getFeaturedArticle();
   const recentArticles = getRecentArticles(6);
 
@@ -38,7 +38,7 @@ export default function FeaturedArticles() {
             subtitle={
               <>
                 <p className="text-text-secondary text-base font-medium">{t("articles.featured_subtitle")}</p>
-                <Link href="/articles" className="flex items-center text-[13px] font-semibold text-turquoise hover:underline group mt-3">
+                <Link href={lp("/articles")} className="flex items-center text-[13px] font-semibold text-turquoise hover:underline group mt-3">
                   {t("articles.view_all")} <ArrowRight size={14} className="ml-1.5 transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </>
@@ -54,7 +54,7 @@ export default function FeaturedArticles() {
           viewport={{ once: true }}
           className="relative max-w-5xl mx-auto surface-card rounded-2xl overflow-hidden mb-16 group hover:border-turquoise/30 transition-all"
         >
-          <Link href={`/articles/${featured.slug}`} className="block">
+          <Link href={lp(`/articles/${featured.slug}`)} className="block">
             <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[300px]">
               <div className="lg:col-span-5 h-56 lg:h-auto border-b lg:border-b-0 lg:border-r border-border-main/50 relative overflow-hidden">
                 <ArticleVisual slug={featured.slug} category={featured.category} variant="article" />
@@ -102,7 +102,7 @@ export default function FeaturedArticles() {
               transition={{ delay: index * 0.05 }}
             >
               <Link 
-                href={`/articles/${article.slug}`}
+                href={lp(`/articles/${article.slug}`)}
                 className="p-6 sm:p-8 surface-card rounded-2xl flex flex-col h-full hover:border-turquoise/30 transition-all group relative"
               >
                 <div className="absolute inset-0 tech-grid opacity-[0.03] pointer-events-none rounded-2xl"></div>

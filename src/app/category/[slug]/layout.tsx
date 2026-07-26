@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { getCategoryBySlug } from "@/lib/categories";
-import { pageMetadata, tEn } from "@/lib/seo";
+import { getRequestLanguage, pageMetadata, tLang } from "@/lib/seo";
 import type { TranslationKeys } from "@/lib/translations";
 
 export async function generateMetadata({
@@ -9,10 +9,12 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const lang = await getRequestLanguage();
   const category = getCategoryBySlug(slug);
-  const name = tEn(category.nameKey as keyof TranslationKeys);
-  const desc = tEn(category.descKey as keyof TranslationKeys);
-  return pageMetadata(`${name} Guides`, desc, `/category/${category.slug}`);
+  const name = tLang(lang, category.nameKey as keyof TranslationKeys);
+  const desc = tLang(lang, category.descKey as keyof TranslationKeys);
+  const suffix = lang === "FR" ? "Guides" : "Guides";
+  return pageMetadata(`${name} ${suffix}`, desc, `/category/${category.slug}`, { lang });
 }
 
 export default function CategoryLayout({ children }: { children: React.ReactNode }) {

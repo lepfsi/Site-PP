@@ -88,7 +88,7 @@ function TypewriterTerminal() {
 }
 
 export default function CategoryGrid() {
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
 
   return (
     <section id="categories" className="py-16 md:py-24 bg-bg-secondary section-band relative overflow-hidden">
@@ -115,7 +115,7 @@ export default function CategoryGrid() {
               viewport={{ once: true }}
             >
               <Link 
-                href={`/category/${category.slug}`}
+                href={lp(`/category/${category.slug}`)}
                 className={`group flex flex-col h-full overflow-hidden surface-card rounded-2xl transition-all duration-300 ${category.border} hover:border-turquoise/30 relative`}
               >
                 <div className="relative h-28 sm:h-32 border-b border-border-main/40 overflow-hidden">

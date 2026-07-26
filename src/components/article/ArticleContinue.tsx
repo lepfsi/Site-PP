@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import type { Article } from "@/lib/articles";
+import { useLanguage } from "@/lib/LanguageContext";
 
 interface ArticleContinueProps {
   next: Article;
@@ -20,6 +21,7 @@ export default function ArticleContinue({
   resolveTitle,
   resolveCategory,
 }: ArticleContinueProps) {
+  const { lp } = useLanguage();
   return (
     <aside className="mt-12 mb-4 rounded-2xl bg-text-primary text-bg-primary p-5 sm:p-6 not-prose print:hidden relative overflow-hidden shadow-xl">
       <div className="relative z-10">
@@ -33,7 +35,7 @@ export default function ArticleContinue({
           {resolveTitle(next)}
         </h3>
         <Link
-          href={`/articles/${next.slug}`}
+          href={lp(`/articles/${next.slug}`)}
           className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-turquoise text-navy text-xs font-black uppercase tracking-widest hover:bg-white transition-colors"
         >
           {ctaLabel}

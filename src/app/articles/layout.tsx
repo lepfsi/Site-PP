@@ -1,18 +1,15 @@
 import type { Metadata } from "next";
-import { absoluteUrl, pageMetadata, tEn } from "@/lib/seo";
+import { getRequestLanguage, pageMetadata, tLang } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata(
-  tEn("articles.all_title"),
-  tEn("articles.all_subtitle"),
-  "/articles",
-  {
-    languages: {
-      en: absoluteUrl("/articles"),
-      fr: absoluteUrl("/fr/articles"),
-      "x-default": absoluteUrl("/articles"),
-    },
-  }
-);
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await getRequestLanguage();
+  return pageMetadata(
+    tLang(lang, "articles.all_title"),
+    tLang(lang, "articles.all_subtitle"),
+    "/articles",
+    { lang }
+  );
+}
 
 export default function ArticlesLayout({ children }: { children: React.ReactNode }) {
   return children;

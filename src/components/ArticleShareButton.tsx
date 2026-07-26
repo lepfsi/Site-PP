@@ -27,13 +27,13 @@ interface ArticleShareButtonProps {
 }
 
 export default function ArticleShareButton({ slug, title }: ArticleShareButtonProps) {
-  const { t } = useLanguage();
+  const { t, locale } = useLanguage();
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
-  // Always use site canonical URL on SSR + client first paint (hydration-safe)
-  const articleUrl = `${SITE.url}/articles/${slug}`;
+  // Locale-aware share URL (matches hreflang)
+  const articleUrl = `${SITE.url}/${locale}/articles/${slug}`;
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {

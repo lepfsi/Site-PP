@@ -7,7 +7,7 @@ import { useLanguage } from "@/lib/LanguageContext";
 const CONSENT_KEY = "dailyops-cookie-notice";
 
 export default function CookieNotice() {
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function CookieNotice() {
         </p>
         <div className="flex items-center gap-3 shrink-0">
           <Link
-            href="/privacy#cookies"
+            href={lp("/privacy#cookies")}
             className="text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline whitespace-nowrap"
           >
             {t("cookies.more")}

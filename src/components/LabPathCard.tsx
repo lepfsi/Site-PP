@@ -14,12 +14,12 @@ interface LabPathCardProps {
 }
 
 export default function LabPathCard({ path, variant = "grid" }: LabPathCardProps) {
-  const { t, lang } = useLanguage();
+  const { t, lp } = useLanguage();
   const { hydrated, getStats } = useLabProgress();
   const stats = hydrated ? getStats(path.slug, path.steps.length) : null;
   const category = getCategoryBySlug(path.category);
   const Icon = path.icon;
-  const pathHref = lang === "FR" ? `/fr/labs/${path.slug}` : `/labs/${path.slug}`;
+  const pathHref = lp(`/labs/${path.slug}`);
 
   const ctaLabel = stats?.isComplete
     ? t("labs.page.review")

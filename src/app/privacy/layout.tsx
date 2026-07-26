@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { pageMetadata, tEn } from "@/lib/seo";
+import { getRequestLanguage, pageMetadata, tLang } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata(
-  tEn("privacy.title"),
-  tEn("privacy.intro"),
-  "/privacy"
-);
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await getRequestLanguage();
+  return pageMetadata(
+    tLang(lang, "privacy.title"),
+    tLang(lang, "privacy.intro"),
+    "/privacy",
+    { lang }
+  );
+}
 
 export default function PrivacyLayout({ children }: { children: React.ReactNode }) {
   return children;

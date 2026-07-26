@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { LAB_PATHS, getLabPathBySlug } from "@/lib/labs";
-import { labPathMetadata } from "@/lib/seo";
+import { getRequestLanguage, labPathMetadata } from "@/lib/seo";
 import { labCourseJsonLd, labFaqJsonLd } from "@/lib/jsonld";
 import type { TranslationKeys } from "@/lib/translations";
 import JsonLd from "@/components/JsonLd";
@@ -19,12 +19,13 @@ export async function generateMetadata({
   const { slug } = await params;
   const path = getLabPathBySlug(slug);
   if (!path) return { title: "Not Found" };
+  const lang = await getRequestLanguage();
 
   return labPathMetadata(
     slug,
     path.titleKey as keyof TranslationKeys,
     path.descKey as keyof TranslationKeys,
-    "EN"
+    lang
   );
 }
 
@@ -32,12 +33,13 @@ export default async function LabPathPage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const path = getLabPathBySlug(slug);
   if (!path) notFound();
+  const lang = await getRequestLanguage();
 
-  const faq = labFaqJsonLd(path, "EN");
+  const faq = labFaqJsonLd(path, lang);
 
   return (
     <>
-      <JsonLd data={labCourseJsonLd(path, "EN")} />
+      <JsonLd data={labCourseJsonLd(path, lang)} />
       {faq ? <JsonLd data={faq} /> : null}
       <LabPathClient />
     </>

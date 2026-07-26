@@ -9,7 +9,7 @@ import LabPathCard from "@/components/LabPathCard";
 import SectionHeading from "@/components/SectionHeading";
 
 export default function LabsSection() {
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
   const paths = getAllLabPaths();
 
   return (
@@ -38,7 +38,7 @@ export default function LabsSection() {
 
         <div className="text-center">
           <Link
-            href="/labs"
+            href={lp("/labs")}
             className="inline-flex items-center text-[13px] font-semibold text-turquoise hover:underline"
           >
             {t("labs.home.view_all")}

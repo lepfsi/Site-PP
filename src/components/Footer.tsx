@@ -82,7 +82,7 @@ function FooterLink({ href, children }: { href: string; children: React.ReactNod
 }
 
 export default function Footer() {
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
 
   return (
     <footer id="site-footer" className="relative surface-header border-t border-border-main/70 pt-8 pb-5">
@@ -90,7 +90,7 @@ export default function Footer() {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6 lg:gap-10 items-start mb-6">
           <FooterColumn title={t("footer.explore")}>
             {FOOTER_EXPLORE.map((item) => (
-              <FooterLink key={item.key} href={item.href}>
+              <FooterLink key={item.key} href={lp(item.href)}>
                 {t(item.key)}
               </FooterLink>
             ))}
@@ -98,7 +98,7 @@ export default function Footer() {
 
           <FooterColumn title={t("footer.resources")}>
             {FOOTER_RESOURCES.map((item) => (
-              <FooterLink key={item.key} href={item.href}>
+              <FooterLink key={item.key} href={lp(item.href)}>
                 {t(item.key)}
               </FooterLink>
             ))}
@@ -106,7 +106,7 @@ export default function Footer() {
 
           <FooterColumn title={t("footer.about")}>
             {FOOTER_COMPANY.map((item) => (
-              <FooterLink key={item.key} href={item.href}>
+              <FooterLink key={item.key} href={lp(item.href)}>
                 {t(item.key)}
               </FooterLink>
             ))}
@@ -114,7 +114,7 @@ export default function Footer() {
 
           <FooterColumn title={t("footer.information")}>
             {FOOTER_LEGAL.map((item) => (
-              <FooterLink key={item.key} href={item.href}>
+              <FooterLink key={item.key} href={lp(item.href)}>
                 {t(item.key)}
               </FooterLink>
             ))}
@@ -125,7 +125,7 @@ export default function Footer() {
         <div className="border-t border-border-main/50 pt-3.5">
           <div className="flex flex-col items-center gap-2.5">
             <div className="flex items-center gap-3">
-              <Link href="/" className="shrink-0">
+              <Link href={lp("/")} className="shrink-0">
                 <Logo iconOnly />
               </Link>
               <div className="flex gap-2.5">

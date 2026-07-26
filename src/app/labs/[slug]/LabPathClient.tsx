@@ -38,9 +38,9 @@ const STEP_META: Record<LabStepType, { icon: typeof BookOpen; labelKey: string; 
 
 export default function LabPathClient() {
   const params = useParams();
-  const { t, lang } = useLanguage();
+  const { t, lang, lp } = useLanguage();
   const slug = params.slug as string;
-  const labsHome = lang === "FR" ? "/fr/labs" : "/labs";
+  const labsHome = lp("/labs");
   const path = getLabPathBySlug(slug);
   const { hydrated, getStats, stepDone, toggleStep, resetPath, authenticated, syncState } = useLabProgress();
 
@@ -144,7 +144,7 @@ export default function LabPathClient() {
         <section className="py-10 sm:py-14 bg-bg-primary">
           <div className="container-custom max-w-3xl">
             <Link
-              href="/labs"
+              href={labsHome}
               className="inline-flex items-center text-[10px] font-black uppercase tracking-widest text-text-secondary hover:text-turquoise transition-colors mb-8"
             >
               <ArrowLeft size={12} className="mr-2" />

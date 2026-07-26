@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { pageMetadata, tEn } from "@/lib/seo";
+import { getRequestLanguage, pageMetadata, tLang } from "@/lib/seo";
 
-export const metadata: Metadata = pageMetadata(
-  tEn("legal.title"),
-  tEn("legal.intro"),
-  "/legal"
-);
+export async function generateMetadata(): Promise<Metadata> {
+  const lang = await getRequestLanguage();
+  return pageMetadata(
+    tLang(lang, "legal.title"),
+    tLang(lang, "legal.intro"),
+    "/legal",
+    { lang }
+  );
+}
 
 export default function LegalLayout({ children }: { children: React.ReactNode }) {
   return children;

@@ -21,7 +21,7 @@ interface LegalDocumentProps {
 }
 
 export default function LegalDocument({ titleKey, updatedKey, introKey, sections }: LegalDocumentProps) {
-  const { t } = useLanguage();
+  const { t, lp } = useLanguage();
 
   return (
     <main className="min-h-screen flex flex-col bg-bg-primary">
@@ -73,9 +73,9 @@ export default function LegalDocument({ titleKey, updatedKey, introKey, sections
             </div>
 
             <div className="mt-12 pt-8 border-t border-border-main flex flex-wrap gap-4 text-[10px] font-black uppercase tracking-widest">
-              <Link href="/privacy" className="text-turquoise hover:underline">{t("footer.privacy")}</Link>
-              <Link href="/legal" className="text-turquoise hover:underline">{t("footer.legal")}</Link>
-              <Link href="/about" className="text-turquoise hover:underline">{t("footer.contact")}</Link>
+              <Link href={lp("/privacy")} className="text-turquoise hover:underline">{t("footer.privacy")}</Link>
+              <Link href={lp("/legal")} className="text-turquoise hover:underline">{t("footer.legal")}</Link>
+              <Link href={lp("/about")} className="text-turquoise hover:underline">{t("footer.contact")}</Link>
             </div>
           </div>
         </section>

@@ -14,6 +14,7 @@ Guide pour faire évoluer le site sans casser la prod. Tout le code vit dans ce 
 | [CHAT-AND-AI.md](./CHAT-AND-AI.md) | Chatbot, UniKey, providers, qualité, recherche web |
 | [ENV-AND-DEPLOY.md](./ENV-AND-DEPLOY.md) | Variables Vercel, deploy, health checks |
 | [SEO.md](./SEO.md) | SEO technique, OG, JSON-LD, checklist référencement |
+| [I18N.md](./I18N.md) | Routes `/en` `/fr`, `lp()`, middleware, checklist liens |
 
 ## Stack en une phrase
 

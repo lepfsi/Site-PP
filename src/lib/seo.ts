@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { headers } from "next/headers";
 import { SITE } from "./site";
 import { translations } from "./translations";
 import type { Language, TranslationKeys } from "./translations";
+import { localeHreflang, localeToLanguage, type Locale, isLocale } from "./i18n";
 
 export function tEn(key: keyof TranslationKeys): string {
   return translations.EN[key];
@@ -22,38 +24,42 @@ export const DEFAULT_DESCRIPTION =
 
 export const DEFAULT_OG_IMAGE = "/opengraph-image";
 
-/** EN + FR article URLs for hreflang */
+/** Read locale set by middleware (x-locale header). */
+export async function getRequestLocale(): Promise<Locale> {
+  try {
+    const h = await headers();
+    const raw = h.get("x-locale");
+    if (raw && isLocale(raw)) return raw;
+  } catch {
+    /* outside request context */
+  }
+  return "en";
+}
+
+export async function getRequestLanguage(): Promise<Language> {
+  return localeToLanguage(await getRequestLocale());
+}
+
 export function articleLocalePaths(slug: string) {
   return {
-    en: `/articles/${slug}`,
+    en: `/en/articles/${slug}`,
     fr: `/fr/articles/${slug}`,
   };
 }
 
 export function articleHreflang(slug: string) {
-  const paths = articleLocalePaths(slug);
-  return {
-    en: absoluteUrl(paths.en),
-    fr: absoluteUrl(paths.fr),
-    "x-default": absoluteUrl(paths.en),
-  };
+  return localeHreflang(`/articles/${slug}`, absoluteUrl);
 }
 
-/** EN + FR lab path URLs */
 export function labLocalePaths(slug: string) {
   return {
-    en: `/labs/${slug}`,
+    en: `/en/labs/${slug}`,
     fr: `/fr/labs/${slug}`,
   };
 }
 
 export function labHreflang(slug: string) {
-  const paths = labLocalePaths(slug);
-  return {
-    en: absoluteUrl(paths.en),
-    fr: absoluteUrl(paths.fr),
-    "x-default": absoluteUrl(paths.en),
-  };
+  return localeHreflang(`/labs/${slug}`, absoluteUrl);
 }
 
 export const siteMetadata: Metadata = {
@@ -85,7 +91,7 @@ export const siteMetadata: Metadata = {
     type: "website",
     locale: "en_US",
     alternateLocale: "fr_FR",
-    url: SITE.url,
+    url: absoluteUrl("/en"),
     siteName: SITE.name,
     title: `${SITE.name} | IT Infrastructure Knowledge Hub`,
     description: DEFAULT_DESCRIPTION,
@@ -118,7 +124,8 @@ export const siteMetadata: Metadata = {
     },
   },
   alternates: {
-    canonical: SITE.url,
+    canonical: absoluteUrl("/en"),
+    languages: localeHreflang("/", absoluteUrl),
     types: {
       "application/rss+xml": [
         { url: "/feed.xml", title: `${SITE.name} RSS` },
@@ -142,14 +149,13 @@ export function articleMetadata(
   const path = lang === "FR" ? paths.fr : paths.en;
   const url = absoluteUrl(path);
   const ogImage = `/articles/${slug}/opengraph-image`;
-  const hreflang = articleHreflang(slug);
 
   return {
     title,
     description,
     alternates: {
       canonical: url,
-      languages: hreflang,
+      languages: articleHreflang(slug),
     },
     openGraph: {
       type: "article",
@@ -163,14 +169,7 @@ export function articleMetadata(
       modifiedTime: options?.date ? `${options.date}T12:00:00.000Z` : undefined,
       section: options?.category,
       authors: [SITE.name],
-      images: [
-        {
-          url: ogImage,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
+      images: [{ url: ogImage, width: 1200, height: 630, alt: title }],
     },
     twitter: {
       card: "summary_large_image",
@@ -184,22 +183,34 @@ export function articleMetadata(
 export function pageMetadata(
   title: string,
   description: string,
-  path: string,
-  options?: { languages?: Record<string, string> }
+  /** Path WITHOUT locale, e.g. `/about` or `/labs` */
+  pathWithoutLocale: string,
+  options?: { lang?: Language }
 ): Metadata {
+  const lang = options?.lang ?? "EN";
+  const locale = lang === "FR" ? "fr" : "en";
+  const p =
+    pathWithoutLocale === "/"
+      ? ""
+      : pathWithoutLocale.startsWith("/")
+        ? pathWithoutLocale
+        : `/${pathWithoutLocale}`;
+  const path = `/${locale}${p}`;
   const url = absoluteUrl(path);
+
   return {
     title,
     description,
     alternates: {
       canonical: url,
-      ...(options?.languages ? { languages: options.languages } : {}),
+      languages: localeHreflang(p || "/", absoluteUrl),
     },
     openGraph: {
       url,
       title,
       description,
       siteName: SITE.name,
+      locale: lang === "FR" ? "fr_FR" : "en_US",
       images: [{ url: DEFAULT_OG_IMAGE, width: 1200, height: 630, alt: title }],
     },
     twitter: {
@@ -219,12 +230,7 @@ export function labPathMetadata(
 ): Metadata {
   const title = tLang(lang, titleKey);
   const description = tLang(lang, descKey);
-  const paths = labLocalePaths(slug);
-  const path = lang === "FR" ? paths.fr : paths.en;
-
-  return pageMetadata(title, description, path, {
-    languages: labHreflang(slug),
-  });
+  return pageMetadata(title, description, `/labs/${slug}`, { lang });
 }
 
 export function escapeXml(value: string): string {

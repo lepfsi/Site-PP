@@ -1,6 +1,8 @@
 import type { LucideIcon } from "lucide-react";
 import { Network, Shield, Cloud } from "lucide-react";
 import type { CategorySlug } from "./categories";
+import type { Language } from "./translations";
+import { languageToLocale, withLocale } from "./i18n";
 
 export type LabStepType = "read" | "checklist" | "lab" | "quiz";
 
@@ -228,21 +230,21 @@ export function buildLabArticleHref(
   pathSlug: string,
   stepId: string,
   articleSlug: string,
-  lang: "EN" | "FR" = "EN"
+  lang: Language = "EN"
 ): string {
   const params = new URLSearchParams({ fromLab: pathSlug, step: stepId });
-  const base = lang === "FR" ? `/fr/articles/${articleSlug}` : `/articles/${articleSlug}`;
-  return `${base}?${params.toString()}`;
+  const locale = languageToLocale(lang);
+  return `${withLocale(locale, `/articles/${articleSlug}`)}?${params.toString()}`;
 }
 
-export function buildLabPathHref(pathSlug: string, lang: "EN" | "FR" = "EN"): string {
-  return lang === "FR" ? `/fr/labs/${pathSlug}` : `/labs/${pathSlug}`;
+export function buildLabPathHref(pathSlug: string, lang: Language = "EN"): string {
+  return withLocale(languageToLocale(lang), `/labs/${pathSlug}`);
 }
 
 export function buildLabPathStepHref(
   pathSlug: string,
   stepId: string,
-  lang: "EN" | "FR" = "EN"
+  lang: Language = "EN"
 ): string {
   return `${buildLabPathHref(pathSlug, lang)}#step-${stepId}`;
 }

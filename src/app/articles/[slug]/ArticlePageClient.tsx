@@ -43,7 +43,7 @@ export default function ArticlePageClient({
   labContext,
 }: ArticlePageClientProps) {
   const params = useParams();
-  const { t, lang } = useLanguage();
+  const { t, lang, lp } = useLanguage();
   const slug = params.slug as string;
   const article = getArticleBySlug(slug);
   const [fontScale, setFontScale] = useState<FontScale>("sm");
@@ -68,7 +68,7 @@ export default function ArticlePageClient({
           <div className="text-center">
             <h1 className="text-2xl font-bold text-text-primary mb-4">404</h1>
             <Link
-              href="/articles"
+              href={lp("/articles")}
               className="text-turquoise hover:underline text-sm font-bold uppercase tracking-widest"
             >
               {t("article.back")}
@@ -119,18 +119,18 @@ export default function ArticlePageClient({
           <div className="scanline print:hidden" />
           <div className="container-custom relative z-10">
             <nav className="flex flex-wrap items-center mb-3 text-[10px] font-black text-text-secondary/40 uppercase tracking-[0.3em] print:hidden">
-              <Link href="/" className="hover:text-turquoise transition-colors">
+              <Link href={lp("/")} className="hover:text-turquoise transition-colors">
                 {t("catpage.breadcrumb")}
               </Link>
               <ChevronRight className="mx-2 h-3 w-3" />
               {labNav ? (
                 <>
-                  <Link href="/labs" className="hover:text-turquoise transition-colors">
+                  <Link href={lp("/labs")} className="hover:text-turquoise transition-colors">
                     {t("labs.page.title")}
                   </Link>
                   <ChevronRight className="mx-2 h-3 w-3" />
                   <Link
-                    href={`/labs/${labNav.path.slug}`}
+                    href={lp(`/labs/${labNav.path.slug}`)}
                     className="hover:text-turquoise transition-colors truncate max-w-[140px] sm:max-w-none"
                   >
                     {t(labNav.path.titleKey)}
@@ -138,7 +138,7 @@ export default function ArticlePageClient({
                 </>
               ) : (
                 <Link
-                  href={`/category/${article.category}`}
+                  href={lp(`/category/${article.category}`)}
                   className="hover:text-turquoise transition-colors"
                 >
                   {t(category.nameKey)}
@@ -273,7 +273,7 @@ export default function ArticlePageClient({
                   />
                 ) : (
                   <Link
-                    href="/articles"
+                    href={lp("/articles")}
                     className="inline-flex items-center mt-8 text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline group print:hidden"
                   >
                     <ArrowLeft size={14} className="mr-2 group-hover:-translate-x-1 transition-transform" />
@@ -292,7 +292,7 @@ export default function ArticlePageClient({
                       <ul className="space-y-4">
                         {relatedArticles.map((related) => (
                           <li key={related.slug}>
-                            <Link href={`/articles/${related.slug}`} className="block group">
+                            <Link href={lp(`/articles/${related.slug}`)} className="block group">
                               <span
                                 className={`text-[9px] font-bold uppercase tracking-wider ${related.color}`}
                               >
@@ -319,7 +319,7 @@ export default function ArticlePageClient({
                       {t(category.descKey)}
                     </p>
                     <Link
-                      href={`/category/${category.slug}`}
+                      href={lp(`/category/${category.slug}`)}
                       className="text-[10px] font-black uppercase tracking-widest text-turquoise hover:underline"
                     >
                       {t("cat.articles")} →
@@ -332,7 +332,7 @@ export default function ArticlePageClient({
                       <p className="text-sm text-bg-primary/50 mb-6 leading-relaxed">
                         {t("catpage.expertise_desc")}
                       </p>
-                      <Link href="/about#contact">
+                      <Link href={lp("/about#contact")}>
                         <button className="w-full py-3 bg-turquoise text-navy text-xs font-black uppercase tracking-widest rounded-xl hover:bg-white transition-colors">
                           {t("catpage.contact_noc")}
                         </button>
