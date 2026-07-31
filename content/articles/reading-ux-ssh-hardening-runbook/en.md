@@ -30,11 +30,11 @@ Harden SSH on a Linux bastion without locking yourself out. This runbook showcas
 
 Tick items as you go (browser-local state only, nothing is sent to the server):
 
-- [ ] Inventory accounts with a shell
-- [ ] SSH keys deployed for admins
-- [ ] `PasswordAuthentication no` tested on a second session
-- [ ] fail2ban or equivalent enabled
-- [ ] Break-glass procedure documented
+-  Inventory accounts with a shell
+-  SSH keys deployed for admins
+-  `PasswordAuthentication no` tested on a second session
+-  fail2ban or equivalent enabled
+-  Break-glass procedure documented
 
 ## Reference config
 

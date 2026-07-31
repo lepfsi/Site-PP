@@ -1,18 +1,21 @@
-# Ajouter un article — step by step
+# Ajouter un article - step by step
 
-Un article apparaît sur le site seulement s’il est **enregistré** dans le code **et** (pour le format markdown) a des fichiers dans `content/`.
+> **Version courte (chemins fichiers uniquement)** : [ADDING-ARTICLES-QUICK.md](./ADDING-ARTICLES-QUICK.md)
+
+Un article apparaît sur le site seulement s’il est **enregistré** dans le code **et** (pour le format markdown) a des fichiers **non vides** dans `content/`.
+
+Un dossier vide (`fr.md` / `en.md` à 0 octet) **ne s’affiche pas** tant qu’il n’est pas dans `ARTICLES` + rempli.
+
+Les listes (`/articles`, homepage) trient par **`date` décroissante** (pas l’ordre du tableau).
 
 ## Checklist rapide
 
 1. Choisir un **slug** URL (minuscules, tirets) : `mon-sujet-court`
 2. Choisir une **catégorie** (`networking`, `cybersecurity`, `infrastructure`, `cloud`, `observability`, `automation`, `ai`, `troubleshooting`)
-3. Créer `content/articles/<slug>/fr.md` et `en.md`
-4. Ajouter l’entrée en **haut** de `ARTICLES` dans `src/lib/articles.ts`
+3. Créer `content/articles/<slug>/fr.md` et `en.md` **avec du contenu**
+4. Ajouter l’entrée dans `ARTICLES` (`src/lib/articles.ts`) avec une `date` ISO (`YYYY-MM-DD`) récente
 5. Ajouter les clés i18n EN + FR dans `src/lib/translations.ts`
-6. Commit + push → vérifier `/en/articles/<slug>` **et** `/fr/articles/<slug>`  
-7. (Optionnel) Illustration animée → [ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md)  
-8. **Liens** : toujours `lp("/articles/...")` — **obligatoire** (voir [I18N.md](./I18N.md))  
-9. (Optionnel) FAQ frontmatter pour SEO — section ci-dessous
+6. Commit + push → vérifier `/articles/<slug>` et `/category/<catégorie>`
 
 ---
 
@@ -43,28 +46,6 @@ Corps de l'article en markdown…
 
 > Citations / notes terrain
 ```
-
-### FAQ (SEO JSON-LD, optionnel)
-
-Pour un runbook / guide Q&A, ajoute un bloc `faq` dans le frontmatter (EN **et** FR) :
-
-```yaml
----
-title: "Mon runbook"
-excerpt: "Résumé."
-faq:
-  - q: "Question en langage naturel ?"
-    a: "Réponse courte et factuelle (1–3 phrases)."
-  - q: "Autre question ?"
-    a: "Autre réponse."
----
-```
-
-- Alias acceptés : `question` / `answer` à la place de `q` / `a`  
-- Génère un schéma **FAQPage** sur `/articles/<slug>` et `/fr/articles/<slug>`  
-- 2–5 questions max recommandées ; pas de marketing vide  
-
-Détail SEO : [SEO.md](./SEO.md).
 
 ### Callouts (pris en charge)
 
@@ -204,24 +185,9 @@ Le sitemap (`src/app/sitemap.ts`) reprend automatiquement `getAllArticles()`.
 
 ---
 
-## Illustrations animées (hero, cartes, featured)
+## Reading UX (TOC, callouts, takeaways…)
 
-Les titres / cartes d’articles peuvent avoir une **illustration animée** (SVG + Framer Motion), pas une animation du texte markdown.
-
-1. Créer un composant dans `src/components/article-visuals/ArticleVisual.tsx`
-2. L’enregistrer dans le map `ARTICLE_VISUALS` avec le **même slug** que l’article
-3. Sans entrée : fallback = visuel de la **catégorie**
-
-Doc complète (template, variants `card`/`article`/`hero`, piège chevauchement hero, featured) :
-
-→ **[ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md)**
-
----
-
-## Reading UX (TOC, callouts, takeaways, next read…)
-
-Voir la doc complète: **[ARTICLE-READING-UX.md](./ARTICLE-READING-UX.md)**  
-(surtout §6: **next read**, **related**, **footnotes**, **see-also**).
+Voir la doc complète: **[ARTICLE-READING-UX.md](./ARTICLE-READING-UX.md)**.
 
 Blocs utiles en résumé:
 
@@ -243,14 +209,7 @@ body: Phrase
 href: /labs
 label: Bouton
 :::
-
-Nuance en note[^1].
-
-[^1]: Détail en bas de fichier.
 ```
-
-- **Next read**: automatique (ordre dans `ARTICLES` + même logique related en fallback).  
-- **Related sidebar**: top 3 de la **même `category`**, ordre = ordre dans `ARTICLES`.
 
 ---
 

@@ -30,11 +30,11 @@ Durcir l’accès SSH sur un bastion Linux sans casser l’accès de secours. Ce
 
 Coche au fil de l’eau (état local navigateur, rien n’est envoyé au serveur):
 
-- [ ] Inventaire des comptes avec shell
-- [ ] Clés SSH déployées pour les admins
-- [ ] `PasswordAuthentication no` testé sur une 2e session
-- [ ] fail2ban ou équivalent actif
-- [ ] Procédure break-glass documentée
+  -  Inventaire des comptes avec shell
+  -  Clés SSH déployées pour les admins
+  -  `PasswordAuthentication no` testé sur une 2e session
+  -  fail2ban ou équivalent actif
+  -  Procédure break-glass documentée
 
 ## Configuration de référence
 

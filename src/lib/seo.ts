@@ -24,7 +24,7 @@ export const DEFAULT_DESCRIPTION =
 
 export const DEFAULT_OG_IMAGE = "/opengraph-image";
 
-/** Read locale set by middleware (x-locale header). */
+/** Read locale set by proxy (x-locale header). */
 export async function getRequestLocale(): Promise<Locale> {
   try {
     const h = await headers();

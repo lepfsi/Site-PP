@@ -170,6 +170,21 @@ export interface TranslationKeys {
   "articles.23.title": string;
   "articles.23.excerpt": string;
   "articles.23.category": string;
+  "articles.24.title": string;
+  "articles.24.excerpt": string;
+  "articles.24.category": string;
+  "articles.25.title": string;
+  "articles.25.excerpt": string;
+  "articles.25.category": string;
+  "articles.26.title": string;
+  "articles.26.excerpt": string;
+  "articles.26.category": string;
+  "articles.27.title": string;
+  "articles.27.excerpt": string;
+  "articles.27.category": string;
+  "articles.28.title": string;
+  "articles.28.excerpt": string;
+  "articles.28.category": string;
   "articles.read_time": string;
   "articles.author": string;
   "article.back": string;
@@ -738,6 +753,21 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.23.title": "Connecting Knowledge: Takeaways, Links, Notes, CTA",
     "articles.23.excerpt": "Demo article for key takeaways, see-also links, footnotes, figures, and a clear end-of-article CTA.",
     "articles.23.category": "Automation",
+    "articles.24.title": "When 'I'll Document It Later' Becomes a Business Risk: The Cost of Tribal Knowledge",
+    "articles.24.excerpt": "Undocumented infrastructure is a single point of failure. Explore tribal knowledge risks and Docs-as-Code.",
+    "articles.24.category": "Infrastructure",
+    "articles.25.title": "Hope Is Not a Rollback Strategy: Every Deployment Needs an Exit Plan",
+    "articles.25.excerpt": "A deployment plan gets you into production. A rollback plan gets you out when things go wrong.",
+    "articles.25.category": "Infrastructure",
+    "articles.26.title": "Knowledge Silos: The Most Dangerous Single Point of Failure in IT",
+    "articles.26.excerpt": "Your infrastructure may be redundant, monitored, and highly available—but if only one person knows how it works, your biggest outage is still waiting to happen.",
+    "articles.26.category": "Infrastructure",
+    "articles.27.title": "There's Nothing More Permanent Than a Temporary Firewall Rule",
+    "articles.27.excerpt": "That emergency firewall exception was supposed to last five minutes. Months later, it's still there—quietly expanding your attack surface.",
+    "articles.27.category": "Cybersecurity",
+    "articles.28.title": "Everything Was Green. Everything Was Broken.",
+    "articles.28.excerpt": "Your dashboards were green. CPU usage was low. Services were running. Yet users couldn't do their jobs. Here's why monitoring success doesn't always mean operational success.",
+    "articles.28.category": "Observability",
     "articles.read_time": "read",
     "articles.author": "DailyOps",
     "article.back": "Back to articles",
@@ -1300,6 +1330,21 @@ export const translations: Record<Language, TranslationKeys> = {
     "articles.23.title": "Relier le savoir: takeaways, liens, notes, CTA",
     "articles.23.excerpt": "Article démo pour points clés, liens voir aussi, footnotes, figures et CTA de fin d'article.",
     "articles.23.category": "Automatisation",
+    "articles.24.title": "Quand « Je documenterai plus tard » devient un risque métier : le coût caché du savoir tribal",
+    "articles.24.excerpt": "Une infrastructure non documentée est un SPOF. Risques du savoir tribal et Docs-as-Code pour protéger l'activité.",
+    "articles.24.category": "Infrastructure",
+    "articles.25.title": "L'espoir n'est pas une stratégie de rollback : chaque déploiement doit avoir un plan de sortie",
+    "articles.25.excerpt": "Un plan de déploiement vous fait entrer en production. Un plan de rollback vous en sort quand ça dérape.",
+    "articles.25.category": "Infrastructure",
+    "articles.26.title": "Les silos de connaissances : le point de défaillance unique le plus dangereux en informatique",
+    "articles.26.excerpt": "Votre infrastructure peut être redondante, surveillée et hautement disponible — mais si seulement une personne connait comment ça marche, votre plus grande panne est toujours en attente.",
+    "articles.26.category": "Infrastructure",
+    "articles.27.title": "Il n'y a rien de plus permanent qu'une règle firewall temporaire",
+    "articles.27.excerpt": "Cette règle firewall devait rester en place cinq minutes. Plusieurs mois plus tard, elle est toujours active… et elle élargit silencieusement votre surface d'attaque.",
+    "articles.27.category": "Cybersécurité",
+    "articles.28.title": "Tout était au vert. Tout était en panne.",
+    "articles.28.excerpt": "Les tableaux de bord indiquaient que tout fonctionnait. Pourtant, les utilisateurs étaient à l'arrêt. Pourquoi un monitoring 'vert' ne signifie pas toujours que vos services sont réellement disponibles.",
+    "articles.28.category": "Observabilité",
     "articles.read_time": "de lecture",
     "articles.author": "DailyOps",
     "article.back": "Retour aux articles",

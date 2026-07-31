@@ -19,6 +19,57 @@ export interface Article {
 
 export const ARTICLES: Article[] = [
   {
+    slug: "monitoring-illusion",
+    category: "observability",
+    titleKey: "articles.28.title",
+    excerptKey: "articles.28.excerpt",
+    categoryLabelKey: "articles.28.category",
+    readTime: "10 min",
+    date: "2026-07-31",
+    color: "text-purple-500",
+    bg: "bg-purple-500/10",
+    format: "markdown",
+  },
+  
+  {
+    slug: "temp-firewall-rule",
+    category: "cybersecurity",
+    titleKey: "articles.27.title",
+    excerptKey: "articles.27.excerpt",
+    categoryLabelKey: "articles.27.category",
+    readTime: "10 min",
+    date: "2026-07-31",
+    color: "text-purple-500",
+    bg: "bg-purple-500/10",
+    format: "markdown",
+  },
+
+  {
+    slug: "human-single-point-of-faillure",
+    category: "infrastructure",
+    titleKey: "articles.26.title",
+    excerptKey: "articles.26.excerpt",
+    categoryLabelKey: "articles.26.category",
+    readTime: "10 min",
+    date: "2026-07-31",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+    format: "markdown",
+  },
+  
+  {
+    slug: "hope-is-not-a-rollback-strategy",
+    category: "infrastructure",
+    titleKey: "articles.25.title",
+    excerptKey: "articles.25.excerpt",
+    categoryLabelKey: "articles.25.category",
+    readTime: "11 min",
+    date: "2026-07-31",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+    format: "markdown",
+  },
+  {
     slug: "reading-ux-navigation-longform",
     category: "infrastructure",
     titleKey: "articles.21.title",
@@ -306,6 +357,18 @@ export const ARTICLES: Article[] = [
     date: "2024-12-15",
     color: "text-blue-500",
     bg: "bg-blue-500/10",
+  },
+  {
+    slug: "i-will-document-it-later",
+    category: "infrastructure",
+    titleKey: "articles.24.title",
+    excerptKey: "articles.24.excerpt",
+    categoryLabelKey: "articles.24.category",
+    readTime: "8 min",
+    date: "2026-07-29",
+    color: "text-emerald-500",
+    bg: "bg-emerald-500/10",
+    format: "markdown",
   },
 ];
 

@@ -7,8 +7,8 @@ Pour le détail des routes et `lp()`, voir **[I18N.md](./I18N.md)**.
 
 | Élément | Où |
 |---------|-----|
-| Locales **`/en/*` et `/fr/*`** sur toutes les pages publiques | `middleware.ts` + `i18n.ts` |
-| Redirect 308 des URLs sans locale → `/en/...` | `middleware.ts` |
+| Locales **`/en/*` et `/fr/*`** sur toutes les pages publiques | `proxy.ts` + `i18n.ts` |
+| Redirect 308 des URLs sans locale → `/en/...` | `proxy.ts` |
 | `metadataBase` + titres / descriptions | `src/lib/seo.ts` |
 | Canonical + **hreflang** (en, fr, x-default) | `pageMetadata` / `articleMetadata` |
 | Open Graph + Twitter cards | `seo.ts` + images dynamiques |
@@ -88,7 +88,7 @@ Voir [ADDING-ARTICLES.md](./ADDING-ARTICLES.md).
 
 | Fichier | Rôle |
 |---------|------|
-| `src/middleware.ts` | Rewrite locale + redirect |
+| `src/proxy.ts` | Rewrite locale + redirect |
 | `src/lib/i18n.ts` | Helpers locale |
 | `src/lib/LanguageContext.tsx` | `lp()`, `setLang` |
 | `src/lib/seo.ts` | Metadata + hreflang |

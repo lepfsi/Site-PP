@@ -6,7 +6,8 @@ Guide pour faire évoluer le site sans casser la prod. Tout le code vit dans ce 
 
 | Doc | Contenu |
 |-----|---------|
-| [ADDING-ARTICLES.md](./ADDING-ARTICLES.md) | Ajouter un article (markdown + registre + i18n) |
+| [ADDING-ARTICLES-QUICK.md](./ADDING-ARTICLES-QUICK.md) | **Ajouter un article — chemins fichiers (guide court)** |
+| [ADDING-ARTICLES.md](./ADDING-ARTICLES.md) | Ajouter un article (détail markdown, callouts, tables…) |
 | [ARTICLE-VISUALS.md](./ARTICLE-VISUALS.md) | Illustrations animées (hero, cartes, featured) par slug |
 | [ARTICLE-READING-UX.md](./ARTICLE-READING-UX.md) | Features de lecture (TOC, callouts, code, checklists…) + démos |
 | [ADDING-CONTENT.md](./ADDING-CONTENT.md) | Labs, expérience, ressources, catégories, produits |

@@ -1,82 +1,76 @@
 ---
 title: "Why Theoretical Redundancy Often Fails in Reality"
 excerpt: "Analyzing the gap between theoretical redundancy and operational reality: missing tests, outdated configurations, hidden single points of failure."
-updated: "2026-07-26"
 ---
 
-:::takeaways
-- **Configuration drift** is the silent killer of failover mechanisms. A secondary node is useless if it cannot run the current production workload.
-- **Hidden Single Points of Failure (SPOFs)** often reside in shared dependencies (DNS, authentication, physical network paths) rather than the compute nodes.
-- **Untested redundancy is not redundancy.** If you haven't triggered a failover in production, you only have a *theoretical* backup.
-:::
+# Why Theoretical Redundancy Often Fails in Reality
 
-Theoretical redundancy looks perfect on a whiteboard. Two firewalls, two load balancers, and a database cluster replicating seamlessly. Yet, during a major incident, the active node crashes and the secondary fails to take over, taking the entire service offline. Why does the operational reality fall so short of the initial design? 
+Many companies invest in redundancy. We deploy two firewalls, two internet links, two VPN tunnels, two domain controllers… And on the diagram, everything looks perfectly solid.
 
-## 1. The Configuration Drift Trap
+Yet, when a real incident occurs, we too often discover that **redundancy did not work as intended**.
 
-In an Active-Passive setup, the active node receives all the attention. Over months or years, engineers apply hotfixes, update SSL certificates, and tweak firewall rules on the primary node to resolve immediate issues. If these changes are not replicated to the passive node—or enforced via Infrastructure as Code (IaC)—the secondary node becomes outdated.
+Why? Because in practice, much of this redundancy remains **purely theoretical**. It exists on paper, but not in reality.
 
-> [!WARNING]
-> When a failover event occurs, the outdated passive node assumes control but lacks the necessary routing rules or certificates to process traffic, resulting in a complete outage despite the hardware functioning perfectly.
+## The Most Common Problem: Untested Redundancy
 
-| Theoretical Design | Operational Reality |
-|---|---|
-| Node B is an exact clone of Node A. | Node B is running a 6-month-old configuration. |
-| Failover takes < 30 seconds. | Failover triggers a split-brain scenario. |
-| Automatic synchronization is enabled. | Sync silently failed 45 days ago due to a key rotation. |
+This is the most widespread case.
 
-## 2. Hidden Shared Dependencies (The "Fake" Redundancy)
+We configure automatic failover, we place two devices "in high availability", and we consider the matter settled.
 
-Redundant servers are meaningless if they share a critical, non-redundant dependency. This is often discovered during a post-mortem.
+Except we have **never validated** this scenario under real conditions.
 
-![Diagram showing two clustered servers physically connected to the same Top-of-Rack (ToR) switch and Power Distribution Unit (PDU), illustrating a hidden SPOF.](/public/redundancy-spof-diagram.png "Figure 1: Active-Passive setup sharing a single physical switch.")
+>[!warning]
+>Untested redundancy is not redundancy. It’s a false sense of security.
 
-Common hidden SPOFs include:
-- **DNS Resolvers:** Both nodes rely on the same internal DNS server.
-- **Storage:** Two hypervisors pointing to a single, non-replicated SAN.
-- **Physical constraints:** Dual power supplies plugged into the same physical Power Distribution Unit (PDU).
 
-## 3. Auditing State and Sync via CLI
+Result:
+- The failover configuration is incomplete or outdated
+- The two devices are not running the same version
+- Firewall rules are not properly synchronized
+- No one masters the manual failover procedure
 
-To prevent drift, you must regularly audit the state of your clusters. Here is a simple baseline command to verify if the configuration hashes match across two Linux-based load balancers (e.g., HAProxy):
+## Other Forms of Redundancy That Fail
 
-```bash
-# Compare the configuration hash of the primary and secondary nodes
-PRIMARY_HASH=$(ssh admin@lb-primary "md5sum /etc/haproxy/haproxy.cfg | awk '{print \$1}'")
-SECONDARY_HASH=$(ssh admin@lb-secondary "md5sum /etc/haproxy/haproxy.cfg | awk '{print \$1}'")
+### 1. Half-Implemented Redundancy
 
-if [ "$PRIMARY_HASH" != "$SECONDARY_HASH" ]; then
-    echo "CRITICAL: Configuration drift detected between lb-primary and lb-secondary!"
-else
-    echo "OK: Configurations are synchronized."
-fi
+We deploy two firewalls, but only one actually handles critical traffic.
+We have two internet links, but the second is too slow or poorly configured to ensure effective recovery.
 
-## 4. Operational Checklist for True Redundancy
+### 2. Redundancy That Hides Another Single Point of Failure
 
-Before declaring a system "highly available," ensure it passes these operational criteria:
+We have two firewalls in a cluster… that depend on the same core switch.
+We have two VPN tunnels… that transit through the same operator.
 
-[ ] Configuration is managed entirely via code (Ansible, Terraform) applied to all nodes simultaneously.
+In these cases, we haven’t eliminated the point of fragility: we’ve simply moved it.
 
-[ ] Failover testing (Game Days) is scheduled and executed at least bi-annually.
+### 3. Outdated Redundancy
 
-[ ] Monitoring explicitly tracks the replication lag and sync status of the cluster.
+Environments evolve constantly. We add applications, we modify flows. But the redundancy configuration is not updated. After a few months, the theoretical failover no longer works.
 
-[ ] Quorum mechanisms are properly configured to prevent split-brain during a network partition [^1].
+### 4. Redundancy Based on Undocumented Procedures
 
-[ ] Independent infrastructure components (DNS, NTP, Auth) are mapped and verified as redundant.
+Even with flawless technical infrastructure, if no one knows how to activate failover in an emergency, redundancy remains vulnerable.
 
-:::see-also
+>[!important]
+>Redundancy is not just about equipment. It’s also about processes and know-how.
 
-The Real Fragility Points Many SMEs Still Underestimate : Identifying cross-cutting services and central equipment risks.
+## How to Build Redundancy That Really Works?
 
-Why Theoretical Redundancy Often Fails in Reality : Our related case study on network clustering.
-:::
+Here are the elements that make the difference:
 
-:::cta
-title: Validate Your Architecture
-body: Test your redundancy and incident response skills in a safe environment. Explore our Ops Labs for hands-on, production-grade scenarios.
-href: /labs/cloud-ops-production
-label: Launch Cloud Ops Lab
-:::
+- Regularly test failover scenarios (even partially)
+- Clearly document manual failover procedures
+- Verify that both sides are properly synchronized (versions, configurations)
+- Identify remaining points of fragility
+- Train multiple people on redundancy operations
 
-[^1]: A split-brain scenario occurs when cluster nodes lose communication with each other and both attempt to act as the primary node, often leading to data corruption.
+>[!tip]
+>The best way to verify that your redundancy works? Test it **before** you need it.
+
+---
+
+Many companies believe they are well protected because they have "implemented redundancy". However, the real question is not "have we deployed two devices?", but rather:
+
+**In the event of a real problem, are we able to failover quickly and without major impact?**
+
+It’s often at the critical moment that we realize redundancy wasn’t as robust as we imagined.
