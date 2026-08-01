@@ -44,6 +44,14 @@ Auto si `CHAT_PROVIDER` vide : **gemini → unikey → openai → xai**.
 | `LABS_AUTH_SECRET` | JWT magic link |
 | `LABS_ADMIN_SECRET` | Admin stats + newsletter setup |
 
+### SEO & analytics
+
+| Variable | Rôle |
+|----------|------|
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Active Plausible (privacy-first, sans cookies). Vide = désactivé |
+| `NEXT_PUBLIC_PLAUSIBLE_SRC` | URL script Plausible (défaut officiel ; override self-hosted) |
+| `NEXT_PUBLIC_GSC_VERIFICATION` | Token Google Search Console → meta `google-site-verification` |
+
 ## Déploiement
 
 1. Repo GitHub `lepfsi/Site-PP` branch `main`

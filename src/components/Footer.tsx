@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Github, Linkedin, Rss, Coffee, Facebook } from "lucide-react";
+import { Github, Linkedin, Rss, Coffee, Facebook, Mail } from "lucide-react";
 import { useLanguage } from "@/lib/LanguageContext";
 import { SITE, SOCIAL_LINKS, type SocialId } from "@/lib/site";
 import Logo from "./Logo";
@@ -48,7 +48,7 @@ const FOOTER_COMPANY = [
   { key: "footer.products", href: "/products" },
   { key: "footer.about_dailyops", href: "/about#dailyops" },
   { key: "footer.about_author", href: "/about#author" },
-  { key: "footer.contact", href: "/about#contact" },
+  { key: "footer.contact", href: "/contact" },
 ] as const;
 
 const FOOTER_LEGAL = [
@@ -60,9 +60,9 @@ const FOOTER_LEGAL = [
 function FooterColumn({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <div>
-      <h4 className="mb-2.5 pl-2.5 border-l-2 border-turquoise/50 text-[12px] font-semibold tracking-wide text-text-primary">
+      <p className="mb-2.5 pl-2.5 border-l-2 border-turquoise/50 text-[12px] font-semibold tracking-wide text-text-primary">
         {title}
-      </h4>
+      </p>
       <ul className="space-y-1.5">{children}</ul>
     </div>
   );
@@ -144,6 +144,13 @@ export default function Footer() {
                   );
                 })}
               </div>
+              <a
+                href={`mailto:${SITE.contactEmail}`}
+                className="text-text-secondary hover:text-turquoise transition-colors"
+                title={t("footer.contact_email")}
+              >
+                <Mail size={15} />
+              </a>
               <Link
                 href={SITE.kofi}
                 target="_blank"

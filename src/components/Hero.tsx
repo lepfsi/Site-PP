@@ -269,10 +269,6 @@ export default function Hero() {
     return () => clearInterval(logInterval);
   }, [mounted, dashboardMode]);
 
-  if (!mounted) {
-    return <section className="min-h-[80vh] bg-bg-primary" aria-hidden />;
-  }
-
   const staggeredContainer: Variants = {
     hidden: { opacity: 0 },
     show: { opacity: 1, transition: { staggerChildren: 0.1 } },

@@ -24,6 +24,9 @@ export const DEFAULT_DESCRIPTION =
 
 export const DEFAULT_OG_IMAGE = "/opengraph-image";
 
+/** Google Search Console verification meta (set NEXT_PUBLIC_GSC_VERIFICATION). */
+const gscVerification = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
+
 /** Read locale set by proxy (x-locale header). */
 export async function getRequestLocale(): Promise<Locale> {
   try {
@@ -134,6 +137,7 @@ export const siteMetadata: Metadata = {
     },
   },
   category: "technology",
+  verification: gscVerification ? { google: gscVerification } : undefined,
 };
 
 export function articleMetadata(

@@ -305,6 +305,9 @@ export interface TranslationKeys {
   "about.contact_panel_desc": string;
   "about.contact_response": string;
   "about.contact_secure": string;
+  "about.contact_email_link": string;
+  "contact.title": string;
+  "contact.subtitle": string;
   "cookies.banner_title": string;
   "cookies.banner": string;
   "cookies.accept": string;
@@ -562,6 +565,7 @@ export interface TranslationKeys {
   "footer.legal": string;
   "footer.privacy": string;
   "footer.contact": string;
+  "footer.contact_email": string;
   "footer.cloud_short": string;
   "footer.rights": string;
   "footer.made": string;
@@ -887,6 +891,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.contact_panel_desc": "Questions about an article, a production scenario, or a collaboration? Drop a message — no sales pitch, just ops talk.",
     "about.contact_response": "Reply within 48h",
     "about.contact_secure": "No spam, ever",
+    "about.contact_email_link": "Email DailyOps",
+    "contact.title": "Contact",
+    "contact.subtitle": "A question about a guide, a production scenario, or a collaboration? Reach out — no sales pitch, just ops talk.",
     "cookies.banner_title": "Cookie notice",
     "cookies.banner": "We only use local storage for your language and theme preferences. No advertising or third-party tracking cookies.",
     "cookies.accept": "Got it",
@@ -1141,6 +1148,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.legal": "Legal notice",
     "footer.privacy": "Privacy policy",
     "footer.contact": "Contact",
+    "footer.contact_email": "Email DailyOps",
     "footer.cloud_short": "Cloud & Virt.",
     "footer.rights": "All rights reserved",
     "footer.made": "Made with passion for IT pros",
@@ -1464,6 +1472,9 @@ export const translations: Record<Language, TranslationKeys> = {
     "about.contact_panel_desc": "Une question sur un article, un scénario de production ou une collaboration ? Écrivez-nous — pas de commercial, juste du terrain.",
     "about.contact_response": "Réponse sous 48h",
     "about.contact_secure": "Zéro spam",
+    "about.contact_email_link": "Écrire à DailyOps",
+    "contact.title": "Contact",
+    "contact.subtitle": "Une question sur un guide, un scénario de production ou une collaboration ? Écrivez-nous — pas de commercial, juste du terrain.",
     "cookies.banner_title": "Information cookies",
     "cookies.banner": "Nous utilisons uniquement le stockage local pour vos préférences de langue et de thème. Aucun cookie publicitaire ni de tracking tiers.",
     "cookies.accept": "Compris",
@@ -1718,6 +1729,7 @@ export const translations: Record<Language, TranslationKeys> = {
     "footer.legal": "Mentions légales",
     "footer.privacy": "Politique de confidentialité",
     "footer.contact": "Contact",
+    "footer.contact_email": "Écrire à DailyOps",
     "footer.cloud_short": "Cloud & Virt.",
     "footer.rights": "Tous droits réservés",
     "footer.made": "Conçu avec passion pour les Ops",

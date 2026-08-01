@@ -169,9 +169,9 @@ export default function NewsletterSection() {
                 {features.map(({ icon: Icon, key }) => (
                   <div key={key} className="flex flex-col items-center">
                     <Icon className="text-turquoise mb-1.5 h-4 w-4" />
-                    <h4 className="font-bold text-text-primary text-[10px] uppercase tracking-wider leading-tight">
+                    <h3 className="font-bold text-text-primary text-[10px] uppercase tracking-wider leading-tight">
                       {t(key)}
-                    </h4>
+                    </h3>
                   </div>
                 ))}
               </div>

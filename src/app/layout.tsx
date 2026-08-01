@@ -9,6 +9,7 @@ import { organizationJsonLd, websiteJsonLd } from "@/lib/jsonld";
 import JsonLd from "@/components/JsonLd";
 import CookieNotice from "@/components/CookieNotice";
 import ChatAssistant from "@/components/ChatAssistant";
+import Analytics from "@/components/Analytics";
 
 /** UI chrome + article body */
 const inter = Inter({
@@ -41,6 +42,7 @@ export default function RootLayout({
       >
         <JsonLd data={organizationJsonLd()} />
         <JsonLd data={websiteJsonLd()} />
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

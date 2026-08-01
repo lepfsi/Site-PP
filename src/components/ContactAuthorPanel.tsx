@@ -47,10 +47,14 @@ export default function ContactAuthorPanel() {
           {t("about.contact_panel_desc")}
         </p>
         <div className="flex flex-wrap gap-3 mt-4 pt-4 border-t border-border-main/50">
-          <span className="inline-flex items-center text-[9px] font-black uppercase tracking-widest text-text-secondary/70">
+          <a
+            href={`mailto:${SITE.contactEmail}`}
+            className="inline-flex items-center text-[9px] font-black uppercase tracking-widest text-text-secondary/70 hover:text-turquoise transition-colors"
+            title={t("about.contact_email_link")}
+          >
             <Mail size={11} className="mr-1.5 text-turquoise" />
             {SITE.contactEmail}
-          </span>
+          </a>
           <span className="inline-flex items-center text-[9px] font-black uppercase tracking-widest text-text-secondary/70">
             <Clock size={11} className="mr-1.5 text-turquoise" />
             {t("about.contact_response")}

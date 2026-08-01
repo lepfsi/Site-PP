@@ -22,6 +22,12 @@ Pour le détail des routes et `lp()`, voir **[I18N.md](./I18N.md)**.
 | JSON-LD Course + FAQPage | pages lab |
 | FAQ frontmatter articles | `faq:` dans les `.md` |
 | SSG articles | `generateStaticParams` |
+| H1 unique par page (y compris home en SSR) | `Hero.tsx`, `PageHeader.tsx` |
+| Hiérarchie headings propre | composants sections/footer |
+| `favicon.ico` + `icon.svg` | `public/favicon.ico`, `src/app/icon.svg` |
+| Page `/contact` + lien `mailto:` | `src/app/contact/`, footer |
+| Verification GSC (meta tag) | `NEXT_PUBLIC_GSC_VERIFICATION` |
+| Analytics Plausible (optionnel, sans cookies) | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` |
 
 **Canonical host :** `https://www.dailyops.tech` (`src/lib/site.ts`).
 
@@ -66,6 +72,8 @@ Voir [ADDING-ARTICLES.md](./ADDING-ARTICLES.md).
 ## Ce que **tu** dois faire (hors code)
 
 1. **Google Search Console** — propriété `https://www.dailyops.tech`, soumettre le sitemap  
+   - Si vérification par **meta tag** : mettre le token dans `NEXT_PUBLIC_GSC_VERIFICATION` (Vercel → Settings → Environment Variables) puis redeployer.  
+   - Si vérification par **DNS** : TXT record chez le registrar (hors code).
 2. **Redirect domaine** — apex ↔ www unique, aligné avec `SITE.url`  
 3. **Contenu** — titres/excerpts EN **et** FR soignés  
 4. **Tester OG** après deploy (LinkedIn / Facebook debugger)  
